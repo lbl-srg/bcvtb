@@ -1,0 +1,115 @@
+<html>
+<head>
+<!-- $Id: intro.htm 54735 2009-06-27 15:52:57Z cxh $ -->
+<link href="../../../doc/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<!-- NOTE: ptIIplanet.gif should be in ../../../doc/img, but Web Start
+           has problems pulling in the gif if the gif is in a different jar
+	   so we include it in this jar -->
+<img vspace="6" align="left" src="icon-blue.jpg" alt="BCVTB">
+</td>
+<td>
+<h1>Ptolemy II Version 8.1.devel</h1>
+<h1>BCVTB Edition, Version 0.3.0</h1>
+	
+<!-- NOTE: If you update this, be sure to update
+	    ptII/ptolemy/configs/doc/basicHelp.htm
+ As of JDK1.3, the Java HTML facility is insufficient for use
+ with frames and links that have targets (foo.htm#bar), so we
+ have a separate set of htm files that do not have links in them.
+-->
+
+<ul>
+<li><a href="http://simulationresearch.lbl.gov/bcvtb#in_browser">Building Controls Virtual Test Bed (BCVTB) Web Site</a>
+<li><a href="overview.htm" target="_blank">Overview</a></li>
+<li><a href="authors.htm" target="_blank">Authors</a></li>
+ <!-- We don't include What's new
+"../../doc/whatsnewVergil.htm" target="_blank" What's new
+   -->
+ <!-- The first difference between intro.htm and introPtiny.htm is the next
+	line -->
+<li><a href="../doc/demosPtiny.htm" target="_blank">Quick tour</a></li>
+ <!-- The second difference between intro.htm and introPtiny.htm is the next
+	line -->
+
+<li><a href="../doc/docsPtiny.htm" target="_blank">Documentation</a></li>
+
+<li><a href="about:copyright" target="_blank">Copyright Ptolemy</a></li>
+<li><a href="../../../../../legal.html" target="_blank">Copyright BCVTB</a></li>
+
+</ul>
+</td>
+</tr>
+</table>
+The Building Controls Virtual Test Bed (BCVTB) is a software environment that allows expert users to couple different simulation programs for distributed simulation. For example, the BCVTB allows to simulate a building and HVAC system in EnergyPlus and the control logic in MATLAB/Simulink, while exchanging data between the software as they simulate. The BCVTB is based on the Ptolemy II software environment. The BCVTB is still under development and aimed at expert users of simulation. Due to the different programs that may be involved in distributed simulation, familiarity with compiling and configuring programs is essential.
+
+
+<h2>Demonstrations</h2>
+<b>Note:</b> Some demonstrations require to be started from dos or bash. Otherwise, files with relative
+path names may not be found.
+<h3>Windows</h3>
+<ul>
+<li> <a href="../../../../../examples/dymola-room/system-windows.xml">dymola-room</a>:
+Dymola simple room model, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/dymolaSimulink-room/system-windows.xml">dymolaSimulink-room</a>:
+Dymola simple room model, controls simulated by Simulink.
+<li> <a href="../../../../../examples/ePlus31-simple/system-windows.xml">ePlus31-simple</a>:
+EnergyPlus building and HVAC system, setpoint simulated by Ptolemy.
+<li> <a href="../../../../../examples/ePlus31Ptolemy-vav/system-windows.xml">ePlus31Ptolemy-vav</a>:
+EnergyPlus building, variable air volume flow system simulated by Ptolemy.
+<li> <a href="../../../../../examples/ePlus31Simulink-simple/system-windows.xml">ePlus31Simulink-simple</a>:
+EnergyPlus building and HVAC system, setpoint simulated by Simulink.
+<li> <a href="../../../../../examples/matlab-room/system.xml">matlab-room</a>:
+Matlab simple room model, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/simulink-room/system.xml">simulink-room</a>:
+Simulink controller, simple room model simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/system.xml">ptolemy-room</a>:
+Room model, simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/systemFSM.xml">ptolemy-room</a>:
+Room model with finite state machine, simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/systemVisual.xml">ptolemy-room</a>:
+Room model with icon color changing based on room temperature, simulated by Ptolemy.
+<li> <a href="../../../../../examples/c-room/system-windows.xml">c-room</a>:
+Room model simulated in C, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/c-timeSync/system-windows.xml">c-timeSync</a>:
+Two programs implemented in C that exchange their data.
+<li> <a href="../../../../../examples/f90-room/system-windows.xml">f90-room</a>:
+Room model simulated in F90, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/www-weather/system.xml">www-weather</a>:
+Example that gets minimum and maximum outside temperature from Berkeley weather forecast.
+
+</ul>
+<h3>Mac OS X and Linux</h3>
+<ul>
+<li> <a href="../../../../../examples/ePlus31-simple/system.xml">ePlus31-simple</a>:
+EnergyPlus building and HVAC system, setpoint simulated by Ptolemy.
+<li> <a href="../../../../../examples/ePlus31Ptolemy-vav/system.xml">ePlus31Ptolemy-vav</a>:
+EnergyPlus building, variable air volume flow system simulated by Ptolemy.
+<li> <a href="../../../../../examples/ePlus31Simulink-simple/system.xml">ePlus31Simulink-simple</a>:
+EnergyPlus building and HVAC system, setpoint simulated by Simulink.
+<li> <a href="../../../../../examples/matlab-room/system.xml">matlab-room</a>:
+Matlab simple room model, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/simulink-room/system.xml">simulink-room</a>:
+Simulink controller, simple room model simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/system.xml">ptolemy-room</a>:
+Room model, simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/systemFSM.xml">ptolemy-room</a>:
+Room model with finite state machine, simulated by Ptolemy.
+<li> <a href="../../../../../examples/ptolemy-room/systemVisual.xml">ptolemy-room</a>:
+Room model with icon color changing based on room temperature, simulated by Ptolemy.
+<li> <a href="../../../../../examples/c-room/system.xml">c-room</a>:
+Room model simulated in C, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/c-timeSync/system.xml">c-timeSync</a>:
+Two programs implemented in C that exchange their data.
+<li> <a href="../../../../../examples/f90-room/system.xml">f90-room</a>:
+Room model simulated in F90, controls simulated by Ptolemy.
+<li> <a href="../../../../../examples/www-weather/system.xml">www-weather</a>:
+Example that gets minimum and maximum outside temperature from Berkeley weather forecast.
+</ul>
+	  
+</body>
+</html>
