@@ -1,0 +1,3 @@
+openModel("MoistAirTotal.mo");
+simulateModel("Buildings_Utilities_IO_BCVTB_Examples_MoistAir", method="radau", startTime=0, stopTime=172800, outputInterval=60);
+exit();

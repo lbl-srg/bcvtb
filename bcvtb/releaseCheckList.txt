@@ -1,0 +1,41 @@
+Checklist of BCVTB release
+**************************
+
+Check lib/defines.h
+The section should be
+/** \val Debug flag, uncomment to enable debug messages 
+#ifndef NDEBUG 
+#define NDEBUG 
+#endif
+*/
+
+
+Update version number in 
+ - build-common.xml    ( <property name="VERSION"  value="0.3.0-pre-release"/> )
+ - install/install.xml ( <appversion>0.3.0-pre-release</appversion> )
+
+ - Commit changes
+    svn commit -m "Updated version number"
+
+Run 
+  cleanfilesystem
+
+From Windows, run
+  ant clean all
+  (This will compile the Windows binaries)
+
+From Linux, run
+  ant doc
+
+From Linux, run one of the commands:
+  ant dist             [to make distribution for all]
+  ant dist-bcvtb       [to make distribution for bcvtb only]
+  ant dist-EnergyPlus  [to make distribution for EnergyPlus only]
+  
+run 
+cd install
+scp bcvtb-install-x.y.z.jar mwetter@gaia:/usr/local/www/data/bcvtb-releases/x.y.z
+
+----
+To make tag, run 
+svn cp https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/tags/releases/x.y.z -m "Created release x.y.z"

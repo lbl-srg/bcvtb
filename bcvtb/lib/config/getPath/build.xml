@@ -1,0 +1,4 @@
+<project name="GetPath" basedir="." default="build">
+  <property name="main-class"          value="${ant.project.name}"/>
+  <import file="../../build-java.xml"/>
+</project>
