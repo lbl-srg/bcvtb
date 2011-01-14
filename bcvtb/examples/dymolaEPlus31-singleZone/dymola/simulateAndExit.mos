@@ -1,0 +1,5 @@
+openModel("MoistAirTotal.mo");
+// Fix the integration to Euler with fixed step size.
+// For this problem, Euler is stable and faster than dassl.
+simulateModel("Buildings_Utilities_IO_BCVTB_Examples_MoistAir", startTime=0, stopTime=172800, outputInterval=60, method="Euler", fixedstepsize=60);
+exit();

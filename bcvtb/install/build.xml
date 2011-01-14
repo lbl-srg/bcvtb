@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="doc" default="all">
+  <import file="../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" depends="clean-bcvtb,clean-EnergyPlus"
+  description="Deletes generated files">
+  </target>
+
+  <target name="clean-bcvtb" description="Deletes generated files for bcvtb">
+    <delete verbose="true" dir="code"/>
+    <delete>
+      <fileset dir="." includes="doxWarnings.txt,bcvtb-install-*.jar"/>
+    </delete>
+  </target>
+
+  <target name="clean-EnergyPlus" description="Deletes generated files for EnergyPlus">
+    <delete verbose="true" dir="code"/>
+    <delete>
+      <fileset dir="." includes="doxWarnings.txt,ep-*.zip"/>
+    </delete>
+  </target>
+
+  <!-- Dist -->
+  <target name="dist" depends="dist-bcvtb,dist-EnergyPlus" 
+  description="Generates the distribution file"/>
+
+  <target name="dist-bcvtb" depends="clean-bcvtb,pack-bcvtb" 
+  description="Generates the distribution file"/>
+
+  <target name="dist-EnergyPlus" depends="clean-EnergyPlus,pack-EnergyPlus" 
+  description="Generates the distribution file"/>
+
+  <!-- BCVTB distribution -->
+  <target name="pack-bcvtb" 
+          description="Generates the BCVTB distribution file">
+   <exec executable="izpack" failonerror="true">
+      <arg line="install.xml -b . -o bcvtb-install-${VERSION}.jar"/>
+   </exec>
+  </target>
+
+  <!-- EnergyPlus distribution -->
+  <target name="pack-EnergyPlus" 
+          description="Generates the EnergyPlus distribution file">
+   <exec executable="./zipEnergyPlus.sh" failonerror="true"/>
+  </target>
+
+
+</project>

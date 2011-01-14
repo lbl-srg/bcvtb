@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="examples" default="all"> 
+<import file="../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir="f90-room"                 target="clean"/>
+    <ant dir="c-room"                   target="clean"/>
+    <ant dir="c-timeSync"               target="clean"/>
+    <ant dir="www-weather"              target="clean"/>
+    <ant dir="ptolemy-room"             target="clean"/>
+    <ant dir="matlab-room"              target="clean"/>
+    <ant dir="simulink-room"            target="clean"/>
+    <ant dir="systemCommand"            target="clean"/>
+    <ant dir="dymola-room"              target="clean"/>
+    <ant dir="dymolaSimulink-room"      target="clean"/>
+    <ant dir="dymolaEPlus31-singleZone" target="clean"/>
+    <ant dir="ePlus31-simple"           target="clean"/>
+    <ant dir="ePlus31Simulink-simple"   target="clean"/>
+    <ant dir="ePlus31Ptolemy-vav"       target="clean"/>
+    <delete dir=".">
+      <include name="**/history.xml"/>
+      <include name="**/dependencies.xml"/>
+      <include name="**/simulation.log"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" description="Runs all targets">
+    <ant dir="c-room"        target="all"/>
+    <ant dir="c-timeSync"    target="all"/>
+    <ant dir="f90-room"      target="all"/>
+    <ant dir="systemCommand" target="all"/>
+  </target>
+  
+  <!-- Unit tests -->
+  <target name="unitTest" description="Runs unit tests">
+    <ant dir="c-room"                   target="unitTest"/>
+    <ant dir="f90-room"                 target="unitTest"/>
+    <ant dir="c-timeSync"               target="unitTest"/>
+    <ant dir="www-weather"              target="unitTest"/>
+    <ant dir="matlab-room"              target="unitTest"/>
+    <ant dir="simulink-room"            target="unitTest"/>
+    <ant dir="systemCommand"            target="unitTest"/>
+    <ant dir="dymola-room"              target="unitTest"/>
+    <ant dir="dymolaSimulink-room"      target="unitTest"/>
+    <ant dir="dymolaEPlus31-singleZone" target="unitTest"/>
+    <ant dir="ePlus31-simple"           target="unitTest"/>
+    <ant dir="ePlus31Simulink-simple"   target="unitTest"/>
+    <ant dir="ePlus31Ptolemy-vav"       target="unitTest"/>
+    <ant dir="ptolemy-room"             target="unitTest"/>
+  </target>
+  
+</project>
