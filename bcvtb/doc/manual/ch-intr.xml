@@ -1,0 +1,96 @@
+<chapter xml:id="introduction">
+ <title>Introduction</title>
+ <para>
+  This user manual explains how to install, use and further
+  develop the BCVTB version &VERSION;.
+ </para>
+ <para>
+  The Building Controls Virtual Test Bed (BCVTB) is a
+  software environment that allows expert users to couple
+  different simulation programs for co-simulation. For
+  example, the BCVTB allows the simulation of a building and HVAC
+  system in EnergyPlus and the control logic in Modelica or in
+  MATLAB/Simulink, while exchanging data between the
+  software as they simulate. A system model for such a coupled
+  simulation is shown in <xref linkend="ptolemyEPlusSimuMac"/>.
+ </para>
+ <figure xml:id="ptolemyEPlusSimuMac">
+  <mediaobject>
+   <imageobject role="html">
+    <imagedata fileref="img/ptolemyEPlusSimuMac.png" format="PNG" scale="50"/>
+   </imageobject>
+   <imageobject role="dblatex">
+    <imagedata fileref="img/ptolemyEPlusSimuMac.pdf" format="PDF" scale="50"/>
+   </imageobject>
+  </mediaobject>
+  <title>
+	System model that links EnergyPlus with Simulink.
+      </title>
+ </figure>
+ <para>
+  The BCVTB is based on the
+  <ulink url="http://ptolemy.berkeley.edu/ptolemyII/index.htm">
+   <citetitle>Ptolemy II</citetitle>
+  </ulink>
+  software environment that has been developed by the
+  University of California at Berkeley. The BCVTB is aimed
+  at expert users of simulation that hit limitations of
+  existing simulation programs.
+ </para>
+ <para>
+  Programs that are currently linked to the BCVTB are
+ </para>
+ <itemizedlist>
+  <listitem>
+   <ulink url="http://www.energyplus.gov">
+    <citetitle>EnergyPlus,</citetitle>
+   </ulink>
+  </listitem>
+  <listitem>
+   <ulink url="http://www.dynasim.se">
+    <citetitle>Dymola,</citetitle>
+   </ulink>
+	    which is a 
+	<ulink url="http://www.modelica.org">
+    <citetitle>Modelica</citetitle>
+   </ulink>
+	    modeling and simulation environment, and
+      </listitem>
+  <listitem>
+   <ulink url="http://www.mathworks.com/products/matlab">
+    <citetitle>MATLAB,</citetitle>
+   </ulink>
+  </listitem>
+  <listitem>
+   <ulink url="http://www.mathworks.com/products/simulink/">
+    <citetitle>Simulink,</citetitle>
+   </ulink>
+  </listitem>
+  <listitem>
+	the
+          <ulink url="http://bacnet.sourceforge.net/">
+    <citetitle>BACnet stack,</citetitle>
+   </ulink>
+	    which is an open-source implementation that allows exchanging data with <ulink url="http://www.bacnet.org">
+    <citetitle> BACnet</citetitle>
+   </ulink> compatible building automation systems for use of models during operation for fault detection and diagnostics or for model-based operation.
+      </listitem>
+ </itemizedlist>
+ <para>
+  In addition, any executable can be called from the BCVTB.
+  This allows, for example, the use of
+  <ulink url="http://radsite.lbl.gov">
+   <citetitle>Radiance</citetitle>
+  </ulink>
+  to evaluate daylight performance within a closed loop
+  control system that is implemented in the BCVTB.
+ </para>
+ <para>
+  In addition to using programs that are coupled to Ptolemy
+  II, Ptolemy II's graphical modeling environment can be
+  used to define models of control systems, models of
+  physical devices, models of communication systems or it
+  can be used for post-processing, real-time visualization
+  and data exchange with databases.
+ </para>
+</chapter>

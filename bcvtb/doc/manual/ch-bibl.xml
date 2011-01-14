@@ -1,0 +1,10 @@
+<bibliography xml:id="bibliography">>
+ <biblioentry>
+  <abbrev>ASHRAE2004</abbrev>
+  <author>ASHRAE</author>
+  <title>ANSI/ASHRAE Standard 135-2004</title>
+  <subtitle>BACnet - A Data Communication Protocol for Building Automation and Control Networks</subtitle>
+  <pubdate>2004</pubdate>
+  <issn>1041-2336</issn>
+ </biblioentry>
+</bibliography>

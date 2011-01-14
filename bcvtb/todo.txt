@@ -1,0 +1,68 @@
+Windows
+-------
+Include msvcr90.dll in distribution (client.exe depends on it).
+
+double-clicking on bcvtb.lnk does not work if bcvtb is installed in
+C:\Program Files\bcvbt-0.3.0-pre-release
+
+Change
+@set BCVTB_DYMOLA_BIN=C:\Program Files\Dymola 7.2\bin\Dymola.exe
+so that it pickes "Program Files" in correct language
+
+
+Porting E+ 3.1
+--------------
+
+Add Schedule:Compact
+Port EMS/BCVTB interface.
+Run E+ with no input from BCVTB, there is currently an error message on the console output that needs to be fixed.
+
+Documentation
+-------------
+-
+
+
+Configuration
+-------------
+-
+
+Coding
+------
+
+-- Compilation --
+On mac, compilation fails if bcvtb is for example in directory /Users/mwetter/test/bcvtb 030  [note the space]
+
+
+-- Ptolemy --
+
+UCB: Various demos not found.
+
+Implement client response as soon as socket can be established because now it can take a long time until EnergyPlus warmed up and responds.
+
+See if _writeToServer can be called prior to fire; as the CPU time is primarily consumed in clients between _writeToServer and _readFromServer
+
+Under Ubuntu 7.04, the following command freezes the shell after E+ completed. Maybe the buffer is not flushed?
+cd examples/ePlusNatVen
+ptexecute system.xml
+
+Copy variables.xml to working directory.
+
+Can variables.xml be used to check for correct number of input and output of Actor?
+
+Make editor for variables.xml
+
+-- E+ --
+
+Add E+ compact schedule.
+
+Integrate with
+  - user functions
+  - EMS
+
+Address the issue that a user may try to run a design day simulation in E+. 
+Maybe include special actors, i.e., for E+, for Simulink etc., to facilitate the use of the BCVTB and the setup of the simulation, and/or catch situation in E+ source.
+
+-- Matlab --
+Simulink interface: catch situation where we read too many double values.
+
+

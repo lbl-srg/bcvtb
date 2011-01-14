@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="doc" default="all">
+  <import file="../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Does nothing.">
+    <echo message="*** Do delete the documentation, run"/>
+    <echo message="***  ant cleandoc"/>
+    <echo message="*** No changes have been made."/>
+  </target>
+
+  <!-- Cleandoc -->
+  <target name="cleandoc" description="Deletes generated documentation">
+    <ant dir="code"   target="cleandoc"/>
+    <ant dir="manual" target="cleandoc"/>
+  </target>
+
+  <!-- All -->
+  <target name="all" description="Generates all documentation">
+    <ant dir="code"   target="all"/>
+    <ant dir="manual"    target="all"/>
+  </target>
+
+  <!-- Doc -->
+  <target name="doc"
+          description="Generates the code documentation">
+    <ant dir="code"   target="doc"/>
+    <ant dir="manual"    target="doc"/>
+  </target>
+
+  <!-- distribute file to web server -->
+  <target name="dist"
+          description="Distributes the files to the web server">
+    <exec executable="${env.HOME}/bin/postBCVTBToSrg.sh" failonerror="true">
+      <arg value="${VERSION}"/>
+    </exec>
+  </target>
+
+  
+</project>

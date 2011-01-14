@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="manual" default="all">
+  <import file="../../build-common.xml"/>
+
+   <!-- XSLT engine class -->
+   <property name="xslt.processor.class" value="com.icl.saxon.StyleSheet"/>
+   <!-- path for xslt processor  -->
+   <path id="xslt.processor.classpath">
+     <pathelement path="/usr/share/java/saxon.jar" />
+     <pathelement path="/usr/share/java/docbook-xsl-saxon_1.00.jar"/>
+   </path>
+   <property name="html.dir" value="www"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir=".."   target="clean"/>
+  </target>
+
+  <!-- Cleandoc -->
+  <target name="cleandoc" description="Deletes generated files">
+    <delete verbose="true" dir="html"/>
+    <delete>
+      <fileset dir="." includes="bcvtb-manual.pdf,en.xml"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" depends="doc" 
+	  description="Generates the code documentation">
+  </target>
+
+  <!-- Doc -->
+  <target name="doc" depends="cleandoc, doc-html, doc-pdf"
+          description="Generates the pdf and html versions of the manual">
+  </target>
+
+  <!-- html docs -->
+  <target name="doc-pdf"
+          description="Generates the pdf version of the manual">
+    <delete file="bcvtb-manual.pdf"/>
+    <delete file="${html.dir}/bcvtb-manual.pdf"/>
+    <echo message="${VERSION}" file="VERSION.txt"/>
+    <exec executable="dblatex" failonerror="true">
+      <arg value="--xsl-user=dblatex-customization.xsl"/>
+      <arg value="bcvtb-manual.xml"/>
+    </exec>
+    <delete file="VERSION.txt"/>
+    <exec executable="pdftk" failonerror="true">
+      <arg line="bcvtb-manual.pdf cat 3-end output tmp-manual.pdf"/>
+    </exec>
+    <echo message="${VERSION}" file="latex-title/versionnumber"/>
+    <exec executable="pdflatex" failonerror="true"
+	  dir="latex-title">
+      <arg value="titlepage"/>
+    </exec>
+    <delete file="latex-title/versionnumber"/>
+    <exec executable="pdftk" failonerror="true">
+      <arg line="latex-title/titlepage.pdf tmp-manual.pdf output bcvtb-manual.pdf"/>
+    </exec>
+    <delete>
+      <fileset dir="latex-title" includes="*.aux,*.log,*.out,*.pdf"/>
+    </delete>
+    <delete file="tmp-manual.pdf"/>
+    <move todir="${html.dir}/" file="bcvtb-manual.pdf"/>
+  </target>
+
+  <!-- html docs -->
+  <target name="doc-html"
+          description="Generates the html version of the manual">
+    <!-- Make entity file with version -->
+    <echo message="${VERSION}" file="VERSION.txt"/>
+    <!-- Copy files -->
+    <mkdir dir="${html.dir}"/>
+    <copy todir="${html.dir}/images">
+      <fileset dir="images">
+	<include name="**/*.gif"/>
+	<include name="**/*.png"/>
+	<include name="**/*.svg"/>
+      </fileset>
+    </copy>
+    <copy todir="${html.dir}/img">
+      <fileset dir="img">
+	<include name="**/*.png"/>
+      </fileset>
+    </copy>
+    <copy todir="${html.dir}" file="bcvtb-manual.css"/>
+    <!-- Compile docbook -->
+    <java classname="${xslt.processor.class}" 
+	  fork="yes" 
+	  dir="${html.dir}"
+	  failonerror="true">
+      <classpath refid="xslt.processor.classpath" />
+      <arg line="../bcvtb-manual.xml ../html-customization.xsl" /> 
+    </java>
+    <delete file="VERSION.txt"/>
+    <!-- Convert to xhtml so that mathml is correctly rendered -->
+    <exec executable="./changeHTMLtoXHTML.sh" failonerror="true"/>
+  </target>
+
+</project>
