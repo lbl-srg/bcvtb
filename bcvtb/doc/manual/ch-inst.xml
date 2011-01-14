@@ -1,0 +1,115 @@
+<chapter xml:id="installation">
+ <title>Installation and configuration</title>
+ <section>
+   <title>Introduction</title>
+   <para>
+     This chapter describes how to install, configure and uninstall the BCVTB.
+     Users who are interested in further developing the BCVTB should also follow the installation
+     described in <xref linkend="tit-sofReqDev"/>.
+   </para>
+ </section>
+ <section xml:id="tit-InstallationUser">
+  <title>Installation</title>
+  <para>
+   To install the BCVTB, follow these steps:
+  </para>
+  <orderedlist numeration="arabic">
+   <listitem>
+     Download the installation file <code>bcvtb-install-os-x.y.z.jar</code> from the download page, where <code>os</code> denotes the version of the operating system and <code>x.y.z</code> denotes the latest version number.
+        </listitem>
+   <listitem>
+          Run the installation program <code>bcvtb-install-os-x.y.z.jar</code>.
+        </listitem>
+   <listitem>
+          Depending on your installation, you may need to set system environment variables as described in <xref linkend="settingEnvironmentVariables"/>.
+        </listitem>
+   <listitem>
+          Test the installation by running an example as described in <xref linkend="running"/>.
+        </listitem>
+  </orderedlist>
+   <para>
+  <note>
+   <para>
+    This manual assumes that the BCVTB is installed in a
+    directory called <code>bcvtb</code>. However, the BCVTB
+    may be installed in any directory. (To run the examples
+    provided with the BCVTB, write permission are required
+    for the directory <code>bcvtb/examples</code>.)
+   </para>
+  </note>
+   </para>
+ </section>
+ <section xml:id="settingEnvironmentVariables">
+  <title>Setting system environment variables</title>
+  <para>
+   When the BCVTB starts, it reads environment variables
+   from the file
+   <code>bcvtb/bin/systemVariables-*.properties</code>,
+   where <code>*</code> is the name of the operating system.
+   This file needs to be modified by the user to set the
+   path to the different programs that are used by the
+   BCVTB. The file can be edited with any text editor. It
+   has the following syntax
+  </para>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;-- This is a comment line --&gt;
+
+&lt;properties&gt;
+  &lt;entry key="name"&gt;value&lt;/entry&gt;
+  &lt;entry key="name"&gt;value&lt;/entry&gt;
+&lt;/properties&gt;</programlisting>
+  <para>
+   The <code>properties</code> section contains the
+   environment variables. The attribute <code>name</code> is
+   the name of any environment variable that either exists
+   or that should be set by the BCVTB, and
+   <code>value</code> is the new value of this environment
+   variable. There can be any number of environment
+   variables. For example, to set a new environment variable
+   <code>myProgramBin=C:\myProg</code> (or
+   <code>myProgramBin=/usr/local/myProg</code> on Mac or
+   Linux) and add this variable to the existing %Path% (or
+   $PATH) variable, proceed as follows:
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+     in Windows, add the lines
+    </para>
+<screen>&lt;entry key="myProgramBin"&gt;C:\myProg&lt;/entry&gt;
+&lt;entry key="Path"&gt;%myProgramBin%;%Path%&lt;/entry&gt;</screen>
+to <code>bcvtb/bin/systemVariables-windows.properties</code>.
+        </listitem>
+   <listitem>
+    <para>
+     in Mac OS X, add the lines
+    </para>
+<screen>&lt;entry key="myProgramBin"&gt;/usr/local/myProg&lt;/entry&gt;
+&lt;entry key="PATH"&gt;$myProgramBin:$PATH&lt;/entry&gt;</screen>
+to <code>bcvtb/bin/systemVariables-mac.properties</code>.
+        </listitem>
+   <listitem>
+    <para>
+     in Linux, add the same lines as for Mac OS X to
+     <code>bcvtb/bin/systemVariables-linux.properties</code>.
+    </para>
+   </listitem>
+  </itemizedlist>
+  <para>
+   Next, restart the BCVTB. To see the new environment
+   variables, type
+  </para>
+<screen>java -jar BCVTB.jar -diagnostics</screen>
+  <para>on a console.</para>
+ </section>
+<!-- ************************************************************* -->
+ <section>
+  <title>Uninstallation</title>
+  <para>
+   The BCVTB installation does not write to any file outside
+   the directory <code>bcvtb</code>. To uninstall the BCVTB,
+   simply delete the directory <code>bcvtb</code>.
+  </para>
+ </section>
+</chapter>

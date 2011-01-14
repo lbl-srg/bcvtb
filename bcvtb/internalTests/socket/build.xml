@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="examples" default="all"> 
+  <import file="../../build-common.xml"/>
+
+<!-- Overwrite flag to run in windowless model -->
+  <property name="ptExecutableFlags" 
+	    value="-cp . -jar &quot;${BCVTB_BINDIR}${file.separator}BCVTB.jar&quot; -console"/>
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir="f90-manyRooms"            target="clean"/>
+    <ant dir="c-manyRoomsOneSignal"     target="clean"/> 
+    <ant dir="c-oneRoomManySignals"     target="clean"/>
+    <delete dir=".">
+      <include name="**/history.xml"/>
+      <include name="**/dependencies.xml"/>
+      <include name="**/simulation.log"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" depends="clean,unitTest" description="Runs all targets">
+    <ant dir="f90-manyRooms"            target="all"/>
+    <ant dir="c-manyRoomsOneSignal"     target="all"/> 
+    <ant dir="c-oneRoomManySignals"     target="all"/>
+  </target>
+  
+  <!-- Unit tests -->
+  <target name="unitTest" description="Runs unit tests">
+    <ant dir="f90-manyRooms"            target="unitTest"/>
+    <ant dir="c-manyRoomsOneSignal"     target="unitTest"/> 
+    <ant dir="c-oneRoomManySignals"     target="unitTest"/>
+  </target>
+  
+</project>

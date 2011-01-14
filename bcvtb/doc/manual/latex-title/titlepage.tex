@@ -1,0 +1,265 @@
+\documentclass[11pt]{report}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+%\usepackage{fleqn} %sets equation to left
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{multido}
+\usepackage{vmargin}
+%\usepackage{floatflt}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{tabularx}
+\usepackage{xr} % for cross reference to external documents
+\usepackage{alltt}
+\usepackage{url}
+\usepackage{pstricks,pst-node,pst-tree,pst-plot}
+% Figure and table caption in italic fonts
+\makeatletter
+\renewcommand{\fnum@figure}[1]{\small \textit{\figurename~\thefigure}: \it }
+\renewcommand{\fnum@table}[1]{\small \textit{\tablename~\thetable}: \it }
+\makeatother
+% Fuzz -------------------------------------------------------------------
+\hfuzz4pt % Don't bother to report over-full boxes if over-edge is < 2pt
+\vfuzz=\hfuzz
+% THEOREM Environments ---------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{assumption}[theorem]{Assumption}
+
+
+% \renewcommand{\epsilon}{{\red \varepsilon}}
+% \renewcommand{\cdot}{{\red \bullet}}
+% List for code description ---------------------------------------------
+% MWetter@lbl.gov
+\makeatletter
+\newenvironment{codedescription}
+               {\list{}{\labelwidth\z@ \itemindent-\leftmargin
+                        \let\makelabel\codedescriptionlabel}}
+               {\endlist}
+\newcommand*\codedescriptionlabel[1]{\hspace\labelsep
+                                \hspace{1em}\normalfont\ttfamily#1}
+
+% Section formats ------------------------------- --------------------
+% MWetter@lbl.gov
+\renewcommand{\chapter}{\@startsection
+  {chapter}%                          % the name
+  {0}%                                % the level
+  {0mm}%                            % the indent
+  {2\baselineskip}%                   % the beforeskip
+  {\baselineskip}%                 % the afterskip
+%  {\normalfont\fontfamily{phv}\fontseries{b}\fontsize{9}{11}\selectfont}}%  % the style
+  {\pagebreak \normalfont\sffamily\huge\bfseries \raggedright}}%  % the style
+
+\renewcommand{\section}{\@startsection
+  {section}%                          % the name
+  {1}%                                % the level
+  {0mm}%                            % the indent
+  {\baselineskip}%                   % the beforeskip
+  {\baselineskip}%                 % the afterskip
+  {\normalfont\sffamily\Large\bfseries \raggedright}}%  % the style
+
+\renewcommand{\subsection}{\@startsection
+  {subsection}%                          % the name
+  {2}%                                % the level
+  {0mm}%                            % the indent
+  {\baselineskip}%                   % the beforeskip
+  {0.5\baselineskip}%                 % the afterskip
+  {\normalfont\sffamily\large\bfseries \raggedright}}%  % the style
+
+\renewcommand{\subsubsection}{\@startsection
+  {subsubsection}%                          % the name
+  {3}%                                % the level
+  {0mm}%                            % the indent
+  {\baselineskip}%                   % the beforeskip
+  {0.5\baselineskip}%                 % the afterskip
+  {\normalfont\sffamily\bfseries \raggedright}}%  % the style
+
+\makeatother
+% end of list ---------------------------------------------
+
+\newcommand{\clarify}[1]{\colorbox{yellow}{ #1 }}
+
+\newcommand{\lab}[1]{\label{#1} \hfill \mbox{\tiny {\tt [#1]}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remove comment of next line for the final print out
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\lab}[1]{\label{#1}}
+
+
+% Depth of table of contents -----------------------------------------
+\setcounter{tocdepth}{4}
+
+
+% PDF Links --------------------------------------------------------
+\usepackage[ps2pdf,colorlinks]{hyperref}
+  \hypersetup{backref, %
+    colorlinks=true, %
+    linkcolor=black, %
+    anchorcolor=black, %
+    citecolor=black, %
+    filecolor=black, % Color for URLs which open local files. 
+    menucolor=black, % Color for Acrobat menu items.
+    pagecolor=black, % Color for links to other pages. 
+    urlcolor=black, %
+    pdftitle={GenOpt manual}, %
+    pdfauthor={Michael Wetter}, %
+    pdfsubject={}, %
+    pdfkeywords={}%
+  }
+
+% commands for mathematical description ------------------------------
+\renewcommand{\Re}{{\mathbb R}}
+\newcommand{\Rep}{{\Re_{+}}}
+\newcommand{\Na}{{\mathbb N}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\Co}{{\mathbb C}}
+
+\newcommand{\codi}[2]{{\mathcal{C}^{#1}(#2)}}
+
+\newcommand{\depd}{(\cdot)}
+\newcommand{\depdd}{(\cdot, \cdot)}
+\newcommand{\depddd}{(\cdot, \cdot, \cdot)}
+\newcommand{\depdddd}{(\cdot, \cdot, \cdot, \cdot)}
+\newcommand{\RR}{\Re \times \Re}
+\newcommand{\RRR}{\Re \times \Re \times \Re}
+
+\newcommand{\vect}[1]{\mathtt{vect}\left( #1 \right) }
+\newcommand{\vectp}[1]{\mathop{\mathtt{vect}}_{p}\left( #1 \right) }
+\newcommand{\vectcwwi}[1]{\mathop{\mathtt{vect}}_{i, \, i \neq p, \, j}\left( #1 \right) }
+\newcommand{\diag}[1]{\mathtt{diag}\left( #1 \right) }
+\newcommand{\argmin}{\mathop{\arg \min}}
+\newcommand{\argmax}{\mathop{\arg \max}}
+
+\hyphenation{Torczon}
+
+%QED box, from the TeXbook, p. 106. ----------------------------------
+%\newcommand\qed{{\unskip\nobreak\hfil\penalty50\hskip2em\vadjust{}
+%    \nobreak\hfil$\Box$\parfillskip=0pt\finalhyphendemerits=0\par}}
+\newcommand{\rbox}{{ \hfill \framebox{} }}
+% Depth of section numbering and table of contents -------------------
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{4}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+\renewcommand{\theparagraph}{(\roman{paragraph})}
+
+% commands for physical description ----------------------------------
+
+\newcommand{\depx}{(x)}
+
+% Line spacing -----------------------------------------------------------
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+%\newcommand{\setlinespacing}[1]%
+%           {\setlength{\baselineskip}{#1 \defbaselineskip}}
+\newcommand{\doublespacing}{\setlength{\baselineskip}
+                           {2.0 \defbaselineskip}}
+\newcommand{\singlespacing}{\setlength{\baselineskip}{\defbaselineskip}}
+\newcommand{\onehalfspacing}{\setlength{\baselineskip}
+                           {1.5 \defbaselineskip}}
+
+% Page layout -------------------------------------------------------------
+%\setlength{\textwidth}{14cm} 
+\pagestyle{fancy}
+\setlength{\textwidth}{12cm} 
+\setlength{\textheight}{24cm}
+\setlength{\headheight}{10mm}
+\setlength{\headwidth}{14cm}
+\setlength{\headsep}{5mm}
+\setlength{\oddsidemargin}{2.4cm}
+\setlength{\evensidemargin}{\oddsidemargin}
+% next lines from 'The LaTeX Companion', Sec. 4.3
+\addtolength{\headwidth}{\marginparsep}
+\addtolength{\headwidth}{\marginparwidth}
+
+\newcommand{\bcvtbversion}{\input{versionnumber}\@ }
+\renewcommand{\date}{\today}
+% Headings ---------------------------------------------------------------
+% right header entry
+\lhead{Building Controls Virtual Test Bed\\~}
+\rhead{ii}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+% line at header and footer
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% select Helvetica as default roman font --------------------------------
+\renewcommand\sfdefault{phv}
+
+% Begin of document -------------------------------------------------------
+\begin{document}
+% Contents ----------------------------------------------------------------
+
+\begin{titlepage}
+\begin{minipage}{\headwidth}
+~\vspace{1cm}
+\rput[l](-1.3,0){\includegraphics[scale=0.5]{img/lbl_text.pdf}}
+\begin{flushright}
+%\large{Technical Report LBNL-2077E}
+~\\[5mm]
+\hrulefill
+\\[5mm]
+ \Large\sffamily\bfseries{Building Controls Virtual Test Bed}\\
+ \Large\sffamily\bfseries{User Manual}\\
+ \Large\sffamily\bfseries{Version \bcvtbversion}
+\\
+\hrulefill
+\\[10mm]
+\end{flushright}
+\begin{center}
+\large{Simulation Research Group}\\
+\large{Building Technologies
+Department}\\
+ \large{Environmental
+Energy Technologies Division}\\
+\large{Lawrence Berkeley National
+Laboratory}\\
+\large{Berkeley, CA 94720}
+\\[10mm]
+\large{http://SimulationResearch.lbl.gov}
+\\[10mm]
+\large{Michael Wetter}\\
+\large{MWetter@lbl.gov}
+\\[10mm]
+\large{\date}
+\\[40mm]
+\end{center}
+~\\[15mm]
+\hrule
+~\\[2mm]
+Copyright (c) 2010\\
+The Regents of the University of California 
+(through Lawrence Berkeley National Laboratory),\\
+subject to receipt of any required approvals from U.S. Department of Energy.\\
+All rights reserved.
+\end{minipage}
+\end{titlepage}
+
+\begin{center}
+\bf \Large DISCLAIMER
+\end{center}
+This document was prepared as an account of work sponsored by the United States
+Government. While this document is believed to contain correct information, neither the
+United States Government nor any agency thereof, nor The Regents of the University of
+California, nor any of their employees, makes any warranty, express or implied, or assumes
+any legal responsibility for the accuracy, completeness, or usefulness of any information,
+apparatus, product, or process disclosed, or represents that its use would not infringe
+privately owned rights. Reference herein to any specific commercial product, process, or
+service by its trade name, trademark, manufacturer, or otherwise, does not necessarily
+constitute or imply its endorsement, recommendation, or favoring by the United States
+Government or any agency thereof, or The Regents of the University of California. The
+views and opinions of authors expressed herein do not necessarily state or reflect those of the
+United States Government or any agency thereof or The Regents of the University of
+California.
+
+\vfill
+\small{\vspace{2mm} \noindent Product and company names mentioned herein may be the trademarks of their respective owners. Any rights not expressly granted herein are reserved.}
+\end{document}

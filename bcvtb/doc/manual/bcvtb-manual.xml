@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE book [
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
+<!ENTITY % inlineequation.content 
+                "(alt?, (inlinegraphic+|inlinemediaobject+|mml:math))">
+<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
+        "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+%mathml;
+<!-- References to the different chapters that are included
+        in this document -->
+<!ENTITY buildDate SYSTEM "buildDate.txt">
+<!ENTITY ch-intr SYSTEM "ch-intr.xml">
+<!ENTITY ch-inst SYSTEM "ch-inst.xml">
+<!ENTITY ch-simu SYSTEM "ch-simu.xml">
+<!ENTITY ch-conf SYSTEM "ch-conf.xml">
+<!ENTITY ch-math SYSTEM "ch-math.xml">
+<!ENTITY ch-deve SYSTEM "ch-deve.xml">
+<!ENTITY ch-ackn SYSTEM "ch-ackn.xml">
+<!ENTITY ch-bibl SYSTEM "ch-bibl.xml">
+<!ENTITY VERSION SYSTEM "VERSION.txt">
+]>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" lang="en">
+ <bookinfo>
+  <title>Building Controls Virtual Test Bed</title>
+  <author>
+   <firstname>Michael</firstname>
+   <surname>Wetter</surname>
+   <affiliation>
+     <orgname>Lawrence Berkeley National Laboratory</orgname>
+     <orgdiv>Environmental Energy Technologies Division</orgdiv>
+     <orgdiv>Building Technologies Program</orgdiv>
+     <orgdiv>Simulation Research Group</orgdiv>
+   </affiliation>
+  </author>
+  <pubdate><?dbtimestamp format="m/d/Y"?></pubdate>
+  <copyright>
+   <year><?dbtimestamp format="Y"?></year>
+   <holder>Lawrence Berkeley National Laboratory, Berkeley, CA</holder>
+  </copyright>
+ </bookinfo>
+<!-- *************************************************************  -->
+&ch-intr;
+&ch-inst;
+&ch-simu;
+&ch-conf;
+&ch-math;
+&ch-deve;
+&ch-ackn; 
+&ch-bibl;
+</book>

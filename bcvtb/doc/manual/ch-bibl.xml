@@ -1,0 +1,69 @@
+<bibliography xml:id="bibliography">>
+ <biblioentry>
+  <abbrev>ASHRAE 2004</abbrev>
+  <author>ASHRAE</author>
+  <title>ANSI/ASHRAE Standard 135-2004</title>
+  <subtitle>BACnet - A Data Communication Protocol for Building Automation and Control Networks</subtitle>
+  <pubdate>2004</pubdate>
+  <issn>1041-2336</issn>
+ </biblioentry>
+
+ <biblioentry>
+   <abbrev>Hensen (1999)</abbrev>
+   <author>
+     <surname>Hensen</surname>
+     <firstname>Jan L.M.</firstname>
+   </author>
+   <title>A comparison of coupled and de-coupled solutions for
+  temperature and air flow in a building</title>
+   <publisher>ASHRAE Transactions</publisher>
+   <issuenum>105</issuenum>
+   <volumenum>2</volumenum>
+   <pubdate>1999</pubdate>
+   <pagenums>962-969</pagenums>
+ </biblioentry>
+
+ <biblioentry>
+   <abbrev>Trcka et al. (2007)</abbrev>
+   <authorgroup>
+   <author>
+     <surname>Trcka</surname>
+     <firstname>Marija</firstname>
+   </author>
+   <author>
+     <surname>Wetter</surname>
+     <firstname>Michael</firstname>
+   </author>
+   <author>
+     <surname>Hensen</surname>
+     <firstname>Jan L.M.</firstname>
+   </author>
+   </authorgroup>
+   <title>Comparison of co-simulation
+  approaches for building and HVAC/R Simulation</title>
+   <publisher>Proc. of the 10-th IBPSA Conference</publisher>
+   <pubdate>2007</pubdate>
+ </biblioentry>
+
+
+
+ <biblioentry>
+   <abbrev>Zhai and Chen (2005)</abbrev>
+   <author>
+     <surname>Zhai</surname>
+     <firstname>Z.J.</firstname>
+   </author>
+   <author>
+     <surname>Chen</surname>
+     <firstname>Q.Y.</firstname>
+   </author>
+   <title>Performance of coupled building energy and CFD
+  simulations</title>
+   <publisher>Energy and Buildings</publisher>
+   <issuenum>37</issuenum>
+   <volumenum>4</volumenum>
+   <pubdate>2005</pubdate>
+   <pagenums>333-344</pagenums>
+ </biblioentry>
+
+</bibliography>

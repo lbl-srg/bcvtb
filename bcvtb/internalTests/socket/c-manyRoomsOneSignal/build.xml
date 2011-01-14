@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="c-manyRoomsOneSignal" default="all" xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks">
+  <import file="../build-common.xml"/>
+
+  <!-- Clean. Files are only deleted if ifort is present. -->
+  <target name="clean" description="Deletes generated files">
+    <delete verbose="true">
+      <fileset dir="." includes="*.obj,*.o"/>
+      <fileset dir="." includes="cclient,cclient.exe,cclient.exe.manifest"/>
+      <fileset dir="." includes="utilSocket.log,socket.cfg"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" description="Runs all targets"
+	  depends="clean,prepareInput,build"/>
+  
+  <!-- Builds the code -->
+  <target name="build" description="Builds the code">
+    <cpptasks:cc outtype="executable" subsystem="console" outfile="cclient">
+      <compiler name="${cc}"/>
+      <linker name="${cc}"/>
+      <fileset dir="." includes="cclient.c"/>
+      <includepath path="${env.BCVTB_HOME}/lib/util"/>
+      <includepath path="${env.BCVTB_HOME}/lib"/>
+      <libset dir="${env.BCVTB_HOME}/lib/util" libs="${lib.bcvtb}"/>
+      <linkerarg value="${env.BCVTB_HOME}/lib/util/bcvtb.lib" if="windows"/>
+    </cpptasks:cc>
+  </target>
+
+  <!-- Prepares the input files -->
+  <target name="prepareInput" depends="verifyInput" description="Prepares input files">
+    <copy overwrite="true" file="./cclient-ori.c" tofile="./cclient.c"/>
+    <replace file="cclient.c" failOnNoReplacements="true"> 
+      <replacetoken>%nDblMax%</replacetoken>
+      <replacevalue expandProperties="true">${nDbl}</replacevalue> 
+    </replace>
+    <copy overwrite="true" file="./system-ori.xml" tofile="./system.xml"/>
+    <replace file="system.xml" failOnNoReplacements="true"> 
+      <replacetoken>%nRoo%</replacetoken>
+      <replacevalue expandProperties="true">${nDbl}</replacevalue> 
+    </replace>
+  </target>
+
+</project>

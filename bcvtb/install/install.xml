@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<!-- 
+    BCVTB installation file.
+    To compile it, run 
+    cd xyz/bcvtb
+    make dist
+
+    To manually run this file, 
+    call "[path to IzPack/]compile install.xml -b . -o bcvtb-install.jar"
+-->
+
+<installation version="1.0">
+    <!-- 
+        The info section.
+    -->
+    <info>
+        <appname>Building Controls Virtual Test Bed</appname>
+        <appversion>0.8.0</appversion>
+	<appsubpath>bcvtb</appsubpath>
+	<javaversion>1.6</javaversion>
+        <authors>
+            <author name="Michael Wetter" email="MWetter@lbl.gov"/>
+            <author name="Thierry Stephane Nouidui" email="tsnouidui@lbl.gov"/>
+            <author name="Philip Haves"   email="PHaves@lbl.gov"/>
+            <author name="Rui Zhang"      email="ruiz@cmu.edu"/>
+            <author name="Zhengwei Li"    email="zli8@gatech.edu"/>
+        </authors>
+        <url>http://simulationresearch.lbl.gov/bcvtb</url>
+        <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
+    </info>
+
+    <variables>
+      <variable name="desktopshortcutcheckboxenabled" value="false"/>
+    </variables>    
+
+<guiprefs width="640" height="640" resizable="no">
+        <laf name="looks">
+            <os family="unix" />
+            <param name="variant" value="plastic3D" />
+        </laf>
+  <modifier key="useButtonIcons" value="yes"/>
+  <modifier key="useLabelIcons" value="yes"/>
+  <modifier key="labelGap" value="2"/>
+  <modifier key="layoutAnchor" value="NORTHWEST"/>
+  <modifier key="useHeadingPanel" value="yes"/>
+  <modifier key="headingLineCount" value="1"/>
+  <modifier key="headingFontSize" value="1.5"/>
+  <modifier key="headingBackgroundColor" value="0x00ffffff"/>
+  <modifier key="headingPanelCounter" value="progressbar"/>
+  <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+</guiprefs>
+
+
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+
+    <!-- 
+        The resources section.
+        The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+    -->
+    <resources>
+        <res id="HTMLLicencePanel.licence" src="../legal.html"/>
+        <res id="HTMLInfoPanel.info" src="info.html"/>
+  <!--  <res id="InstallPanel.info" src="InstallInstruction.txt"/> does not yet work -->
+	<res id="Heading.image" src="lbl_logo.png" />
+    </resources>
+    
+    <!-- 
+        The panels section.
+        We indicate here which panels we want to use. The order will be respected.
+    -->
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="HTMLInfoPanel"/>
+        <panel classname="HTMLLicencePanel"/>
+        <panel classname="TargetPanel"/> 
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+  <listeners>
+      <listener installer="SummaryLoggerInstallerListener">
+          <os family="windows"/>
+      </listener>
+  </listeners>
+
+    <!-- Software packs to be installed -->
+    <packs>
+    <!-- Basic files for BCVTB -->
+        <pack name="Base" required="yes">
+            <description>Basic files needed for the Building Controls Virtual Test Bed, including examples.</description>
+            <file src="../legal.html" targetdir="$INSTALL_PATH"/>
+
+            <fileset dir="../doc/code" targetdir="$INSTALL_PATH/doc/code">
+                <exclude name="**/.svn"/>
+            </fileset>
+            <fileset dir="../doc/manual/www" targetdir="$INSTALL_PATH/doc/manual/html">
+                <exclude name="**/.svn"/>
+                <exclude name="bcvtb-manual.pdf"/>
+            </fileset>  
+            <file src="../doc/manual/www/bcvtb-manual.pdf" targetdir="$INSTALL_PATH/doc/manual"/>
+
+            <fileset dir="../lib" targetdir="$INSTALL_PATH/lib">
+                <exclude name="**/.svn"/>
+	    </fileset>
+            <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
+                <exclude name="**/.svn"/>
+	    </fileset>
+	    <!-- Unix only -->
+         <!--   <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="unix"/> -->
+	 <!--   <executable targetfile="$INSTALL_PATH/makeShExecutable.sh" 
+                 stage="postinstall" os="unix"/>  -->
+
+	    <!-- Mac only -->
+        <!--    <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="mac"/>
+	    <executable targetfile="$INSTALL_PATH/makeShExecutable.sh" 
+                 stage="postinstall" os="mac"/>  -->
+
+	    <!-- all OS -->
+            <file src="../build.xml"        targetdir="$INSTALL_PATH"/>
+            <file src="../build-common.xml" targetdir="$INSTALL_PATH"/>
+	    <!-- bin directory -->
+	    <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
+              <exclude name="**/.svn"/>
+	    </fileset>
+	    <!-- Make files executable -->
+	    <executable targetfile="$INSTALL_PATH/bin/setDevelopmentEnvironment.sh"    stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/bin/bcvtb"                           stage="never" os="unix"/>
+	    <executable targetfile="$INSTALL_PATH/bin/runDymola.sh"                    stage="never" os="unix"/>
+	    <executable targetfile="$INSTALL_PATH/examples/radiance40/scripts/radiance.csh"
+			stage="never" os="unix"/>
+	    <!-- BACnet is only distributed on Linux (and Windows) -->
+	    <executable targetfile="$INSTALL_PATH/lib/bacnet-stack/bin-linux/bacrp"    stage="never" 
+			condition="izpack.linuxinstall"/>
+	    <executable targetfile="$INSTALL_PATH/lib/bacnet-stack/bin-linux/bacwp"    stage="never" 
+			condition="izpack.linuxinstall"/>
+	    <executable targetfile="$INSTALL_PATH/lib/bacnet-stack/bin-linux/globalwi" stage="never" 
+			condition="izpack.linuxinstall"/>
+
+	    <!-- Examples -->
+	    <fileset dir="../examples" targetdir="$INSTALL_PATH/examples">
+              <exclude name="**/.svn"/>
+	      <exclude name="**/eplusou*"/>
+	      <exclude name="**/.csv"/>
+	      <exclude name="**/readvars.audit"/>
+	    </fileset>
+	    <!-- Make files executable -->
+	    <executable targetfile="$INSTALL_PATH/examples/c-room/cclient"                         stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/examples/c-timeSync/cclient"                     stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/examples/f90-room/f90client"                     stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/examples/multiRate-systemCommand/writeToConsole" stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/examples/systemCommand/pcontroller"              stage="never" os="unix"/> 
+        </pack>
+    </packs>
+
+</installation>

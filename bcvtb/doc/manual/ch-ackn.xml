@@ -1,0 +1,40 @@
+<chapter xml:id="acknowledgements">
+ <title>Acknowledgements</title>
+ <para>
+  This research was supported by the Assistant Secretary for
+  Energy Efficiency and Renewable Energy, Office of Building
+  Technologies of the U.S. Department of Energy, under
+  Contract No. DE-AC02-05CH11231.
+ </para>
+ <para>
+  Special thanks go to Prof. Edward A. Lee and Christopher
+  Brooks from the University of California at Berkeley for
+  their support in integrating the BCVTB functionality into
+  the Ptolemy II software. 
+ </para>
+ <para>
+   We thank:
+   <itemizedlist mark="none" spacing="compact">
+     <listitem><para>
+	 Gregor Henze, Charles
+	 Corbin, Anthony Florita and Peter May-Ostendorp from the
+	 University of Colorado at Boulder for their contributions
+	 to the MATLAB interface and the EnergyPlus 3.0 upgrade. 
+     </para></listitem>
+     <listitem><para>
+	 Rui Zhang from Carnegie Mellon for her contributions
+	 to the Windows configuration and the EnergyPlus 3.1
+	 upgrade. 
+     </para></listitem>
+     <listitem><para>
+	 Zhengwei Li from the Georgia Institute
+	 of Technology for the implementation of the BACnet
+	 interface.
+     </para></listitem>
+     <listitem><para>
+	 We thank Andrew McNeill from LBNL for providing the Radiance example.
+     </para></listitem>
+   </itemizedlist>
+   </para>
+ </chapter>
+ 

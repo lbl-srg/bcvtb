@@ -1,0 +1,324 @@
+<chapter xml:id="running">
+ <title>Running simulations with the BCVTB</title>
+ <section>
+  <title>Introduction</title>
+  <para>
+    This chapter describes how to run the BCVTB from a file 
+    explorer window or from the command line, using several command line
+   arguments. These command line arguments allow, for
+   example, to overwrite the values of parameters that are
+   defined in a Ptolemy II model or to run Ptolemy II in a
+   console mode that does not open any windows.
+  </para>
+  <para>
+    <note>
+      <para>
+	At start up, the BCVTB reads system environment
+	variables from the file
+	<code>bcvtb/bin/systemVariables-*.properties</code>,
+	where <code>*</code> is either <code>windows</code>,
+	<code>mac</code> or <code>linux</code>. This file
+	may need to be updated by the user 
+	to set system environment variables.
+	For a description of this file, see
+	<xref linkend="settingEnvironmentVariables"/>
+	.
+      </para>
+    </note>
+  </para>
+ </section>
+ <section>
+  <title>Running the BCVTB from an explorer window</title>
+  <para>
+   To run an example from an explorer window, double-click
+   the file <code>bcvtb/bin/BCVTB.jar</code>. This will open
+   a window. From the window, either select any of the
+   examples, or select from the pull-down menu the entry
+   <code>File -&gt; Open</code> and open, for example, the
+   file <code>bcvtb/examples/c-room/system.xml</code>
+  </para>
+  <para>
+   To run the example, press the button with the green
+   arrow. You should see an online plot showing the room
+   temperatures and control signals.
+  </para>
+  <para>
+   Note that some examples have a file
+   <code>system.xml</code> and
+   <code>system-windows.xml</code>. For these examples, use
+   the file <code>system-windows.xml</code> for Windows and
+   <code>system.xml</code> for Linux and Mac OS X.
+  </para>
+ </section>
+ <section>
+  <title>Running the BCVTB from a terminal window</title>
+  <para>
+   To run an example from a console (i.e., a dos-shell on
+   Windows or a terminal on Mac OS X or Linux), proceed as
+   follows:
+  </para>
+  <para>
+   Open a console and change to the directory
+   <code>bcvtb</code>.
+  </para>
+  <para>
+   Type, for example,
+  </para>
+<screen>java -jar bin/BCVTB.jar examples/c-room/system.xml</screen>
+  <para>
+   Note that some examples have a file
+   <code>system.xml</code> and
+   <code>system-windows.xml</code>. For these examples, use
+   the file <code>system-windows.xml</code> for Windows and
+   <code>system.xml</code> for Linux and Mac OS X.
+  </para>
+  <para>
+   To run the example, press the button with the green
+   arrow. You should see an online plot showing the room
+   temperatures and control signals.
+  </para>
+  <para>
+   The file <code>BCVTB.jar</code> can be run with several
+   optional flags which are described in
+   <xref linkend="tit-comLinArg"/>
+   .
+  </para>
+ </section>
+ <section xml:id="tit-comLinArg">
+  <title>Command line arguments</title>
+  <para>
+   To start the BCVTB from a console, type
+  </para>
+<screen>java -jar ["path_to_bcvtb/bin/"]BCVTB.jar [JVM_options] [BCVTB_options [-parameterName value]]</screen>
+  <para>
+   where <code>JVM_options</code> can be any Java Virtual
+   Machine options (type <code>java -h</code> for available
+   options), and <code>BCVTB_options</code> include:
+  </para>
+  <informaltable>
+   <tgroup cols="2">
+    <colspec colwidth="1*"/>
+    <colspec colwidth="2*"/>
+    <tbody>
+     <row>
+      <entry>
+       <para>
+        <code>-file fileName</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Open <code>fileName</code>, which must be a Ptolemy
+        II file. The flag <code>-file</code> is optional if
+        <code>fileName</code> is the last parameter.
+       </para>
+      </entry>
+     </row>
+     <row>
+      <entry>
+       <para>
+        <code>-run fileName</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Open <code>fileName</code>, which must be a Ptolemy
+        II file, run the program, and terminate.
+       </para>
+      </entry>
+     </row>
+     <row>
+      <entry>
+       <para>
+        <code>-console fileName</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Open <code>fileName</code>, which must be a Ptolemy
+        II file, run the program without opening any
+        windows, and terminate.
+       </para>
+      </entry>
+     </row>
+     <row>
+      <entry>
+       <para>
+        <code>-diagnostics</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Print all environment variables to the console
+        window.
+       </para>
+      </entry>
+     </row>
+     <row>
+      <entry>
+       <para>
+        <code>-command program flags</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Runs the executable <code>program</code> with the
+        flags <code>flags</code>. Any number of flags are
+        allowed. This allows for example to start a new
+        console that has the same environment variables as
+        any other program started by the BCVTB.
+       </para>
+      </entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </informaltable>
+  <para>
+   The optional argument <code>-parameterName value</code>
+   are model parameters and their values, such as
+   <code>-finalTime 3600</code>. Note that a hyphen must
+   precede the keyword <code>parameterName</code>.
+  </para>
+  <example>
+
+  <title>Examples for command line arguments</title>
+
+  <orderedlist>
+   <listitem>
+    <para>
+     To run the file <code>system.xml</code> and terminate
+     the BCVTB after the simulation, type
+    </para>
+<screen>java -jar BCVTB.jar -run system.xml</screen>
+    <para>
+     or, alternatively, type
+    </para>
+<screen>java -jar BCVTB.jar -file system.xml -run</screen>
+   </listitem>
+   <listitem>
+    <para>
+     To run <code>system.xml</code> as a console application
+     that does not open any windows, type
+    </para>
+<screen>java -jar BCVTB.jar -console system.xml</screen>
+   </listitem>
+   <listitem>
+    <para>
+     If the model <code>system.xml</code> has a top-level
+     parameter named <code>finalTime</code> and an actor
+     with name <code>Controller</code>, and
+     <code>Controller</code> contains a parameter named
+     <code>Kp</code> then
+    </para>
+<screen>java -jar BCVTB.jar -run system.xml -finalTime 86400 -Controller.Kp 10</screen>
+    <para>
+     runs the model <code>system.xml</code> up to
+     <code>finalTime=86400</code>, with the parameter
+     <code>Kp</code> of the controller set to
+     <code>10</code>.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     If Java runs out of memory, type
+    </para>
+<screen>java -jar BCVTB.jar -Xmx1024m system.xml</screen>
+    <para>
+     to run <code>system.xml</code> with increased Java heap
+     size.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     On Linux, to set environment variables and open a new
+     terminal that can be used to run the Apache Ant build
+     files (see
+     <xref linkend="tit-buiManSys"/>
+     ), type
+    </para>
+<screen>java -jar BCVTB.jar -command xterm</screen>
+   </listitem>
+  </orderedlist>
+
+  </example>
+ </section>
+ <section>
+  <title>Example files</title>
+  <para>
+   The directory <code>bcvtb/examples</code> contains
+   several example files that show how to use the BCVTB. In
+   these examples, the following programs are linked to the
+   BCVTB:
+  </para>
+  <itemizedlist>
+   <listitem>
+          EnergyPlus,
+        </listitem>
+   <listitem>
+          MATLAB,
+        </listitem>
+   <listitem>
+          Simulink,
+        </listitem>
+   <listitem>
+          Dymola,
+        </listitem>
+   <listitem>
+          a simulation program implemented in C,
+        </listitem>
+   <listitem>
+          a simulation program implemented in Fortran 90, and
+        </listitem>
+   <listitem>
+          a program written in the C language that is called at each time step with different program arguments.
+        </listitem>
+  </itemizedlist>
+  <para>
+   The C and Fortran 90 simulation programs are provided to
+   show developers how to couple a new program to the BCVTB.
+   The program that is called at each time step with
+   different program arguments shows how programs can be
+   called and how their output files can be parsed. The
+   BCVTB also contains examples that show how models of
+   control systems and of HVAC systems can be implemented
+   directly in Ptolemy II using Ptolemy II's graphical model
+   editor. The examples of control systems include a
+   heterogeneous system consisting of a discrete time
+   controller with a Finite State Machine.
+  </para>
+  <para>
+   One of the simplest examples can be found in the
+   directory <code>bcvtb/examples/c-room</code>. This
+   example illustrates the implementation of a simulation
+   program written in C that communicates with Ptolemy II
+   through BSD sockets. The simulation program computes the
+   temperature change in two rooms with different heat
+   capacities. Input to the simulation program is the vector
+   of control signals
+   <emphasis>u<subscript>k</subscript>
+   </emphasis>
+   . Output of the simulation program are the vector of new
+   room temperatures
+   <emphasis>T<subscript>k+1</subscript>
+   </emphasis>
+   . The control action is computed in Ptolemy II.
+   <xref linkend="ptolemyRoomC"/>
+   shows the Ptolemy II model.
+  </para>
+  <para>
+   <figure xml:id="ptolemyRoomC">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/configurationPtRoomC.png" format="PNG"/>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/configurationPtRoomC.pdf" format="PDF" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    System model that links Ptolemy II to a room model that is implemented in the C language.
+	    </title>
+   </figure>
+  </para>
+ </section>
+</chapter>

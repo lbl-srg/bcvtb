@@ -1,0 +1,1047 @@
+<chapter xml:id="development">
+  <title>Development</title>
+  <section>
+    <title>Introduction</title>
+    <para>
+      This chapter contains information that is of interest to
+      developers who compile or extend the BCVTB to provide new
+      functionalities, or who link additional simulation
+      programs to the BCVTB.
+    </para>
+  </section>
+  <section>
+    <title>Functional requirements</title>
+    <para>
+      The high level functional requirements for the BCVTB are:
+    </para>
+    <itemizedlist>
+      <listitem>
+    <para>
+     The BCVTB should be modular and simulation tool
+     independent so that different clients can be coupled to
+     it. Examples of clients are EnergyPlus, a
+     <ulink url="http://www.bacnet.org">BACnet</ulink>
+     compatible Building Automation System, MATLAB/Simulink,
+     simulation environments for Modelica and visualization
+     tools for the online plot of variables.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     For BACnet operation, the coupling should be fault
+     tolerant in the sense that clients can proceed with
+     their operation even if no updated values are available
+     from BACnet. This situation can occur if communication
+     problems prevent BACnet from sending updated values.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     The BCVTB should allow users to couple different
+     simulation programs or Building Automation Systems
+     without having to modify source code of the BCVTB.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+      The computing time for data transfer between simulation 
+      programs should be small compared to the computing 
+      time spent in the individual simulation programs 
+      when performing a co-simulation for a whole building.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     The BCVTB should allow communication using BSD sockets
+     or BACnet, and allow users to add other communication
+     mechanism as needed.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     The BCVTB should run on Windows, Linux and Mac OS X.
+    </para>
+   </listitem>
+  </itemizedlist>
+ </section>
+ <section xml:id="tit-sofReqDev">
+  <title>Software requirements</title>
+  <para>
+   The BCVTB has been compiled on Linux Ubuntu 10.04, 
+   Mac OS X 10.5 and Windows XP Professional.
+  </para>
+  <para>
+   To install the tools required for developing and
+   compiling the BCVTB, proceed first as described in
+   <xref linkend="tit-InstallationUser"/>
+   to install the BCVTB. Then, install the software
+   described below and compile the BCVTB.
+  </para>
+  <para>
+   For development, the following additional software need
+   to be installed.
+  </para>
+  <section>
+   <title>Linux</title>
+   <para>
+    Linux requires the Java Development Kit 5.0, Update 14
+    or higher, which may be obtained from
+    <ulink url="http://java.sun.com/javase/downloads/index.jsp"/>
+   </para>
+   <para>
+    Also required are the GNOME xml library, the expat
+    library, and the Doxygen source code documentation
+    generator tool. These programs can be installed by
+    typing in a shell
+   </para>
+   <screen>sudo apt-get install libxml2-dev libexpat-dev doxygen</screen>
+   <para>
+     To generate the documentation, the following packages are required
+   </para>
+   <screen>sudo apt-get install docbook docbook-xsl libsaxon-java libxalan2-java docbook-xsl-saxon dblatex</screen>
+  </section>
+  <section>
+   <title>Mac OS X</title>
+   <para>
+    The XCode development environment is needed, which
+    provides all required libraries as well as the required
+    Java Development Kit.
+   </para>
+   <para>
+    To generate source code documentation,
+    <ulink url="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</ulink>
+    is required.
+   </para>
+  </section>
+  <section>
+   <title>Windows</title>
+   <para>
+    The Java Development Kit is required. This may be
+    obtained from
+    <ulink url="http://java.sun.com/javase/downloads/index.jsp"/>
+    . Tested versions are version 5.0, update 14 and version
+    6, update 7. In the Windows Environment Variables
+    setting, you may want to set the <code>Path</code>
+    variable to <code>C:\Program
+    Files\Java\jdk1.6.0_06\bin;%Path%</code>
+   </para>
+   <para>
+    To generate source code documentation,
+    <ulink url="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</ulink>
+    is required.
+   </para>
+   <para>
+    To compile C code or MATLAB/Simulink programs,
+    <ulink url="http://www.microsoft.com/express/vc/">Microsoft Visual C++ Express 2008</ulink>
+    is required.
+   </para>
+   <para>
+    The Intel Fortran compiler can be used to compile and
+    link Fortran programs to the BCVTB libraries.
+   </para>
+   <para>
+    MATLAB/Simulink provides its own compiler. However, due
+    to compatibility problems with the BCVTB libraries, we
+    only support the Microsoft compiler. MATLAB/Simulink can
+    be configured to use the Microsoft compiler by typing at
+    the MATLAB prompt
+   </para>
+   <screen>mex -setup</screen>
+   <para>
+    This command will provide a list of available compilers,
+    from which the Microsoft compiler should be selected.
+    MATLAB will write the selection to its configuration
+    file; and hence the selection needs to be done only
+    once.
+   </para>
+  </section>
+ </section>
+ <!-- ************************************************************* -->
+ <section>
+   <title>Version control</title>
+   <para>
+   The BCVTB source code can be accessed using the
+   <ulink url="http://subversion.apache.org/">Subversion
+   </ulink>
+   version control system under
+   <ulink url="https://corbu.lbl.gov/svn/bcvtb/"/>
+   , and it is distributed with the installation program.
+  </para>
+  <para>
+   To obtain an account, email
+   <ulink url="mailto:MWetter@lbl.gov">MWetter@lbl.gov</ulink>
+   .
+  </para>
+  <para>
+   Please always keep the trunk of the repository in a
+   working condition and work on your own branch for
+   development and testing. Prior to committing changes to
+   the trunk, make sure that all unit tests work without an
+   error. How to run unit tests is described in
+   <xref linkend="tit-buiManSys"/>
+   .
+  </para>
+  <section>
+   <title>Checking out a version</title>
+   <para>
+     To check out a release, type
+   </para>
+   <screen>svn checkout https://corbu.lbl.gov/svn/bcvtb/tags/releases/0.1.0/bcvtb</screen>
+   <para>
+     To check out the trunk, type
+   </para>
+   <screen>svn checkout https://corbu.lbl.gov/svn/bcvtb/trunk/bcvtb</screen>
+  </section>
+  <section>
+    <title>Creating a branch</title>
+    <para>
+      For own development and testing, create a branch using
+    </para>
+    <screen>cd branches/[your_login]
+svn mkdir ../[your_login]/work
+svn copy https://corbu.lbl.gov/svn/bcvtb/trunk/bcvtb ../[your_login]/work
+svn co   ../[your_login] -m "Checked in working branch"</screen>
+   <para>
+    Prior to committing changes to the trunk, make sure that
+    all unit tests work without an error. How to run unit
+    tests is described in
+    <xref linkend="tit-buiManSys"/>
+    . If all unit tests work without an error, proceed as
+    follows:
+   </para>
+  </section>
+  <section>
+   <title>Merging</title>
+   <para>
+    To merge changes from your working branch to the trunk,
+    proceed as follows:
+   </para>
+     <orderedlist>
+       <listitem>
+	 <para>
+	   Do a dry run to see what happens:
+	 </para>
+<screen>mwetter@localhost:trunk$ svn merge --dry-run https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/branches/[your_login]/work ../trunk
+D    bcvtb/bin/file1.txt
+A    bcvtb/bin/file2.txt</screen>
+   <para>
+    Here, <code>file1.txt</code> will be deleted and
+    <code>file2.txt</code> will be added.
+   </para>
+   </listitem>
+   <listitem>
+   <para>
+    Merge the files:
+   </para>
+<screen>mwetter@localhost:trunk$ svn merge https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/branches/mwetter/work ../trunk
+D    bcvtb/bin/file1.txt
+A    bcvtb/bin/file2.txt</screen>
+   <para>
+    This updates the
+    <emphasis>local</emphasis>
+    copy of the repository.
+   </para>
+   </listitem>
+   <listitem>
+   <para>
+    Run the unit test by running from the
+    <code>bcvtb/example</code> directory the command
+<screen>ant unitTest</screen>
+   </para>
+   </listitem>
+   <listitem>
+   <para>
+    If successful, commit the changes in your local copy of
+    the trunk to the repository:
+<screen>mwetter@localhost:trunk$ svn commit -m "merged changes from mwetter/work branch to trunk"</screen>
+   </para>
+   </listitem>
+   <listitem>
+   <para>
+    If there are problems and you need to revert to the
+    latest copy of your local repository, type
+   </para>
+<screen>svn revert -R ../trunk</screen>
+   </listitem>
+     </orderedlist>
+  </section>
+  <section>
+   <title>Resources</title>
+   <para>
+    For SVN instructions, see the online book
+    <emphasis>Version Control with Subversion</emphasis>
+    :
+    <ulink url="http://svnbook.red-bean.com/nightly/en/index.html"/>
+   </para>
+   <para>
+    For SVN clients, see
+    <ulink url="http://subversion.tigris.org/project_packages.html"/>
+   </para>
+  </section>
+ </section>
+ <section xml:id="tit-updPto">
+  <title>Updating Ptolemy II</title>
+  <para>
+    The BCVTB is a combination of a subset of the Ptolemy II software package 
+    and code developed by LBNL.
+    This section explains how to update the subset of Ptolemy II that is 
+    used by the BCVTB. The process is the same for Linux and Mac OS X, and 
+    the files produced by this process will run on Linux, Mac OS X and Windows.
+  </para>
+  <para>
+    To update the subset of Ptolemy II that is used by the BCVTB,
+    proceed as follows:
+    <orderedlist>
+      <listitem>
+	<para>Download the Ptolemy II source code from
+    <ulink url="http://ptolemy.berkeley.edu/ptolemyII/ptII8.0/index.htm"/>
+    to a directory, say to <code>~/ptII-dev</code>.
+	</para>
+      </listitem>
+      <listitem>
+	<para>Compile Ptolemy II by typing
+	  <screen>cd ~/ptII-dev
+export PTII=`pwd`
+rm -f config.*
+./configure
+make fast install
+</screen>
+	</para>
+      </listitem>
+      <listitem>
+	<para>Go to the directory where the BCVTB is installed, and type
+	  <screen>export BCVTB_PTIISrc=$PTII
+ant updatePtolemyFiles
+export PTII=""
+</screen>
+	  This will copy the subset of Ptolemy II that is used by the BCVTB to the directory <code>bcvtb/lib/ptII/ptolemy</code>.
+The statement <code>export PTII=""</code> avoids that the Ptolemy II distribution in <code>~/ptII-dev</code> is used.
+	</para>
+      </listitem>
+      <listitem>
+	<para>Optionally, delete the directory <code>~/ptII-dev</code>.
+	</para>
+      </listitem>
+      </orderedlist>
+  </para>
+</section>
+ <section xml:id="tit-buiManSys">
+  <title>Compiling the BCVTB</title>
+  <para>
+   To compile the BCVTB and to run unit tests, the
+   <ulink url="http://ant.apache.org/">Apache Ant</ulink>
+   build tool is used.
+  </para>
+  <section>
+   <title>Compiling the BCVTB</title>
+   <para>
+    To compile the BCVTB, change to the BCVTB root directory
+    and proceed as follows:
+   </para>
+   <orderedlist numeration="arabic">
+    <listitem>
+            On Windows, double-click the file <code>bcvtb/bin/setDevelopmentEnvironment.bat</code>, or Linux and Mac, type <code>source bin/setDevelopmentEnvironment.sh</code>. This will detect your system configuration, set some environment variables, write the file <code>bcvtb/build.properties</code> and open a console.
+          </listitem>
+    <listitem>
+     <para>
+      To see a list with available targets, type
+<screen>ant -p</screen>
+     </para>
+    </listitem>
+    <listitem>
+            To delete old binary files and recompile the BCVTB, run
+            <screen>ant clean all</screen>
+     <para>
+      Note that this command can be run from any directory
+      in <code>bcvtb/lib</code> or in
+      <code>bcvtb/examples</code>. This allows a recursive
+      compilation of an individual directory and any of its
+      subdirectories.
+     </para>
+    </listitem>
+    <listitem>
+            To run unit tests, run
+            <screen>ant unitTest</screen>
+    </listitem>
+   </orderedlist>
+   <para>
+    If there are problems, more output can be obtained by
+    typing
+   </para>
+<screen>ant diagnostics</screen>
+   <para>
+    and by adding the flag <code>-v</code> to any ant
+    command.
+   </para>
+  </section>
+  <section>
+   <title>Custom configuration</title>
+   <para>
+    Ant reads two configuration files:
+    <code>build.properties</code> which is generated by
+    <code>bcvtb/bin/setDevelopmentEnvironment.bat</code> (on
+    Windows) and
+    <code>bcvtb/bin/setDevelopmentEnvironment.sh</code> (on
+    Mac OS X and Linux), and <code>user.properties</code>
+    which is not changed by any program. Any settings in
+    <code>user.properties</code> will overwrite the settings
+    in <code>build.properties</code>.
+   </para>
+   <para>
+    For example, when executing
+    <code>bcvtb/bin/setDevelopmentEnvironment.bat</code>,
+    the following line may be added to
+    <code>build.properties</code> if MATLAB is installed:
+   </para>
+<screen>haveMatlab=true</screen>
+   <para>
+    To overwrite this setting, specify in
+    <code>user.properties</code> a line of the form
+   </para>
+<screen>haveMatlab=false</screen>
+   <para>
+    This will tell the Ant build system that MATLAB is not
+    installed on this computer.
+   </para>
+  </section>
+ </section>
+ <section>
+  <title>Structure of the file system</title>
+  <para>
+   <xref linkend="tab-strFilSy"/>
+   shows the structure of the file system. Each directory
+   contains an Apache Ant build file called
+   <code>build.xml</code> that can be used to compile code
+   and run unit tests. These files recursively run targets
+   in all their subdirectories. See
+   <xref linkend="tit-buiManSys"/>
+   for details.
+  </para>
+  <para>
+   <table xml:id="tab-strFilSy" frame="all">
+    <title>Structure of the file system.</title>
+    <tgroup align="left" cols="2">
+     <colspec colnum="1" colwidth="1*"/>
+     <colspec colnum="2" colwidth="4*"/>
+     <thead>
+      <row>
+       <entry>Directory</entry>
+       <entry>Contents</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>bin</entry>
+       <entry>
+Scripts to set environment variables, the jar file that starts the BCVTB, and scripts to start the BCVTB or to start simulation programs.</entry>
+      </row>
+      <row>
+       <entry>doc</entry>
+       <entry>
+Documentation.</entry>
+      </row>
+      <row>
+       <entry>doc/code</entry>
+       <entry>
+Auto-generated source code documentation.</entry>
+      </row>
+      <row>
+       <entry>doc/manual</entry>
+       <entry>
+Source files, pdf and html files for manual.</entry>
+      </row>
+      <row>
+       <entry>examples</entry>
+       <entry>
+Example problems that are used to illustrate the use of the BCVTB and to conduct unit tests.</entry>
+      </row>
+      <row>
+       <entry>install</entry>
+       <entry>
+Files to build the installer.</entry>
+      </row>
+      <row>
+       <entry>lib</entry>
+       <entry>
+Library files that are used by various programs.</entry>
+      </row>
+      <row>
+       <entry>lib/apache-ant</entry>
+       <entry>
+Apache Ant build system that is used to compile the BCVTB.</entry>
+      </row>
+      <row>
+       <entry>lib/bacnet-stack</entry>
+       <entry>
+Source code and executables for the BACnet interface.</entry>
+      </row>
+      <row>
+       <entry>lib/config</entry>
+       <entry>
+Code for detecting the configuration on Windows systems.</entry>
+      </row>
+      <row>
+       <entry>lib/launcher</entry>
+       <entry>
+Code for building the jar file that launches the BCVTB.</entry>
+      </row>
+      <row>
+       <entry>lib/linux</entry>
+       <entry>
+Files that are used on Linux only. This directory contains, for example, the expat parser.</entry>
+      </row>
+      <row>
+       <entry>lib/matlab</entry>
+       <entry>
+MATLAB and Simulink source code and libraries that are needed to connect MATLAB and Simulink to Ptolemy II.</entry>
+      </row>
+      <row>
+       <entry>lib/modelica</entry>
+       <entry>
+C source code that is called by Modelica to link to Ptolemy II. The Modelica source code is distributed with the Buildings library.</entry>
+      </row>
+      <row>
+       <entry>lib/pt</entry>
+       <entry>
+Binaries of a subset of Ptolemy II that is used for the BCVTB.</entry>
+      </row>
+      <row>
+       <entry>lib/util</entry>
+       <entry>
+Code that implements the socket connection for the clients and the xml file parsing.</entry>
+      </row>
+      <row>
+       <entry>lib/windows</entry>
+       <entry>
+Files that are used on Windows only. This directory contains the C runtime library files that are needed by users who did not install the Microsoft Developer Studio. It also contains the expat xml parser.</entry>
+      </row>
+      <row>
+       <entry>lib/xml</entry>
+       <entry>
+Code to validate the xml file <code>variables.cfg</code>.
+</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </para>
+ </section>
+ <section>
+  <title>Running unit tests</title>
+  <para>
+   After making changes to the BCVTB source files, we
+   recommend to run all examples to ensure that no errors
+   have been introduced. This can be done by changing to the
+   <code>bcvtb</code> directory and typing
+  </para>
+<screen>ant clean all unitTest</screen>
+  <para>
+   If all examples work without errors, the console will
+   show the message <code>BUILD SUCCESSFUL</code>.
+  </para>
+ </section>
+ <section>
+  <title>Adding actors</title>
+  <para>
+   Users can add new actors in the form of a Java class to
+   the BCVTB. To add an actor, proceed as follows:
+  </para>
+  <orderedlist numeration="arabic">
+   <listitem>
+    <para>
+     Create a Ptolemy II actor in the directory
+     <code>bcvtb/lib/ptII/myActors</code>. This may be
+     easiest by copying and modifying an existing actor,
+     such as done in the example
+     <code>bcvtb/lib/ptII/myActors/MyRamp.java</code>. For
+     instructions about creating actors, see
+     <ulink url="http://www.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-28.pdf"/>
+     .
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     Edit the file
+     <code>bcvtb/lib/ptII/myActors/myActor.xml</code> to
+     include the new actor. This can be done by making a
+     copy of the existing line
+    </para>
+<programlisting language="xml">&lt;entity name="MyRamp" class="myActors.MyRamp"/&gt;</programlisting>
+    <para>
+     Edit the value of the <code>name</code> attribute
+     (which is the name of the Java file without extension)
+     and the <code>class</code> attribute (which is the Java
+     package name).
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     To compile the actor, type on a command shell
+    </para>
+<screen>cd bcvtb/lib/ptII/myActors
+ant all</screen>
+    <para>
+     After the compilation, the message <code>BUILD
+     SUCCESSFUL</code> should be displayed.
+    </para>
+   </listitem>
+  </orderedlist>
+  <para>
+   When the BCVTB is restarted, the new actor should be
+   displayed in the actor menu.
+  </para>
+ </section>
+<!-- Linking a simulation program -->
+ <section>
+   <title>Linking a simulation program to the BCVTB</title>
+   <para>
+     This section describes an example that illustrates how to link a simulation program to the BCVTB in such a way that they exchange data at a fixed time step through a BSD socket connection. We will consider a system with two rooms. Each room has a heater that is controlled by a proportional controller. We will implement the simulation program for the two rooms in a C program, and we will link it to a controller that is implemented in Ptolemy II. 
+   </para>
+   <para>
+     Let 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>k</mi><mo>&isin;</mo><mi>{1, 2, ...}</mi>
+     </math>
+     denote equally spaced time steps and let
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>i</mi><mo>&isin;</mo><mi>{1, 2}</mi>
+     </math> denote the number of the room. For the 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>k</mi>
+     </math>-th time step and the room number 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>i</mi>
+     </math>,
+     let 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msup>
+	 <mi>T</mi>
+	 <mi>i</mi>
+       </msup>
+       <mrow>
+	 <mo maxsize="1.00em">(</mo>
+	 <mi>k</mi>
+	 <mo maxsize="1.00em">)</mo>
+       </mrow>
+     </math>
+     denote the room temperature and let 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <msup>
+	<mi>u</mi>
+	<mi>i</mi>
+      </msup>
+      <mrow>
+	<mo>(</mo>
+	<mi>k</mi>
+	<mo>)</mo>
+      </mrow>
+     </math>
+     denote the control signal for the heater. The room temperature is governed by
+     <informalequation>
+       <math xmlns="http://www.w3.org/1998/Math/MathML">
+	 <mrow>
+	   <msup>
+	     <mi>T</mi>
+	     <mi>i</mi>
+	   </msup>
+	   <mrow>
+	     <mo maxsize="1.00em">(</mo>
+	     <mi>k</mi>
+	     <mo>+</mo>
+	     <mn>1</mn>
+	     <mo maxsize="1.00em">)</mo>
+	   </mrow>
+	   <mo>=</mo>
+	   <msup>
+	     <mi>T</mi>
+	     <mi>i</mi>
+	   </msup>
+	   <mrow>
+	     <mo maxsize="1.00em">(</mo>
+	     <mi>k</mi>
+	     <mo maxsize="1.00em">)</mo>
+	   </mrow>
+	   <mo>+</mo>
+	   <mfrac linethickness="1">
+	     <mrow>
+	       <mi>&Delta;</mi>
+	       <mi>t</mi>
+	     </mrow>
+	     <mrow>
+	       <msup>
+		 <mi>C</mi>
+		 <mi>i</mi>
+	       </msup>
+	     </mrow>
+	   </mfrac>
+	   <mspace width="0.167em" />
+	   <msup>
+	     <mrow>
+	       <mo maxsize="1.00em">(</mo>
+	       <mi>U</mi>
+	       <mi>A</mi>
+	       <mo maxsize="1.00em">)</mo>
+	     </mrow>
+	     <mi>i</mi>
+	   </msup>
+	   <mspace width="0.167em" />
+	   <mrow>
+	     <mo maxsize="1.00em">(</mo>
+	     <msub>
+	       <mi>T</mi>
+	       <mrow>
+		 <mi>o</mi>
+		 <mi>u</mi>
+		 <mi>t</mi>
+	       </mrow>
+	     </msub>
+	     <mo>-</mo>
+	     <msup>
+	       <mi>T</mi>
+	       <mi>i</mi>
+	     </msup>
+	     <mo maxsize="1.00em">(</mo>
+	     <mi>k</mi>
+	     <mo maxsize="1.00em">)</mo>
+	     <mo maxsize="1.00em">)</mo>
+	   </mrow>
+	   <mo>+</mo>
+	   <mfrac linethickness="1">
+	     <mrow>
+	       <mi>&Delta;</mi>
+	       <mi>t</mi>
+	     </mrow>
+	     <mrow>
+	       <msup>
+		 <mi>C</mi>
+		 <mi>i</mi>
+	       </msup>
+	     </mrow>
+	   </mfrac>
+	   <mspace width="0.167em" />
+	   <msubsup>
+	     <mi>Q</mi>
+	     <mn>0</mn>
+	     <mi>i</mi>
+	   </msubsup>
+	   <mspace width="0.167em" />
+	   <msup>
+	     <mi>u</mi>
+	     <mi>i</mi>
+	   </msup>
+	   <mrow>
+	     <mo maxsize="1.00em">(</mo>
+	     <mi>k</mi>
+	     <mo maxsize="1.00em">)</mo>
+	   </mrow>
+	   <mo>,</mo>
+	 </mrow>
+       </math>
+     </informalequation>
+     with initial conditions
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msup>
+	 <mi>T</mi>
+	 <mi>i</mi>
+       </msup>
+       <mrow>
+	 <mo maxsize="1.00em">(</mo>
+	 <mn>0</mn>
+	 <mo maxsize="1.00em">)</mo>
+       </mrow>
+       <mo>=</mo>
+       <msubsup>
+	 <mi>T</mi>
+	 <mn>0</mn>
+	 <mi>i</mi>
+       </msubsup>
+       <mo>,</mo>
+     </math>
+     where 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>&Delta; t</mi>
+     </math>
+     is the time interval, 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msup>
+	 <mi>C</mi><mi>i</mi>
+       </msup>
+     </math>
+     is the room thermal capacity, 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msup>
+	 <mi>(UA)</mi><mi>i</mi>
+       </msup>
+     </math>
+     is the room heat loss coefficient, 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msub>
+	 <mi>T</mi><mi>out</mi>
+       </msub>
+     </math>
+     is the outside temperature, 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msubsup>
+	 <mi>Q</mi><mi>0</mi><mi>i</mi>
+       </msubsup>
+     </math>
+     is the nominal capacity of the heater and 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msubsup>
+	 <mi>T</mi><mi>0</mi><mi>i</mi>
+       </msubsup>
+     </math>
+     is the initial temperature. In these equations, we assumed that the communication time step is small enough to be used as the integration time step. If this is not the case, we could use a different integration time step and synchronize the integration time step with the communication time step.
+   </para>
+   <para>
+     The governing equation for the control signal is
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mrow>
+	 <msup>
+	   <mi>u</mi>
+	   <mi>i</mi>
+	 </msup>
+	 <mrow>
+	   <mo maxsize="1.00em">(</mo>
+	   <mi>k</mi>
+	   <mo>+</mo>
+	   <mn>1</mn>
+	   <mo maxsize="1.00em">)</mo>
+	 </mrow>
+	 <mo>=</mo>
+	 <mi>min</mi>
+	 <mo minsize="1.50em">(</mo>
+	 <mn>1</mn>
+	 <mo>,</mo>
+	 <mspace width="0.167em" />
+	 <mi>max</mi>
+	 <mo minsize="1.3em">(</mo>
+	 <mn>0</mn>
+	 <mo>,</mo>
+	 <mspace width="0.167em" />
+	 <msup>
+	   <mi>&gamma;</mi>
+	   <mi>i</mi>
+	 </msup>
+	 <mspace width="0.167em" />
+	 <mrow>
+	   <mo maxsize="1.00em">(</mo>
+	   <msubsup>
+	     <mi>T</mi>
+	     <mrow>
+	       <mi>s</mi>
+	       <mi>e</mi>
+	       <mi>t</mi>
+	     </mrow>
+	     <mi>i</mi>
+	   </msubsup>
+	   <mo>-</mo>
+	   <msup>
+	     <mi>T</mi>
+	     <mi>i</mi>
+	   </msup>
+	   <mo maxsize="1.00em">(</mo>
+	   <mi>k</mi>
+	   <mo maxsize="1.00em">)</mo>
+	   <mo maxsize="1.00em">)</mo>
+	 </mrow>
+	 <mo minsize="1.3em">)</mo>
+	 <mo minsize="1.50em">)</mo>
+	 <mo>,</mo>
+       </mrow>
+     </math>
+     where 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msup>
+	 <mi>&gamma;</mi><mi>i</mi>
+       </msup>
+       <mo minsize="1.50em">&gt;</mo>
+       <mi>0</mi>
+     </math>
+     is the proportional gain, 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <msubsup>
+	 <mi>T</mi><mi>set</mi><mi>i</mi>
+       </msubsup>
+     </math>
+     is the set point temperature and the 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>min</mi>
+       <mo>(</mo>
+       <mo>&sdot;</mo>
+       <mo>,</mo>
+       <mo>&sdot;</mo>
+       <mo>)</mo>
+     </math>
+     and
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>max</mi>
+       <mo>(</mo>
+       <mo>&sdot;</mo>
+       <mo>,</mo>
+       <mo>&sdot;</mo>
+       <mo>)</mo>
+     </math>
+     functions limit the control signal between 
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>0</mi>
+     </math>
+     and
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>1</mi>
+     </math>.
+   </para>
+   <para>
+     <xref linkend="exaRooCSou"/> shows a source code snippet of the implemented client. This source code can be found in the directory <code>bcvtb/examples/c-room</code>. A similar implementation in Fortran 90 can be found in the directory <code>bcvtb/examples/f90-room</code>.
+     <figure xml:id="exaRooCSou">
+       <programlisting language="C" linenumbering="numbered">// Establish the client socket
+  const int sockfd = establishclientsocket("socket.cfg");
+  if (sockfd &lt; 0){
+    fprintf(stderr,"Error: Failed to obtain socket file descriptor.\n");
+    exit((sockfd)+100);  }
+  // Simulation loop
+  while(1){
+    // assign values to be exchanged
+    for(i=0; i &lt; nDblWri; i++)  dblValWri[i]=TRoo[i];
+    // Exchange values
+     retVal = exchangedoubleswithsocket(&amp;sockfd, &amp;flaWri, &amp;flaRea,
+				       &amp;nDblWri, &amp;nDblRea,
+				       &amp;simTimWri, dblValWri, 
+				       &amp;simTimRea, dblValRea);
+    /////////////////////////////////////////////////////////////
+    // Check flags
+    if (retVal &lt; 0){
+      sendclientmessage(&amp;sockfd, &amp;cliErrFla);
+      printf("Simulator received value %d from socket.\n", retVal);
+      closeipc(&amp;sockfd);    exit((retVal)+100);  }
+    if (flaRea == 1){
+      printf("Simulator received end of simulation signal.\n");
+      closeipc(&amp;sockfd);    exit(0);  }
+    if (flaRea != 0){
+      printf("Simulator received flag = %d. Exit simulation.\n", flaRea);
+      closeipc(&amp;sockfd);    exit(1);  }
+    /////////////////////////////////////////////////////////////
+    // No flags found that require the simulation to terminate. 
+    // Assign exchanged variables
+    for(i=0; i &lt; nRoo; i++)
+      u[i] = dblValRea[i];
+    /////////////////////////////////////////////////////////////
+    // Having obtained u_k, we compute the new state x_k+1 = f(u_k).
+    // This is the actual simulation time step of the client
+    for(i=0; i &lt; nRoo; i++)
+      TRoo[i] = TRoo[i] + delTim/C[i] * ( UA * (TOut-TRoo[i] ) 
+                + Q0Hea * u[i] );
+    simTimWri += delTim; // advance simulation time
+  } // end of simulation loop</programlisting>
+       <title>Source code for a model of two rooms that is implemented in the C language.</title>
+     </figure>
+     There are three functions that interface the client with the BCVTB: The function call 
+     <code>establishclientsocket</code> establishes the socket connection from the client to the middleware. The return value is an integer that references the socket. This descriptor is then used on line 11 as an argument to the function call <code>exchangedoubleswithsocket</code>. This function writes data to the socket and reads data from the socket. Its arguments are the socket file descriptor, a flag to send a signal to the middleware (a non-zero value means that the client will stop its simulation) and a flag received from the middleware (a non-zero value indicates that no further values will be written to or read from the socket by the client). The remaining arguments are the array lengths and the array data to be written to and read from the middleware. After the call to 
+     <code>exchangedoubleswithsocket</code> follows error handling. 
+     The test <code>retVal &lt; 0</code> checks for errors during the communication. 
+     If there was an error, then a message is sent to the server to indicate that the client will terminate the co-simulation. Finally, the socket connection is closed by calling <code>closeipc</code>.
+   </para>
+   <para>
+     To compile the source code,  type on a command shell
+   </para>
+   <screen>cd bcvtb/examples/c-room
+ant all</screen>
+   <para>
+     This will invoke the ant build system, which calls the file <code>bcvtb/examples/c-room/build.xml</code> that contains the compiler and linker commands.
+   </para>
+   <para>
+     To simulate this example, we implemented the controller directly in the middleware, using actors from the Ptolemy II library. 
+     However, the controller could as well be implemented in Modelica, MATLAB, Simulink or in a user written program that communicates through a BSD socket similarly to the C client above. 
+     <xref linkend="figDevCRoom"/> shows the system diagram with the actor for the controller and the actor that interfaces the simulation program.
+   </para>
+   <para>
+     <figure xml:id="figDevCRoom">
+       <mediaobject>
+	 <imageobject role="html">
+	   <imagedata fileref="img/devCRoom.png" format="PNG" scale="75"/>
+	 </imageobject>
+	 <imageobject role="dblatex">
+	   <imagedata fileref="img/devCRoom.pdf" format="PDF" scalefit="1"/>
+	 </imageobject>
+       </mediaobject>
+       <title>
+	 Ptolemy II system model that connects a model of a controller and a room.
+       </title>
+     </figure>
+   </para>
+ </section>
+<!-- Data exchange -->
+<section>
+   <title>Data exchange between Ptolemy II and programs that are started by the Simulator actor</title>
+   <para>
+     Simulation programs that are started by the <code>Simulator</code> actor 
+     exchange data with Ptolemy II through a BSD socket connection.
+     Each simulation program has its own socket connection.
+     The exchange data is parsed into a text string, and this text string is 
+     sent from the simulation program to the <code>Simulator</code> actor,
+     and from the <code>Simulator</code> actor to the simulation program.
+   </para>
+   <para>
+     The text string has the following format:
+     <programlisting>a b c d e f g_1 g_2</programlisting>
+     where <code>a</code> is the version number
+     that is defined by the constant <code>MAINVERSION</code>
+     in <code>lib/defines.h</code> and
+     <code>b</code> is a flag that is defined in
+     <xref linkend="tab-socketFlag"/>. What follows are
+     the number of variables that are exchanged. In particular, 
+     <code>c</code> is the number of doubles, 
+     <code>d</code> is the number of integers and
+     <code>e</code> is the number of booleans that will be exchanged.
+     Currently, <code>d</code> and <code>e</code> need to be set to
+     <code>0</code>.
+     Next, <code>f</code> is the current simulation time in seconds.
+     The remaining entries <code>g_1</code>, <code>g_2</code> up to
+     <code>g_c</code> are the double values. 
+     The string is terminated by the character <code>\n</code>.
+   </para>
+   <para>
+     The flag <code>b</code> is defined as follows:
+     <table frame="all" xml:id="tab-socketFlag">
+       <title>Definition of flag of BSD Socket message</title>
+       <tgroup align="left" cols="2">
+        <thead>
+         <row>
+          <entry>Flag</entry>
+          <entry>Description</entry>
+         </row>
+        </thead>
+        <tbody>
+         <row>
+          <entry>+1</entry>
+	  <entry>Simulation reached end time.</entry>
+	 </row>
+         <row>
+          <entry>0</entry>
+	  <entry>Normal operation.</entry>
+	 </row>
+         <row>
+          <entry>-1</entry>
+	  <entry>Simulation terminated due to an unspecified error.</entry>
+	 </row>
+         <row>
+          <entry>-10</entry>
+	  <entry>Simulation terminated due to an error during the initialization.</entry>
+	 </row>
+         <row>
+          <entry>-20</entry>
+	  <entry>Simulation terminated due to an error during the time integration.</entry>
+	 </row>
+	</tbody>
+	</tgroup>
+     </table>
+   </para>
+   <para>
+     An example where 2 values are sent at time equals 60 looks like
+     <screen>2 0 2 0 0 6.000000000000000e+01 9.958333333333334e+00 9.979166666666666e+00</screen>
+     To stop a simulation program because the final time has been reached, send the
+     following string:
+     <screen>2 1 0 0 0</screen>
+   </para>
+</section>
+</chapter>

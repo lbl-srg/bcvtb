@@ -1,0 +1,69 @@
+Checklist of BCVTB release
+**************************
+
+Run
+source bin/setDevelopmentEnvironment.sh 
+
+Check lib/defines.h
+The section should be
+/** \val Debug flag, uncomment to enable debug messages 
+#ifndef NDEBUG 
+#define NDEBUG 
+#endif
+*/
+
+Make sure user.properties has no assignments.
+
+
+Update version number in 
+ - build-common.xml    ( <property name="VERSION"  value="0.3.0-pre-release"/> )
+ - install/install.xml ( <appversion>0.3.0-pre-release</appversion> )
+
+
+Update Ptolemy files (to write version number into Ptolemy)
+ ant updatePtolemyFiles
+
+ - Commit changes
+    svn commit -m "Updated version number"
+
+Run 
+  cleanfilesystem
+
+From Linux, run
+  ant clean cleandoc doc
+
+To build the release, run from Windows (or Linux or Mac)
+  ant clean all
+  (This will compile the Windows/Linux/Mac binaries)
+
+From Linux, run one of the commands:
+  ant dist             [to make distribution for all]
+  ant dist-bcvtb       [to make distribution for bcvtb only]
+  ant dist-EnergyPlus  [to make distribution for EnergyPlus only]
+  
+Rename file bcvtb-install-x.y.z.jar to 
+   bcvtb-install-win32-x.y.z.jar
+   bcvtb-install-linux32-x.y.z.jar
+   bcvtb-install-mac64-x.y.z.jar
+
+Make new directory
+ssh mwetter@gundog
+cd /usr/local/www/data/bcvtb/releases
+mkdir x.y.z
+exit
+
+run 
+cd install
+scp bcvtb-install-x.y.z.jar mwetter@gundog:/usr/local/www/data/bcvtb/releases/x.y.z/
+
+To copy the documentation, run
+cd doc
+ant dist
+
+Next, log in to gundog, and change the symbolic link:
+cd /usr/local/www/data/bcvtb
+ln -s releases/x.y.z latest
+
+----
+To make tag, run 
+svn cp https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/tags/releases/x.y.z -m "Created release x.y.z"
