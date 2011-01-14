@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="bcvtb" default="all"> 
+<import file="../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir="util"                        target="clean"/>
+    <ant dir="modelica"                    target="clean"/>
+    <ant dir="matlab"                      target="clean"/>
+    <ant dir="config"                      target="clean"/>
+    <ant dir="xml"                         target="clean"/>
+    <delete dir=".">
+      <include name="**/history.xml"/>
+      <include name="**/dependencies.xml"/>
+      <include name="**/simulation.log"/>
+      <include name="**/simulation.log"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" description="Runs all targets">
+    <ant dir="util"             target="all"/>
+    <ant dir="modelica"         target="all"/>
+    <ant dir="matlab"           target="all"/>
+    <ant dir="config"           target="all"/>
+    <ant dir="xml"              target="all"/>
+  </target>
+  
+</project>
