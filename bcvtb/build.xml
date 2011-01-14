@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="bcvtb" default="all"> 
+<import file="build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir="lib/LBNLActors"                  target="clean"/>
+    <ant dir="lib/util"                        target="clean"/>
+    <ant dir="lib/modelica"                    target="clean"/>
+    <ant dir="lib/matlab"                      target="clean"/>
+    <ant dir="lib/config"                      target="clean"/>
+    <ant dir="doc"                             target="clean"/>
+    <ant dir="examples/f90-room"               target="clean"/>
+    <ant dir="examples/c-room"                 target="clean"/>
+    <ant dir="examples/c-timeSync"             target="clean"/>
+    <ant dir="examples/ptolemy-room"           target="clean"/>
+    <ant dir="examples/matlab-room"            target="clean"/>
+    <ant dir="examples/simulink-room"          target="clean"/>
+    <ant dir="examples/dymola-room"            target="clean"/>
+    <ant dir="examples/ePlus21-simple"         target="clean"/>
+    <ant dir="examples/ePlus21Simulink-simple" target="clean"/>
+    <ant dir="examples/ePlus21Simulink-natVen" target="clean"/>
+    <ant dir="examples/ePlus31-simple"         target="clean"/>
+    <ant dir="examples/ePlus31Simulink-simple" target="clean"/>
+    <ant dir="examples/ePlus31Ptolemy-vav"     target="clean"/>
+    <delete dir=".">
+      <include name="**/history.xml"/>
+      <include name="**/dependencies.xml"/>
+      <include name="**/simulation.log"/>
+      <include name="**/simulation.log"/>
+    </delete>
+  </target>
+
+  <!-- Test -->
+  <target name="test" description="Test">
+    <ant dir="lib/util"    target="all"/>
+    <ant dir="examples/f90-room"    target="all"/>
+  </target>  
+
+  <!-- All -->
+  <target name="all" description="Runs all targets">
+    <!-- Update build information -->
+    <propertyfile file="buildinfo.properties"
+		  comment="Build Information File - DO NOT CHANGE">
+      <entry key="build.num"
+	     type="int" default="0000"
+	     operation="+" pattern="0000"/>
+      <entry key="build.date"
+	     type="date"
+	     value="now"
+	     pattern="yyyy-dd-MM HH:mm"/>
+    </propertyfile>
+
+    <ant dir="lib/LBNLActors"    target="all"/>
+    <ant dir="lib/util"          target="all"/>
+    <ant dir="lib/modelica"      target="all"/>
+    <ant dir="lib/matlab"        target="all"/>
+    <ant dir="lib/config"        target="all"/>
+    <ant dir="examples/c-room"    target="all"/>
+    <ant dir="examples/c-timeSync" target="all"/>
+    <ant dir="examples/f90-room"  target="all"/>
+  </target>
+  
+  <!-- Unit tests -->
+  <target name="unitTest" description="Runs unit tests">
+    <ant dir="examples/c-room"                 target="unitTest"/>
+    <ant dir="examples/f90-room"               target="unitTest"/>
+    <ant dir="examples/c-timeSync"             target="unitTest"/>
+    <ant dir="examples/matlab-room"            target="unitTest"/>
+    <ant dir="examples/simulink-room"          target="unitTest"/>
+    <ant dir="examples/dymola-room"            target="unitTest"/>
+    <ant dir="examples/ePlus31-simple"         target="unitTest"/>
+    <ant dir="examples/ePlus31Simulink-simple" target="unitTest"/>
+    <ant dir="examples/ePlus31Ptolemy-vav"    target="unitTest"/>
+    <ant dir="examples/ptolemy-room"           target="unitTest"/>
+  </target>
+  
+  <!-- Generates doxygen code documentation -->
+  <target name="doc" description="Generates the code documentation">
+    <ant dir="doc"   target="doc"/>
+  </target>
+
+  <!-- Builds distribution file -->
+  <target name="dist" description="Builds the distribution files">
+    <ant dir="install" target="all"/>
+  </target>
+
+</project>

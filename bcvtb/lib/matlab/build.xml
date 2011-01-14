@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="simulink" default="all">
+  <import file="../../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <delete verbose="true">
+      <fileset dir="." includes="*.mexglx,*.mexw32,*.mexmaci"/>
+      <fileset dir="." includes="establishBSDSocket.c"/>
+      <fileset dir="." includes="exchangeDoublesWithBSDSocket.c"/>
+      <fileset dir="." includes="closeBSDSocket.c"/>
+      <fileset dir="." includes="bcvtb.m"/>
+      <fileset dir="." includes="matlab.log"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" if="have.matlab" description="Builds Simulink interface">
+    <exec executable="matlab" failonerror="true">
+      <!-- -wait is a windows option, but it does no harm on Mac and Linux -->
+      <arg line="-nojvm -nodesktop -nosplash -logfile matlab.log -wait -r compile"/>
+    </exec>
+  </target>
+  
+</project>

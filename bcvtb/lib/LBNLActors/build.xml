@@ -1,0 +1,45 @@
+<project name="LBNLActors" default="build">
+  <import file="../../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <delete verbose="true">
+      <fileset dir="." includes="**/*.class"/>
+    </delete>
+    <delete dir="${env.PTII}/LBNLActors"/>
+  </target>
+  
+  <!-- Build -->
+  <target name="build" depends="compile,copyClass" description="Builds the libraries"/>
+
+  <!-- Compiles source -->
+  <target name="compile" description="Builds the Java files and makes jar file">
+    <javac sourcepath="" srcdir="." destdir="..">
+      <include name="**/*.java"/>
+    </javac>
+<!--    <jar destfile="LBNLActors.jar" basedir=".." includes="**/*.class"/>
+    <delete verbose="true">
+      <fileset dir="." includes="**/*.class"/>
+    </delete> -->
+  </target>
+
+  <!-- Copy class files (Windows only).
+       This task is needed only for Windows because the class files
+       need to be in the Ptolemy directory.
+       Otherwise, Ptolemy won't find the actor.
+       This task makes a copy so that the class files remain in this
+       directory. This is needed for the Windows installation because
+       the first time Ptolemy runs, the class files are copied so that Ptolemy
+       can find them.
+    -->
+  <target name="copyClass" description="Copies class files to Ptolemy folder" if="windows">
+    <!--    <move file="LBNLActors.jar" todir="${env.PTII}" verbose="true"/>  -->
+    <copy todir="${env.PTII}/LBNLActors" verbose="true">
+      <fileset dir="." includes="**/*.class"/>
+    </copy>
+  </target>
+
+  <!-- All -->
+  <target name="all" depends="build" description="Runs all targets"/>
+  
+</project>

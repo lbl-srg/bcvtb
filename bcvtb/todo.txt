@@ -1,0 +1,54 @@
+Porting E+ 3.1
+--------------
+
+Add Schedule:Compact
+
+Documentation
+-------------
+-
+
+Installation
+------------
+Check ant build systems for ptolemy:
+http://ptolemy.eecs.berkeley.edu/~ptII/ptolemyII/ptIIlatest/ptII/doc/coding/index.htm
+
+Configuration
+-------------
+-
+
+Coding
+------
+
+-- Ptolemy --
+
+Implement client response as soon as socket can be established because now it can take a long time until EnergyPlus warmed up and responds.
+
+Look into using xpath instead of libxml2, depending on native support on Mac, Linux and Windows.
+
+See if _writeToServer can be called prior to fire; as the CPU time is primarily consumed in clients between _writeToServer and _readFromServer
+
+Under Ubuntu 7.04, the following command freezes the shell after E+ completed. Maybe the buffer is not flushed?
+cd examples/ePlusNatVen
+ptexecute system.xml
+
+Copy variables.xml to working directory.
+
+Can variables.xml be used to check for correct number of input and output of Actor?
+
+Make editor for variables.xml
+
+-- E+ --
+
+Add E+ compact schedule.
+
+Integrate with
+  - user functions
+  - EMS
+
+Address the issue that a user may try to run a design day simulation in E+. 
+Maybe include special actors, i.e., for E+, for Simulink etc., to facilitate the use of the BCVTB and the setup of the simulation, and/or catch situation in E+ source.
+
+-- Matlab --
+Simulink interface: catch situation where we read too many double values.
+
+

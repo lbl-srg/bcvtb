@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<!-- 
+    BCVTB installation file.
+    To compile it, run 
+    cd xyz/bcvtb
+    make dist
+
+    To manually run this file, 
+    call "[path to IzPack/]compile install.xml -b . -o bcvtb-install.jar"
+-->
+
+<installation version="1.0">
+    <!-- 
+        The info section.
+    -->
+    <info>
+        <appname>Building Controls Virtual Test Bed</appname>
+        <appversion>0.2.0</appversion>
+	<appsubpath>bcvtb</appsubpath>
+	<javaversion>1.5</javaversion>
+        <authors>
+            <author name="Michael Wetter" email="MWetter@lbl.gov"/>
+            <author name="Philip Haves"   email="PHaves@lbl.gov"/>
+            <author name="Rui Zhang"      email="RuiZhang@lbl.gov"/>
+        </authors>
+        <url>https://gaia.lbl.gov/bcvtb</url>
+        <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
+    </info>
+
+    <variables>
+      <variable name="desktopshortcutcheckboxenabled" value="false"/>
+    </variables>    
+
+<guiprefs width="640" height="640" resizable="no">
+        <laf name="looks">
+            <os family="unix" />
+            <param name="variant" value="plastic3D" />
+        </laf>
+  <modifier key="useButtonIcons" value="yes"/>
+  <modifier key="useLabelIcons" value="yes"/>
+  <modifier key="labelGap" value="2"/>
+  <modifier key="layoutAnchor" value="NORTHWEST"/>
+  <modifier key="useHeadingPanel" value="yes"/>
+  <modifier key="headingLineCount" value="1"/>
+  <modifier key="headingFontSize" value="1.5"/>
+  <modifier key="headingBackgroundColor" value="0x00ffffff"/>
+  <modifier key="headingPanelCounter" value="progressbar"/>
+  <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+</guiprefs>
+
+
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+
+    <!-- 
+        The resources section.
+        The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+    -->
+    <resources>
+        <res id="HTMLLicencePanel.licence" src="../legal.html"/>
+        <res id="HTMLInfoPanel.info" src="info.html"/>
+  <!--  <res id="InstallPanel.info" src="InstallInstruction.txt"/> does not yet work -->
+	<res id="Heading.image" src="lbl_logo.png" />
+  <!--  <res id="ProcessPanel.Spec.xml" src="processPanelSpec.xml"/> -->
+    </resources>
+    
+    <!-- 
+        The panels section.
+        We indicate here which panels we want to use. The order will be respected.
+    -->
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="HTMLInfoPanel"/>
+        <panel classname="HTMLLicencePanel"/>
+        <panel classname="TargetPanel"/> 
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+  <listeners>
+      <listener installer="SummaryLoggerInstallerListener">
+          <os family="windows"/>
+      </listener>
+  </listeners>
+
+    <!-- Software packs to be installed -->
+    <packs>
+    <!-- Basic files for BCVTB -->
+        <pack name="Base" required="yes">
+            <description>Basic files needed for the Building Controls Virtual Test Bed, including examples.</description>
+            <file src="../legal.html" targetdir="$INSTALL_PATH"/>
+            <fileset dir="../doc" targetdir="$INSTALL_PATH/doc">
+                <exclude name="**/.svn"/>
+            </fileset>
+            <fileset dir="../lib" targetdir="$INSTALL_PATH/lib">
+                <exclude name="**/.svn"/>
+	    </fileset>
+            <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
+                <exclude name="**/.svn"/>
+	    </fileset>
+	    <!-- Unix only -->
+            <fileset dir="../lib-ubuntu-7.10" targetdir="$INSTALL_PATH/lib-ubuntu-7.10" os="unix">
+                <exclude name="**/.svn"/>
+            </fileset>
+         <!--   <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="unix"/> -->
+	 <!--   <executable targetfile="$INSTALL_PATH/makeShExecutable.sh" 
+                 stage="postinstall" os="unix"/>  -->
+
+	    <!-- Mac only -->
+        <!--    <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="mac"/>
+	    <executable targetfile="$INSTALL_PATH/makeShExecutable.sh" 
+                 stage="postinstall" os="mac"/>  -->
+
+	    <!-- Windows only -->
+            <fileset dir="../lib-windows"  targetdir="$INSTALL_PATH/lib-windows" os="windows">
+                <exclude name="**/.svn"/>
+            </fileset>
+	  <!--  <file src="PostProcessCygwin.class" targetdir="$INSTALL_PATH" os="windows"/>  -->
+	  <!--  <file src="postInstall.bat" targetdir="$INSTALL_PATH" os="windows"/> -->
+
+	    <!-- all OS -->
+            <file src="../build.xml"        targetdir="$INSTALL_PATH"/>
+            <file src="../build-common.xml" targetdir="$INSTALL_PATH"/>
+            <file src="../bcvtb.lnk"        targetdir="$INSTALL_PATH"/>
+	    <!-- bin directory -->
+	    <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
+              <exclude name="**/.svn"/>
+	    </fileset>
+	    <!-- Make files executable -->
+	    <executable targetfile="$INSTALL_PATH/bin/setenv.sh"             stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/bin/updateSystemFiles.sh"  stage="never"/>
+
+	    <!-- Examples -->
+	    <fileset dir="../examples" targetdir="$INSTALL_PATH/examples">
+              <exclude name="**/.svn"/>
+	      <exclude name="**/eplusou*"/>
+	      <exclude name="**/.csv"/>
+	      <exclude name="**/readvars.audit"/>
+	    </fileset>
+        </pack>
+
+    <!-- Ptolemy II for Linux and Mac 
+    <pack name="Ptolemy II Linux and Mac" required="no" preselected="yes" os="unix">
+      <description>Ptolemy II for Linux and Mac OS X.</description>
+            <file src="postInstall.sh" targetdir="$INSTALL_PATH"/>
+	    <executable targetfile="$INSTALL_PATH/postInstall.sh" stage="never"/>
+    </pack>
+    -->
+    <!-- Ptolemy II for Windows 
+         This copies the tar file created on cygwin with 
+             tar cf ptII7.0.1-windowsCompiled.tar ptII7.0.1
+         to the installation directory. 
+
+         The tar file is then extracted by postInstall.bat, which
+         calls cygwins' tar implementation. Note that we need to use cygwin's tar and not just any
+         zip or jar program because otherwise, the cygwin links in pt7.0.1/bin will get mangled up.
+         For example, the link bin/vergil ends up as a binary file bin/vergil.lnk if we use zip or
+         if we just package and extract it with IzPack. -->
+  <!-- extraction does not work yet
+      <pack name="Ptolemy II Windows" required="no" preselected="yes" os="windows">
+      <description>Precompiled Ptolemy II for Windows.</description>
+            <file src="/usr/local/bcvtb-install/ptII7.0.1-windowsCompiled.tar" targetdir="$INSTALL_PATH"/>
+    </pack>
+  -->
+
+    <!-- EnergyPlus 
+        <pack name="EnergyPlus" required="no">
+            <description>EnergyPlus executables with built-in interface to the Building Controls Virtual Test Bed</description>
+	    <file src="../clients/ep-2.1/bin-cygwin" targetdir="$INSTALL_PATH/clients/ep-2.1" os="windows"/>
+	    <file src="../clients/ep-2.1/bin-linux" targetdir="$INSTALL_PATH/clients/ep-2.1" os="unix"/>
+	    <file src="../clients/ep-2.1/weatherdata" targetdir="$INSTALL_PATH/clients/ep-2.1"/>
+        </pack>  
+-->
+    </packs>
+
+</installation>

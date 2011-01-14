@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<processing>
+    <job name="Getting and installing Ptolemy II">
+        <os family="unix" />
+        <executefile name="$INSTALL_PATH/postInstall.sh">
+          <arg>$INSTALL_PATH</arg>
+	</executefile>
+    </job>
+
+    <job name="Getting and installing Ptolemy II">
+        <os family="mac" />
+        <executefile name="$INSTALL_PATH/postInstall.sh">
+          <arg>$INSTALL_PATH</arg>
+	</executefile>
+    </job>
+
+    <job name="Extracting Ptolemy II. (This can take a few minutes.)">
+        <os family="windows" />
+         <executefile name="$INSTALL_PATH/postInstall.bat" 
+		      stage="postinstall" keep="false">
+         <arg>$INSTALL_PATH</arg>
+    <!--  Java for postprocessing. Currently not used. May be used later
+          for getting cygwin path needed by postInstall.bat
+
+	  <executefile name="java" targetdir="$INSTALL_PATH">
+          <arg>"PostProcessCygwin"</arg>
+          <arg>"$INSTALL_PATH"</arg>
+          <arg>"ptII7.0.1-winCompiled.zip"</arg>
+-->
+	</executefile>
+    </job>
+
+</processing>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="doc" default="all">
+  <import file="../build-common.xml"/>
+
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <delete verbose="true" dir="code"/>
+    <delete>
+      <fileset dir="." includes="doxWarnings.txt, bcvtb-install-*.jar,ep-*.zip"/>
+    </delete>
+  </target>
+
+  <!-- All -->
+  <target name="all" depends="clean,bcvtb,energyplus" description="Generates the distribution file"/>
+
+  <!-- BCVTB -->
+  <target name="bcvtb" 
+          description="Generates the BCVTB distribution file">
+   <exec executable="izpack" failonerror="true">
+      <arg line="install.xml -b . -o bcvtb-install-${VERSION}.jar"/>
+   </exec>
+  </target>
+
+  <!-- energyplus -->
+  <target name="energyplus" 
+          description="Generates the EnergyPlus distribution file">
+   <exec executable="./zipEnergyPlus.sh" failonerror="true"/>
+  </target>
+
+
+</project>
