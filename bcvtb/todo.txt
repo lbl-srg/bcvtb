@@ -1,0 +1,25 @@
+on mac, opening actor list triggers exception:
+com.microstar.xml.XmlException: -- /Users/mwetter/proj/bcvtb/code/bcvtb/trunk/bcvtb/lib/ptII/ptolemy/configs/bcvtb/ptolemy/actor/lib/database/database.xml (No such file or directory)
+-- XML file not found relative to classpath.
+-- /Users/mwetter/proj/bcvtb/code/bcvtb/trunk/bcvtb/examples/f90-roomManyZones/ptolemy/actor/lib/database/database.xml
+
+com.microstar.xml.XmlException: *** Canceled. in file:/Users/mwetter/proj/bcvtb/code/bcvtb/trunk/bcvtb/lib/ptII/ptolemy/configs/bcvtb/bcvtbLibrary.xml at line 18 and column 51
+
+-- Ptolemy --
+How to get documentation for BACnetReader and BACnetWriter.
+Maybe include these actors in the Ptolemy trunk?
+
+Use variables.xml to check for correct number of input and output of E+ actor. Requires special actor for E+.
+
+Make editor for variables.xml
+
+Make actor to extract elements of data that are output of BACnetReader.
+
+Make actor that reads from xml, and returns last known value if read fails.
+
+Make actors for LonWorks, Dali, etc.
+
+-- Matlab --
+Simulink interface: catch situation where we read too many double values.
+
+

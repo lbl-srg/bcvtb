@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Default build targets"> 
+  <import file="../../build-common.xml"/>
+
+  <!-- Verify the input -->
+  <target name="verifyInput" description="Checks if the command line parameters are correct">
+    <fail unless="nDbl" message="This script must be called with the flag -DnDbl='some integer'"/>
+  </target>
+
+  <!-- Unit test -->
+  <target name="unitTest" depends="verifyInput,prepareInput,build"
+	  description="Runs unit tests" if="have.ifort">
+    <echo message="Started unit test in ${basedir} with nDbl= ${nDbl} at ${touch.time}"/>
+    <exec executable="${ptUnitTestExecutable}" 
+    failonerror="true"
+    vmlauncher="false"> <!-- vmlauncher="false" is needed for Windows -->
+      <arg line="${ptExecutableFlags} system.xml -nRoo ${nDbl}"/>
+    </exec>
+  </target>
+
+</project>

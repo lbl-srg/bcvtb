@@ -1,0 +1,3341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="configuration">&gt;
+ <title>Configuring programs for use with the BCVTB</title>
+ <section>
+  <title>Introduction</title>
+  <para>
+   This chapter describes how to configure a simulation
+   model for use with the BCVTB. Before configuring your own
+   simulation, it is recommended to run and modify the
+   examples in the folder <code>bcvtb/examples</code> as
+   described in
+   <xref linkend="running"></xref>.
+  </para>
+  <para>
+   Setting up an own simulation is easiest if one of the
+   examples in the folder <code>bcvtb/examples</code> is
+   used as a starting point. Configuring a simulation with
+   the BCVTB consists of the following steps, which are
+   described in the next sections:
+  </para>
+  <orderedlist numeration="arabic">
+   <listitem>
+        Create a Ptolemy II model. This is described in <xref linkend="tit-crePtoMod"></xref>.
+      </listitem>
+   <listitem>
+        Create and configure a simulation model by following the instructions described in
+        <orderedlist numeration="loweralpha">
+     <listitem>
+      <xref linkend="tit-EnePluCon"></xref>,
+          </listitem>
+     <listitem>
+      <xref linkend="tit-DymolaCon"></xref>,
+          </listitem>
+     <listitem>
+      <xref linkend="tit-MatlabCon"></xref>,
+          </listitem>
+     <listitem>
+      <xref linkend="tit-SimulinkCon"></xref>,
+          </listitem>
+     <listitem>
+      <xref linkend="tit-CustomExeCon"></xref>,
+          </listitem>
+     <listitem>
+      <xref linkend="tit-RadianceCon"></xref>.
+          </listitem>
+    </orderedlist>
+   </listitem>
+   <listitem>
+        Run the Ptolemy II model created in step 1. 
+      </listitem>
+  </orderedlist>
+ </section>
+<!-- ************************************************************* -->
+ <section xml:id="tit-crePtoMod">
+  <title>Ptolemy II</title>
+  <para>
+   For Ptolemy II related information, we recommend to read
+   the
+   <ulink url="http://ptolemy.berkeley.edu/index.htm">Ptolemy II web page</ulink>
+   and the
+   <ulink url="http://ptolemy.berkeley.edu/ptolemyII/tutorial.htm">Ptolemy II tutorial</ulink>
+   from UC Berkeley.
+  </para>
+  <para>
+   In Ptolemy II, different
+   <emphasis>models of computations</emphasis>
+   can be used to define how the different actors interact
+   with each other. The model of computation is defined by a
+   <emphasis>director</emphasis>
+   that needs to be included in the Ptolemy II flow chart
+   diagram. For the BCVTB, we typically use the Synchronous
+   Dataflow director, which is in Ptolemy II called
+   <emphasis>SDF Director.</emphasis>
+   This director can be dragged into the model from the left
+   pane shown in
+   <xref linkend="confPtRoomC"></xref>
+   .
+  </para>
+  <para>
+   <figure xml:id="confPtRoomC">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/configurationPtRoomC.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/configurationPtRoomC.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Ptolemy II system model that connects a model of a controller and a room.
+	    </title>
+   </figure>
+  </para>
+  <para>
+   For convenience, the examples in the BCVTB expose the
+   three parameters <code>startTime</code>,
+   <code>timeStep</code> and <code>finalTime</code>. These
+   three parameters have units of seconds and needs to
+   correspond with the start time, time step and final time
+   that is used in the simulation program. The parameters
+   used to configure the SDF Director are shown in
+   <xref linkend="confSDFDire"></xref>
+   .
+  </para>
+  <para>
+   <figure xml:id="confSDFDire">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/configurationSDFDirector.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/configurationSDFDirector.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Configuration of the SDF director.
+	    </title>
+   </figure>
+  </para>
+  <para>
+   Flow charts with the SDF director must not contain
+   algebraic loops. If there is an algebraic loop, then a
+   sample delay actor needs to be inserted. This actor can
+   be found in the Ptolemy II actor library in
+   (<code>Actors-&gt;FlowControl-&gt;SequenceControl-&gt;SampleDelay</code>).
+   <xref linkend="confSampDel"></xref>
+   shows the use of a <code>SampleDelay</code> actor for
+   delaying the output of a controller by one sampling
+   interval.
+  </para>
+  <para>
+   <figure xml:id="confSampDel">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/configurationSampleDelay.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/configurationSampleDelay.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Implementation of the controller with the <code>SampleDelay</code> actor that delays its output by one sampling interval. This delay eliminates an algebraic loop, which is not allowed with the SDF director.
+	    </title>
+   </figure>
+  </para>
+  <para>
+   The <code>Simulator</code> actor conducts the data
+   exchange with the simulation program. There can be any
+   number of <code>Simulator</code> actors in a model. The
+   parameters of the <code>Simulator</code> actor are as
+   shown in
+   <xref linkend="tabSimAct"></xref>
+   .
+  </para>
+  <para>
+   <table xml:id="tabSimAct" frame="all">
+    <title>Parameters of the <code>Simulator</code> actor.</title>
+    <tgroup align="left" cols="2">
+    <colspec colwidth="1*"></colspec>
+    <colspec colwidth="3*"></colspec>
+     <thead>
+      <row>
+       <entry>Parameter</entry>
+       <entry>Description</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>
+programName
+</entry>
+       <entry>
+The name of the executable that starts the simulation.
+</entry>
+      </row>
+      <row>
+       <entry>
+programArguments
+</entry>
+       <entry>
+		  Arguments needed by the simulation. Text arguments need to be enclosed in apostrophes.
+</entry>
+      </row>
+      <row>
+       <entry>
+workingDirectory
+</entry>
+       <entry>
+Working directory of the program. For the current directory, enter a period.
+</entry>
+      </row>
+      <row>
+       <entry>
+simulationLogFile
+</entry>
+       <entry>
+Name of the file to which the BCVTB will write the console output and error stream that it receives from the simulation program. Use a separate file for each simulation program. This file typically shows what may have caused an error.
+</entry>
+      </row>
+      <row>
+       <entry>
+socketTimeout
+</entry>
+       <entry>
+Time out in milliseconds for the initial socket connection. At the start of the simulation, the BCVTB waits for the simulation program to connect through a socket connection to the BCVTB. If the simulation program does not connect within the here specified time, the BCVTB will stop with an error.
+</entry>
+      </row>
+      <row>
+       <entry>
+showConsoleWindow
+</entry>
+       <entry>
+Check box; if activated, a separate window will be opened that displays the console output of the program. 
+</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </para>
+  <para>
+   An example that starts EnergyPlus on Linux and Mac is
+   shown in
+   <xref linkend="confPtSimu"></xref>
+   .
+  </para>
+  <para>
+   <figure xml:id="confPtSimu">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/configuration-ptolemy-simulator.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/configuration-ptolemy-simulator.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Configuration of the <code>Simulator</code> actor that starts EnergyPlus on Linux.
+	    </title>
+   </figure>
+  </para>
+ </section>
+<!-- *** EnergyPlus ********************************************** -->
+ <section xml:id="tit-EnePluCon">
+  <title>EnergyPlus</title>
+  <para>
+   <xref linkend="extIntEPlus"></xref>
+   shows the architecture of the connection between
+   EnergyPlus and Ptolemy II. Ptolemy II connects to the
+   external interface in EnergyPlus. In the external
+   interface, the input/output signals that are exchanged
+   between Ptolemy II and EnergyPlus are mapped to
+   EnergyPlus objects. The subject of this section is to
+   show how to configure this mapping and how to use these
+   objects.
+  </para>
+  <para>
+   <figure xml:id="extIntEPlus">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/externalInterface.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/externalInterface.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Architecture of the BCVTB with the EnergyPlus client (black) and other clients (grey).
+	    </title>
+   </figure>
+  </para>
+  <para>
+   The external interface can map to three EnergyPlus input
+   objects called <code>ExternalInterface:Schedule</code>,
+   <code>ExternalInterface:Actuator</code> and
+   <code>ExternalInterface:Variable</code>. The
+   <code>ExternalInterface:Schedule</code> can be used to
+   overwrite schedules. The other two objects can be used in
+   place of Energy Management System (EMS) actuators and EMS
+   variables. The objects have similar functionality as the
+   objects <code>Schedule:Compact</code>,
+   <code>EnergyManagementSystem:Actuator</code> and
+   <code>EnergyManagementSystem:GlobalVariable</code>,
+   except that their numerical value is obtained from the
+   external interface at the beginning of each EnergyPlus
+   zone time step, and will remain constant during this zone
+   time step.
+  </para>
+  <para>
+   Compared to <code>EnergyManagementSystem:Actuator</code>,
+   the object <code>ExternalInterface:Actuator</code> has an
+   optional field called “initial value.” If a value is
+   specified for this field, then this value will be used
+   during the warm-up period and the system sizing. If
+   unspecified, then the numerical value for this object
+   will only be used during the time stepping. Since
+   actuators always overwrite other objects (such as a
+   schedule), all these objects have values that are defined
+   during the warm-up and the system sizing even if no
+   initial value is specified. For the objects
+   <code>ExternalInterface:Schedule</code> and
+   <code>ExternalInterface:Variable</code>, the field
+   “initial value” is required, and its value will be
+   used during the warm-up period and the system-sizing.
+  </para>
+  <para>
+   <code>ExternalInterface:Variable</code> is a global
+   variable from the point of view of the EMS language.
+   Thus, it can be used within any
+   <code>EnergyManagementSystem:Program</code> in the same
+   way as an
+   <code>EnergyManagementSystem:GlobalVariable</code> or an
+   <code>EnergyManagementSystem:Sensor</code> can be used.
+  </para>
+  <para>
+   Although variables of type
+   <code>ExternalInterface:Variable</code> can be assigned
+   to <code>EnergyManagementSystem:Actuator</code> objects,
+   for convenience, there is also an object called
+   <code>ExternalInterface:Actuator</code>. This object
+   behaves identically to
+   <code>EnergyManagementSystem:Actuator</code>, with the
+   following exceptions:
+  </para>
+  <itemizedlist>
+   <listitem>
+          Its value is assigned by the external interface.
+        </listitem>
+   <listitem>
+          Its value is fixed during the zone time step because this is the synchronization time step for the external interface.
+        </listitem>
+  </itemizedlist>
+  <para>
+   The external interface can also map to the EnergyPlus
+   objects <code>Output:Variable</code> and
+   <code>EnergyManagementSystem:OutputVariable</code>. These
+   objects can be used to send data from EnergyPlus to
+   Ptolemy II at each zone time step.
+  </para>
+  <para>
+   We will now present examples that use all of these
+   objects.
+   <xref linkend="tabEneOveExe"></xref>
+   shows which EnergyPlus features are used in the examples.
+  </para>
+  <table xml:id="tabEneOveExe">
+   <title>
+        Overview of the EnergyPlus objects used in the examples.
+	</title>
+   <tgroup cols="4">
+    <colspec colnum="1" colwidth="3*"></colspec>
+    <colspec colnum="2" colwidth="1*" align="center"></colspec>
+    <colspec colnum="3" colwidth="1*" align="center"></colspec>
+    <colspec colnum="4" colwidth="1*" align="center"></colspec>
+    <tbody>
+     <row valign="middle">
+      <entry></entry>
+      <entry>
+       <para>
+        Example 1
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Example 2
+       </para>
+      </entry>
+      <entry>
+       <para>
+        Example 3
+       </para>
+      </entry>
+     </row>
+     <row valign="middle">
+      <entry>
+       <para>
+        <code>ExternalInterface:Schedule</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+      <entry></entry>
+      <entry></entry>
+     </row>
+     <row valign="middle">
+      <entry>
+       <para>
+        <code>ExternalInterface:Actuator</code>
+       </para>
+      </entry>
+      <entry></entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+      <entry></entry>
+     </row>
+     <row valign="middle">
+      <entry>
+       <para>
+        <code>ExternalInterface:Variable</code>
+       </para>
+      </entry>
+      <entry></entry>
+      <entry></entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+     </row>
+     <row valign="middle">
+      <entry>
+       <para>
+        <code>Output:Variable</code>
+       </para>
+      </entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+     </row>
+     <row valign="middle">
+      <entry>
+       <para>
+        <code>EnergyManagementSystem:OutputVariable</code>
+       </para>
+      </entry>
+      <entry></entry>
+      <entry></entry>
+      <entry>
+       <para>
+        x
+       </para>
+      </entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </table>
+  <para>
+   To configure the data exchange, the following three steps
+   are required from the user:
+  </para>
+  <orderedlist numeration="arabic">
+   <listitem>
+    <para>
+     Create an EnergyPlus idf file.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     Create an xml file that defines the mapping between
+     EnergyPlus and BCVTB variables.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     Create a Ptolemy II model.
+    </para>
+   </listitem>
+  </orderedlist>
+  <para>
+   These steps are described in the examples below. Prior to
+   discussing the examples, we will explain the syntax of
+   the xml configuration file that defines how data are
+   mapped between the external interface and EnergyPlus
+  </para>
+  <section>
+   <title>Syntax of the xml file that configures the data mapping between EnergyPlus and the external interface</title>
+   <para>
+    The data mapping between EnergyPlus and the external
+    interface is defined in an xml file called
+    <code>variables.cfg</code>. This file needs to be in the
+    same directory as the EnergyPlus idf file. The file has
+    the following header:
+   </para>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE BCVTB-variables SYSTEM "variables.dtd"&gt;</programlisting>
+   <para>
+    Following the header is an element of the form
+   </para>
+<programlisting language="xml">&lt;BCVTB-variables&gt;
+
+&lt;/BCVTB-variables&gt;</programlisting>
+   <para>
+    This element will contain child elements that define the
+    variable mapping. In between the element tags, a user
+    needs to specify how the exchanged data is mapped to
+    EnergyPlus objects. Hence, the order of these elements
+    matter, and it need to be the same as the order of the
+    elements in the input and output signal vector of
+    Ptolemy II actor that calls EnergyPlus. The exchanged
+    variables are declared in elements that are called
+    “variable” and have an attribute “source.” As
+    described above, the external interface can send data to
+    <code>ExternalInterface:Schedule</code>,
+    <code>ExternalInterface:Actuator</code>, and
+    <code>ExternalInterface:Variable</code>. For these
+    objects, the <code>source</code> attribute needs to be
+    set to <code>Ptolemy</code>, because they are sent by
+    Ptolemy II. The xml elements for these objects are
+    defined as follows:
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      For <code>ExternalInterface:Schedule</code>, use
+     </para>
+<programlisting language="xml">&lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus schedule="NAME"/&gt;
+&lt;/variable&gt;</programlisting>
+     <para>
+      where <code>NAME</code> needs to be the EnergyPlus
+      schedule name. See
+      <xref linkend="exa-enePlu-sch"></xref>
+      for an example.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      For <code>ExternalInterface:Actuator</code>, use
+     </para>
+<programlisting language="xml">&lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus actuator="NAME" /&gt;
+&lt;/variable&gt;</programlisting>
+     <para>
+      where <code>NAME</code> needs to be the EnergyPlus
+      actuator name. See
+      <xref linkend="exa-enePlu-act"></xref>
+      for an example.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      For <code>ExternalInterface:Variable</code>, use
+     </para>
+<programlisting language="xml">&lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus variable="NAME"/&gt;
+&lt;/variable&gt;</programlisting>
+     <para>
+      where <code>NAME</code> needs to be the EnergyPlus
+      Energy Runtime Language (Erl) variable name. See
+      <xref linkend="exa-enePlu-var"></xref>
+      for an example.
+     </para>
+    </listitem>
+   </itemizedlist>
+   <para>
+    The external interface can also read data from any
+    <code>Output:Variable</code> and
+    <code>EnergyManagementSystem:OutputVariable</code>. For
+    these objects, set the "source" attribute to
+    "EnergyPlus," because they are computed by EnergyPlus.
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      The read an <code>Output:Variable</code>, use
+     </para>
+<programlisting language="xml">&lt;variable source="EnergyPlus"&gt;
+  &lt;EnergyPlus name="NAME" type="TYPE"/&gt;       
+&lt;/variable&gt;</programlisting>
+     <para>
+      where <code>NAME</code> needs to be the EnergyPlus key
+      value (which is typically the name of the EnergyPlus
+      object instance, such as <code>WEST ZONE</code>) and
+      <code>TYPE</code> needs to be the EnergyPlus variable
+      (such as ZONE/SYS AIR TEMP). See the following
+      sections for an example.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      To read an
+      <code>EnergyManagementSystem:OutputVariable</code>,
+      use
+     </para>
+<programlisting language="xml">&lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="EMS" type="TYPE"/&gt;
+&lt;/variable&gt;</programlisting>
+     <para>
+      i.e., the attribute <code>name</code> must be EMS, and
+      the attribute <code>type</code> must be set to the EMS
+      variable name. See
+      <xref linkend="exa-enePlu-var"></xref>
+      for an example.
+     </para>
+    </listitem>
+   </itemizedlist>
+   <para>
+    The following sections present examples of this xml
+    file.
+   </para>
+  </section>
+  <section xml:id="exa-enePlu-sch">
+   <title>Example 1: Interface using <code>ExternalInterface:Schedule</code>
+   </title>
+   <para>
+    In this example, a controller that is implemented in
+    Ptolemy II computes the room temperature set points for
+    cooling and heating. The example can be found in the
+    BCVTB distribution in the folder
+    <code>bcvtb/examples/ePlusX-schedule</code>, where
+    <code>X</code> stands for the EnergyPlus version number.
+    Suppose we need to send a schedule value from Ptolemy II
+    to EnergyPlus, and an output variable from EnergyPlus to
+    Ptolemy II at each zone time step. This can be
+    accomplished by using an object of type
+    <code>ExternalInterface:Schedule</code> and an object of
+    type <code>Output:Variable</code>. To interface
+    EnergyPlus using the EMS feature, the following three
+    items are needed:
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      An object that instructs EnergyPlus to activate the
+      external interface.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      EnergyPlus objects that write data from the external
+      interface to the EMS.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      A configuration file to configure the data exchange.
+     </para>
+    </listitem>
+   </itemizedlist>
+   <para>
+    The following sections explain how to declare these
+    items.
+   </para>
+   <section>
+    <title>Create an EnergyPlus idf file</title>
+    <para>
+     The EnergyPlus idf file contains the following objects
+     to activate and use the external interface:
+    </para>
+    <itemizedlist>
+     <listitem>
+      <para>
+       An object that instructs EnergyPlus to activate the
+       external interface.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       An object of type
+       <code>ExternalInterface:Schedule</code>. The external
+       interface will write its values to these objects at
+       each zone time-step.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Objects of type <code>Output:Variable</code> that
+       store the data that will be read by the external
+       interface. The value of any EnergyPlus
+       <code>Output:Variable</code> can be read by the
+       external interface.
+      </para>
+     </listitem>
+    </itemizedlist>
+    <para>
+     The code below shows how to declare these objects. To
+     activate the external interface, we use:
+    </para>
+<screen>ExternalInterface,           !- Object to activate the external interface
+ PtolemyServer;              !- Name of external interface</screen>
+    <para>
+     To enter schedules to which the external interface
+     writes, we use:
+    </para>
+<screen>! Cooling schedule. This schedule is set directly by the external interface.
+! During warm-up and system-sizing, it is fixed at 24 degC.
+  ExternalInterface:Schedule,
+    TSetCoo,                 !- Name
+    Temperature,             !- ScheduleType
+    24;                      !- Initial Value, used during warm-up
+
+! Heating schedule. This schedule is set directly by the external interface.
+! During warm-up and system-sizing, it is fixed at 20 degC.
+  ExternalInterface:Schedule,
+    TSetHea,                 !- Name
+    Temperature,             !- ScheduleType
+    20;                      !- Initial Value, used during warm-up</screen>
+    <para>
+     These schedules can be used in the same way as other
+     EnergyPlus schedules. In this example, they are used to
+     change a thermostat setpoint:
+    </para>
+<screen>ThermostatSetpoint:DualSetpoint,
+    DualSetPoint,            !- Name
+    TSetHea,                 !- Heating Setpoint Temperature Schedule Name
+    TSetCoo;                 !- Cooling Setpoint Temperature Schedule Name</screen>
+    <para>
+     We also want to read output variables from EnergyPlus,
+     which we declare as
+    </para>
+<screen>Output:Variable,
+    TSetHea,        !- Key Value
+    Schedule Value, !- Variable Name
+    TimeStep;       !- Reporting Frequency
+
+Output:Variable,
+    TSetCoo,        !- Key Value
+    Schedule Value, !- Variable Name
+    TimeStep;       !- Reporting Frequency</screen>
+    <para>
+     To specify that data should be exchanged every 15
+     minutes of simulation time, we enter in the
+     <code>idf</code> file the section
+    </para>
+<screen>Timestep,
+    4;          !- Number of Timesteps per Hour</screen>
+   </section>
+   <section>
+    <title>Create a configuration file</title>
+    <para>
+     Note that we have not yet specified the order of the
+     elements in the signal vector that is exchanged between
+     EnergyPlus and Ptolemy II. This information is
+     specified in the file <code>variables.cfg</code>. The
+     file <code>variables.cfg</code> needs to be in the same
+     directory as the EnergyPlus <code>idf</code> file. For
+     the objects used in the section above, the file looks
+     like
+    </para>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE BCVTB-variables SYSTEM "variables.dtd"&gt;
+&lt;BCVTB-variables&gt;
+  &lt;!-- The next two elements send the set points to E+ --&gt;
+  &lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus schedule="TSetHea"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus schedule="TSetCoo"/&gt;
+  &lt;/variable&gt;
+  &lt;!-- The next two elements receive the outdoor and 
+       the zone air temperature from E+ --&gt;
+  &lt;variable source="EnergyPlus"&gt;
+   &lt;EnergyPlus name="ENVIRONMENT" type="OUTDOOR DRY BULB"/&gt;     
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="ZSF1" type="ZONE/SYS AIR TEMPERATURE"/&gt;
+  &lt;/variable&gt;
+  &lt;!-- The next two elements receive the schedule value as an output from E+ --&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="TSetHea" type="Schedule Value"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="TSetCoo" type="Schedule Value"/&gt;
+  &lt;/variable&gt;
+&lt;/BCVTB-variables&gt;</programlisting>
+    <para>
+     This file specifies that the actor that calls
+     EnergyPlus has an input vector with two elements that
+     are computed by Ptolemy II and sent to EnergyPlus, and
+     that it has an output vector with four elements that
+     are computed by EnergyPlus and sent to Ptolemy II. The
+     order of the elements in each vector is determined by
+     the order in the above XML file. Hence, the input
+     vector that contains the signals sent to EnergyPlus has
+     elements
+    </para>
+<screen>  TSetHea
+  TSetCoo</screen>
+    <para>
+     and the output vector that contains values computed by
+     EnergyPlus has elements
+    </para>
+<screen>  Environment (Outdoor drybulb temperature)
+  ZSF1 (ZONE/SYS AIR TEMPERATURE)
+  TSetHea (Schedule Value)
+  TSetCoo (Schedule Value)</screen>
+   </section>
+   <section xml:id="sec-crePtoMod">
+    <title>Create a Ptolemy II model</title>
+    <para>
+     To start EnergyPlus from the BCVTB, you will need to
+     create a Ptolemy II model.
+    </para>
+    <para>
+     The model
+     <code>bcvtb/examples/ePlus*-schedule/system-windows.xml</code>,
+     which is part of the BCVTB installation and is shown in
+     <xref linkend="confEPlusSche"></xref>
+     , may be used as a starting point. (For Mac and Linux,
+     use the file <code>system.xml</code>.) In this example,
+     the time step is 15 minutes and the simulation period
+     is four days.
+    </para>
+    <para>
+     <figure xml:id="confEPlusSche">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configuration-energyplus-schedule.png" format="PNG" scale="50"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configuration-energyplus-schedule.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		Ptolemy II system model that links an actor that computes the room temperature setpoint with the <code>Simulator</code> actor that communicates with EnergyPlus.
+		</title>
+     </figure>
+    </para>
+    <para>
+     In this model, the Simulator actor that calls
+     EnergyPlus is configured for Windows as shown in
+     <xref linkend="confEPlusScheSimuWin"></xref>
+     .
+    </para>
+    <para>
+     <figure xml:id="confEPlusScheSimuWin">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configuration-energyplus-schedule-win.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configuration-energyplus-schedule-win.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		Configuration of the <code>Simulator</code> actor that calls EnergyPlus on Windows.
+		</title>
+     </figure>
+    </para>
+    <para>
+     The actor calls the file <code>RunEPlus.bat</code>,
+     with arguments <code>EMSWindowShadeControl
+     USA_IL_Chicago-OHare.Intl.AP.725300_TMY3</code>. The
+     working directory is the current directory and the
+     console output is written to the file
+     <code>simulation.log</code>. If EnergyPlus does not
+     communicate with Ptolemy II within 10 seconds, Ptolemy
+     II will terminate the connection. For Mac OS X and
+     Linux, the configuration is similar:
+    </para>
+    <para>
+     <figure xml:id="confEPlusScheSimuMac">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configuration-energyplus-schedule-mac.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configuration-energyplus-schedule-mac.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		Configuration of the <code>Simulator</code> actor that calls EnergyPlus on Mac OS X.
+		</title>
+     </figure>
+    </para>
+    <para>
+     This completes the configuration.
+    </para>
+   </section>
+  </section>
+  <section xml:id="exa-enePlu-act">
+   <title>Example 2: Interface using <code>ExternalInterface:Actuator</code>
+   </title>
+   <para>
+    In this example, a shading controller with a finite
+    state machine is implemented in Ptolemy II. Inputs to
+    the controller are the outside temperature and the solar
+    radiation that is incident on the window. The output of
+    the controller is the shading actuation signal. This
+    example describes how to set up EnergyPlus to exchange
+    data between Ptolemy II and EnergyPlus, using an Energy
+    Management System (EMS) actuator. The example can be
+    found in the BCVTB distribution in the folder
+    <code>bcvtb/examples/ePlus*-actuator</code>, where
+    <code>*</code> stands for the EnergyPlus version number.
+    The object of type
+    <code>ExternalInterface:Actuator</code> behaves
+    identically to
+    <code>EnergyManagementSystem:Actuator</code>, with the
+    following exceptions:
+   </para>
+   <orderedlist numeration="arabic">
+    <listitem>
+     <para>
+      Its value is assigned by the external interface.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Its value is fixed during the EnergyPlus zone time
+      step because this is the synchronization time step for
+      the external interface.
+     </para>
+    </listitem>
+   </orderedlist>
+   <para>
+    To interface EnergyPlus using the EMS feature, the
+    following three items are needed:
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      An object that instructs EnergyPlus to activate the
+      external interface.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      EnergyPlus objects that write data from the external
+      interface to the EMS.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      A configuration file to configure the data exchange.
+     </para>
+    </listitem>
+   </itemizedlist>
+   <para>
+    The following sections explain how to declare these
+    items.
+   </para>
+   <section>
+    <title>Create an EnergyPlus idf file</title>
+    <para>
+     The code below shows how to set up an EnergyPlus file
+     that uses <code>EnergyManagmentSystem:Actuator</code>.
+     To activate the external interface, we use:
+    </para>
+<screen>ExternalInterface,           !- Object to activate the external interface
+    PtolemyServer;           !- Name of external interface</screen>
+    <para>
+     To declare an actuator that changes the control status
+     of the window with name
+     <code>Zn001:Wall001:Win001</code>, we use:
+    </para>
+<screen>ExternalInterface:Actuator,
+    Zn001_Wall001_Win001_Shading_Deploy_Status,  !- Name
+    Zn001:Wall001:Win001,    !- Actuated Component Unique Name
+    Window Shading Control,  !- Actuated Component Type
+    Control Status,          !- Actuated Component Control Type
+     ;                       !- Optional Initial Value</screen>
+    <para>
+     Thus, the entry is identical with
+     <code>EnergyManagementSystem:Actuator</code>, except
+     for the additional optional field that specifies the
+     initial value. If unspecified, then the actuator will
+     only be used during the time stepping, but not during
+     the warm-up and the system sizing. Since actuators
+     always overwrite other objects (such as a schedule),
+     all these objects have values that are defined during
+     the warm-up and the system sizing even if no initial
+     value is specified.
+    </para>
+    <para>
+     We also want to read the outdoor temperature, the zone
+     air temperature, the solar radiation that is incident
+     on the window, and the fraction of time that the
+     shading is on from EnergyPlus. Thus, we declare the
+     output variables
+    </para>
+<screen>Output:Variable,
+   Environment,       !- Key Value
+   Outdoor Dry Bulb,  !- Variable Name
+   timestep;          !- Reporting Frequency
+
+Output:Variable,
+   *,                          !- Key Value
+   Zone Mean Air Temperature,  !- Variable Name
+   timestep;                   !- Reporting Frequency
+
+Output:Variable,
+   Zn001:Wall001:Win001,       !- Key Value
+   Surface Ext Solar Incident, !- Variable Name
+   timestep;                   !- Reporting Frequency
+
+Output:Variable,
+   *,                                      !- Key Value
+   Fraction of Time Shading Device Is On,  !- Variable Name
+   timestep;                               !- Reporting Frequency</screen>
+    <para>
+     To specify that data should be exchanged every 10
+     minutes of simulation time, we enter in the idf file
+     the section
+    </para>
+<screen>  Timestep,
+    6;          !- Number of Timesteps per Hour</screen>
+   </section>
+   <section>
+    <title>Create a configuration file</title>
+    <para>
+     Note that we have not yet specified the order of the
+     elements in the signal vector that is exchanged between
+     EnergyPlus and Ptolemy II. This information is
+     specified in the file <code>variables.cfg</code>. The
+     file <code>variables.cfg</code> needs to be in the same
+     directory as the EnergyPlus idf file. For the objects
+     used in the section above, the file looks like
+    </para>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE BCVTB-variables SYSTEM "variables.dtd"&gt;
+&lt;BCVTB-variables&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="ENVIRONMENT" 
+                type="OUTDOOR DRY BULB"/&gt;    
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="WEST ZONE" 
+                type="Zone Mean Air Temperature"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="Zn001:Wall001:Win001" 
+                type="Surface Ext Solar Incident"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="Zn001:Wall001:Win001" 
+                type="Fraction of Time Shading Device Is On"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus actuator="Zn001_Wall001_Win001_Shading_Deploy_Status"/&gt;
+  &lt;/variable&gt;
+&lt;/BCVTB-variables&gt;</programlisting>
+    <para>
+     This file specifies that the simulator actor that calls
+     EnergyPlus has an input vector with one element that
+     will be written to the actuator, and that it has an
+     output vector with four elements that are computed by
+     EnergyPlus and sent to Ptolemy II. The order of the
+     elements in each vector is determined by the order in
+     the above XML file. Hence, the output vector that
+     contains the signals computed by EnergyPlus has
+     elements
+    </para>
+<screen>  ENVIRONMENT (OUTDOOR DRY BULB)
+  WEST ZONE (Zone Mean Air Temperature)
+  Zn001:Wall001:Win001 (Surface Ext Solar Incident)
+  Zn001:Wall001:Win001 (Fraction of Time Shading Device Is On)</screen>
+    <para>
+     The configuration of the Ptolemy II model is identical
+     to the configuration in Example 1., which is described
+     in
+     <xref linkend="sec-crePtoMod"></xref>
+     .
+    </para>
+   </section>
+  </section>
+  <section xml:id="exa-enePlu-var">
+   <title>Example 3: Interface using <code>ExternalInterface:Variable</code>
+   </title>
+   <para>
+    This example implements the same controller as the
+    Example 2. However, the interface with EnergyPlus is
+    done using an external interface variable instead of an
+    external interface actuator. In addition, to set up data
+    that will be read by the external interface, the example
+    uses an
+    <code>EnergyManagementSystem:OutputVariable</code>.
+   </para>
+   <para>
+    Similarly to
+    <code>EnergyManagementSystem:GlobalVariable</code>, an
+    <code>ExternalInterface:Variable</code> can be used in
+    any <code>EnergyManagementSystem:Program</code>. The
+    subject of this example is to illustrate how an
+    <code>ExternalInterface:Variable</code> can be set up
+    for use in an
+    <code>EnergyManagementSystem:Program</code>. The example
+    can be found in the BCVTB distribution in the folder
+    <code>bcvtb/examples/ePlus*-variable</code>, where
+    <code>*</code> stands for the EnergyPlus version number.
+   </para>
+   <para>
+    To interface EnergyPlus using an external interface
+    variable, the following items are needed:
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      An object that instructs EnergyPlus to activate the
+      external interface.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      EnergyPlus objects that write data from the external
+      interface to the EMS.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      A configuration file to configure the data exchange.
+     </para>
+    </listitem>
+   </itemizedlist>
+   <section>
+    <para>
+     The following sections explain how to declare these
+     items.
+    </para>
+<!-- ************************************ -->
+    <title>Create an EnergyPlus idf file</title>
+    <para>
+     To write data from the external interface to an
+     EnergyPlus EMS variable, the following EnergyPlus
+     objects may be declared in the <code>idf</code> file:
+    </para>
+<screen>ExternalInterface,         !- Object to activate the external interface
+   PtolemyServer;          !- Name of external interface
+
+  ExternalInterface:Variable,
+    yShade,           !- Name of Erl variable
+    1;                !- Initial Value</screen>
+    <para>
+     The above <code>idf</code> section activates the
+     external interface and declares a variable with name
+     <code>yShade</code> that can be used in an Erl program.
+     During the warm-up period and the system-sizing, the
+     variable <code>yShade</code> will be set to its initial
+     value. Afterwards, the value will be assigned from the
+     external interface at each beginning of a zone time
+     step and kept constant during the zone time step. From
+     the point of view of the EMS language,
+     <code>ExternalInterface:Variable</code> can be used
+     like any global variable. Thus, it can be used within
+     any <code>EnergyManagementSystem:Program</code> in the
+     same way as an
+     <code>EnergyManagementSystem:GlobalVariable</code> or
+     an <code>EnergyManagementSystem:Sensor</code>. The
+     following <code>idf</code> section uses
+     <code>yShade</code> to actuate the shading control of
+     the window <code>Zn001:Wall001:Win001</code>:
+    </para>
+<screen>! EMS program. The first assignments sets the shading status 
+!              and converts it into the
+!              EnergyPlus signal (i.e., replace 1 by 6).
+!              The second assignment sets yShade to 
+!              an EnergyManagementSystem:OutputVariable
+!              which will be read by the external interface.
+  EnergyManagementSystem:Program,
+    Set_Shade_Control_State,          !- Name
+    Set Shade_Signal = 6*yShade,      !- Program Line 1
+    Set Shade_Signal_01 = yShade+0.1; !- Program Line 2
+
+! Declare an actuator to which the EnergyManagementSystem:Program will write
+  EnergyManagementSystem:Actuator,
+    Shade_Signal,  !- Name
+    Zn001:Wall001:Win001,    !- Actuated Component Unique Name
+    Window Shading Control,  !- Actuated Component Type
+    Control Status;          !- Actuated Component Control Type
+
+! Declare a global variable to which the EnergyManagementSystem:Program will write
+  EnergyManagementSystem:GlobalVariable,
+    Shade_Signal_01;           !- Name of Erl variable</screen>
+    <para>
+     Next, suppose we want to read the outdoor temperature,
+     the zone air temperature and the solar radiation that
+     is incident on the window. In addition, we want to read
+     the variable <code>Erl Shading Control Status</code>.
+     This can be done with the following declaration:
+    </para>
+<screen>Output:Variable,
+   Environment,       !- Key Value
+   Outdoor Dry Bulb,  !- Variable Name
+   timestep;          !- Reporting Frequency
+
+  Output:Variable,
+  *,                          !- Key Value
+  Zone Mean Air Temperature,  !- Variable Name
+  timestep;                   !- Reporting Frequency
+
+  Output:Variable,
+  Zn001:Wall001:Win001,       !- Key Value
+  Surface Ext Solar Incident, !- Variable Name
+  timestep;                   !- Reporting Frequency
+
+! Declare an output variable. This variable is equal to the shading 
+! signal + 0.1. 
+! It will be read by the external interface to demonstrate how 
+! to receive variables.
+  EnergyManagementSystem:OutputVariable,
+    Erl Shading Control Status,  !- Name
+    Shade_Signal_01,             !- EMS Variable Name
+    Averaged,                    !- Type of Data in Variable
+    ZoneTimeStep;                !- Update Frequency</screen>
+    <para>
+     To specify that data should be exchanged every 10
+     minutes of simulation time, we enter in the
+     <code>idf</code> file the section
+    </para>
+<screen>  Timestep,
+    6;          !- Number of Timesteps per Hour</screen>
+   </section>
+   <section>
+    <title>Create a configuration file</title>
+    <para>
+     Note that we have not yet specified the order of the
+     elements in the signal vector that is exchanged between
+     EnergyPlus and Ptolemy II. This information is
+     specified in the file <code>variables.cfg</code>. The
+     file <code>variables.cfg</code> needs to be in the same
+     directory as the EnergyPlus idf file. For the objects
+     used in the section above, the file looks like
+    </para>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE BCVTB-variables SYSTEM "variables.dtd"&gt;
+&lt;BCVTB-variables&gt;
+  &lt;variable source="Ptolemy"&gt;
+    &lt;EnergyPlus variable="yShade"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="ENVIRONMENT" type="OUTDOOR DRY BULB"/&gt;    
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="WEST ZONE" type="Zone Mean Air Temperature"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="Zn001:Wall001:Win001" type="Surface Ext Solar Incident"/&gt;
+  &lt;/variable&gt;
+  &lt;variable source="EnergyPlus"&gt;
+    &lt;EnergyPlus name="EMS" type="Erl Shading Control Status"/&gt;
+  &lt;/variable&gt;
+&lt;/BCVTB-variables&gt;</programlisting>
+    <para>
+     This file specifies that the simulator actor that calls
+     EnergyPlus has an input vector with one element that
+     will be written to the actuator, and that it has an
+     output vector with four elements that are computed by
+     EnergyPlus and sent to Ptolemy II. The order of the
+     elements in each vector is determined by the order in
+     the above XML file. Note that the fourth element has
+     the name <code>EMS</code> because it is an
+     <code>EnergyManagementSystem:OutputVariable</code>.
+     Hence, the output vector that contains the signals
+     computed by EnergyPlus has elements
+    </para>
+<screen>  ENVIRONMENT (OUTDOOR DRY BULB)
+  WEST ZONE (Zone Mean Air Temperature)
+  Zn001:Wall001:Win001 (Surface Ext Solar Incident)
+  EMS (Erl Shading Control Status)</screen>
+    <para>
+     The configuration of the Ptolemy II model is identical
+     to the configuration of Example 1, which is described
+     in
+     <xref linkend="sec-crePtoMod"></xref>
+     .
+    </para>
+   </section>
+  </section>
+ </section>
+<!-- *** Dymola ************************************************** -->
+ <section xml:id="tit-DymolaCon">
+  <title>Dymola</title>
+  <para>
+   To configure a Modelica model that will be simulated by
+   Dymola, you may modify the files in the directory
+   <code>BCVTB/examples/dymola-room</code>, or you may
+   create a new Modelica model. This section describes how
+   to create a new Modelica model using the Dymola modeling
+   and simulation environment. The configuration consists of
+   creating a Modelica model, a Modelica script and a
+   Ptolemy II model.
+  </para>
+  <section>
+   <title>Create a Modelica model</title>
+   <para>
+    To create a new Modelica model, proceed as follows:
+    First, open Dymola and the Buildings library, which may
+    be downloaded from
+    <ulink url="http://simulationresearch.lbl.gov/modelica">http://simulationresearch.lbl.gov/modelica</ulink>
+    . From the <code>Buildings</code> library, add the block
+    <ulink url="http://gaia.lbl.gov/bie/modelica/releases/0.8.0/help/Buildings_Utilities_IO_BCVTB.html#Buildings.Utilities.IO.BCVTB.BCVTB">Buildings.Utilities.IO.BCVTB.BCVTB</ulink>
+    to your model. Next, connect the <code>bcvtb</code>
+    block to your other Modelica models to create a system
+    model that takes signals from the <code>bcvtb</code>
+    block and writes signals to the <code>bcvtb</code>
+    block. This may yield a system model as shown in
+    <xref linkend="configuration-dymola-room-schematic"></xref>
+    , which is the model in the file
+    <code>bcvtb/examples/dymola-room/TwoRoomsTotal.mo</code>.
+   </para>
+   <para>
+    <figure xml:id="configuration-dymola-room-schematic">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configuration-dymola-room-schematic.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configuration-dymola-room-schematic.pdf" format="PDF" scale="40"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Graphical view of the Modelica model that computes the change in temperature for two simple room models.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    To configure the <code>bcvtb</code> interface,
+    double-click on the <code>bcvtb</code> block that is
+    shown in the left of the figure. This will open the
+    input form shown in
+    <xref linkend="fig-configuration-dymola-room-parWin"></xref>
+    .
+   </para>
+   <para>
+    <figure xml:id="fig-configuration-dymola-room-parWin">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configuration-dymola-room-parWin.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configuration-dymola-room-parWin.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Configuration of the <code>bcvtb</code> block in the Modelica Buildings library
+	      </title>
+    </figure>
+   </para>
+   <para>
+    In this example, a vector with two double values are
+    obtained from the BCVTB and written to the BCVTB every
+    60 seconds of simulation time. Additional information
+    about this block can be obtained by pressing the
+    <guibutton>Info</guibutton>
+    button.
+   </para>
+  </section>
+  <section>
+   <title>Create a Modelica script</title>
+   <para>
+    To perform a simulation, the BCVTB will call a batch
+    file (on Windows) or a shell script (on Linux), which in
+    turn calls Dymola to execute a Modelica script that
+    opens and simulates the model. The batch file or shell
+    script is stored in the directory <code>bcvtb/bin</code>
+    and need not be changed by the user. To create the
+    Modelica script, adjust the following three lines as
+    needed and save them in a file called
+    <code>simulateAndExit.mos</code>:
+   </para>
+<screen>openModel("TwoRoomsTotal.mo");
+simulateModel("Buildings_Utilities_IO_BCVTB_Examples_TwoRooms", stopTime=21600);
+exit();</screen>
+  </section>
+  <section>
+   <title>Create a Ptolemy II model</title>
+   <para>
+    To start Dymola from Ptolemy II, a Ptolemy II model will
+    need to be created. The model
+    <code>BCVTB/examples/dymola-room/system-windows.xml</code>
+    shown in
+    <xref linkend="fig-configuration-dymola-room-system"></xref>
+    may be used as a starting point.
+   </para>
+   <para>
+    <figure xml:id="fig-configuration-dymola-room-system">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configuration-dymola-room-system.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configuration-dymola-room-system.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+		Ptolemy II system model that links a model of a controller with the <code>Simulator</code> actor that communicates with the Modelica modeling and simulation environment Dymola.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    In this model, the <code>Simulator</code> actor that
+    calls Dymola is configured as shown in
+    <xref linkend="configuration-dymola-room-simulator"></xref>
+    .
+   </para>
+   <para>
+    <figure xml:id="configuration-dymola-room-simulator">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configuration-dymola-room-simulator.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configuration-dymola-room-simulator.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Configuration of the <code>Simulator</code> actor that calls Dymola on Linux.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    The batch file <code>runDymola.bat</code> (on Windows)
+    or the shell script <code>runDymola.sh</code> (on Linux)
+    will copy the binary and header files that are required
+    by Dymola. If either <code>dymosim.exe</code> (or
+    <code>dymosim</code> on Linux) or <code>dsin.txt</code>
+    do not exist in the current directory, then the batch
+    file starts Dymola, translates and simulates the model.
+    Otherwise, the batch file will call <code>dymosim
+    -s</code> to simulate the model.
+   </para>
+  </section>
+ </section>
+<!-- *** MATLAB ************************************************** -->
+ <section xml:id="tit-MatlabCon">
+  <title>MATLAB</title>
+  <para>
+   To configure MATLAB, you may modify an example such as
+   the one in the directory
+   <code>BCVTB/examples/matlab-room</code>, or you may
+   create new input files. This section describes the latter
+   approach, which consists of creating a MATLAB script and
+   a Ptolemy II model.
+  </para>
+  <section>
+   <title>Create a MATLAB script</title>
+   <para>
+    A MATLAB script that exchanges data with the BCVTB has
+    the following structure:
+   </para>
+<screen>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Initialize variables
+% ... (not shown)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add path to BCVTB matlab libraries
+addpath( strcat(getenv('BCVTB_HOME'), '/lib/matlab'));
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Establish the socket connection
+sockfd = establishClientSocket('socket.cfg');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exchange data (call this at each time step)
+% ... (loop over each time step)
+[retVal, flaRea, simTimRea, dblValRea ] = ...
+  exchangeDoublesWithSocket(sockfd, flaWri, length(u), simTimWri, ...
+                            dblValWri);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Close socket at the end of the simulation
+closeIPC(sockfd);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exit MATLAB
+exit</screen>
+   <para>
+    For a complete MATLAB script that also includes error
+    handling, see the file <code>simulateAndExit.m</code> in
+    the directory <code>bcvtb/examples/matlab-room</code>.
+   </para>
+  </section>
+  <section>
+   <title>Create a Ptolemy II model</title>
+   <para>
+    To start MATLAB from Ptolemy II, you will need to create
+    a Ptolemy II model. The model
+    <code>BCVTB/examples/matlab-room/system.xml</code> shown
+    in
+    <xref linkend="configurationRoomPtMatlab"></xref>
+    may be used as a starting point. In this example, MATLAB
+    computes the temperature change in two rooms for a given
+    control input. The controller is implemented in Ptolemy
+    II.
+   </para>
+   <para>
+    <figure xml:id="configurationRoomPtMatlab">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationRoomPtMatlab.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationRoomPtMatlab.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+		Ptolemy II system model that links an actor that computes a control signal with the <code>Simulator</code> actor that communicates with MATLAB.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    In this model, the <code>Simulator</code> actor that
+    calls MATLAB is configured as follows:
+   </para>
+   <para>
+    <figure xml:id="configurationMATLABPt">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationMATLABPt.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationMATLABPt.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+		Configuration of the <code>Simulator</code> actor that calls MATLAB on Mac OS X.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    This completes the configuration.
+   </para>
+  </section>
+ </section>
+<!-- *** Simulink ************************************************ -->
+ <section xml:id="tit-SimulinkCon">
+  <title>Simulink</title>
+  <para>
+   To configure Simulink, you may modify an example such as
+   the one in the directory
+   <code>BCVTB/examples/simulink-room</code>, or you may
+   create a new Simulink model. This section describes the
+   latter, which consists of creating a Simulink block
+   diagram, a MATLAB script and a Ptolemy II model.
+  </para>
+  <section>
+   <title>Create a Simulink Block Diagram</title>
+   <para>
+    To create a new Simulink block diagram, proceed as
+    follows:
+   </para>
+   <para>
+    First, set the path to the Simulink library for the
+    BCVTB: On the MATLAB prompt, type
+   </para>
+<screen>addpath([getenv('BCVTB_HOME'), '/lib/matlab']);</screen>
+   <para>
+    Open Simulink and select <code>File -&gt; New</code>.
+    Then, in the Simulink Library Browser, select the BCVTB
+    library.
+   </para>
+   <para>
+    <figure xml:id="configurationSimulinkBCVTB">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkBCVTB.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkBCVTB.pdf" format="PDF" scale="70"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Simulink library with the block that connects to the BCVTB.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    Drag and drop the BCVTB block into your Simulink flow
+    chart. In the Simulink flow chart, open the BCVTB block
+    which should show this model:
+   </para>
+   <para>
+    <figure xml:id="simulinkBlockInternals">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkBlock.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkBlock.pdf" format="PDF" scale="70"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Model that is encapsulated in the <code>BCVTB</code> Simulink block.
+	    </title>
+    </figure>
+   </para>
+   <para>
+    In this model, the block <code>socketIO</code>
+    implements the communication with the BCVTB. It
+    typically need not be modified. However, you will need
+    to open the block <code>selector</code> to adjust the
+    field called <code>Index</code> in the input form shown
+    in
+    <xref linkend="configurationSimulinkSelector"></xref>
+    . This field specifies which elements of the input
+    vector should be selected and used as an output of this
+    block. For example, if we were to require three values,
+    then the field <code>Index</code> needs to be <code>[1 2
+    3]</code> to select the first, second and third element
+    of the input vector. Entering each element of the vector
+    is inconvenient if a large number of elements needs to
+    be received. In this situation, one can enter, for
+    example, <code>linspace(1,50,50)</code> to retrieve a
+    vector with 50 elements.
+   </para>
+   <para>
+    In
+    <xref linkend="configurationSimulinkSelector"></xref>
+    , the field <code>Input port size</code> denotes the
+    size of the input vector. It typically need not be
+    changed unless you changed the file
+    <code>bcvtb/lib/defines.h</code>.
+   </para>
+   <para>
+    <figure xml:id="configurationSimulinkSelector">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkSelector.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkSelector.pdf" format="PDF" scale="70"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Configuration of the <code>selector</code> block that is shown in <xref linkend="simulinkBlockInternals"></xref>.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    Next, the sampling time step needs to be set. In this
+    example, we assume that the Simulink simulation needs to
+    be run with a fixed time step of 120 seconds. To
+    implement this configuration, select <code>Simulation
+    -&gt; Configuration Parameters...</code> and configure
+    the input form as shown in
+    <xref linkend="configurationSimulinkSystem"></xref>
+    . Note that we set the stop time to <code>inf</code>
+    since Simulink will receive from the BCVTB interface a
+    signal when the final time is reached. We also set the
+    step size to <code>120</code>, which is equal to the
+    time step in seconds that will, in this example, be used
+    in the Ptolemy II model.
+   </para>
+   <para>
+    <figure xml:id="configurationSimulinkSystem">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkSystem.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkSystem.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Configuration of the Simulink solver.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    The BCVTB block can now be connected to a model that
+    processes the output from the <code>BCVTB</code> block
+    and produces new input for the <code>BCVTB</code> block.
+    Such an implementation can be found in the model
+    <code>BCVTB/examples/simulink-room/controller.mdl</code>,
+    which is shown in
+    <xref linkend="configurationSimulinkDiagram"></xref>
+    .
+   </para>
+   <para>
+    <figure xml:id="configurationSimulinkDiagram">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkDiagram.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkDiagram.pdf" format="PDF" scale="70"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	      Simulink block diagram that links the controller with the block that communicates with Ptolemy II.
+	      </title>
+    </figure>
+   </para>
+  </section>
+  <section>
+   <title>Create a MATLAB script</title>
+   <para>
+    To perform a simulation, the BCVTB will call a MATLAB
+    script that adds the path of the BCVTB library to the
+    MATLAB path and then simulates the above model. To
+    create the MATLAB script, save the following three lines
+    in a file called <code>simulateAndExit.m</code>:
+   </para>
+<screen>addpath([getenv('BCVTB_HOME'), '/lib/matlab']);
+sim('controller');
+quit;</screen>
+  </section>
+  <section>
+   <title>Create a Ptolemy II model</title>
+   <para>
+    To start Simulink from Ptolemy II, a Ptolemy II model
+    needs to be created. The model
+    <code>BCVTB/examples/simulink-room/system.xml</code>
+    that is shown in
+    <xref linkend="fig-configurationRoomPtSimulink"></xref>
+    may be used as a starting point.
+   </para>
+   <para>
+    <figure xml:id="fig-configurationRoomPtSimulink">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationRoomPtSimulink.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationRoomPtSimulink.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+		Ptolemy II system model that links the <code>Simulator</code> actor that communicates with MATLAB with an actor that computes the room temperature and with an actor that plots the results as the simulation progresses.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    In this model, the <code>Simulator</code> actor that
+    calls Simulink is configured as shown in
+    <xref linkend="fig-configurationSimulinkPt"></xref>
+    .
+   </para>
+   <para>
+    <figure xml:id="fig-configurationSimulinkPt">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationSimulinkPt.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationSimulinkPt.pdf" format="PDF" scale="40"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+		Configuration of the <code>Simulator</code> actor that calls MATLAB on Linux.
+	      </title>
+    </figure>
+   </para>
+   <para>
+    This completes the configuration.
+   </para>
+  </section>
+ </section>
+<!-- *** SystemCommand ******************************************* -->
+ <section xml:id="tit-CustomExeCon">
+  <title>Custom program using a system command</title>
+  <para>
+   This page explains how to call a custom program from the
+   BCVTB at each time step by using the
+   <code>SystemCommand</code> actor. This allows for example
+   to call a batch file (on Windows), a shell script (on Mac
+   or Linux), or any other executable program. The input to
+   this programs can be done either through program flags,
+   or by writing an input file from Ptolemy II, using actors
+   from the library <code>Actors-&gt;IO</code>.
+  </para>
+  <para>
+   To explain how to use this actor, we will show how to
+   call a program that implements a proportional controller
+   with output limitation for a room with closed loop
+   control. The program is implemented in the C language.
+   (Note that such a controller could be directly
+   implemented in Ptolemy II. However, for illustration, we
+   implemented this controller in a C program.) The program
+   writes the control signal to a text file, which will then
+   be parsed by Ptolemy II. We assume that the program needs
+   to be called with two arguments, i.e., the numerical
+   values of the control error <code>e</code> and the
+   proportional gain <code>kP</code>, as
+  </para>
+<screen>  pcontroller e kP</screen>
+  <para>
+   where the numerical values <code>e</code> and
+   <code>kP</code> may change at each call. We assume that
+   the program writes the output file
+   <code>output.txt</code> that needs to be read by Ptolemy
+   II to receive the control signal. We also assume that the
+   program returns the exit value <code>0</code> if no error
+   occurred, or non-zero otherwise.
+  </para>
+  <para>
+   The next sections explain how to build such a system.
+  </para>
+  <section>
+   <title>Create a Ptolemy II model</title>
+   <para>
+    First, build a Ptolemy II block diagram that includes
+    the <code>SystemCommand</code> actor from the library
+    <code>Actors-&gt;Simulator</code>. Such a system model
+    is implemented in the file
+    <code>bcvtb/examples/systemCommand/system.xml</code>
+    that is shown in
+    <xref linkend="configurationPtolemySystemCommand"></xref>
+    .
+   </para>
+   <para>
+    <figure xml:id="configurationPtolemySystemCommand">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemySystemCommand.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemySystemCommand.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	Ptolemy II system model that links the <code>SystemCommand</code> actor, which calls a C program to compute the new room temperature, with actors that parse output files and compute the room temperature.
+	    </title>
+    </figure>
+   </para>
+  </section>
+  <section>
+   <title>Configure the ports of the <code>SystemCommand</code> actor</title>
+   <para>
+    The <code>SystemCommand</code> actor has three
+    predefined output ports: The port <code>exitValue</code>
+    outputs the exit value of the program. The port
+    <code>output</code> contains the standard output stream
+    of the program, and the port <code>error</code> contains
+    the standard error stream of the program.
+   </para>
+   <para>
+    Next, we will configure the input ports of the
+    <code>SystemCommand</code> actor by right-clicking on
+    the actor, and selecting
+    <code>Customize-&gt;Ports</code>. This will show the
+    following window:
+   </para>
+   <para>
+    <figure xml:id="configurationPtolemySystemCommandNoPorts">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemySystemCommandNoPorts.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemySystemCommandNoPorts.pdf" format="PDF" scale="60"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	    Input form that is used to add new ports to the actor.
+	    </title>
+    </figure>
+   </para>
+   <para>
+    Next, click the
+    <guibutton>Add</guibutton>
+    button and enter the input ports <code>e</code> and
+    <code>kP</code>. The port names can be selected
+    arbitrarily by the user, and there can be as many input
+    ports as needed. After adding the ports, the window
+    should look as follows:
+   </para>
+   <para>
+    <figure xml:id="configurationPtolemySystemCommandPorts">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemySystemCommandPorts.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemySystemCommandPorts.pdf" format="PDF" scale="60"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	    Input form after new ports have been added to the actor.
+	    </title>
+    </figure>
+   </para>
+  </section>
+  <section>
+   <title>Configure the parameters of the <code>SystemCommand</code> actor</title>
+   <para>
+    Finally, configure the parameters of the
+    <code>SystemCommand</code> actor by double-clicking on
+    its icon. This will show an input form where various
+    parameters of the actor can be configured. The
+    parameters of the <code>SystemCommand</code> actor are
+    as desribed in
+    <xref linkend="tabParSysCom"></xref>
+    .
+   </para>
+   <para>
+    <table xml:id="tabParSysCom" frame="all">
+     <title>Parameters of the <code>SystemCommand</code> actor.</title>
+     <tgroup align="left" cols="2">
+     <colspec colwidth="1*"></colspec>
+     <colspec colwidth="3*"></colspec>
+      <thead>
+       <row>
+        <entry>Parameter</entry>
+        <entry>Description</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>
+programName
+</entry>
+        <entry>
+The name of the executable that starts the simulation.
+</entry>
+       </row>
+       <row>
+        <entry>
+programArguments
+</entry>
+        <entry>
+Arguments needed by the simulation. Text arguments need to be enclosed in apostrophes.
+</entry>
+       </row>
+       <row>
+        <entry>
+workingDirectory
+</entry>
+        <entry>
+Working directory of the program. For the current directory, enter a period.
+</entry>
+       </row>
+       <row>
+        <entry>
+simulationLogFile
+</entry>
+        <entry>
+Name of the file to which the BCVTB will write the console output and error stream that it receives from the simulation program. Use a separate file for each simulation program. This file typically shows what may have caused an error.
+</entry>
+       </row>
+       <row>
+        <entry>
+showConsoleWindow
+</entry>
+        <entry>
+Check box; if activated, a separate window will be opened that displays the console output of the program. 
+</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table>
+   </para>
+   <para>
+    To pass the current value of port variables to the
+    program as its argument, configure the actor as follows:
+   </para>
+   <para>
+    <figure xml:id="configurationPtolemySystemCommandParameters">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemySystemCommandParameters.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemySystemCommandParameters.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+	    Configuration of the parameters of the <code>SystemCommand</code> actor.
+	    </title>
+    </figure>
+   </para>
+   <para>
+    This configuration will cause Ptolemy II to call the
+    command <code>pcontroller $e $kP</code> at each time
+    step, with the values <code>$e</code> and
+    <code>$kP</code> being replaced by the current value of
+    the input token. There are also two built-in variables
+    called <code>$time</code>, which is the current
+    simulation time, and <code>$iteraton</code> which is the
+    current iteration step of Ptolemy II. No port needs to
+    be defined for these two variables.
+   </para>
+   <para>
+    For example, for the configuration above, if at some
+    time step the input ports are <code>e=1</code> and
+    <code>kP=2</code>, then the BCVTB will fire the command
+   </para>
+<screen>  pcontroller 1 2</screen>
+   <para>
+    and wait until the program <code>pcontroller</code>
+    terminates. Upon successful termination, the port
+    <code>exitValue</code> will have the token
+    <code>0</code>.
+   </para>
+   <para>
+    For an explanation of all parameters of the
+    <code>SystemCommand</code> actor, right-click on the
+    actor and select <code>Documentation-&gt;Get
+    Documentation</code>.
+   </para>
+  </section>
+ </section>
+<!-- Radiance -->
+<section xml:id="tit-RadianceCon">
+  <title>Radiance</title>
+  <para>
+    <note>
+      <para>
+	Using Radiance in BCVTB requires Radiance simulation experience.  A BCVTB user that is new to Radiance should first learn to use Radiance before attempting to use Radiance in BCVTB.
+      </para>
+    </note>
+  </para>
+  <para>
+    <note>
+      <para>
+	The example has only been tested on Mac OS X and Linux, but not on Windows.
+      </para>
+  </note>
+  </para>
+  <section>
+    <title>Introduction</title>
+    <para>
+      Radiance is a collection of command line programs that are executed in various orders to perform simulations. Radiance commands with arguments are often stored in a script file for repetitive execution. The system command actor provides a means to perform Radiance simulations by executing this script and collecting the output. The BCVTB distribution includes two BCVTB Radiance examples.
+    </para>
+    </section>
+    <section>
+      <title>Configuring Radiance</title>
+      <para>
+	Radiance should be downloaded and installed on the computer as normal (the installation process varies based on the operating system).  Do not forget to set the environment variables <code>PATH</code> and <code>RAYPATH</code> as described in the <code>README</code> file that is provided by the Radiance installation program. See also <xref linkend="settingEnvironmentVariables"></xref> for how to set environment variables for the BCVTB.
+</para>
+<para>
+The following example uses Radiance to calculate average illuminance at a point in a model.  This example generates a sky file based on weather file input, compiles an octree model and calculates illuminance at the point.
+</para>
+    </section>
+    <section>
+      <title>Create a Radiance script</title>
+      <para>
+	We first create a Radiance script that computes the illuminance. The script takes as input arguments the month, day, and hour, the direct normal and diffuse horizontal irradiation, as well as the latitude, longitude and meridien.
+The output of the csh script is the illuminance, which will be written to the console. The script is as follows:
+<programlisting language="csh">#!/bin/csh
+############################################################
+# Script to run radiance.
+############################################################
+set month = $argv[1]
+set day = $argv[2]
+set hour = `ev $argv[3]-.5`
+set dirnorm = $argv[4]
+set difhoriz = $argv[5]
+set lat = $argv[6]
+set long = $argv[7]
+set mer = $argv[8]
+
+set alt = `gensky $month $day $hour -a $lat -o $long -m $mer | awk '{if(NR==3)if($6&gt;0) print 1; else print 0}'`
+
+if ($alt == 1) then
+### Generate perez sky
+gendaylit $month $day $hour -a $lat -o $long -m $mer -W $dirnorm $difhoriz -g .1 &gt; rads/sky.rad
+
+cat &gt;&gt; rads/sky.rad &lt;&lt;EOF
+
+skyfunc glow skyglow
+0
+0
+4 1 1 1 0
+
+skyglow source sky
+0
+0
+4 0 0 1 180
+
+skyglow source ground
+0
+0
+4 0 0 -1 180
+       
+EOF
+
+### Compile octree model
+oconv rads/sky.rad rads/approx.mat rads/room_basic.rad rads/top_panels.rad rads/desks.rad \
+	rads/PC.rad rads/window_pane.rad rads/glass.rad &gt; octs/model_sky.oct
+
+### Create file of test points
+echo 22 60 32 0 0 1 &gt; data/test.pts
+
+### Perform rtrace simulation
+rtrace -h- -w- -n 2 -I -ab 2 -ad 2000 -as 1000 &lt; data/test.pts octs/model_sky.oct | \
+	rcalc -e '$1=179*($1*0.265+$2*0.670+$3*0.065)' 
+
+else
+	echo 0.0
+endif
+</programlisting>
+	</para>
+      </section>
+    <section>
+      <title>Create a Ptolemy II model</title>
+      <para>
+	Next, we create a Ptolemy II model that prepares the input data for the Radiance script, parses the output of the Radiance script, and displays the illuminance in a plotter.
+	</para>
+      <para>
+	<xref linkend="configurationPtolemyRadianceSystem"></xref> shows the Ptolemy II system model that performs the following five steps for each time step iteration:
+	<orderedlist>
+	  <listitem>
+	    <para>Read a line from the a weather data file that is in the EnergyPlus <code>epw</code> format.
+	    </para>
+	    </listitem>
+	  <listitem>
+	    <para>Parse the weather record for the necessary data (month, day, hour, direct normal irradiance, and diffuse horizontal irradiance).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>Run the Radiance script to simulate daylight using information from the weather data. This step will generate a Perez sky, compile an octree model, and simulate illuminance at a point.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>Convert the script output from string to double precision format.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>Plot illuminance vs. time.
+	    </para>
+	  </listitem>
+	  </orderedlist>  
+      </para>
+    <figure xml:id="configurationPtolemyRadianceSystem">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceSystem.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceSystem.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       Ptolemy II system model that uses the <code>SystemCommand</code> actor to run Radiance.</title>
+    </figure>
+    <para>
+The line reader actor reads the <code>epw</code> weather data file. The header (first 8 lines) is skipped by entering <code>8</code> into the <code>numberOfLinesToSkip</code> field as shown in <xref linkend="configurationPtolemyRadianceLineReader"></xref>.
+    <figure xml:id="configurationPtolemyRadianceLineReader">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceLineReader.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceLineReader.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       Parameters for the <code>LineReader</code> actor.</title>
+    </figure>
+    </para>
+    <para>
+      The parsing of the file is done by a composite actor.  Looking inside the composite actor reveals an expression actor that splits the string at the commas into an array and five array element actors that select an element from the array as shown in <xref linkend="configurationPtolemyRadianceParseWeatherRecord"></xref>.
+    <figure xml:id="configurationPtolemyRadianceParseWeatherRecord">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceParseWeatherRecord.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceParseWeatherRecord.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       View inside the <code>ParseWeatherRecord</code> composite actor.
+     </title>
+    </figure>
+    </para>
+    <para>
+      The system command actor runs a C shell script containing Radiance commands. The values read from the weather data file are passed as arguments to this C shell script as shown in <xref linkend="configurationPtolemyRadianceSystemCommand"></xref>.
+    <figure xml:id="configurationPtolemyRadianceSystemCommand">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceSystemCommand.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceSystemCommand.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       Parameters for the <code>SystemCommand</code> actor.
+     </title>
+    </figure>
+    </para>
+    <para>
+      The output of the csh script that is called by the <code>SystemCommand</code> actor is the illuminance, but of type string and not double precision. The composite actor <code>String2Double</code> contains actors that convert the string to double as shown in <xref linkend="configurationPtolemyRadianceString2Double"></xref>. The <code>trim</code> actor is required to strip the newline character from the end of the string.
+    <figure xml:id="configurationPtolemyRadianceString2Double">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceString2Double.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceString2Double.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       Inside the <code>String2Double</code> composite actor.
+     </title>
+     </figure>
+    </para>
+    <para>
+      The <code>TimedPlotter</code> actor plots the illuminance vs. time, measured in hours from the beginning of the weather data file, as shown in <xref linkend="configurationPtolemyRadianceTimedPlotter"></xref>.
+    <figure xml:id="configurationPtolemyRadianceTimedPlotter">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/configurationPtolemyRadianceTimedPlotter.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/configurationPtolemyRadianceTimedPlotter.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
+     <title>
+       Output of the <code>TimedPlotter</code> actor.
+     </title>
+     </figure>
+    </para>
+    </section>
+  </section>
+  <!-- BACnet -->
+  <section>
+  <title>BACnet</title>
+  <note>
+   <para>
+    The BACnet interface is only supported on Windows and on
+    Linux. It has not been ported to Mac OS X.
+   </para>
+  </note>
+  <section>
+   <title>Introduction</title>
+   <para>
+    The BCVTB contains an actor, called
+    <code>BACnetReader</code>, that can read from BACnet
+    devices and an actor, called <code>BACnetWriter</code>,
+    that can write to BACnet devices. These actors use the
+    open source
+    <ulink url="http://bacnet.sourceforge.net/">
+BACnet protocol stack
+</ulink>
+    , which is shipped with the BCVTB installation and that
+    has been developed by Steve Karg. Both actors use a
+    configuration file that specifies the BACnet devices,
+    the object types and the property identifiers with which
+    data is to be exchanged. The next sections describe how
+    to configure these configuration files, and how to set
+    up a model that reads from and writes to BACnet devices.
+   </para>
+    <para>
+      <note>
+	<para>
+	  BACnet systems typically allow a user to export a list
+	  of BACnet
+	  <emphasis>object types</emphasis>
+	  with their instance numbers. Such a list needs to be
+	  obtained for the particular control system in order to
+	  configure the data exchange that is described in
+	  <xref linkend="tit-BACnetConfDataRea"></xref>
+	  and
+	  <xref linkend="tit-BACnetConfDataWri"></xref>
+	  .
+	</para>
+      </note>
+    </para>
+  </section>
+  <section xml:id="tit-BACnetConfDataRea">
+   <title>Reading from BACnet</title>
+   <section>
+    <title>Specification of data that will be read from BACnet</title>
+    <para>
+     The <code>BACnetReader</code> actor reads an xml
+     configuration file to determine what data it needs to
+     read from BACnet devices. This configuration file
+     specifies the BACnet
+     <emphasis>object types</emphasis>
+     and their child elements,
+     <footnote>
+      <para>
+       In xml, an element <code>B</code> is called a child
+       element of an element <code>A</code> if
+       <code>B</code> is contained exactly one level below
+       element <code>A</code>.
+      </para>
+     </footnote>
+     which can be other BACnet
+     <emphasis>object types</emphasis>
+     or BACnet
+     <emphasis>property identifiers</emphasis>
+     . The xml configuration file has the following syntax:
+     It starts and ends with
+<programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;BACnet&gt;
+   &lt;!-- Child elements are not shown. --&gt;
+&lt;/BACnet&gt;</programlisting>
+     The above element <code>BACnet</code> requires at least
+     one child element of the form
+<programlisting language="xml">&lt;Object Type="Device" Instance="123"&gt;
+   &lt;!-- Child elements are not shown. --&gt;
+&lt;/Object&gt;</programlisting>
+     i.e., the element name is <code>Object</code>, the
+     attribute <code>Type</code> needs to be
+     <code>Device</code> and the attribute
+     <code>Instance</code> needs to be set to its instance
+     number, which is a unique number that is assigned at
+     the discretion of the control provider. Any
+     <code>Object</code> element can contain other
+     <code>Object</code> elements and other
+     <code>PropertyIdentifier</code> elements.
+    </para>
+    <para>
+     The <code>Object</code> elements can have any of the
+     following values for the attribute <code>Type</code>
+     (the meaning of these types is explained in Chapter 12
+     of the BACnet Standard
+     <citation>ASHRAE 2004</citation>
+     ): <code>Analog Input</code>, <code>Analog
+     Output</code>, <code>Analog Value</code>, <code>Binary
+     Input</code>, <code>Binary Output</code>, <code>Binary
+     Value</code>, <code>Calendar</code>,
+     <code>Command</code>, <code>Device</code>, <code>Event
+     Enrollment</code>, <code>File</code>,
+     <code>Group</code>, <code>Loop</code>, <code>Multi
+     State Input</code>, <code>Multi State Output</code>,
+     <code>Notification Class</code>, <code>Program</code>,
+     <code>Schedule</code>, <code>Averaging</code>,
+     <code>Multi State Value</code>, <code>Trend Log</code>,
+     <code>Life Safety Point</code>, <code>Life Safety
+     Zone</code>, <code>Accumulator</code>, <code>Pulse
+     Converter</code>, <code>Event Log</code>, <code>Global
+     Group</code>, <code>Trend Log Multiple</code>,
+     <code>Load Control</code>, <code>Structured
+     View</code>, <code>Access Door</code>, <code>Lighting
+     Output</code>, <code>Access Credential</code>,
+     <code>Access Point</code>, <code>Access Rights</code>,
+     <code>Access User</code>, <code>Access Zone</code>,
+     <code>Authentication Factor Input</code>, <code>Max
+     ASHRAE</code>, <code>Load Control</code>,
+     <code>Structured View</code>, <code>Access Door</code>,
+     <code>Lighting Output</code>, <code>Access
+     Credential</code>, <code>Access Point</code>,
+     <code>Access Rights</code>, <code>Access User</code>,
+     <code>Access Zone</code>, <code>Authentication Factor
+     Input</code>, <code>Max ASHRAE</code>.
+    </para>
+    <para>
+     Each of these object types has its own set of
+     properties that can be read or written to. These
+     properties are declared in the element
+     <code>PropertyIdentifier</code> which has one attribute
+     called <code>Name</code>. For example, for the object
+     with type <code>Analog Output</code>, the BACnet
+     standard lists in Table 12-3 the properties shown in
+     <xref linkend="tab-bacAnaOutObjTyp"></xref>
+     .
+     <para>
+      <table frame="all" xml:id="tab-bacAnaOutObjTyp">
+       <title>Properties of the Analog Output Object Type according to BACnet Standard, Table 12-3 (not all properties are shown).</title>
+       <tgroup align="left" cols="3">
+        <thead>
+         <row>
+          <entry>Property Identifier</entry>
+          <entry>Property Datatype</entry>
+          <entry>Conformance Code</entry>
+         </row>
+        </thead>
+        <tbody>
+         <row>
+          <entry>Object_Identifier</entry>
+          <entry>BACnetObjectIdentifier</entry>
+          <entry>R</entry>
+         </row>
+         <row>
+          <entry>Object_Name</entry>
+          <entry>CharacterString</entry>
+          <entry>R</entry>
+         </row>
+         <row>
+          <entry>Object_Type</entry>
+          <entry>BACnetObjectType</entry>
+          <entry>R</entry>
+         </row>
+         <row>
+          <entry>Present_Value</entry>
+          <entry>REAL</entry>
+          <entry>W</entry>
+         </row>
+         <row>
+          <entry>Description</entry>
+          <entry>CharacterString</entry>
+          <entry>O</entry>
+         </row>
+         <row>
+          <entry>(further entries are omitted)</entry>
+          <entry></entry>
+          <entry></entry>
+         </row>
+        </tbody>
+       </tgroup>
+      </table>
+     </para>
+     Thus, we can set, for example,
+<programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;BACnet&gt;
+  &lt;Object Type="Device" Instance="123"&gt;
+    &lt;Object Type="Analog Output" Instance="1"&gt;
+      &lt;PropertyIdentifier Name="Present_Value"/&gt;
+    &lt;/Object&gt;
+  &lt;/Object&gt;
+&lt;/BACnet&gt;</programlisting>
+     which would cause the <code>BACnetReader</code> to read
+     the present value of the BACnet Analog Output object
+     type with instance number 1, which is part of a BACnet
+     Device Object with instance number 123.
+    </para>
+    <para>
+     The following code listing shows an example of a larger
+     configuration file that is used to read data from a
+     BACnet system.
+     <programlistingco>
+      <areaspec>
+       <area xml:id="bnr-objTyp1" coords="3"></area>
+       <area xml:id="bnr-proIde1" coords="5"></area>
+       <area xml:id="bnr-objTyp11" coords="7"></area>
+       <area xml:id="bnr-proIde11" coords="8"></area>
+       <area xml:id="bnr-proIde12" coords="9"></area>
+       <area xml:id="bnr-proIde13" coords="10"></area>
+       <area xml:id="bnr-objTyp12" coords="13"></area>
+       <area xml:id="bnr-proIde15" coords="15"></area>
+       <area xml:id="bnr-objTyp2" coords="20"></area>
+      </areaspec>
+<programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;BACnet&gt;
+  &lt;Object Type="Device" Instance="637501"&gt;
+    
+    &lt;PropertyIdentifier Name="Local_Date"/&gt;
+    
+    &lt;Object Type="Analog Input" Instance="1"&gt;
+      &lt;PropertyIdentifier Name="Object_Identifier"/&gt;
+      &lt;PropertyIdentifier Name="Units"/&gt;
+      &lt;PropertyIdentifier Name="Present_Value"/&gt;
+    &lt;/Object&gt;
+    
+    &lt;Object Type="Analog Output" Instance="2"&gt;
+      &lt;PropertyIdentifier Name="Present_Value"
+                          Index="2"/&gt;
+    &lt;/Object&gt;
+    
+  &lt;/Object&gt;
+  
+  &lt;Object Type="Device" Instance="637502"&gt;
+    
+    &lt;Object Type="Analog Input" Instance="1"&gt;
+      &lt;PropertyIdentifier Name="Present_Value"/&gt;
+    &lt;/Object&gt;
+    
+    &lt;Object Name="Analog Output" Instance="3"&gt;
+      &lt;PropertyIdentifier Name="Present_Value"/&gt;
+    &lt;/Object&gt;
+    
+  &lt;/Object&gt;
+&lt;/BACnet&gt;
+</programlisting>
+     </programlistingco>
+    </para>
+    <para>
+     The numbered items have the following functionalities:
+     <calloutlist>
+      <callout arearefs="bnr-objTyp1 bnr-objTyp2">
+       <para>
+        The BACnet devices are declared at the top-level of
+        the control system. The only valid elements are
+<programlisting language="xml">&lt;Object Type="Device" Instance="123"&gt;
+   &lt;!-- Child elements are not shown. --&gt;
+&lt;/Object&gt;</programlisting>
+        which all need to have a unique, system-dependent
+        instance number.
+       </para>
+      </callout>
+      <callout arearefs="bnr-proIde1">
+       <para>
+        This line declares a BACnet property identifier of
+        the device with instance number 637501. This
+        statement will cause the BACnet reader to read the
+        local date from the device.
+       </para>
+      </callout>
+      <callout arearefs="bnr-objTyp11 bnr-objTyp12">
+       <para>
+        These lines declare BACnet object types that are
+        children of the device object type with instance
+        number 637501. The first instance has the instance
+        number 1, and the second instance has the instance
+        number 2. Note that instance numbers are assigned by
+        the controls provider and need not start at 1.
+       </para>
+      </callout>
+      <callout arearefs="bnr-proIde11 bnr-proIde12 bnr-proIde13">
+       <para>
+        These entries declare BACnet property identifiers of
+        the device with instance number 1. These statements
+        will cause the BACnet reader to read its object
+        identifier, its units and its present value.
+       </para>
+      </callout>
+      <callout arearefs="bnr-proIde15">
+       <para>
+        The optional attribute <code>Index="2"</code>
+        declares that the present value will only be
+        obtained for the second element of this Analog
+        Output object. If the <code>Index</code> would not
+        be specified and the Analog Output object has an
+        array of values, then all elements of the array
+        would be read.
+       </para>
+      </callout>
+     </calloutlist>
+    </para>
+   </section>
+   <section>
+    <title>Interface to BACnet Stack</title>
+    <para>
+     To read data from BACnet devices, the
+     <code>BACnetReader</code> actor calls an executable
+     program that is provided by the BACnet stack. This
+     section describes how the entries in the xml file
+     relate to this executable. The example shows the
+     low-level implementation and may be skipped by users
+     who are not interested in the implementation.
+    </para>
+    <para>
+     To read from BACnet, the BACnet stack provides the
+     following function:
+<programlisting>bacrp device-instance object-type object-instance property [index]
+</programlisting>
+     (For an explanation of the arguments, type
+     <code>./bacrp --help</code> on a console.) The above
+     xml file would cause the following commands to be
+     executed:
+<programlisting>bacrp 637501 8 637501 56
+bacrp 637501 0 1 75
+bacrp 637501 0 1 117
+bacrp 637501 0 1 191
+bacrp 637501 1 2 117 2
+bacrp 637502 0 1 191
+bacrp 637502 1 3 191
+</programlisting>
+    </para>
+    <para>
+     In the first command, the second argument is 8 as this
+     is the enumeration for the BACnet Object Device, and
+     the fourth argument is 56 as this is the enumeration
+     for the Local Date Property. The following lines are
+     constructed similarly, using the enumerations that are
+     defined in the file <code>bacenum.h</code> that is part
+     of the BACnet stack.
+    </para>
+   </section>
+  </section>
+<!-- BACnet writer configuration -->
+  <section xml:id="tit-BACnetConfDataWri">
+   <title>Writing to BACnet</title>
+   <section>
+    <title>Specification of data that will be written to BACnet</title>
+    <para>
+     The BCVTB contains an actor called
+     <code>BACnetWriter</code> that can write to BACnet
+     devices. The BACnet standard
+     <citation>ASHRAE 2004</citation>
+     defines the conformance codes shown in
+     <xref linkend="tab-BACnetConCod"></xref>
+     . The <code>BACnetReader</code> can write to any BACnet
+     properties with the conformance code <code>W</code>.
+     <table xml:id="tab-BACnetConCod">
+      <title>BACnet Conformance Codes.</title>
+      <tgroup align="left" cols="2">
+       <colspec colnum="1" colwidth="1*"></colspec>
+       <colspec colnum="2" colwidth="30*"></colspec>
+       <tbody>
+        <row>
+         <entry>O</entry>
+         <entry>Indicates that the property is optional.</entry>
+        </row>
+        <row>
+         <entry>R</entry>
+         <entry>Indicates that the property is required to be present and readable using BACnet services.</entry>
+        </row>
+        <row>
+         <entry>W</entry>
+         <entry>Indicates that the property is required to be present, readable, and writeable using BACnet services.</entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </table>
+    </para>
+    <para>
+     The <code>BACnetWriter</code> provides the
+     <emphasis>WriteProperty Service</emphasis>
+     that is specified in Section 15.9 in the BACnet
+     Standard
+     <citation>ASHRAE 2004</citation>
+     . The configuration file that is used by the
+     <code>BACnetWriter</code> is identical to the one used
+     for the <code>BACnetReader</code> explained in
+     <xref linkend="tit-BACnetConfDataRea"></xref>
+     , except that the xml elements of type
+     <code>PropertyIdentifier</code> have the additional
+     attributes <code>ApplicationTag</code>,
+     <code>Priority</code>, and <code>Index</code>. These
+     attributes are explained in
+     <xref linkend="tab-BACReaAtt"></xref>
+     . The following program listing shows an example
+     configuration file.
+<programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;BACnet&gt;
+  &lt;!-- Top level BACnet device --&gt;  
+  &lt;Object Type="Device" Instance="637501"&gt;
+
+    &lt;!-- BACnet object for analog input --&gt;    
+    &lt;Object Type="Analog Input" Instance="1"&gt;
+      &lt;PropertyIdentifier Name="Present_Value" ApplicationTag="Real" 
+			  Priority="15" Index="-1"/&gt;
+    &lt;/Object&gt;
+  &lt;/Object&gt;
+  &lt;!-- Top level BACnet device --&gt;    
+  &lt;Object Type="Device" Instance="637502"&gt;
+    
+    &lt;Object Type="Analog Input" Instance="1"&gt;
+      &lt;PropertyIdentifier Name="Present_Value" ApplicationTag="Real" 
+			  Priority="15" Index="-1"/&gt;
+    &lt;/Object&gt;
+    &lt;!-- BACnet object for analog input --&gt;        
+    &lt;Object Type="Analog Input" Instance="2"&gt;
+      &lt;PropertyIdentifier Name="Present_Value" ApplicationTag="Real" 
+			  Priority="15" Index="-1"/&gt;
+    &lt;/Object&gt;
+  &lt;/Object&gt;
+&lt;/BACnet&gt;
+</programlisting>
+     For the <code>BACnetReader</code>, the xml element
+     <code>PropertyIdentifier</code> has the attributes
+     shown in
+     <xref linkend="tab-BACReaAtt"></xref>
+     .
+     <table frame="all" xml:id="tab-BACReaAtt">
+      <title>Attributes of the <code>PropertyIdentifier</code> xml element if used to write to a BACnet device.</title>
+      <tgroup align="left" cols="3">
+       <colspec colnum="1" colwidth="10*"></colspec>
+       <colspec colnum="2" colwidth="5*"></colspec>
+       <colspec colnum="3" colwidth="30*"></colspec>
+       <thead>
+        <row>
+         <entry>Attribute name</entry>
+         <entry>Required</entry>
+         <entry>Description</entry>
+        </row>
+       </thead>
+       <tbody>
+        <row>
+         <entry>
+		  Name
+		</entry>
+         <entry>yes</entry>
+         <entry>
+		  The name of the property identifier.
+		</entry>
+        </row>
+        <row>
+         <entry>
+		  ApplicationTag
+		</entry>
+         <entry>yes</entry>
+         <entry>
+		  This attribute specifies the data format that is used to send the value to the BACnet device. Possible entries are
+		  <code>NULL</code>, <code>BOOLEAN</code>, <code>UNSIGNED_INT</code>, <code>SIGNED_INT</code>, <code>REAL</code>, <code>DOUBLE</code>, <code>OCTET_STRING</code>, <code>CHARACTER_STRING</code>, <code>BIT_STRING</code>, <code>ENUMERATED</code>, <code>DATE</code>, <code>TIME</code>, <code>OBJECT_ID</code>, <code>MAX_BACNET_APPLICATION_TAG</code>.
+The value of this attribute will be converted to upper-case, and then sent to the BACnet interface.
+		</entry>
+        </row>
+        <row>
+         <entry>Priority</entry>
+         <entry>no</entry>
+         <entry>
+This parameter sets the priority of the write operation. 
+Allowed entries are any integers from 0 to 16.
+If Priority 0 is given, no priority is sent, which defaults
+according to the BACnet standard to the lowest priority.
+The highest priority is 1 and the lowest priority is 16.
+If the value is not specified, then it is set to 15.
+</entry>
+        </row>
+        <row>
+         <entry>Index</entry>
+         <entry>no</entry>
+         <entry>
+          <para>
+           This integer parameter is the index number of an
+           array. If the property is an array, individual
+           elements can be written to if supported by the
+           BACnet device. If this parameter is -1, the index
+           is ignored and hence the entire array is
+           referenced. 
+	   If the value is not specified, then it is set to -1.
+          </para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </table>
+    </para>
+   </section>
+   <section>
+    <title>Interface to BACnet Stack</title>
+    <para>
+     To write data to BACnet devices, the
+     <code>BACnetWriter</code> actor calls an executable
+     program that is provided by the BACnet stack. This
+     section describes how the entries in the xml file
+     relate to this executable. The example shows the
+     low-level implementation and may be skipped by users
+     who are not interested in the implementation.
+    </para>
+    <para>
+     To write to BACnet, the BACnet stack provides the
+     following function:
+<programlisting>
+bacwp device-instance object-type object-instance property priority index tag value [tag value...]
+</programlisting>
+     (For an explanation of the arguments, type
+     <code>./bacwp --help</code> on a console.) The above
+     xml file would cause the following commands to be
+     executed:
+<programlisting>
+bacwp 637501 0 1 85 15 -1 4 "value[1]"
+bacwp 637502 0 1 85 15 -1 4 "value[2]"
+bacwp 637502 0 2 85 15 -1 4 "value[3]"
+</programlisting>
+    </para>
+    <para>
+     Note that our implementation only supports one pair of
+     <code>tag value</code>. However, multiple pairs can be
+     constructed by declaring a separate
+     <code>PropertyIdentifier</code> element for each pair.
+    </para>
+    <para>
+     In the first command, the second argument is zero as
+     this is the enumeration for analog input objects in the
+     BACnet stack; the fourth argument is 85 which is the
+     enumeration for the present value property; the second
+     last element is 4 as this is the enumeration for the
+     application tag; and "value[1]" will be replaced with
+     the actual value of the first element of the vector
+     that is received at the input port of the actor.
+    </para>
+    <para>
+     In the second command, "value[2]" will be replaced with
+     the actual value of the second element of the vector
+     that is received at the input port of the actor. For a
+     list of the enumerations that are used in the above
+     commands, see the file <code>bacenum.h</code> that is
+     part of the BACnet stack.
+    </para>
+   </section>
+  </section>
+  <section>
+   <title>Creating a Ptolemy II model</title>
+   <para>
+    The <code>BACnetReader</code> and the
+    <code>BACnetWriter</code> actor can be used in the same
+    Ptolemy II model. In this section, however, we will
+    explain how to configure separate Ptolemy II models that
+    write to and read from BACnet devices. These files can
+    be found in the directories
+    <code>bcvtb/examples/BACnetReaderALC</code> and
+    <code>bcvtb/examples/BACnetWriterALC</code>. Note that
+    these examples have been developed for a particular
+    hardware setup. To run these examples for other
+    hardware, their configuration files need to be modified
+    as described in
+    <xref linkend="tit-BACnetConfDataRea"></xref>
+    and
+    <xref linkend="tit-BACnetConfDataWri"></xref>
+    .
+   </para>
+   <section>
+    <title>Configuring the <code>BACnetReader</code>
+    </title>
+    <para>
+     <figure xml:id="configurationPtolemyBACnetReader">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configurationPtolemyBACnetReader.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configurationPtolemyBACnetReader.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		    Ptolemy II system model that uses the <code>BACnetReader</code> actor.
+		  </title>
+     </figure>
+     <xref linkend="configurationPtolemyBACnetReader"></xref>
+     shows a Ptolemy II system model that uses the
+     <code>BACnetReader</code> actor. To configure the
+     <code>BACnetReader</code>, double-click on its icon and
+     add the name of its configuration file that has been
+     developed as described in
+     <xref linkend="tit-BACnetConfDataRea"></xref>
+     . There is also a check-box called
+     <code>continueWhenError</code>. If activated and an
+     error occurs, then Ptolemy II will continue the
+     simulation and the actor will output at its ports the
+     last known value and the error message, unless the
+     error occurs in the first step, in which case the
+     simulation stops. If deactivated and an error occurs,
+     then the simulation will stop, the error message will
+     be displayed on the screen and the user is required to
+     confirm the error message by clicking on its <guibutton>OK</guibutton>
+     button.
+     <emphasis>Thus, select this box if the BCVTB should continue its operation when a run-time error, such as a network timeout, occurs.</emphasis>
+    </para>
+    <para>
+     The <code>BACnetReader</code> has the following ports:
+     There is one input port, which is a trigger port. If
+     the SDF Director is used in the Ptolemy II system
+     model, then this port need not be connected. The
+     <code>BACnetReader</code> has the following output
+     ports:
+     <informaltable>
+      <tgroup align="left" cols="2">
+       <colspec colwidth="1*"></colspec>
+       <colspec colwidth="3*"></colspec> 
+       <thead>
+        <row>
+         <entry>Port</entry>
+         <entry>Description</entry>
+        </row>
+       </thead>
+       <tbody>
+        <row>
+         <entry>errorSignal</entry>
+         <entry>If there were no errors in the previous data exchange, then this port outputs zero. Otherwise, the output is a non-zero integer.</entry>
+        </row>
+        <row>
+         <entry>errorMessage</entry>
+         <entry>If there was an error in the previous data exchange, then this port outputs the error message that was generated by the <code>BACnetReader</code> actor.
+	      (The error messages that were generated by the BACnet stack are output of the <code>consoleOutput</code> port.)</entry>
+        </row>
+        <row>
+         <entry>consoleOutput</entry>
+         <entry>
+          <para>
+           This port outputs the standard output stream and
+           the standard error stream of the executable that
+           communicates with BACnet.
+          </para>
+         </entry>
+        </row>
+        <row>
+         <entry>propertyValueArray</entry>
+         <entry>
+          <para>
+           This port outputs the values obtained at the last
+           successful communication with the BACnet devices.
+           If there was an error in the last communication,
+           then the values from the previous time step will
+           be output of this port.
+          </para>
+          <para>
+           The output data type is an array whose elements
+           are string representations of the BACnet
+           properties that are read according to the
+           configuration file. Elements can be extracted
+           from this array using actors from Ptolemy II's
+           <code>Actors-&gt;Array</code> library.
+          </para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+    </para>
+   </section>
+<!-- BACnetReader -->
+   <section>
+    <title>Configuring the <code>BACnetWriter</code>
+    </title>
+    <para>
+     <figure xml:id="configurationPtolemyBACnetWriter">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configurationPtolemyBACnetWriter.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configurationPtolemyBACnetWriter.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+			Ptolemy II system model that uses the <code>BACnetWriter</code> actor.
+      </title>
+     </figure>
+     The configuration of the <code>BACnetWriter</code>
+     actor is similar to the configuration of
+     <code>BACnetReader</code>.
+     <xref linkend="configurationPtolemyBACnetWriter"></xref>
+     shows a Ptolemy II system model that uses the
+     <code>BACnetWriter</code>. To configure the
+     <code>BACnetWriter</code>, double-click on its icon and
+     add the name of its configuration file that has been
+     developed as described in
+     <xref linkend="tit-BACnetConfDataWri"></xref>
+     . There is also a check-box called
+     <code>continueWhenError</code>. If activated and an
+     error occurs, then Ptolemy II will continue the
+     simulation and the actor will output the error message
+     at its ports, unless the error occurs in the first
+     step, in which case the simulation stops. If
+     deactivated and an error occurs, then the simulation
+     will stop, the error message will be displayed on the
+     screen and the user is required to confirm the error
+     message by clicking on its <guibutton>OK</guibutton> button.
+     <emphasis>Thus, select this box if the BCVTB should continue its operation when a run-time error, such as a network timeout, occurs.</emphasis>
+    </para>
+    <para>
+     Input into the actor is an array of values that will be
+     written to the BACnet devices according to the order
+     specified in the xml configuration file. In Ptolemy II,
+     such an array can be composed from scalar inputs by
+     using the actor
+     <code>Actors-&gt;Array-&gt;ElementsToArray</code>.
+    </para>
+    <para>
+     The <code>BACnetWriter</code> has one input port. This
+     port is used to collect the data that need to be sent
+     to the BACnet devices. The <code>BACnetReader</code>
+     has the following output ports:
+     <informaltable>
+      <tgroup align="left" cols="2">
+       <colspec colwidth="1*"></colspec>
+       <colspec colwidth="3*"></colspec>
+       <thead>
+        <row>
+         <entry>Port</entry>
+         <entry>Description</entry>
+        </row>
+       </thead>
+       <tbody>
+        <row>
+         <entry>errorSignal</entry>
+         <entry>If there were no errors in the previous data exchange, then this port outputs zero. Otherwise, the output is a non-zero integer.</entry>
+        </row>
+        <row>
+         <entry>errorMessage</entry>
+         <entry>If there was an error in the previous data exchange, then this port outputs the error message that was generated by the <code>BACnetReader</code> actor.
+	      (The error messages that were generated by the BACnet stack are output of the <code>consoleOutput</code> port.)</entry>
+        </row>
+        <row>
+         <entry>consoleOutput</entry>
+         <entry>
+          <para>
+           This port outputs the standard output stream and
+           the standard error stream of the executable that
+           communicates with BACnet.
+          </para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+    </para>
+   </section>
+<!-- BACnetWriter -->
+   <section>
+    <title>Synchronization with real-time</title>
+    <para>
+     In most cases, the BCVTB should be synchronized to real
+     time. This can be done in Ptolemy II by double-clicking
+     the director icon, and activate the check-box
+     <code>synchronizeToRealtime</code>.
+    </para>
+   </section>
+<!-- Synchronization with real-time -->
+  </section>
+ </section>
+<!-- End of BACnet -->
+
+ <!-- ADInterfaceMCC-->
+  <section>
+  <title>Analog/Digital Interface</title>
+  <note>
+   <para>
+    The ADInterfaceMCC (Analog/Digital Interface) is an interface between the BCVTB and USB-data acquisition devices. This interface has been tested for one device (USB-1208LS) 
+    of the Measurement Computing Corporation and is only supported on Windows. This interface will work properly only if the drivers of the Data Acquisition device have been installed correctly and the device has been configured. 
+    Read the user guide available at <ulink url="http://www.mccdaq.com/PDFmanuals/USB-1208LS.pdf"> http://www.mccdaq.com/PDFmanuals/USB-1208LS.pdf</ulink> and the 
+    Data Acquisition software manual <ulink url="http://www.mccdaq.com/PDFs/Manuals/DAQ-Software-Quick-Start.pdf"> http://www.mccdaq.com/PDFs/Manuals/DAQ-Software-Quick-Start.pdf</ulink> to learn how to
+    install and to configure the USB-1208LS.  
+    </para>
+  </note>
+  <section>
+   <title>Introduction</title>
+   <para>
+    The BCVTB contains an actor, called
+    <code>ADInterfaceMCCReader</code>, that can read from ADInterfaceMCC
+    devices and an actor, called <code>ADInterfaceMCCWriter</code>,
+    that can write to ADInterfaceMCC devices. Both actors use a
+    configuration file that specifies the ADInterfaceMCC devices. The next sections describe how
+    to write these configuration files, and how to set
+    up a model that reads from and writes to ADInterfaceMCC devices.
+   </para>
+  </section>
+  <section xml:id="tit-ADInterfaceMCCConfDataRea">
+   <title>Reading from ADInterfaceMCC</title>
+   <section>
+    <title>Specification of data that will be read from ADInterfaceMCC</title>
+    <para>
+     The <code>ADInterfaceMCCReader</code> actor reads an xml
+     configuration file to determine what data it needs to
+     read from ADInterfaceMCC devices. The xml configuration file has the following syntax:
+     It starts and ends with
+     <programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+     &lt;ADInterfaceMCC&gt;
+     &lt;!-- Child elements are not shown. --&gt;
+     &lt;/ADInterfaceMCC&gt;</programlisting>
+     The above element <code>ADInterfaceMCC</code> has at least one child element of the form
+     <programlisting language="xml">&lt;Object BoardNumber = "0" ChannelNumber = "0" ChannelGain = "2" ChannelOptions = "0"  ApplicationTag = "read"/&gt;</programlisting>
+     The element name needs to be set to <code>Object</code>.&#xD;   
+     The attribute <code>BoardNumber</code> is the board number associated with the board used to collect the data when it was installed with InstalCal.&#xD;  
+     The attribute <code>ChannelNumber</code> is the A/D (Analog/Digital) channel number.&#xD;  
+     The attribute <code>ChannelGain</code> is the A/D range code. If the board has a programmable gain, it will be set according to this argument value.&#xD; 
+     The attribute <code>ChannelOptions</code> is reserved for future use by the hardware manufacturer and should be set to zero.&#xD;  
+     The attribute <code>ApplicationTag</code>  is a value that can be set to <code>read</code> or <code>write</code> depending on whether the interface should be used in the <code>READ</code> or <code>WRITE</code> mode.
+     <xref linkend="tab-usb-1208Properties-reader"></xref> gives a short overview about the values that the attributes could have in the configuration file.
+     <para>
+      <table frame="all" xml:id="tab-usb-1208Properties-reader">
+       <title>Attribute's values for the USB-1208LS Data Acquisition Device (<code>READ</code> mode).</title>
+       <tgroup align="left" cols="2">
+        <thead>
+         <row>
+          <entry>Attribute</entry>
+          <entry>Value</entry>
+         </row>
+        </thead>
+        <tbody>
+         <row>
+          <entry>BoardNumber</entry>
+          <entry>Integer from 0 to 99</entry>
+         </row>
+         <row>
+          <entry>ChannelNumber</entry>
+          <entry>Integer from 0 to 7</entry>
+         </row>
+         <row>
+          <entry>ChannelGain</entry>
+          <entry>1: channel with 10 volts unipolar &#xD; 
+          2: channel with 10 volts bipolar&#xD; 
+          3: channel with 5 volts unipolar&#xD; 
+          4: channel with 5 volts bipolar</entry>
+         </row>
+         <row>
+          <entry>ChannelOptions</entry>
+          <entry>0</entry>
+         </row>
+         <row>
+          <entry>ApplicationTag</entry>
+          <entry>read</entry>
+         </row>
+        </tbody>
+       </tgroup>
+      </table>
+     </para>
+     
+     </para>
+     </section>
+      <section>
+    <title>Interface to adInterfaceMCC-Stack</title>
+    <para>
+     To read data from ADInterfaceMCC devices, the
+     <code>ADInterfaceMCCReader</code> actor calls an executable
+     program that is in the directory <code>bcvtb/lib/adInterfaceMCC-stack</code>. This
+     section describes how the entries in the xml file
+     relate to this executable. The example shows the
+     low-level implementation.
+    </para>
+    <para>
+     To read from ADInterfaceMCC, the adInterfaceMCC-stack provides the
+     following function:
+     <programlisting>java -jar adInterfaceReader.jar BoardNumber ChannelNumber ChannelGain ChannelOptions
+     </programlisting>
+    </para>
+   </section>
+  </section>
+  
+<!-- ADInterfaceMCCwriter configuration -->
+  <section xml:id="tit-ADInterfaceMCCConfDataWri">
+   <title>Writing to ADInterfaceMCC</title>
+   <section>
+    <title>Specification of data that will be written to ADInterfaceMCC</title>
+    <para>
+     The <code>ADInterfaceMCCWriter</code> actor reads an xml
+     configuration file to determine what data it needs to
+     write to ADInterfaceMCC devices. The xml configuration file has the following syntax:
+     It starts and ends with
+     <programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+     &lt;ADInterfaceMCC&gt;
+     &lt;!-- Child elements are not shown. --&gt;
+     &lt;/ADInterfaceMCC&gt;</programlisting>
+     The above element <code>ADInterfaceMCC</code> has at least one child element of the form
+     <programlisting language="xml">&lt;Object BoardNumber = "0" ChannelNumber = "0" ChannelGain = "3" ChannelOptions = "0"  ApplicationTag = "write"/&gt;</programlisting>
+     The element name needs to be set to <code>Object</code>.&#xD; 
+     The attribute <code>BoardNumber</code> is the board number associated with the board used to collect the data when it was installed with InstalCal.&#xD; 
+     The attribute <code>ChannelNumber</code> is the D/A (Digital/Analog) channel number. The maximum allowable channel depends on which type of D/A board is being used.&#xD; 
+     The attribute <code>ChannelGain</code> is the D/A range code. If the device has a programmable gain, it will be set according to this argument value. If the specified range is not supported, 
+     the function will return a BADRANGE error. If the gain is fixed or manually selectable, you must make
+     sure this argument matches the gain configured for the device.&#xD; 
+     The attribute <code>ChannelOptions</code> is reserved for future use by the hardware manufacturer and should be set to zero.&#xD; 
+     The attribute <code>ApplicationTag</code> is a value that can be set to <code>read</code> or <code>write</code> depending on whether the interface should be used in the <code>READ</code> or <code>WRITE</code> mode.
+     <xref linkend="tab-usb-1208Properties-writer"></xref>  gives a short overview about the values that the attributes could have in the configuration file.
+     <para>
+      <table frame="all" xml:id="tab-usb-1208Properties-writer">
+       <title>Attribute's values for the USB-1208LS Data Acquisition Device (<code>WRITE</code> mode).</title>
+       <tgroup align="left" cols="2">
+        <thead>
+         <row>
+          <entry>Attribute</entry>
+          <entry>Value</entry>
+         </row>
+        </thead>
+        <tbody>
+         <row>
+          <entry>BoardNumber</entry>
+          <entry>Integer from 0 to 99</entry>
+         </row>
+         <row>
+          <entry>ChannelNumber</entry>
+          <entry>0 or 1</entry>
+         </row>
+         <row>
+          <entry>ChannelGain</entry>
+          <entry>1: channel with 10 volts unipolar &#xD; 
+          2: channel with 10 volts bipolar&#xD; 
+          3: channel with 5 volts unipolar&#xD; 
+          4: channel with 5 volts bipolar</entry>
+         </row>
+         <row>
+          <entry>ChannelOptions</entry>
+          <entry>0</entry>
+         </row>
+         <row>
+          <entry>ApplicationTag</entry>
+          <entry>write</entry>
+         </row>
+        </tbody>
+       </tgroup>
+      </table>
+     </para>
+     
+     </para>
+     </section>
+     <section>
+    <title>Interface to adInterfaceMCC-Stack</title>
+    <para>
+     To write data to ADInterfaceMCC devices, the
+     <code>ADInterfaceMCCWriter</code> actor calls an executable
+     program that is provided by the adInterfaceMCC-stack. This
+     section describes how the entries in the xml file
+     relate to this executable. The example shows the
+     low-level implementation.
+    </para>
+    <para>
+     To write to ADInterfaceMCC, the adInterfaceMCC-stack provides the
+     following function:
+<programlisting>java -jar adInterfaceWriter.jar BoardNumber ChannelNumber ChannelGain ValueToBeWritten ChannelOptions
+</programlisting>
+    </para>
+   </section>
+  </section>
+  <section>
+   <title>Creating a Ptolemy II model</title>
+   <para>
+    The <code>ADInterfaceMCCReader</code> and the
+    <code>ADInterfaceMCCWriter</code> actor can be used in the same
+    Ptolemy II model. In this section, we will
+    explain how to configure a Ptolemy II model that
+    writes to and reads from ADInterfaceMCCdevices. This example can be found in the directory
+    <code>bcvtb/examples/adInterfaceMCC-roomControl</code>. A similar example can also be found in the directory
+    <code>bcvtb/examples/adInterfaceMCC-room</code>.
+   </para>
+   <section>
+    <title>Configuring the <code>ADInterfaceMCCReader and ADInterfaceMCCWriter</code>
+    </title>
+    <para>
+    <figure xml:id="configurationPtolemyADInterfaceMCCReaderWriter">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configurationADInterfaceMCC-roomControl.PNG" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configurationADInterfaceMCC-roomControl.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+			Ptolemy II system model that uses the <code>ADInterfaceMCCReader and the ADInterfaceMCCWriter</code> actors.
+      </title>
+     </figure>
+     <xref linkend="configurationPtolemyADInterfaceMCCReaderWriter"></xref>
+     shows a Ptolemy II system model that uses the
+     <code>ADInterfaceMCCReader</code> and the <code>ADInterfaceMCCWriter</code> actors. To configure the
+     <code>ADInterfaceMCCReader</code>, double-click on its icon and
+     add the name of its configuration file that has been
+     developed as described in
+     <xref linkend="tit-ADInterfaceMCCConfDataRea"></xref>
+     . There is also a check-box called
+     <code>continueWhenError</code>. If activated and an
+     error occurs, then Ptolemy II will continue the
+     simulation and the actor will output at its ports the
+     last known value and the error message, unless the
+     error occurs in the first step, in which case the
+     simulation stops. If deactivated and an error occurs,
+     then the simulation will stop, the error message will
+     be displayed on the screen and the user is required to
+     confirm the error message by clicking on its <guibutton>OK</guibutton>
+     button.
+     <emphasis>Thus, select this box if the BCVTB should continue its operation when a run-time error occurs.</emphasis>
+    </para>
+    <para>
+     The <code>ADInterfaceMCCReader</code> has the following ports:
+     There is one input port, which is a trigger port. If
+     the SDF Director is used in the Ptolemy II system
+     model, then this port need not be connected. The
+     <code>ADInterfaceMCCReader</code> has the following output
+     ports:
+     <informaltable>
+      <tgroup align="left" cols="2">
+       <colspec colwidth="1*"></colspec>
+       <colspec colwidth="3*"></colspec> 
+       <thead>
+        <row>
+         <entry>Port</entry>
+         <entry>Description</entry>
+        </row>
+       </thead>
+       <tbody>
+        <row>
+         <entry>errorSignal</entry>
+         <entry>If there were no errors in the previous data exchange, then this port outputs zero. Otherwise, the output is a non-zero integer.</entry>
+        </row>
+        <row>
+         <entry>errorMessage</entry>
+         <entry>If there was an error in the previous data exchange, then this port outputs the error message that was generated by the <code>ADInterfaceMCCReader</code> actor.
+	      (The error messages that were generated by the binary of the ADInterfaceMCC are output of the <code>consoleOutput</code> port.)</entry>
+        </row>
+        <row>
+         <entry>consoleOutput</entry>
+         <entry>
+          <para>
+           This port outputs the standard output stream and
+           the standard error stream of the binary that
+           communicates with ADInterfaceMCC.
+          </para>
+         </entry>
+        </row>
+        <row>
+         <entry>propertyValue</entry>
+         <entry>
+          <para>
+           This port outputs the values obtained at the last
+           successful communication with the ADInterfaceMCC device.
+          </para>
+          <para>
+           The output data type is a vector whose elements
+           are string representations of the ADInterfaceMCC
+           properties that are read according to the
+           configuration file. Elements can be extracted
+           from this vector using actors from Ptolemy II's
+           <code>Actors-&gt;VectorDisassembler</code> library.
+          </para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+    </para>
+<!-- ADInterfaceMCCReader -->
+    <para>
+     The configuration of the <code>ADInterfaceMCCWriter</code>
+     actor is similar to the configuration of the
+     <code>ADInterfaceMCCReader</code>.
+     To configure the
+     <code>ADInterfaceMCCWriter</code>, double-click on its icon and
+     add the name of its configuration file that has been
+     developed as described in
+     <xref linkend="tit-ADInterfaceMCCConfDataWri"></xref>
+     . There is also a check-box called
+     <code>continueWhenError</code>. If activated and an
+     error occurs, then Ptolemy II will continue the
+     simulation and the actor will output the error message
+     at its ports, unless the error occurs in the first
+     step, in which case the simulation stops. If
+     deactivated and an error occurs, then the simulation
+     will stop, the error message will be displayed on the
+     screen and the user is required to confirm the error
+     message by clicking on its <guibutton>OK</guibutton> button.
+     <emphasis>Thus, select this box if the BCVTB should continue its operation when a run-time error occurs.</emphasis>
+    </para>
+    <para>
+     Input into the actor are values that will be
+     written to the ADInterfaceMCC device according to the order
+     specified in the xml configuration file.
+    </para>
+    <para>
+     The <code>ADInterfaceMCCWriter</code> has one multiport input. This
+     port is used to collect the data that need to be sent
+     to the ADInterfaceMCCdevices. The <code>ADInterfaceMCCWriter</code>
+     has the following output ports:
+     <informaltable>
+      <tgroup align="left" cols="2">
+       <colspec colwidth="1*"></colspec>
+       <colspec colwidth="3*"></colspec>
+       <thead>
+        <row>
+         <entry>Port</entry>
+         <entry>Description</entry>
+        </row>
+       </thead>
+       <tbody>
+        <row>
+         <entry>errorSignal</entry>
+         <entry>If there were no errors in the previous data exchange, then this port outputs zero. Otherwise, the output is a non-zero integer.</entry>
+        </row>
+        <row>
+         <entry>errorMessage</entry>
+         <entry>If there was an error in the previous data exchange, then this port outputs the error message that was generated by the <code>ADInterfaceMCCWriter</code> actor.
+	      (The error messages that were generated by the binary of the ADInterfaceMCC are output of the <code>consoleOutput</code> port.)</entry>
+        </row>
+        <row>
+         <entry>consoleOutput</entry>
+         <entry>
+          <para>
+           This port outputs the standard output stream and
+           the standard error stream of the binary that
+           communicates with ADInterfaceMCC.
+          </para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+    </para>
+   </section>
+<!-- ADInterfaceMCCWriter -->
+   <section>
+    <title>Synchronization with real-time</title>
+    <para>
+     In most cases, the BCVTB should be synchronized to real
+     time. This can be done in Ptolemy II by double-clicking
+     the director icon, and activate the check-box
+     <code>synchronizeToRealtime</code>.
+    </para>
+   </section>
+<!-- Synchronization with real-time -->
+  </section>
+ </section>
+<!-- End of ADInterfaceMCC-->
+</chapter>

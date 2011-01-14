@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="internalTests" default="all"> 
+<import file="../build-common.xml"/>
+
+<!-- Overwrite flag to run in windowless model -->
+  <!-- Clean -->
+  <target name="clean" description="Deletes generated files">
+    <ant dir="socket"            target="clean"/>
+  </target>
+
+  <!-- All -->
+  <target name="all" depends="clean,unitTest" description="Runs all targets">
+    <ant dir="socket"            target="all"/>
+  </target>
+  
+  <!-- Unit tests -->
+  <target name="unitTest" description="Runs unit tests">
+    <ant dir="socket"            target="unitTest"/>
+  </target>
+  
+</project>

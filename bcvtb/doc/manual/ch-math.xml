@@ -1,0 +1,779 @@
+<chapter xml:id="math">
+ <title>Mathematics of the Implemented Co-Simulation</title>
+ <section>
+  <title>Introduction</title>
+  <para>
+    This section describes the mathematical model that is used
+    to implement the co-simulation. The section helps understanding
+    when variables that are computed during the time integration
+    are updated.
+</para>
+ </section>
+ <section>
+  <title>Description</title>
+  <para>
+    In the BCVTB, data is exchanged between the different clients using a fixed synchronization time step. There is no iteration between the clients. In the co-simulation literature, this coupling scheme is referred to as <emphasis>quasi-dynamic coupling</emphasis>, <emphasis>loose coupling</emphasis> or <emphasis>ping-pong coupling</emphasis>. See <citation>Hensen (1999)</citation> and <citation>Zhai and Chen (2005)</citation> for details.
+
+The algorithm for exchanging data between clients is as follows: Suppose we have a system with two clients, where each client solves an initial value ordinary differential equation that is coupled to the ordinary differential equation of the other client. Let
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>N</mi>
+	<mo>&isin;</mo>
+	<mi mathvariant="double-struck">N</mi>
+</mrow>
+</math>
+denote the number of time steps and let 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>k</mi>
+	<mo>&isin;</mo>
+	<mrow>
+		<mo maxsize="1.00em">{</mo>
+		<mn>0</mn>
+		<mo>,</mo>
+		<mo>&hellip;</mo>
+		<mo>,</mo>
+		<mi>N</mi>
+		<mo maxsize="1.00em">}</mo>
+	</mrow>
+</mrow>
+</math>
+denote the time steps. 
+For some 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>n</mi>
+		<mn>1</mn>
+	</msub>
+	<mo>,</mo>
+	<msub>
+		<mi>n</mi>
+		<mn>2</mn>
+	</msub>
+	<mo>&isin;</mo>
+	<mi>&Nopf;</mi>
+</mrow>
+</math>,
+let
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>f</mi>
+		<mn>1</mn>
+	</msub>
+	<mspace width="0.167em" />
+	<mo>&colon;</mo>
+	<mspace width="0.167em" />
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>1</mn>
+			</msub>
+		</mrow>
+	</msup>
+	<mo>&times;</mo>
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>2</mn>
+			</msub>
+		</mrow>
+	</msup>
+	<mo>&rarr;</mo>
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>1</mn>
+			</msub>
+		</mrow>
+	</msup>
+</mrow>
+</math>
+and 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>f</mi>
+		<mn>2</mn>
+	</msub>
+	<mspace width="0.167em" />
+	<mo>&colon;</mo>
+	<mspace width="0.167em" />
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>2</mn>
+			</msub>
+		</mrow>
+	</msup>
+	<mo>&times;</mo>
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>1</mn>
+			</msub>
+		</mrow>
+	</msup>
+	<mo>&rarr;</mo>
+	<msup>
+		<mo>&real;</mo>
+		<mrow>
+			<msub>
+				<mi>n</mi>
+				<mn>2</mn>
+			</msub>
+		</mrow>
+	</msup>
+</mrow>
+</math>
+denote the functions that compute the next value of the state variables in simulator 1 and 2. Note that these functions are defined by the sequence of code instructions executed in the respective simulator.
+The simulator 1 computes, for 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>k</mi>
+	<mo>&isin;</mo>
+	<mrow>
+		<mo maxsize="1.00em">{</mo>
+		<mn>0</mn>
+		<mo>,</mo>
+		<mo>&hellip;</mo>
+		<mo>,</mo>
+		<mi>N</mi>
+		<mo>-</mo>
+		<mn>1</mn>
+		<mo maxsize="1.00em">}</mo>
+	</mrow>
+</mrow>
+</math>, the sequence
+     <informalequation>
+       <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mspace width="1.00em" />
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo>+</mo>
+		<mn>1</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>f</mi>
+		<mn>1</mn>
+	</msub>
+	<mo maxsize="1.00em">(</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>,</mo>
+	<mspace width="0.167em" />
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo maxsize="1.00em">),</mo>
+</mrow>
+</math>,
+</informalequation>
+and, similarly, the simulator 2 computes the sequence
+     <informalequation>
+       <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mspace width="1.00em" />
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo>+</mo>
+		<mn>1</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>f</mi>
+		<mn>2</mn>
+	</msub>
+	<mo maxsize="1.00em">(</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>,</mo>
+	<mspace width="0.167em" />
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo maxsize="1.00em">),</mo>
+</mrow>
+</math>
+</informalequation>
+with initial conditions 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mn>0</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>x</mi>
+		<mrow>
+			<mn>1</mn>
+			<mo>,</mo>
+			<mn>0</mn>
+		</mrow>
+	</msub>
+</mrow>
+</math>
+and 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mn>0</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>x</mi>
+		<mrow>
+			<mn>2</mn>
+			<mo>,</mo>
+			<mn>0</mn>
+		</mrow>
+	</msub>
+</mrow>
+</math>.
+An implementation difficulty is presented by the situation that
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>f</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mo>&sdot;</mo>
+		<mo>,</mo>
+		<mo>&sdot;</mo>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+</mrow>
+</math>
+and
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<msub>
+		<mi>f</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mo>&sdot;</mo>
+		<mo>,</mo>
+		<mo>&sdot;</mo>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+</mrow>
+</math>
+need to know the initial value of the other simulator. Thus, at 
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>k=0</mi>
+</math>, both simulators exchange their initial value
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<msub>
+<mi>x</mi>
+<mn>1,0</mn>
+</msub>
+</math>
+and 
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<msub>
+<mi>x</mi>
+<mn>2,0</mn>
+</msub>
+</math>.
+To advance from time 
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>k</mi></math>
+to
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>k+1</mi></math>,
+each simulator uses its own time integration algorithm. At the end of the time step, the simulator 1 sends the new state 
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<msub>
+<mi>x</mi>
+<mn>1</mn>
+</msub>
+<mi>(k+1)</mi>
+</math>
+to the BCVTB and it receives the state 
+<math  xmlns="http://www.w3.org/1998/Math/MathML">
+<msub>
+<mi>x</mi>
+<mn>2</mn>
+</msub>
+<mi>(k+1)</mi>
+</math>
+from the BCVTB. 
+The same procedure is done by the simulator 2. The BCVTB synchronizes the data in such a way that it does not matter which of the two simulators is called first. 
+</para>
+<para>
+In terms of numerical methods for ordinary differential equations, this scheme is identical to an explicit Euler integration, which is an integration algorithm for a differential equation 
+<!-- begin MathToWeb -->
+<!-- (your LaTeX) \begin{equation} \dot x =  h(x), \\ x(0)  =  x_0, \end{equation} -->
+<informalequation>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mspace width="1.00em" />
+  <mover accent="true">
+    <mi>x</mi>
+    <mo>&dot;</mo>
+  </mover>
+  <mo>=</mo>
+  <mi>h</mi>
+  <mrow>
+    <mo maxsize="1.00em">(</mo>
+    <mi>x</mi>
+    <mo maxsize="1.00em">)</mo>
+  </mrow>
+  <mo>,</mo>
+</mrow>
+<mo linebreak="newline"/>
+<mrow>
+  <mrow>
+    <mi>x</mi>
+    <mo maxsize="1.00em">(</mo>
+    <mn>0</mn>
+    <mo maxsize="1.00em">)</mo>
+  </mrow>
+  <mo>=</mo>
+  <msub>
+    <mi>x</mi>
+    <mn>0</mn>
+  </msub>
+  <mo>,</mo>
+</mrow>
+</math>
+</informalequation>
+<!-- end MathToWeb -->
+where
+<!-- begin MathToWeb -->
+<!-- (your LaTeX) \begin{equation} h \, \colon \, \Re^n \to \Re^n \end{equation} -->
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>h</mi>
+	<mspace width="0.167em" />
+	<mo>&colon;</mo>
+	<mspace width="0.167em" />
+	<msup>
+		<mo>&real;</mo>
+		<mi>n</mi>
+	</msup>
+	<mo>&rarr;</mo>
+	<msup>
+		<mo>&real;</mo>
+		<mi>n</mi>
+	</msup>
+</mrow>
+</math>
+<!-- end MathToWeb -->
+for some 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>n</mi>
+	<mo>&isin;</mo>
+	<mi>&Nopf;</mi>
+</mrow>
+</math>.
+<!-- end MathToWeb -->
+On the time interval 
+<!-- begin MathToWeb -->
+<!-- (your LaTeX) \begin{equation} t \in [0, \, 1] \end{equation} -->
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mi>t</mi>
+	<mo>&isin;</mo>
+	<mo maxsize="1.00em">[</mo>
+	<mn>0</mn>
+	<mo>,</mo>
+	<mspace width="0.167em" />
+	<mn>1</mn>
+	<mo maxsize="1.00em">]</mo>
+</mrow>
+</math>,
+<!-- end MathToWeb -->
+the explicit Euler integration algorithm leads to the following sequence:
+<informaltable frame="topbot" pgwide="1">
+  <tgroup cols="2" colsep="0" rowsep="0">
+    <colspec colwidth="10em" frame="none"/>
+    <colspec frame="none"/>
+    <tbody>
+      <row>
+	<entry>
+	  <emphasis>Step 0:</emphasis>
+	  </entry>
+	<entry>
+	  Initialize counter 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k = 0</mi></mrow></math>
+	  and number of steps 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>n</mi>
+	    <mo>&isin;</mo>
+	    <mi>&Nopf;</mi>
+	    </mrow>
+	  </math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+	  Set initial state 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <msub>
+	    <mi>x(k)=x</mi>
+	    <mn>0</mn>
+	    </msub>
+	    </mrow>
+	  </math>
+	  and set time step
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>&Delta;t = 1/N</mi></mrow></math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	  <emphasis>Step 1:</emphasis>
+	</entry>
+	<entry>
+	  Compute new state
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>x(k+1) = x(k) + </mi><mo>h</mo><mi>(x(k)) &Delta;t</mi>
+	    </mrow>
+	    </math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+	  Replace 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow><mi>k</mi></mrow></math>
+	  by 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k+1</mi></mrow></math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	  <emphasis>Step 2:</emphasis>
+	</entry>
+	<entry>
+	  If 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k=N</mi></mrow></math>
+	  stop, else go to Step 1.
+	</entry>
+      </row>
+    </tbody>
+  </tgroup>
+</informaltable>
+In the situation where the differential equation is integrated over time 
+using co-simulation, the above algorithm becomes:
+<informaltable frame="topbot" pgwide="1">
+  <tgroup cols="2" colsep="0" rowsep="0">
+    <colspec colwidth="10em" frame="none"/>
+    <colspec frame="none"/>
+    <tbody>
+      <row>
+	<entry>
+	  <emphasis>Step 0:</emphasis>
+	  </entry>
+	<entry>
+	  Initialize counter 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k = 0</mi></mrow></math>
+	  and number of steps 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>n</mi>
+	    <mo>&isin;</mo>
+	    <mi>&Nopf;</mi>
+	    </mrow>
+	  </math>
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+	  Set initial states
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	      <msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	      </msub>
+	      <mi>(k)=</mi>
+	      <msub>
+		<mi>x</mi>
+		<mn>1,0</mn>
+	      </msub>
+	    </mrow>
+	  </math>
+	  and
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	      <msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	      </msub>
+	      <mi>(k)=</mi>
+	      <msub>
+		<mi>x</mi>
+		<mn>2,0</mn>
+	      </msub>
+	    </mrow>
+	  </math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+	  Set time step
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>&Delta;t = 1/N</mi></mrow></math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	  <emphasis>Step 1:</emphasis>
+	</entry>
+	<entry>
+	  Compute new states
+	  </entry>
+	</row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mspace width="1.00em" />
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo>+</mo>
+		<mn>1</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>+</mo>
+	<msub>
+		<mi>f</mi>
+		<mn>1</mn>
+	</msub>
+	<mo maxsize="1.00em">(</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>,</mo>
+	<mspace width="0.167em" />
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo maxsize="1.00em">)</mo>
+	<mspace width="0.167em" />
+	<mi>&Delta;</mi>
+	<mi>t</mi>
+</mrow>
+</math>, and
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+	<mspace width="1.00em" />
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo>+</mo>
+		<mn>1</mn>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>=</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>+</mo>
+	<msub>
+		<mi>f</mi>
+		<mn>2</mn>
+	</msub>
+	<mo maxsize="1.00em">(</mo>
+	<msub>
+		<mi>x</mi>
+		<mn>2</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo>,</mo>
+	<mspace width="0.167em" />
+	<msub>
+		<mi>x</mi>
+		<mn>1</mn>
+	</msub>
+	<mrow>
+		<mo maxsize="1.00em">(</mo>
+		<mi>k</mi>
+		<mo maxsize="1.00em">)</mo>
+	</mrow>
+	<mo maxsize="1.00em">)</mo>
+	<mspace width="0.167em" />
+	<mi>&Delta;</mi>
+	<mi>t</mi>
+</mrow>
+</math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	</entry>
+	<entry>
+	  Replace 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow><mi>k</mi></mrow></math>
+	  by 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k+1</mi></mrow></math>.
+	</entry>
+      </row>
+      <row>
+	<entry>
+	  <emphasis>Step 2:</emphasis>
+	</entry>
+	<entry>
+	  If 
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <mrow>
+	    <mi>k=N</mi></mrow></math>
+	  stop, else go to Step 1.
+	</entry>
+      </row>
+    </tbody>
+  </tgroup>
+</informaltable>
+This algorithm is implemented in the BCVTB. It does not require an iteration between the two simulators.
+</para>
+<para>
+We note that other data synchronizations may be possible. For example, in <emphasis>strong coupling</emphasis>, within each time step, simulators exchange data until a convergence criteria is satisfied. This implementation requires the numerical solution of a nonlinear system of equations in which the termination criteria is a function of the state variables of the coupled simulators. However, many building simulation programs contain solvers that compute with relatively coarse precision. This can introduce significant numerical noise which may cause convergence problems for the co-simulation. The computing time of strong coupling vs. loose coupling of EnergyPlus and TRNSYS was compared by
+<citation>Trcka et al. (2007)</citation>. 
+Although loose coupling required shorter synchronization time steps, the work per time step was smaller (as no iterations were needed) which caused loose coupling to compute faster than strong coupling. An additional implementation benefit of loose coupling is that state variables need not be reset to previous values. Thus, loose coupling is easier to implement, is numerically more robust and it computed faster in the experiments reported by
+<citation>Trcka et al. (2007)</citation>. 
+</para>
+ </section>
+</chapter> 
