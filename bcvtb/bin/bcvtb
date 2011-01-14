@@ -1,0 +1,24 @@
+#!/bin/bash
+##############################################################
+# This file runs the BCVTB with graphical user interface
+# 
+# MWetter@lbl.gov                                   2009-07-09
+##############################################################
+
+##############################################################
+# Set environment variables if not already set
+if ! test ${BCVTBEnvSet}; then
+    curDir=`pwd`
+    binDir=`dirname $0`
+    cd $binDir
+    cd ..
+    source bin/setenv.sh
+    cd $curDir
+fi
+##############################################################
+# Call jar file
+# If ${PTII} is not set by the user, then it was set 
+# by setenv.sh to ${BCVTB_HOME}/lib/ptII
+java -jar $BCVTB_HOME/bin/BCVTB.jar $*
+
+
