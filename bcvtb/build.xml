@@ -5,7 +5,6 @@
   <!-- Clean -->
   <target name="clean" description="Deletes generated files">
     <ant dir="lib"         target="clean"/>
-    <ant dir="doc"         target="clean"/>
     <ant dir="examples"    target="clean"/>
     <delete dir=".">
       <include name="**/history.xml"/>
