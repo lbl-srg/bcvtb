@@ -3169,7 +3169,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     <figure xml:id="configurationPtolemyADInterfaceMCCReaderWriter">
       <mediaobject>
        <imageobject role="html">
-        <imagedata fileref="img/configurationADInterfaceMCC-roomControl.png" format="PNG"></imagedata>
+        <imagedata fileref="img/configurationADInterfaceMCC-roomControl.png" format="PNG" scale="50"></imagedata>
        </imageobject>
        <imageobject role="dblatex">
         <imagedata fileref="img/configurationADInterfaceMCC-roomControl.pdf" format="PDF" scalefit="1"></imagedata>
