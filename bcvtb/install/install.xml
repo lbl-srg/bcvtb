@@ -146,6 +146,8 @@
 	      <exclude name="**/readvars.audit"/>
 	    </fileset>
 	    <!-- Make files executable -->
+	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/ant"                          stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/antRun"                       stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/c-room/cclient"                         stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/c-timeSync/cclient"                     stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/f90-room/f90client"                     stage="never" os="unix"/> 
