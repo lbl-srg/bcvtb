@@ -94,7 +94,7 @@
     generator tool. These programs can be installed by
     typing in a shell
    </para>
-   <screen>sudo apt-get install libxml2-dev libexpat-dev doxygen</screen>
+   <screen>sudo apt-get install libxml2-dev libexpat-dev doxygen graphviz</screen>
    <para>
      To generate the documentation, the following packages are required
    </para>
