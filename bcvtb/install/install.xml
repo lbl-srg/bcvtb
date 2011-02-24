@@ -151,7 +151,7 @@
 	    <executable targetfile="$INSTALL_PATH/examples/f90-room/f90client"                     stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/multiRate-systemCommand/writeToConsole" stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/systemCommand/pcontroller"              stage="never" os="unix"/> 
-	    <executable targetfile="$INSTALL_PATH/examples/radiance40/scripts/radiance.csh"
+	    <executable targetfile="$INSTALL_PATH/examples/radiance40/scripts/radiance.csh"        stage="never" os="unix"/> 
         </pack>
     </packs>
 
