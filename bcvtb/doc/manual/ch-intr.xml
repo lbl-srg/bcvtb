@@ -54,8 +54,13 @@
 	<ulink url="http://www.modelica.org">
     <citetitle>Modelica</citetitle>
    </ulink>
-	    modeling and simulation environment, and
+	    modeling and simulation environment,
       </listitem>
+  <listitem>
+   <ulink url="http://radsite.lbl.gov/radiance">
+    <citetitle>Radiance,</citetitle>
+   </ulink>
+  </listitem>
   <listitem>
    <ulink url="http://www.mathworks.com/products/matlab">
     <citetitle>MATLAB,</citetitle>
@@ -73,17 +78,20 @@
    </ulink>
 	    which is an open-source implementation that allows exchanging data with <ulink url="http://www.bacnet.org">
     <citetitle> BACnet</citetitle>
-   </ulink> compatible building automation systems for use of models during operation for fault detection and diagnostics or for model-based operation.
+   </ulink> compatible building automation systems for use of models during operation for fault detection and diagnostics or for model-based operation, and
+      </listitem>
+  <listitem>
+	an
+          <ulink url="http://www.mccdaq.com/PDFmanuals/USB-1208LS.pdf">
+    <citetitle>analog/digital interface</citetitle>
+   </ulink> that can be connected to a USB port.
       </listitem>
  </itemizedlist>
  <para>
-  In addition, any executable can be called from the BCVTB.
-  This allows, for example, the use of
-  <ulink url="http://radsite.lbl.gov">
-   <citetitle>Radiance</citetitle>
-  </ulink>
-  to evaluate daylight performance within a closed loop
-  control system that is implemented in the BCVTB.
+  In addition, any executable can be called from the BCVTB at each 
+  time step of the BCVTB system model.
+  This allows, for example, the use of an external program with 
+  communication through its command line interface or through text files.
  </para>
  <para>
   In addition to using programs that are coupled to Ptolemy
