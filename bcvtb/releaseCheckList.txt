@@ -37,9 +37,7 @@ To build the release, run from Windows (or Linux or Mac)
   (This will compile the Windows/Linux/Mac binaries)
 
 From Linux, run one of the commands:
-  ant dist             [to make distribution for all]
   ant dist-bcvtb       [to make distribution for bcvtb only]
-  ant dist-EnergyPlus  [to make distribution for EnergyPlus only]
   
 Rename file bcvtb-install-x.y.z.jar to 
    bcvtb-install-win32-x.y.z.jar
