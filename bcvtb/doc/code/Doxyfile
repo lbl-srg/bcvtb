@@ -520,6 +520,7 @@ INPUT                  = ../../lib/defines.h \
                          ../../lib/matlab \
                          ../../lib/ptII/lbnl \
                          ../../lib/ptII/bacnet/src \
+                         ../../lib/ptII/adInterfaceMCC/src \
                          ../../lib/launcher/src \
                          ../../lib/xml \
                          ../../lib/config \
