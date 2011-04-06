@@ -2586,7 +2586,7 @@ bacrp 637502 1 3 191
      attributes <code>ApplicationTag</code>,
      <code>Priority</code>, and <code>Index</code>. These
      attributes are explained in
-     <xref linkend="tab-BACReaAtt"></xref>
+     <xref linkend="tab-BACWriAtt"></xref>
      . The following program listing shows an example
      configuration file.
 <programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -2615,12 +2615,12 @@ bacrp 637502 1 3 191
   &lt;/Object&gt;
 &lt;/BACnet&gt;
 </programlisting>
-     For the <code>BACnetReader</code>, the xml element
+     For the <code>BACnetWriter</code>, the xml element
      <code>PropertyIdentifier</code> has the attributes
      shown in
-     <xref linkend="tab-BACReaAtt"></xref>
+     <xref linkend="tab-BACWriAtt"></xref>
      .
-     <table frame="all" xml:id="tab-BACReaAtt">
+     <table frame="all" xml:id="tab-BACWriAtt">
       <title>Attributes of the <code>PropertyIdentifier</code> xml element if used to write to a BACnet device.</title>
       <tgroup align="left" cols="3">
        <colspec colnum="1" colwidth="10*"></colspec>
