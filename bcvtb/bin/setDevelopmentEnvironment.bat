@@ -55,7 +55,7 @@ rem goto END
 rem ---------------------------------------------------
 rem --------------- Ptolemy ---------------------------
 rem ---------------------------------------------------
-if defined PTII goto :CHECKCONFIG
+rem if defined PTII goto :CHECKCONFIG
 @set PTII=%~dp0..\lib\ptII
 if exist "%PTII%\copyright.txt" goto CHECKCONFIG
 echo Error: Environment variable PTII does not point to Ptolemy.
