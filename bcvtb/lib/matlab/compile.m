@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This file compiles the BSD socket interface for Simulink.
-% It is called by the Makefile.
+% It is called by ant.
 %
 % On Windows, it requires the Microsoft compiler
 %
@@ -80,22 +80,35 @@ else
     %% new (or deleted) files. When an empty string is 
     %% passed as an input the entire path is rechecked. 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Compilation for Windows
-    if (strcmp(os, 'windows')) % have Windows    
-      disp('*** Compiling for Windows')
-      legacy_code('compile', def, ...
-                  {'../util/bcvtb.lib', 'simulinkSocket.c', '-I../util', '-I..'})
-    else
-      % Compilation for Mac OS X and Linux
-      legacy_code('compile', def, ...
-                  {'-lxml2', ...
-                   '-I..', ...
-                   '-L../util', ...
-                   '-lbcvtb'})
+    try
+      % Compilation for Windows
+      if (strcmp(os, 'windows')) % have Windows    
+        disp('*** Compiling MATLAB interface for Windows')
+        legacy_code('compile', def, {'../util/bcvtb.lib', 'simulinkSocket.c', '-I../util', '-I..'})
+      else
+        % Compilation for Mac OS X and Linux
+        disp('*** Compiling MATLAB interface for Mac OS X or Linux')
+        
+        legacy_code('compile', def, {'-lxml2', '-I..', '-L../util', '-lbcvtb'})
+      end
+    catch ME
+      disp('*** Error when compiling MATLAB interface ***')
+      disp(getReport(ME, 'extended'))
+      disp('*** Exit with error.')
+      exit(1)
     end
+
+    disp('*** Returned from legacy_code')
     if makeSBlock
-      disp('*** Generating s block')
-      legacy_code('slblock_generate', def, modelName)
+      disp('*** Generating Simulink block')
+      try
+        legacy_code('slblock_generate', def, modelName)
+      catch ME
+        disp('*** Error when generating Simulink interface ***')
+        disp(getReport(ME, 'extended'))
+        disp('*** Exit with error.')
+        exit(1)
+      end
     end
     % delete the files that we no longer need
     fn = [char(funNam(i)), '.c'];
