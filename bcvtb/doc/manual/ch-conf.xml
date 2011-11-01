@@ -222,7 +222,8 @@ Check box; if activated, a separate window will be opened that displays the cons
       The value of the parameter <code>workingDirectory</code> needs to be unique.
       If multiple <code>Simulator</code> actors are used, then each
       <code>Simulator</code> actor needs to have its own working directory. 
-      Otherwise, they may overwrite each others files.
+      Otherwise, the BCVTB stops with an error message because
+      they would overwrite each other's files.
     </para>
   </note>
   <para>

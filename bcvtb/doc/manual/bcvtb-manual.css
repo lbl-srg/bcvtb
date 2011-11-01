@@ -2,7 +2,7 @@ body{
 	color: #191970;
 	background-color: #FFFFFF;
 	font-style: normal;
-	font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Helvetica, Verdana, sans-serif;
 }
 	
 h1, h2{
@@ -95,14 +95,16 @@ code{
         color: #750000;
 	background-color: #FFFFFF;
 	font-style: normal;
-	font-family: Courier, monospace;
+	font-family: 'Consolas', 'Deja Vu Sans Mono',
+                 'Bitstream Vera Sans Mono', monospace;
 }
 
 pre{
     border: 1pt solid #AEBDCC;
     background-color: #F3F5F7;
     padding: 5pt;
-    font-family: courier, monospace;
+    font-family: 'Consolas', 'Deja Vu Sans Mono',
+                 'Bitstream Vera Sans Mono', monospace;
     white-space: pre;
     /* begin css 3 or browser specific rules - do not remove!
        see: http://forums.techguy.org/archive/index.php/t-249849.html */
@@ -112,12 +114,6 @@ pre{
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     /* end css 3 or browser specific rules */
-    
-/*	border: 1px dotted #191970;
-	background-color: #E0ECF8;
-	padding: 4pt;
-	font-family: Courier, monospace;
-*/
 }
 
 .emph{	
