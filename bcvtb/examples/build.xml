@@ -31,6 +31,12 @@
     <ant dir="ePlus60-schedule"              target="clean"/>
     <ant dir="ePlus60Simulink-simple"        target="clean"/>
     <ant dir="ePlus60Ptolemy-vav"            target="clean"/>
+    <ant dir="dymolaEPlus70-singleZone"      target="clean"/>
+    <ant dir="ePlus70-actuator"              target="clean"/>
+    <ant dir="ePlus70-variable"              target="clean"/>
+    <ant dir="ePlus70-schedule"              target="clean"/>
+    <ant dir="ePlus70Simulink-simple"        target="clean"/>
+    <ant dir="ePlus70Ptolemy-vav"            target="clean"/>
     <ant dir="multiRate-systemCommand"       target="clean"/>
     <delete dir=".">
       <include name="**/history.xml"/>
@@ -75,12 +81,12 @@
 
   <!-- Unit tests for EnergyPlus only -->
   <target name="unitTestEnergyPlus" description="Runs unit tests that contain EnergyPlus models">
-    <ant dir="dymolaEPlus60-singleZone"      target="unitTest"/>
-    <ant dir="ePlus60-actuator"              target="unitTest"/>
-    <ant dir="ePlus60-variable"              target="unitTest"/>
-    <ant dir="ePlus60-schedule"              target="unitTest"/>
-    <ant dir="ePlus60Simulink-simple"        target="unitTest"/>
-    <ant dir="ePlus60Ptolemy-vav"            target="unitTest"/>
+    <ant dir="dymolaEPlus70-singleZone"      target="unitTest"/>
+    <ant dir="ePlus70-actuator"              target="unitTest"/>
+    <ant dir="ePlus70-variable"              target="unitTest"/>
+    <ant dir="ePlus70-schedule"              target="unitTest"/>
+    <ant dir="ePlus70Simulink-simple"        target="unitTest"/>
+    <ant dir="ePlus70Ptolemy-vav"            target="unitTest"/>
   </target>
   
 </project>
