@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="VariableDelay" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.0.beta">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.1.devel">
     </property>
     <property name="DE Director" class="ptolemy.domains.de.kernel.DEDirector">
         <property name="stopTime" class="ptolemy.data.expr.Parameter" value="10">
@@ -10,16 +10,16 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[80.0, 35.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={115, 22, 785, 519}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={115, 22, 849, 516}, maximized=false}">
     </property>
-    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[572, 409]">
+    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[636, 406]">
     </property>
     <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0">
     </property>
-    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{286.0, 204.5}">
+    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{318.0, 203.0}">
     </property>
     <property name="annotation" class="ptolemy.vergil.kernel.attributes.TextAttribute">
-        <property name="text" class="ptolemy.kernel.util.StringAttribute" value="This models shows that a VariableDelay actor adjusts the&#10;delay it delivers the inputs to outputs according the&#10;token fed in to the port parameter -- delay.">
+        <property name="text" class="ptolemy.kernel.util.StringAttribute" value="This models shows that a TimeDelay actor&#10;supports variable delay.">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[180.0, 30.0]">
         </property>
@@ -32,21 +32,6 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[55.0, 220.0]">
         </property>
     </property>
-    <entity name="VariableDelay" class="ptolemy.domains.de.lib.VariableDelay">
-        <property name="VariableDelayIcon" class="ptolemy.vergil.icon.EditorIcon">
-            <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={179, 214, 815, 516}, maximized=false}">
-            </property>
-            <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[600, 400]">
-            </property>
-        </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[335.0, 200.0]">
-        </property>
-        <port name="delay" class="ptolemy.actor.parameters.ParameterPort">
-            <property name="input"/>
-            <property name="_showName" class="ptolemy.kernel.util.SingletonAttribute">
-            </property>
-        </port>
-    </entity>
     <entity name="Clock" class="ptolemy.actor.lib.Clock">
         <property name="stopTime" class="ptolemy.data.expr.Parameter" value="3.0">
         </property>
@@ -62,11 +47,11 @@
     <entity name="TimedPlotter" class="ptolemy.actor.lib.gui.TimedPlotter">
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="delayed signal, original signal">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={404, 386, 508, 367}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={404, 386, 500, 356}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[500, 312]">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[465.0, 145.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[465.0, 150.0]">
         </property>
         <configure>
 <?plotml <!DOCTYPE plot PUBLIC "-//UC Berkeley//DTD PlotML 1//EN"
@@ -81,8 +66,10 @@
 </plot>?>
         </configure>
     </entity>
-    <relation name="relation3" class="ptolemy.actor.TypedIORelation">
-    </relation>
+    <entity name="TimeDelay" class="ptolemy.actor.lib.TimeDelay">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[345.0, 210.0]">
+        </property>
+    </entity>
     <relation name="relation5" class="ptolemy.actor.TypedIORelation">
         <vertex name="vertex1" value="[115.0, 135.0]">
         </vertex>
@@ -91,12 +78,14 @@
         <vertex name="vertex1" value="[270.0, 145.0]">
         </vertex>
     </relation>
-    <link port="VariableDelay.input" relation="relation4"/>
-    <link port="VariableDelay.output" relation="relation3"/>
-    <link port="VariableDelay.delay" relation="relation4"/>
+    <relation name="relation" class="ptolemy.actor.TypedIORelation">
+    </relation>
     <link port="Clock.output" relation="relation5"/>
     <link port="Ramp.output" relation="relation4"/>
     <link port="Ramp.trigger" relation="relation5"/>
-    <link port="TimedPlotter.input" relation="relation3"/>
     <link port="TimedPlotter.input" relation="relation4"/>
+    <link port="TimedPlotter.input" relation="relation"/>
+    <link port="TimeDelay.input" relation="relation4"/>
+    <link port="TimeDelay.output" relation="relation"/>
+    <link port="TimeDelay.delay" relation="relation4"/>
 </entity>

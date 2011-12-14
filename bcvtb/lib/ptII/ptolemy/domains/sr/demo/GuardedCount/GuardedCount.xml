@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="GuardedCount" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.0.beta">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.1.devel">
     </property>
     <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={3, 22, 931, 621}, maximized=false}">
     </property>
@@ -41,7 +41,7 @@
         </property>
     </property>
     <entity name="DisplayCount" class="ptolemy.domains.sr.lib.gui.NonStrictDisplay">
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={439, 350, 170, 435}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={439, 350, 162, 424}, maximized=false}">
         </property>
         <property name="_paneSize" class="ptolemy.actor.gui.SizeAttribute" value="[162, 380]">
         </property>
@@ -57,7 +57,7 @@
     <entity name="CountDown" class="ptolemy.actor.TypedCompositeActor">
         <property name="_location" class="ptolemy.kernel.util.Location" value="[185.0, 185.0]">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={146, 232, 815, 518}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={146, 232, 813, 510}, maximized=false}">
         </property>
         <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[600, 400]">
         </property>
@@ -68,25 +68,41 @@
         <property name="Annotation" class="ptolemy.vergil.kernel.attributes.TextAttribute">
             <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Prevent outputs if the&#10;count drops below zero&#10;(which can happen if no&#10;new start input is provided).">
             </property>
-            <property name="_location" class="ptolemy.kernel.util.Location" value="[330.0, 300.0]">
+            <property name="_location" class="ptolemy.kernel.util.RelativeLocation" value="[5.0, 20.0]">
+                <property name="relativeTo" class="ptolemy.kernel.util.StringAttribute" value="When">
+                </property>
+                <property name="relativeToElementName" class="ptolemy.kernel.util.StringAttribute" value="entity">
+                </property>
             </property>
         </property>
         <property name="Annotation2" class="ptolemy.vergil.kernel.attributes.TextAttribute">
             <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Output true&#10;when the count&#10;is &lt;= 0.">
             </property>
-            <property name="_location" class="ptolemy.kernel.util.Location" value="[430.0, 45.0]">
+            <property name="_location" class="ptolemy.kernel.util.RelativeLocation" value="[35.0, -95.0]">
+                <property name="relativeTo" class="ptolemy.kernel.util.StringAttribute" value="Comparator">
+                </property>
+                <property name="relativeToElementName" class="ptolemy.kernel.util.StringAttribute" value="entity">
+                </property>
             </property>
         </property>
         <property name="Annotation3" class="ptolemy.vergil.kernel.attributes.TextAttribute">
             <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Restart the count&#10;whenever the start&#10;input is not absent.">
             </property>
-            <property name="_location" class="ptolemy.kernel.util.Location" value="{25.0, 80.0}">
+            <property name="_location" class="ptolemy.kernel.util.RelativeLocation" value="[-120.0, -120.0]">
+                <property name="relativeTo" class="ptolemy.kernel.util.StringAttribute" value="Default">
+                </property>
+                <property name="relativeToElementName" class="ptolemy.kernel.util.StringAttribute" value="entity">
+                </property>
             </property>
         </property>
         <property name="Annotation4" class="ptolemy.vergil.kernel.attributes.TextAttribute">
             <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Decrement&#10;the count.">
             </property>
-            <property name="_location" class="ptolemy.kernel.util.Location" value="[425.0, 200.0]">
+            <property name="_location" class="ptolemy.kernel.util.RelativeLocation" value="[-70.0, 40.0]">
+                <property name="relativeTo" class="ptolemy.kernel.util.StringAttribute" value="AddSubtract">
+                </property>
+                <property name="relativeToElementName" class="ptolemy.kernel.util.StringAttribute" value="entity">
+                </property>
             </property>
         </property>
         <port name="start" class="ptolemy.actor.TypedIOPort">
@@ -418,7 +434,7 @@
         <link port="Const3.output" relation="relation11"/>
     </entity>
     <entity name="DisplayEnable" class="ptolemy.domains.sr.lib.gui.NonStrictDisplay">
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={220, 350, 220, 435}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={219, 347, 212, 424}, maximized=false}">
         </property>
         <property name="_paneSize" class="ptolemy.actor.gui.SizeAttribute" value="[212, 380]">
         </property>
@@ -438,7 +454,7 @@
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[60.0, 185.0]">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={160, 212, 815, 518}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={160, 212, 813, 510}, maximized=false}">
         </property>
         <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[600, 400]">
         </property>
@@ -456,12 +472,6 @@
             <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Note that this display fires only when the enabled&#10;port receives a true token. This is because only then&#10;is there a tick of the clock.">
             </property>
             <property name="_location" class="ptolemy.kernel.util.Location" value="[210.0, 185.0]">
-            </property>
-        </property>
-        <property name="Annotation3" class="ptolemy.vergil.kernel.attributes.TextAttribute">
-            <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Note that because&#10;of the subclock in&#10;this composite,&#10;this NonStrictDelay&#10;behaves like Pre.&#10;If it were put at&#10;the top level, it&#10;would not.">
-            </property>
-            <property name="_location" class="ptolemy.kernel.util.Location" value="[20.0, 130.0]">
             </property>
         </property>
         <port name="enable" class="ptolemy.actor.TypedIOPort">
@@ -515,7 +525,7 @@
             </property>
         </entity>
         <entity name="DisplayCountRequests" class="ptolemy.domains.sr.lib.gui.NonStrictDisplay">
-            <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={1, 350, 220, 435}, maximized=false}">
+            <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={1, 350, 212, 424}, maximized=false}">
             </property>
             <property name="_paneSize" class="ptolemy.actor.gui.SizeAttribute" value="[212, 380]">
             </property>
