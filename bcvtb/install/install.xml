@@ -15,7 +15,7 @@
     -->
     <info>
         <appname>Building Controls Virtual Test Bed</appname>
-        <appversion>1.0.0</appversion>
+        <appversion>1.1.0</appversion>
 	<appsubpath>bcvtb</appsubpath>
 	<javaversion>1.6</javaversion>
         <authors>
