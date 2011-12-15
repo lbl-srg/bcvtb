@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 59358 2010-10-01 20:54:00Z cxh $
+# @Version: $Id: makefile 60082 2010-12-26 19:07:30Z cxh $
 #
 # @Copyright (c) 2000-2010 The Regents of the University of California.
 # All rights reserved.
@@ -61,6 +61,7 @@ DERIVED_FILES = \
 	demosBcvtb.htm \
 	demosPtinyKepler.htm \
 	docsBcvtb.htm \
+	docsPtdb.htm \
 	docsPtiny.htm \
 	docsPtinyKepler.htm \
 	models.txt
@@ -133,6 +134,9 @@ demosPtinyKepler.htm: demosPtiny.htm
 
 docsBcvtb.htm: docsPtiny.htm
 	$(GAWK) -f $(ROOT)/doc/ptinyBcvtb.awk docsPtiny.htm | sed 's/introPtiny.htm/intro.htm/' | sed 's/completeDemosPtiny.htm/completeDemosBcvtb.htm/' > $@
+
+docsPtdb.htm: docs.htm
+	$(GAWK) -f $(ROOT)/doc/javahtml.awk docs.htm | sed 's/intro.htm/introPtiny.htm/' | sed 's/completeDemos.htm/completeDemosPtiny.htm/' > $@  
 
 docsPtiny.htm: docs.htm
 	$(GAWK) -f $(ROOT)/doc/javahtml.awk docs.htm | sed 's/intro.htm/introPtiny.htm/' | sed 's/completeDemos.htm/completeDemosPtiny.htm/' > $@  

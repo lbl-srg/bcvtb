@@ -2,9 +2,9 @@
 #
 # @Author: Steve Neuendorffer, Contributor: Christopher Hylands
 #
-# $Id: allConfigs.tcl 59072 2010-09-14 15:23:13Z bldmastr $
+# $Id: allConfigs.tcl 61458 2011-07-11 19:54:07Z cxh $
 #
-# @Copyright (c) 2000-2009 The Regents of the University of California.
+# @Copyright (c) 2000-2011 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -198,7 +198,7 @@ foreach i $configs {
     $inputFileNamesToSkip add "TOSIndex.xml"
     $inputFileNamesToSkip add "/quicktime.xml"
     $inputFileNamesToSkip add "/matlab.xml"
-    $inputFileNamesToSkip add "/x10/x10.xml"
+    #$inputFileNamesToSkip add "/x10/x10.xml"
     $inputFileNamesToSkip add "utilityIDAttribute.xml"
 
     # Tell the parser to skip inputting the above files

@@ -8,7 +8,7 @@
      to update the derived files and check them in to cvs. -->
 <html>
 <head>
-<!-- $Id: completeDemosPtiny.htm 59392 2010-10-05 15:23:49Z cxh $ -->
+<!-- $Id: completeDemosPtiny.htm 62099 2011-09-26 03:25:04Z cxh $ -->
 <!--
 
 demosPtinyKepler.htm is derived from this file by including
@@ -20,6 +20,15 @@ file and generate demosPtinyKepler.htm.
 NOTE: Every demo should only be mentioned and listed by their
 top-level domain. The only exception is GR, which in practice
 is not used as a top-level domain.
+
+The $PTII/ptolemy/configs/doc/completeDemos.htm file is used
+to generate various files that are used by the documention system.
+
+For example, the Ptolemy actor documentation includes links to
+models that use each actor.  How this is generated is as follows:
+
+$PTII/ptolemy/configs/doc/completeDemos.htm is read and 
+$PTII/ptolem/configs/doc/models.txt is created by running make
 
 -->
 <link href="../../../doc/default.css" rel="stylesheet" type="text/css">
@@ -114,12 +123,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <li><a href="../../domains/sdf/demo/Array/Array.xml">Array</a>
 <li><a href="../../actor/lib/hoc/demo/ApplyFFT/ApplyFFT.xml">ApplyFFT</a>
 
-<!--/ptinyKeplerDocs-->
-<!-- ptiny does not include bcvtb -->
-<li> <a href="https://gaia.lbl.gov/bcvtb#in_browser">Building Controls
-  Virtual Test Bed (BCVTB)</a> demos: <a href="../../../lbnl/demo/CRoom/CRoom.xml">C Room</a>, <a href="../../../lbnl/demo/MatlabRoom/MatlabRoom.xml">Matlab Room</a>, <a href="../../../lbnl/demo/SystemCommand/SystemCommand.xml">System Command</a> 
-<!--ptinyKeplerDocs-->
-
+<!--vergilDocs-->
 <li><a href="../../domains/sdf/demo/Butterfly/Butterfly.xml">Butterfly</a> (In the full version of Ptolemy: with codegen)
 <li><a href="../../actor/lib/hoc/demo/Case/Case.xml">Case</a>
 <!--/ptinyKeplerDocs-->
@@ -127,7 +131,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
   
 <!--vergilDocs-->
 
-<li><a href="../../../doc/codeDoc/ptolemy/actor/lib/comm/package-summary.html#package_description">Communications demos</a>:
+<li>Communications demos:
    <a href="../../actor/lib/comm/demo/ConvolutionalCoder/ConvolutionalCoder.xml">ConvolutionalCoder</a>,
    <a href="../../actor/lib/comm/demo/Scrambler/Scrambler.xml">Scrambler</a>,
    <a href="../../actor/lib/comm/demo/TrellisDecoder/TrellisDecoder.xml">TrellisDecoder</a>,

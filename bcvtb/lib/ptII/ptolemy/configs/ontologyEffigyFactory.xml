@@ -3,7 +3,7 @@
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <group>
   <entity name="Ontology Editor" class="ptolemy.actor.gui.PtolemyEffigy$Factory">
-        <entity name="blank" class="ptolemy.data.ontologies.Ontology">
+        <class name="blank" extends="ptolemy.data.ontologies.Ontology">
         <!-- Annotate with instructions. -->
 	    <property name="annotation" class="ptolemy.kernel.util.Attribute">
 	      <property name="_hideName"
@@ -24,12 +24,12 @@ in this lattice.  Then delete this annotation.</text>
 	    </property>
 	    <property name="_library" class="ptolemy.moml.LibraryAttribute">
 	      <configure>
-		<entity name="library" class="ptolemy.data.ontologies.Ontology">
+		<entity name="library" class="ptolemy.kernel.CompositeEntity">
 		  <input source="ptolemy/data/ontologies/ontologyLibrary.xml"/>
 		</entity>
 	      </configure>
 	    </property>
-        </entity>
+        </class>
   </entity>
 </group>
 

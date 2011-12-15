@@ -1,6 +1,6 @@
 /* A validating parser.
 
- Copyright (c) 2010 The Regents of the University of California.
+ Copyright (c) 2010-2011 The Regents of the University of California.
  All rights reserved.
  Permission is hereby granted, without written agreement and without
  license or royalty fees, to use, copy, modify, and distribute this
@@ -27,34 +27,44 @@
  */
 package ptolemy.configs.test;
 
-
-import java.io.File;
+import java.io.StringReader;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ptolemy.moml.MoMLParser;
 
 /**
- A validating xml parser.
- <p>Note that MoML files are not always valid xml because of the 
- &lt;configure&gt; tag.</p>
+ A validating XML parser.
+ <p>Note that MoML files are not always valid XML because of the
+ &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 57650 2010-04-21 22:09:07Z cxh $
+ @version $Id: ValidatingXMLParser.java 61458 2011-07-11 19:54:07Z cxh $
  @since Ptolemy II 8.1
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
  */
 public class ValidatingXMLParser extends DefaultHandler {
-    public static void main(String[] argv) {
+    /** Parse an XML parser using a validating parser.
+     *  The DTD http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
+     *  is replaced with the value of MoMLParser.MoML_1.dtd.
+     *  @param args A single element array that names the xml file to
+     *  be parsed.  The file should have
+     *  &lt;configure&gt;...&lt;configure&gt; removed.
+     */
+    public static void main(String[] args) {
         try {
-            parse(argv[0]); 
+            parse(args[0]);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             System.exit(1);
@@ -62,22 +72,57 @@ public class ValidatingXMLParser extends DefaultHandler {
         System.exit(0);
     }
 
-    public static void parse(String fileName)  throws Throwable {
+    /** Parse an XML parser using a validating parser.
+     *  The DTD http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
+     *  is replaced with the value of MoMLParser.MoML_1.dtd.
+     *  @param fileName  The xml file to be parsed.  The file should
+     *  have &lt;configure&gt;...&lt;configure&gt; removed.
+     *  @exception Throwable If the XML is invalid XML.
+     */
+    public static void parse(String fileName) throws Throwable {
         DefaultHandler handler = new ValidatingXMLParser();
 
         // Use the validating parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(true);
-
         try {
             SAXParser saxParser = factory.newSAXParser();
-            saxParser.parse(new File(fileName), handler);
-        } catch (SAXParseException ex) {
+            // Instead of using saxParser.parser, we create our own
+            // entity resolver so that we do not beat up the ptolemy
+            // web server.
+            //saxParser.parse(new File(fileName), handler);
 
-            System.out.println("\n Error parsing line " +
-                ex.getLineNumber() + ", uri " + ex.getSystemId());
+            XMLReader xmlReader = saxParser.getXMLReader();
+            MoMLEntityResolver resolver = new MoMLEntityResolver();
+            xmlReader.setEntityResolver(resolver);
+            xmlReader.setContentHandler(handler);
+            xmlReader.parse(new InputSource(fileName));
+        } catch (SAXParseException ex) {
+            System.out.println("\n Error parsing line " + ex.getLineNumber()
+                    + ", uri " + ex.getSystemId());
             System.out.println("   " + ex.getMessage());
             throw ex;
+        }
+    }
+
+    /** Resolve an entity by checking for http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
+     *  and, if found, return the value of MoMLParser.MoML_1.dtd.
+     */
+    public static class MoMLEntityResolver implements EntityResolver {
+        /** Resolve the entity.
+         *  @param publicID Ignored.
+         *  @param systemID The systemID.
+         *  @return If systemID equals http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
+         *  then return an InputSource based on the value of MoMLParser.MoML_DTD_1,
+         *  otherwise return null.
+         */
+        public InputSource resolveEntity(String publicID, String systemID)
+                throws SAXException {
+            if (systemID
+                    .equals("http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd")) {
+                return new InputSource(new StringReader(MoMLParser.MoML_DTD_1));
+            }
+            return null;
         }
     }
 
@@ -94,25 +139,24 @@ public class ValidatingXMLParser extends DefaultHandler {
     }
 
     public void startElement(String namespaceURI, String sName, // simple name
-        String qName, // qualified name
-        Attributes attrs) throws SAXException {
+            String qName, // qualified name
+            Attributes attrs) throws SAXException {
     }
 
     public void endElement(String namespaceURI, String sName, // simple name
-        String qName // qualified name
+            String qName // qualified name
     ) throws SAXException {
     }
 
-    public void characters(char[] buf, int offset, int len) 
-        throws SAXException {
+    public void characters(char[] buf, int offset, int len) throws SAXException {
     }
 
     public void ignorableWhitespace(char[] buf, int offset, int len)
-        throws SAXException {
+            throws SAXException {
     }
 
     public void processingInstruction(String target, String data)
-        throws SAXException {
+            throws SAXException {
     }
 
     public void error(SAXParseException exception) throws SAXParseException {
@@ -121,8 +165,8 @@ public class ValidatingXMLParser extends DefaultHandler {
     }
 
     public void warning(SAXParseException exception) throws SAXParseException {
-        System.out.println("Warning: line " + exception.getLineNumber() +
-            ", uri " + exception.getSystemId());
+        System.out.println("Warning: line " + exception.getLineNumber()
+                + ", uri " + exception.getSystemId());
         System.out.println("   " + exception.getMessage());
     }
 }

@@ -135,16 +135,12 @@
             <input source="ptolemy/matlab/matlab.xml"/>
         <!--ptalon not shipped with 6.0 -->
             <!--input source="ptolemy/actor/ptalon/ptalon.xml"/-->
-        <!-- Properties library -->
-            <input source="ptolemy/configs/properties/propertiesLibrary.xml"/>
         <!--ptp not shipped with 6.0 -->
             <!--input source="ptolemy/ptp/lib/ptpentities.xml"/-->
             <input source="ptolemy/actor/lib/python/python.xml"/>
             <input source="ptolemy/actor/lib/test.xml"/>
             <input source="ptolemy/actor/lib/security/security.xml"/>
             <input source="ptolemy/domains/wireless/wireless.xml"/>
-        <!-- x10 actors depend on the x10 library in vendor/misc/x10 -->
-            <input source="ptolemy/actor/lib/x10/x10.xml"/>
             <input source="ptolemy/actor/lib/xslt/xslt.xml"/>
           </group>
         ?>

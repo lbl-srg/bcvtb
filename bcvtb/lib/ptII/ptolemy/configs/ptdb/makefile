@@ -1,8 +1,8 @@
-# Makefile for the Ptolemy Ptiny (common domains) runtime configuration 
+# Makefile for the Ptolemy Ptdb (common domains) runtime configuration 
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 57953 2010-06-05 15:11:39Z lholsing $
+# @Version: $Id: makefile 60097 2010-12-27 07:16:57Z cxh $
 #
 # @Copyright (c) 2002-2009 The Regents of the University of California.
 # All rights reserved.
@@ -29,7 +29,7 @@
 # 						PT_COPYRIGHT_VERSION_2
 # 						COPYRIGHTENDKEY
 
-ME =		ptolemy/configs/ptiny
+ME =		ptolemy/configs/ptdb
 
 # There is no demo directory, put demos in the corresponding domain
 # directory so that we can find them if we are looking at domains.
@@ -47,7 +47,7 @@ CONFIG =	$(ROOT)/mk/ptII.mk
 include $(CONFIG)
 
 # Used to build jar files
-PTPACKAGE = 	ptiny
+PTPACKAGE = 	ptdb
 PTCLASSJAR =	$(PTPACKAGE).jar
 
 JSRCS =
@@ -58,12 +58,9 @@ DERIVED_FILES =
 OTHER_FILES_TO_BE_JARED = \
 	$(DERIVED_FILES) \
 	configuration.xml \
-	fsmLibraryPtiny.xml \
-	fsmTableauFactoryPtiny.xml \
-	graphTableauFactoryPtiny.xml \
+	graphTableauFactoryPtdb.xml \
 	intro.htm \
-	modalLibraryPtiny.xml \
-	modalTableauFactoryPtiny.xml \
+	searchFrameLibrary.xml \
 	welcomeWindow.xml
 
 EXTRA_SRCS =	$(JSRCS) $(OTHER_FILES_TO_BE_JARED)

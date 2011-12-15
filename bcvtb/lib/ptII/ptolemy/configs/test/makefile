@@ -2,9 +2,9 @@
 #
 # @Authors: Steve Neuendorffer
 #
-# @Version: $Id: makefile 57541 2010-04-02 16:47:58Z cxh $
+# @Version: $Id: makefile 61820 2011-08-16 01:09:58Z cxh $
 #
-# @Copyright (c) 1997-2009 The Regents of the University of California.
+# @Copyright (c) 1997-2011 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -72,11 +72,12 @@ EXTRA_SRCS =	$(TCL_SRCS) $(JSRCS) $(MODELS_TXT) $(JSIMPLE_TESTS) #$(JGRAPHICAL_T
 
 # Sources that may or may not be present, but if they are present, we don't
 # want make checkjunk to barf on them.
-MISC_FILES =	alljtests.tcl
+MISC_FILES =	alljtests.tcl junit
 
 # make checkjunk will not report OPTIONAL_FILES as trash
 # make distclean removes OPTIONAL_FILES
-OPTIONAL_FILES =
+OPTIONAL_FILES = \
+	'ValidatingXMLParser$$MoMLEntityResolver.class'
 
 JCLASS =	$(JSRCS:%.java=%.class)
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: completeDemos.htm 59391 2010-10-05 15:23:42Z cxh $ -->
+<!-- $Id: completeDemos.htm 62098 2011-09-26 03:24:56Z cxh $ -->
 <!--
 
 demosPtiny.htm is derived from this file by including
@@ -12,6 +12,15 @@ file and generate demosPtiny.htm.
 NOTE: Every demo should only be mentioned and listed by their
 top-level domain. The only exception is GR, which in practice
 is not used as a top-level domain.
+
+The $PTII/ptolemy/configs/doc/completeDemos.htm file is used
+to generate various files that are used by the documention system.
+
+For example, the Ptolemy actor documentation includes links to
+models that use each actor.  How this is generated is as follows:
+
+$PTII/ptolemy/configs/doc/completeDemos.htm is read and 
+$PTII/ptolem/configs/doc/models.txt is created by running make
 
 -->
 <link href="../../../doc/default.css" rel="stylesheet" type="text/css">
@@ -40,6 +49,7 @@ set of demos that highlight the key features of Ptolemy II.
 <ul>
 
 <!--/vergilDocs-->
+<li><a href="#ca">CA (Cellular Automata)</a>
 <li><a href="#csp">CSP (Communicating Sequential Processes)</a>
 <li><a href="#ci">CI (Component Interaction, or push/pull)</a>
 <!--vergilDocs-->
@@ -80,6 +90,7 @@ set of demos that highlight the key features of Ptolemy II.
 <!--ptinyKeplerDocs-->
 <!--/vergilDocs-->
 <li><a href="#psdf">PSDF (Parameterized Synchronous Dataflow)</a>
+<li><a href="#petrinet">Petrinet</a>
 <!--vergilDocs-->
 
 <li><a href="#pn">PN (Process Networks)</a>
@@ -111,13 +122,22 @@ set of demos that highlight the key features of Ptolemy II.
   <li><a href="#sdfCodegen">C SDF Code Generation</a>
   <li><a href="#javaSDFCodegen">Java SDF Code Generation</a>
  </ul>
-<li><a href="#propertySystem">Property System</a>
+<li><a href="#ontologies">Ontology Analysis</a>
 <li><a href="#noDomain">Models that have no domain</a>
 <!--vergilDocs-->
 <!--bcvtbDocs-->
 </ul>
 <!--/bcvtbDocs-->
 <!--/vergilDocs-->
+
+<!-- Ptiny does not include Cellular Automata -->
+<!--/vergilDocs-->
+<h3><a name="ca">Cellular Automata (CA)</a></h3>
+<ul>
+<li><a href="../../domains/ca/demo/Conway/Conway.xml">Conway's Game of Life</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../domains/ca/demo/ConwayRandom/ConwayRandom.xml">Conway's Game of Life Random</a> (New in Ptolemy II 8.1)</li>
+</ul>
+<!--vergilDocs-->
 
 <!-- Ptiny no longer includes CSP, use rendezvous instead -->
 <!--/vergilDocs-->
@@ -157,6 +177,7 @@ An recent implementation of Continuous Time semantics, for use with the <a href=
 <li><a href="../../domains/continuous/demo/CarTracking/CarTracking.xml">Car Tracking</a> 
 <li><a href="../../domains/continuous/demo/ComparedClocks/ComparedClocks.xml">Compared Clocks</a> 
 <li><a href="../../domains/continuous/demo/ContinuousInsideDE/ContinuousInsideDE.xml">Continuous Inside DE</a>
+<li><a href="../../domains/continuous/demo/Derivative/Derivative.xml">Derivative</a> 
 <li><a href="../../domains/continuous/demo/Transmission/EfficiencyCurve.xml">Efficiency Curve</a> 
 <li><a href="../../domains/continuous/demo/FurutaPendulum/FurutaPendulum.xml">Furuta Pendulum</a> 
 <li>Hybrid Plant: <a href="../../domains/continuous/demo/HybridPlant/HybridPlant.xml">Deterministic</a>, 
@@ -384,11 +405,6 @@ visible parameters, and MonitorValue</a>
 <li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightDECTA.xml">Simple Traffic Light Verification DE Version</a> (Requires RED 7.0, see the <a href="../../verification/README.html">Verification documentation)  
 <li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightRTMaudeCG.xml">Simple Traffic Light Verification, Real Time Maude Code Generation Version</a> (Requires RT Maude, see the <a href="../../verification/README.html">Verification documentation)  
 
-<!--Ptiny does not include x10--> 
-<li><a href="../../actor/lib/x10/demo/OnOff/OnOff.xml">X10 power-line network</a>
-(Uses X10 hardware, see <a href="../../../doc/codeDoc/ptolemy/actor/lib/x10/X10Interface.html">
-X10Interface actor documentation</a>)
-
 <!--vergilDocs-->
 
 <li><a href="../../data/type/demo/Router/Router.xml">Router</a>
@@ -499,6 +515,14 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <ul>
 <li><a href="../../domains/psdf/demo/BlindCommunication/BlindCommunication.xml">Blind Communication</a>
 </ul>
+
+<!--Ptiny does not include Petrinet --> 
+<h3><a name="petrinet">Petrinet</a><h3>
+<ul>
+<li><a href="../../domains/petrinet/demo/PetriNetDiningPhilosophers/PetriNetDiningPhilosophers.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../domains/petrinet/demo/PetriNetSimple/PetriNetSimple.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 8.1)</li>
+
+</ul>
 <!--vergilDocs-->
 
 <h3><a name="pn">Process Networks (PN)</a></h3>
@@ -551,13 +575,20 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 </ul>
 
 <h3><a name="ptides">Programming Temporally Integrated Distributed Embedded Systems (Ptides)</a></h3>
+
+<!-- The demo names should be alphabetical and the name of the
+     directory and the name of the model should match. -->
+
 <ul>
-<li><a href="../../domains/ptides/demo/PtidesBasicOnePlatform/PtidesBasicOnePlatform.xml">Single Platform</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicMixedSimulator/PtidesBasicMixedSimulator.xml">Mixed Simulator</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicPowerPlant/PtidesBasicPowerPlant.xml">Power Plant</a>
+<li><a href="../../demo/Brewery/Brewery.xml">Brewery (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicDistributedPowerPlant/PtidesBasicDistributedPowerPlant.xml">Distributed Power Plant (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicMixedSimulator/PtidesBasicMixedSimulator.xml">Mixed Simulator (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesNetworkLatencyTest/PtidesNetworkLatencyTest.xml">Network Latency Test (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicPowerPlant/PtidesBasicPowerPlant.xml">Power Plant (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PrintingPress/PrintingPress.xml">Printing Press (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicOnePlatform/PtidesBasicOnePlatform.xml">Single Platform (New in Ptolemy II 8.1)</a>
+<li><a href="../../domains/ptides/demo/PtidesSynchrophasor/PtidesSynchrophasor.xml">Synchrophasor (New in Ptolemy II 8.1)</a>
 </ul>
-
-
 
 <!--vergilDocs-->
 <!--/ptinyKeplerDocs-->
@@ -597,12 +628,13 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <li><a href="../../domains/sdf/demo/Array/Array.xml">Array</a>
 <li><a href="../../actor/lib/hoc/demo/ApplyFFT/ApplyFFT.xml">ApplyFFT</a>
 
+<!--/vergilDocs-->
 <!--/ptinyKeplerDocs-->
 <!-- ptiny does not include bcvtb -->
 <li> <a href="https://gaia.lbl.gov/bcvtb#in_browser">Building Controls
   Virtual Test Bed (BCVTB)</a> demos: <a href="../../../lbnl/demo/CRoom/CRoom.xml">C Room</a>, <a href="../../../lbnl/demo/MatlabRoom/MatlabRoom.xml">Matlab Room</a>, <a href="../../../lbnl/demo/SystemCommand/SystemCommand.xml">System Command</a> 
 <!--ptinyKeplerDocs-->
-
+<!--vergilDocs-->
 <li><a href="../../domains/sdf/demo/Butterfly/Butterfly.xml">Butterfly</a> (In the full version of Ptolemy: with codegen)
 <li><a href="../../actor/lib/hoc/demo/Case/Case.xml">Case</a>
 <!--/ptinyKeplerDocs-->
@@ -620,7 +652,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <a href="../../caltrop/demo/SDFDDI/SDFDDI.xml">SDFDDI</a>
 <!--vergilDocs-->
 
-<li><a href="../../../doc/codeDoc/ptolemy/actor/lib/comm/package-summary.html#package_description">Communications demos</a>:
+<li>Communications demos:
    <a href="../../actor/lib/comm/demo/ConvolutionalCoder/ConvolutionalCoder.xml">ConvolutionalCoder</a>,
    <a href="../../actor/lib/comm/demo/Scrambler/Scrambler.xml">Scrambler</a>,
    <a href="../../actor/lib/comm/demo/TrellisDecoder/TrellisDecoder.xml">TrellisDecoder</a>,
@@ -630,7 +662,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 
 <!--/vergilDocs-->
 <!--Ptiny does not include ExecDemos and RunDemos--> 
-<li>Execution demos: <a href="../../demo/ExecDemos.xml">ExecDemos</a>, <a href="../../demo/RunDemos.xml">RunDemos</a>
+<li>Execution demos: <a href="../../demo/ExecDemos/ExecDemos.xml">ExecDemos</a>, <a href="../../demo/ExecDemos/RunDemos.xml">RunDemos</a>
 <!--vergilDocs-->
 
 <li><a href="../../domains/sdf/demo/Expression/Expression.xml">Expression</a>
@@ -650,7 +682,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <!--/vergilDocs-->
 <!--Ptiny does not include JAI--> 
 
-<li><a href="../../../doc/codeDoc/ptolemy/actor/lib/jai/package-summary.html">Java Advanced Imaging (JAI) actors</a>,
+<li>Java Advanced Imaging (JAI) actors,
 requires that JAI be installed:
 <a href="../../actor/lib/jai/demo/AdaptiveMedian/AdaptiveMedian.xml">AdaptiveMedian</a>,  
 <a href="../../actor/lib/jai/demo/ImageReconstruction/ImageReconstruction.xml">ImageReconstruction</a>,   
@@ -659,7 +691,7 @@ requires that JAI be installed:
 
 <!--/vergilDocs-->
 <!--Ptiny does not include JMF--> 
-<li><a href="../../../doc/codeDoc/ptolemy/actor/lib/jmf/package-summary.html#package_description">Java Media Framework (JMF) actors</a>,
+<li>Java Media Framework (JMF) actors,
 requires that JMF be installed:
 <a href="../../actor/lib/jmf/demo/JMFJAI/JMFJAI.xml">JMFJAI</a>,
 <a href="../../actor/lib/jmf/demo/VideoCapture/VideoCapture.xml">Video Capture</a> (Both demos use a USB video camera)
@@ -699,6 +731,7 @@ requires that JMF be installed:
 <!--/bcvtbDocs-->
 <li><a href="../../actor/lib/python/demo/Ptolemnizer/Ptolemnizer.xml">Ptolemnizer (using Python)</a>
 <li><a href="../../actor/lib/python/demo/PythonScale/PythonScale.xml">Python Integration</a>
+<li><a href="../../actor/lib/python/demo/PythonScale/PythonScale.xml">Python Record Manipulation</a> (New in Ptolemy II 8.1) 
 <!--ptinyKeplerDocs-->
 <!--bcvtbDocs-->
 
@@ -872,19 +905,29 @@ Ptolemy II 8.0)
 <!--ptinyKeplerDocs-->
 
 <!--/ptinyKeplerDocs-->
-<!-- Ptiny does not include data/properties -->
-<h3><a name="propertySystem">Property System</h3>
+<!-- Ptiny does not include data/ontologies -->
+<h3><a name="ontologies">Ontology Analysis</h3>
 <ul>
-<li><a href="../../data/properties/demo/CarTracking/CarTracking.xml">CarTracking</a> (Simple dimension analysis) </li>
-<li><a href="../../data/properties/demo/CarTracking/CarTrackingSoSYM.xml">CarTrackingSoSYM</a> (Simple dimension analysis) </li>
-<li><a href="../../data/properties/demo/ConstNonconst/ConstNonconst.xml">ConstNonconst</a> (Constant propagation) </li>
-<li><a href="../../data/properties/demo/LogicalAND/LogicalAND.xml">LogicalAND</a> </li>
-<li><a href="../../data/properties/demo/LogicalOrBackward/LogicalOrBackward.xml">LogicalOrBackward</a> </li>
-<li><a href="../../data/properties/demo/NaomiConfigurer/NaomiConfigurer.xml">NaomiConfigurer</a> </li>
-<li><a href="../../data/properties/demo/RegressionTest/RegressionTest.xml">RegressionTest</a> (With the ModelAnalysis workflow actor) </li>
-<li><a href="../../data/properties/lattice/imageOntology/demo/SimpleImageAnnotation/SimpleImageAnnotation.xml">SimpleImageAnnotation</a> </li>
-<li><a href="../../data/properties/demo/Sinewave/Sinewave.xml">Sinewave</a> New in Ptolemy II 8.0)</li> 
-<li><a href="../../data/properties/demo/Workflow/Workflow.xml">Workflow</a> (Workflow combined with GT) </li> 
+<li><a href="../../data/ontologies/demo/CarTracking/CarTracking.xml">CarTracking</a> (Dimensional analysis) </li>
+<li><a href="../../data/ontologies/demo/ConstNonconst/ConstNonconst.xml">Simple Constant/Nonconstant Analysis</a> </li>
+<li><a href="../../data/ontologies/demo/ConstNonconst/Const.xml">Simple Constant Analysis</a> </li>
+<li><a href="../../data/ontologies/demo/ConstAbstractInterpretation/ConstAbstractInterpretation.xml">Abstract Interpretation Analysis</a> </li>
+<li><a href="../../data/ontologies/demo/MonotonicityAnalysis/MonotonicityAnalysis.xml">Expression Monotonicity Analysis</a> </li>
+</ul>
+
+<h3><a name="applications">Applications</h3>
+<h4>Fuel System</h4>
+<ul>
+<li><a href="../../demo/FuelSystem/FuelSystem.xml">Simple Tank Model</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemSingleTankImproved.xml">Improved Tank Model</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemErrorHandling.xml">Tank Model with Error Handling</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystem2Tanks.xml">2 Tank Model</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemQuantityManager.xml">2 Tank Model with Bus communication</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemOntology.xml">2 Tank Model with Ontological Information</a> (New in Ptolemy II 8.1)</li>
+</ul>
+<h4>Power Plant</h4>
+<ul>
+<li><a href="../../demo/PowerPlant/PowerPlant.xml">Power Plant Model</a> (New in Ptolemy II 8.1)</li>
 </ul>
 
 <!-- Ptiny does not include these somewhat esoteric models -->
