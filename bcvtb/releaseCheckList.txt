@@ -45,22 +45,22 @@ Rename file bcvtb-install-x.y.z.jar to
    bcvtb-install-mac64-x.y.z.jar
 
 Make new directory
-ssh mwetter@gundog
-cd /usr/local/www/data/bcvtb/releases
+ssh mwetter@simulationresearch
+cd /usr/local/www/simulationresearch/bcvtb/releases
 mkdir x.y.z
 exit
 
 run 
 cd install
-scp bcvtb-install-x.y.z.jar mwetter@gundog:/usr/local/www/data/bcvtb/releases/x.y.z/
+scp bcvtb-install-x.y.z.jar mwetter@simulationresearch.lbl.gov:/usr/local/www/simulationresearch/bcvtb/releases/x.y.z/
 
 To copy the documentation, run
 cd doc
 ant dist
 
-Next, log in to gundog, and change the symbolic link:
-cd /usr/local/www/data/bcvtb
-ln -s releases/x.y.z latest
+Next, log in to simulationresearch, and change the symbolic link:
+cd /usr/local/www/simulationresearch/bcvtb/releases
+ln -s x.y.z latest
 
 ----
 To make tag, run 
