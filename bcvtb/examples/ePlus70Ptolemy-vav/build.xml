@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="ePlus60Ptolemy-vav" default="unitTest">
+<project name="ePlus70Ptolemy-vav" default="unitTest">
   <import file="../../build-common.xml"/>
 
   <!-- Clean -->

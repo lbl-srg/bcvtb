@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="ePlus60-actuator" default="unitTest">
+<project name="ePlus70-actuator" default="unitTest">
   <import file="../../build-common.xml"/>
 
   <!-- Clean -->

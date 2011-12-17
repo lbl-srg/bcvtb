@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="ePlus60-schedule" default="unitTest">
+<project name="ePlus70-schedule" default="unitTest">
   <import file="../../build-common.xml"/>
 
   <!-- Clean -->

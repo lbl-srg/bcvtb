@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="dymolaEPlus60-singleZone" default="unitTest">
+<project name="dymolaEPlus70-singleZone" default="unitTest">
   <import file="../../build-common.xml"/>
 
   <!-- Clean -->
