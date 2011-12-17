@@ -36,7 +36,7 @@
   </author>
   <pubdate><?dbtimestamp format="m/d/Y"?></pubdate>
   <copyright>
-   <year><?dbtimestamp format="Y"?></year>
+   <year>2008-<?dbtimestamp format="Y"?></year>
    <holder>Lawrence Berkeley National Laboratory, Berkeley, CA</holder>
   </copyright>
  </bookinfo>
