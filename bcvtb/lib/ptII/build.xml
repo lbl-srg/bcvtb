@@ -158,7 +158,7 @@ Note that this example requires ALC hardware to run and a BACnet connnection.
 <ul>
 <li> <a href="../../../../../examples/dymola-room/system.xml">dymola-room</a>:
 Modelica simple room model, controls simulated by Ptolemy.
-<li> <a href="../../../../../examples/dymolaEPlus60-singleZone/system.xml">dymolaEPlus60-room</a>:
+<li> <a href="../../../../../examples/dymolaEPlus70-singleZone/system.xml">dymolaEPlus70-room</a>:
 Modelica model of HVAC system, building simulated by EnergyPlus.
 <li> <a href="../../../../../examples/dymolaSimulink-room/system.xml">dymolaSimulink-room</a>:
 Modelica simple room model, controls simulated by Simulink.
