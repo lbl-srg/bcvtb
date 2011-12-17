@@ -1,5 +1,0 @@
-
-Output:PreprocessorMessage,
-  ExpandObjects,                                           !- Preprocessor Name
-  Fatal,                                                   !- Error Severity
-  error opening in.idf= no file found;                     !- message line
