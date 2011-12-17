@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="systemVisual" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.1.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(finalTime-startTime)/timeStep+1">
@@ -131,7 +131,7 @@ on the colored rectangle shows how the variable "TRoom" is used to assign the co
         <property name="_location" class="ptolemy.kernel.util.Location" value="[25.0, 140.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={148, 117, 1200, 686}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={170, 139, 1191, 692}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[983, 569]">
     </property>
@@ -144,7 +144,7 @@ on the colored rectangle shows how the variable "TRoom" is used to assign the co
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="TSetPoi, TRoo, 10*y">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={222, 30, 559, 435}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={489, 261, 561, 448}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[559, 391]">
         </property>
@@ -307,8 +307,8 @@ on the colored rectangle shows how the variable "TRoom" is used to assign the co
                 <property name="fillColor" class="ptolemy.actor.gui.ColorAttribute" value="{max(0, min(1, (TRoom-10)/10)),0.0,max(0, min(1, 1-(TRoom-10)/10*0.3)) ,1.0}">
                 </property>
             </property>
-            <property name="ParameterValue" class="ptolemy.vergil.kernel.attributes.AttributeValueAttribute">
-                <property name="textColor" class="ptolemy.actor.gui.ColorAttribute" value="{1.0,1.0,1.0,1.0}">
+            <property name="ParameterExpression" class="ptolemy.vergil.kernel.attributes.AttributeExpressionAttribute">
+                <property name="textColor" class="ptolemy.actor.gui.ColorAttribute" value="{1.0, 1.0, 1.0, 1.0}">
                 </property>
                 <property name="attributeName" class="ptolemy.kernel.util.StringAttribute" value="TRoom">
                 </property>
@@ -318,7 +318,7 @@ on the colored rectangle shows how the variable "TRoom" is used to assign the co
                 </property>
             </property>
         </property>
-        <property name="TRoom" class="ptolemy.data.expr.Parameter" value="15.4761913661168">
+        <property name="TRoom" class="ptolemy.data.expr.Parameter" value="16.0">
             <property name="_hideName" class="ptolemy.kernel.util.SingletonAttribute">
             </property>
             <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">
