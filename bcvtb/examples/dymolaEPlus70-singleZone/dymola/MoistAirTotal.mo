@@ -1512,6 +1512,54 @@ Example:
                 lineColor={0,0,0},
                 textString="+")}));
           end Add3;
+
+          block Product
+      "Output product of the two inputs (this is an obsolet block. Use instead MultiProduct)"
+            extends Interfaces.SI2SO;
+
+          equation
+            y = u1*u2;
+            annotation (
+              Documentation(info="
+<HTML>
+<p>
+This blocks computes the output <b>y</b> (element-wise)
+as <i>product</i> of the corresponding elements of
+the two inputs <b>u1</b> and <b>u2</b>:
+</p>
+<pre>
+    y = u1 * u2;
+</pre>
+
+</HTML>
+"),           Icon(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Line(points={{-100,60},{-40,60},{-30,40}}, color={0,0,127}),
+              Line(points={{-100,-60},{-40,-60},{-30,-40}}, color={0,0,127}),
+              Line(points={{50,0},{100,0}}, color={0,0,127}),
+              Line(points={{-30,0},{30,0}}, color={0,0,0}),
+              Line(points={{-15,25.99},{15,-25.99}}, color={0,0,0}),
+              Line(points={{-15,-25.99},{15,25.99}}, color={0,0,0}),
+              Ellipse(extent={{-50,50},{50,-50}}, lineColor={0,0,127})}),
+              Diagram(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Rectangle(
+                extent={{-100,-100},{100,100}},
+                lineColor={0,0,255},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),
+              Line(points={{-100,60},{-40,60},{-30,40}}, color={0,0,255}),
+              Line(points={{-100,-60},{-40,-60},{-30,-40}}, color={0,0,255}),
+              Line(points={{50,0},{100,0}}, color={0,0,255}),
+              Line(points={{-30,0},{30,0}}, color={0,0,0}),
+              Line(points={{-15,25.99},{15,-25.99}}, color={0,0,0}),
+              Line(points={{-15,-25.99},{15,25.99}}, color={0,0,0}),
+              Ellipse(extent={{-50,50},{50,-50}}, lineColor={0,0,255})}));
+          end Product;
       annotation (
         Documentation(info="
 <HTML>
@@ -2249,42 +2297,6 @@ is used for the current simulation.
       "Base classes used in the Vessels package (only of interest to build new component models)"
         extends Modelica.Icons.BasesPackage;
 
-      package HeatTransfer "HeatTransfer models for vessels"
-        extends Modelica.Icons.Package;
-
-        partial model PartialVesselHeatTransfer
-        "Base class for vessel heat transfer models"
-          extends Modelica.Fluid.Interfaces.PartialHeatTransfer;
-
-          annotation(Documentation(info="<html>
-Base class for vessel heat transfer models.
-</html>"),    Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},
-                      {100,100}}), graphics={Ellipse(
-                    extent={{-60,64},{60,-56}},
-                    lineColor={0,0,0},
-                    fillPattern=FillPattern.Sphere,
-                    fillColor={232,0,0}), Text(
-                    extent={{-38,26},{40,-14}},
-                    lineColor={0,0,0},
-                    textString="%name")}));
-        end PartialVesselHeatTransfer;
-
-        model IdealHeatTransfer
-        "IdealHeatTransfer: Ideal heat transfer without thermal resistance"
-          extends PartialVesselHeatTransfer;
-
-        equation
-          Ts = heatPorts.T;
-
-          annotation(Documentation(info="<html>
-Ideal heat transfer without thermal resistance.
-</html>"));
-        end IdealHeatTransfer;
-        annotation (Documentation(info="<html>
-Heat transfer correlations for pipe models
-</html>"));
-      end HeatTransfer;
-
         connector VesselFluidPorts_b
         "Fluid connector with outlined, large icon to be used for horizontally aligned vectors of FluidPorts (vector dimensions must be added after dragging)"
           extends Interfaces.FluidPort;
@@ -2805,101 +2817,6 @@ Three equations need to be added by an extending class using this component:
               extent={{-100,-100},{100,100}},
               grid={1,1})));
     end PartialTwoPortTransport;
-
-      connector HeatPorts_a
-      "HeatPort connector with filled, large icon to be used for vectors of HeatPorts (vector dimensions must be added after dragging)"
-        extends Modelica.Thermal.HeatTransfer.Interfaces.HeatPort;
-        annotation (defaultComponentName="heatPorts_a",
-             Icon(coordinateSystem(
-              preserveAspectRatio=false,
-              extent={{-200,-50},{200,50}},
-              grid={1,1},
-              initialScale=0.2), graphics={
-              Rectangle(
-                extent={{-201,50},{200,-50}},
-                lineColor={127,0,0},
-                fillColor={255,255,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-171,45},{-83,-45}},
-                lineColor={127,0,0},
-                fillColor={127,0,0},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-45,45},{43,-45}},
-                lineColor={127,0,0},
-                fillColor={127,0,0},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{82,45},{170,-45}},
-                lineColor={127,0,0},
-                fillColor={127,0,0},
-                fillPattern=FillPattern.Solid)}));
-      end HeatPorts_a;
-
-      partial model PartialHeatTransfer
-      "Common interface for heat transfer models"
-
-        // Parameters
-        replaceable package Medium=Modelica.Media.Interfaces.PartialMedium
-        "Medium in the component"
-          annotation(Dialog(tab="Internal Interface",enable=false));
-
-        parameter Integer n=1 "Number of heat transfer segments"
-          annotation(Dialog(tab="Internal Interface",enable=false), Evaluate=true);
-
-        // Inputs provided to heat transfer model
-        input Medium.ThermodynamicState[n] states
-        "Thermodynamic states of flow segments";
-
-        input SI.Area[n] surfaceAreas "Heat transfer areas";
-
-        // Outputs defined by heat transfer model
-        output SI.HeatFlowRate[n] Q_flows "Heat flow rates";
-
-        // Parameters
-        parameter Boolean use_k = false
-        "= true to use k value for thermal isolation"
-          annotation(Dialog(tab="Internal Interface",enable=false));
-        parameter SI.CoefficientOfHeatTransfer k = 0
-        "Heat transfer coefficient to ambient"
-          annotation(Dialog(group="Ambient"),Evaluate=true);
-        parameter SI.Temperature T_ambient = system.T_ambient
-        "Ambient temperature"
-          annotation(Dialog(group="Ambient"));
-        outer Modelica.Fluid.System system "System wide properties";
-
-        // Heat ports
-        Modelica.Fluid.Interfaces.HeatPorts_a[n] heatPorts
-        "Heat port to component boundary"
-          annotation (Placement(transformation(extent={{-10,60},{10,80}},
-                  rotation=0), iconTransformation(extent={{-20,60},{20,80}})));
-
-        // Variables
-        SI.Temperature[n] Ts = Medium.temperature(states)
-        "Temperatures defined by fluid states";
-
-      equation
-        if use_k then
-          Q_flows = heatPorts.Q_flow + {k*surfaceAreas[i]*(T_ambient - heatPorts[i].T) for i in 1:n};
-        else
-          Q_flows = heatPorts.Q_flow;
-        end if;
-
-        annotation (Documentation(info="<html>
-<p>
-This component is a common interface for heat transfer models. The heat flow rates <code>Q_flows[n]</code> through the boundaries of n flow segments
-are obtained as function of the thermodynamic <code>states</code> of the flow segments for a given fluid <code>Medium</code>,
-the <code>surfaceAreas[n]</code> and the boundary temperatures <code>heatPorts[n].T</code>.
-</p>
-<p>
-The heat loss coefficient <code>k</code> can be used to model a thermal isolation between <code>heatPorts.T</code> and <code>T_ambient</code>.</p>
-<p>
-An extending model implementing this interface needs to define one equation: the relation between the predefined fluid temperatures <code>Ts[n]</code>,
-the boundary temperatures <code>heatPorts[n].T</code>, and the heat flow rates <code>Q_flows[n]</code>.
-</p>
-</html>"));
-      end PartialHeatTransfer;
       annotation (Documentation(info="<html>
 
 </html>",     revisions="<html>
@@ -3541,6 +3458,51 @@ for a smooth transition from y1 to y2.
 
 </html>"));
       end evaluatePoly3_derivativeAtZero;
+
+      function cubicHermite "Evaluate a cubic Hermite spline"
+        input Real x "Abscissa value";
+        input Real x1 "Lower abscissa value";
+        input Real x2 "Upper abscissa value";
+        input Real y1 "Lower ordinate value";
+        input Real y2 "Upper ordinate value";
+        input Real y1d "Lower gradient";
+        input Real y2d "Upper gradient";
+        output Real y "Interpolated ordinate value";
+    protected
+        Real h "Distance between x1 and x2";
+        Real t "abscissa scaled with h, i.e., t=[0..1] within x=[x1..x2]";
+        Real h00 "Basis function 00 of cubic Hermite spline";
+        Real h10 "Basis function 10 of cubic Hermite spline";
+        Real h01 "Basis function 01 of cubic Hermite spline";
+        Real h11 "Basis function 11 of cubic Hermite spline";
+        Real aux3 "t cube";
+        Real aux2 "t square";
+      algorithm
+        h := x2 - x1;
+        if abs(h)>0 then
+          // Regular case
+          t := (x - x1)/h;
+
+          aux3 :=t^3;
+          aux2 :=t^2;
+
+          h00 := 2*aux3 - 3*aux2 + 1;
+          h10 := aux3 - 2*aux2 + t;
+          h01 := -2*aux3 + 3*aux2;
+          h11 := aux3 - aux2;
+          y := y1*h00 + h*y1d*h10 + y2*h01 + h*y2d*h11;
+        else
+          // Degenerate case, x1 and x2 are identical, return step function
+          y := (y1 + y2)/2;
+        end if;
+        annotation(smoothOrder=3, Documentation(revisions="<html>
+<ul>
+<li><i>May 2008</i>
+    by <a href=\"mailto:Michael.Sielemann@dlr.de\">Michael Sielemann</a>:<br>
+    Designed and implemented.</li>
+</ul>
+</html>"));
+      end cubicHermite;
       annotation (Documentation(info="<html>
 
 </html>"));
@@ -7917,6 +7879,109 @@ Copyright &copy; 1998-2010, Modelica Association.
       import Modelica.SIunits.Conversions.*;
       extends Modelica.Icons.Package;
 
+      package Sources "Thermal sources"
+      extends Modelica.Icons.SourcesPackage;
+
+        model PrescribedHeatFlow "Prescribed heat flow boundary condition"
+          parameter Modelica.SIunits.Temperature T_ref=293.15
+          "Reference temperature";
+          parameter Modelica.SIunits.LinearTemperatureCoefficient alpha=0
+          "Temperature coefficient of heat flow rate";
+          Modelica.Blocks.Interfaces.RealInput Q_flow
+                annotation (Placement(transformation(
+                origin={-100,0},
+                extent={{20,-20},{-20,20}},
+                rotation=180)));
+          Interfaces.HeatPort_b port annotation (Placement(transformation(extent={{90,
+                    -10},{110,10}}, rotation=0)));
+        equation
+          port.Q_flow = -Q_flow*(1 + alpha*(port.T - T_ref));
+          annotation (
+            Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{
+                    100,100}}), graphics={
+                Line(
+                  points={{-60,-20},{40,-20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-60,20},{40,20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-80,0},{-60,-20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-80,0},{-60,20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Polygon(
+                  points={{40,0},{40,40},{70,20},{40,0}},
+                  lineColor={191,0,0},
+                  fillColor={191,0,0},
+                  fillPattern=FillPattern.Solid),
+                Polygon(
+                  points={{40,-40},{40,0},{70,-20},{40,-40}},
+                  lineColor={191,0,0},
+                  fillColor={191,0,0},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{70,40},{90,-40}},
+                  lineColor={191,0,0},
+                  fillColor={191,0,0},
+                  fillPattern=FillPattern.Solid),
+                Text(
+                  extent={{-150,100},{150,60}},
+                  textString="%name",
+                  lineColor={0,0,255})}),
+            Documentation(info="<HTML>
+<p>
+This model allows a specified amount of heat flow rate to be \"injected\"
+into a thermal system at a given port.  The amount of heat
+is given by the input signal Q_flow into the model. The heat flows into the
+component to which the component PrescribedHeatFlow is connected,
+if the input signal is positive.
+</p>
+<p>
+If parameter alpha is > 0, the heat flow is mulitplied by (1 + alpha*(port.T - T_ref))
+in order to simulate temperature dependent losses (which are given an reference temperature T_ref).
+</p>
+</HTML>
+"),         Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},
+                    {100,100}}), graphics={
+                Line(
+                  points={{-60,-20},{68,-20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-60,20},{68,20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-80,0},{-60,-20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Line(
+                  points={{-80,0},{-60,20}},
+                  color={191,0,0},
+                  thickness=0.5),
+                Polygon(
+                  points={{60,0},{60,40},{90,20},{60,0}},
+                  lineColor={191,0,0},
+                  fillColor={191,0,0},
+                  fillPattern=FillPattern.Solid),
+                Polygon(
+                  points={{60,-40},{60,0},{90,-20},{60,-40}},
+                  lineColor={191,0,0},
+                  fillColor={191,0,0},
+                  fillPattern=FillPattern.Solid)}));
+        end PrescribedHeatFlow;
+        annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
+                  -100},{100,100}}), graphics),   Documentation(info="<html>
+
+</html>"));
+      end Sources;
+
       package Interfaces "Connectors and partial models"
         extends Modelica.Icons.InterfacesPackage;
 
@@ -8179,66 +8244,6 @@ and fluid heat flow.
 
   package Matrices "Library of functions operating on matrices"
     extends Modelica.Icons.Package;
-
-    function solve
-    "Solve real system of linear equations A*x=b with a b vector (Gaussian elemination with partial pivoting)"
-
-      extends Modelica.Icons.Function;
-      input Real A[:, size(A, 1)] "Matrix A of A*x = b";
-      input Real b[size(A, 1)] "Vector b of A*x = b";
-      output Real x[size(b, 1)] "Vector x such that A*x = b";
-
-  protected
-      Integer info;
-    algorithm
-      (x,info) := LAPACK.dgesv_vec(A, b);
-      assert(info == 0, "Solving a linear system of equations with function
-\"Matrices.solve\" is not possible, because the system has either
-no or infinitely many solutions (A is singular).");
-      annotation (
-        Documentation(info="<HTML>
-<h4>Syntax</h4>
-<blockquote><pre>
-Matrices.<b>solve</b>(A,b);
-</pre></blockquote>
-<h4>Description</h4>
-<p>
-This function call returns the
-solution <b>x</b> of the linear system of equations
-</p>
-<blockquote>
-<p>
-<b>A</b>*<b>x</b> = <b>b</b>
-</p>
-</blockquote>
-<p>
-If a unique solution <b>x</b> does not exist (since <b>A</b> is singular),
-an assertion is triggered. If this is not desired, use instead
-<a href=\"modelica://Modelica.Math.Matrices.leastSquares\">Matrices.leastSquares</a>
-and inquire the singularity of the solution with the return argument rank
-(a unique solution is computed if rank = size(A,1)).
-</p>
-
-<p>
-Note, the solution is computed with the LAPACK function \"dgesv\",
-i.e., by Gaussian elemination with partial pivoting.
-</p>
-<h4>Example</h4>
-<blockquote><pre>
-  Real A[3,3] = [1,2,3;
-                 3,4,5;
-                 2,1,4];
-  Real b[3] = {10,22,12};
-  Real x[3];
-<b>algorithm</b>
-  x := Matrices.solve(A,b);  // x = {3,2,1}
-</pre></blockquote>
-<h4>See also</h4>
-<a href=\"modelica://Modelica.Math.Matrices.LU\">Matrices.LU</a>,
-<a href=\"modelica://Modelica.Math.Matrices.LU_solve\">Matrices.LU_solve</a>,
-<a href=\"modelica://Modelica.Math.Matrices.leastSquares\">Matrices.leastSquares</a>.
-</HTML>"));
-    end solve;
 
     function leastSquares
     "Solve linear equation A*x = b (exactly if possible, or otherwise in a least square sense; A may be non-square and may be rank deficient)"
@@ -8511,27 +8516,6 @@ where Q1 consists of the first \"rank\" columns of Q.
           < 0:  if INFO = -i, the i-th argument had an illegal value    "));
 
       end dgelsx_vec;
-
-      function dgesv_vec
-      "Solve real system of linear equations A*x=b with a b vector"
-        extends Modelica.Icons.Function;
-        input Real A[:, size(A, 1)];
-        input Real b[size(A, 1)];
-        output Real x[size(A, 1)]=b;
-        output Integer info;
-    protected
-        Real Awork[size(A, 1), size(A, 1)]=A;
-        Integer lda=max(1,size(A,1));
-        Integer ldb=max(1,size(b,1));
-        Integer ipiv[size(A, 1)];
-
-      external "FORTRAN 77" dgesv(size(A, 1), 1, Awork, lda, ipiv, x, ldb, info) annotation (Library="Lapack");
-        annotation (
-          Documentation(info="
-Same as function LAPACK.dgesv, but right hand side is a vector and not a matrix.
-For details of the arguments, see documentation of dgesv.
-"));
-      end dgesv_vec;
         annotation (Documentation(info="<html>
 <p>
 This package contains external Modelica functions as interface to the
@@ -10364,8 +10348,6 @@ argument):</p>
 
     type Length = Real (final quantity="Length", final unit="m");
 
-    type Area = Real (final quantity="Area", final unit="m2");
-
     type Volume = Real (final quantity="Volume", final unit="m3");
 
     type Time = Real (final quantity="Time", final unit="s");
@@ -10424,6 +10406,8 @@ argument):</p>
 
     type Temperature = ThermodynamicTemperature;
 
+    type LinearTemperatureCoefficient = Real(final quantity = "LinearTemperatureCoefficient", final unit="1/K");
+
     type Compressibility = Real (final quantity="Compressibility", final unit=
             "1/Pa");
 
@@ -10433,9 +10417,6 @@ argument):</p>
 
     type ThermalConductivity = Real (final quantity="ThermalConductivity", final unit=
                "W/(m.K)");
-
-    type CoefficientOfHeatTransfer = Real (final quantity=
-            "CoefficientOfHeatTransfer", final unit="W/(m2.K)");
 
     type SpecificHeatCapacity = Real (final quantity="SpecificHeatCapacity",
           final unit="J/(kg.K)");
@@ -10553,11 +10534,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 annotation (
 preferredView="info",
 version="3.2",
-versionBuild=6,
+versionBuild=8,
 versionDate="2010-10-25",
-dateModified = "2010-11-08 14:38:50Z",
-revisionId="$Id:: package.mo 4362 2010-11-08 14:40:58Z #$",
-uses(Complex(version="1.0"), ModelicaServices(version="1.1")),
+dateModified = "2011-09-05 15:20:00Z",
+revisionId="",
+uses(Complex(version="1.0"), ModelicaServices(version="1.2")),
 conversion(
  noneFromVersion="3.1",
  noneFromVersion="3.0.1",
@@ -10763,13 +10744,13 @@ Modelica.Blocks.Discrete</a>.
          "The parameter \"occupancy\" must have an even number of elements.\n");
        assert(startTime < occupancy[1],
          "The parameter \"startTime\" must be smaller than the first element of \"occupancy\"."
-         + "\n   Received startTime    = " + realString(startTime)
-         + "\n            occupancy[1] = " + realString(occupancy[1]));
+         + "\n   Received startTime    = " + String(startTime)
+         + "\n            occupancy[1] = " + String(occupancy[1]));
        assert(endTime > occupancy[nRow],
          "The parameter \"endTime\" must be greater than the last element of \"occupancy\"."
-         + "\n   Received endTime      = " + realString(endTime)
-         + "\n            occupancy[" + integerString(nRow) +
-           "] = " + realString(occupancy[nRow]));
+         + "\n   Received endTime      = " + String(endTime)
+         + "\n            occupancy[" + String(nRow) +
+           "] = " + String(occupancy[nRow]));
         for i in 1:nRow-1 loop
           assert(occupancy[i] < occupancy[i+1],
             "The elements of the parameter \"occupancy\" must be strictly increasing.");
@@ -10905,10 +10886,7 @@ Modelica.Blocks</a>.
 
         parameter Modelica.SIunits.Time tau = 60
         "Time constant at nominal flow"
-           annotation (Dialog(group="Nominal condition"));
-        parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
-        "Mass flow rate"
-           annotation(Dialog(group = "Nominal condition"));
+          annotation (Dialog(tab="Dynamics", group="Nominal condition"));
 
     protected
          parameter Modelica.SIunits.Volume V0 = m_flow_nominal*tau/rho_nominal
@@ -10958,6 +10936,14 @@ First implementation.
 </ul>
 </html>"));
       end DelayFirstOrder;
+    annotation (preferedView="info", Documentation(info="<html>
+This package contains components models for transport delays in
+piping networks.
+The model 
+<a href=\"modelica://Buildings.Fluid.Delays.DelayFirstOrder\">
+Buildings.Fluid.Delays.DelayFirstOrder</a>
+approximates transport delay using a first order differential equation.
+</html>"));
     end Delays;
 
     package FixedResistances
@@ -10983,12 +10969,12 @@ First implementation.
        if ( m_flow_turbulent > m_flow_nominal_pos) then
          Modelica.Utilities.Streams.print("Warning: In FixedResistanceDpM, m_flow_nominal is smaller than m_flow_turbulent."
                  + "\n"
-                 + "  m_flow_nominal = " + realString(m_flow_nominal) + "\n"
-                 + "  dh      = " + realString(dh) + "\n"
+                 + "  m_flow_nominal = " + String(m_flow_nominal) + "\n"
+                 + "  dh      = " + String(dh) + "\n"
                  + "  To fix, set dh < " +
-                      realString(     4*m_flow_nominal/eta_nominal/Modelica.Constants.pi/ReC) + "\n"
+                      String(     4*m_flow_nominal/eta_nominal/Modelica.Constants.pi/ReC) + "\n"
                  + "  Suggested value: dh = " +
-                      realString(1/10*4*m_flow_nominal/eta_nominal/Modelica.Constants.pi/ReC));
+                      String(1/10*4*m_flow_nominal/eta_nominal/Modelica.Constants.pi/ReC));
        end if;
 
       equation
@@ -10997,15 +10983,11 @@ First implementation.
          m_flow_turbulent = if use_dh then
                             eta_nominal*dh/4*Modelica.Constants.pi*ReC else
                             deltaM * m_flow_nominal_pos;
-          if linearized then
-           k = m_flow_nominal_pos / dp_nominal_pos / conv2;
-          else
-           k = m_flow_nominal_pos / sqrt(dp_nominal_pos);
-          end if;
-        else
-            m_flow_turbulent = 0;
-            k = 0;
-         end if;
+         k = m_flow_nominal_pos / sqrt(dp_nominal_pos);
+       else
+         m_flow_turbulent = 0;
+         k = 0;
+       end if;
         annotation (Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,
                   -100},{100,100}}),
                             graphics),
@@ -11039,6 +11021,42 @@ First implementation.
                 lineColor={0,0,255},
                 textString="m0=%m_flow_nominal")}));
       end FixedResistanceDpM;
+    annotation (preferedView="info", Documentation(info="<html>
+This package contains components models for fixed flow resistances. 
+By fixed flow resistance, we mean resistances that do not change the 
+flow coefficient
+<p align=\"center\" style=\"font-style:italic;\">
+k = m &frasl; 
+&radic;<span style=\"text-decoration:overline;\">&Delta;P</span>.
+</p>
+<p>
+For models of valves and air dampers, see
+<a href=\"modelica://Buildings.Fluid.Actuators\">
+Buildings.Fluid.Actuators</a>.
+For models of flow resistances as part of the building constructions, see 
+<a href=\"modelica://Buildings.Airflow.Multizone\">
+Buildings.Airflow.Multizone</a>.
+</p>
+<p>
+The model
+<a href=\"modelica://Buildings.Fluid.FixedResistances.FixedResistanceDpM\">
+Buildings.Fluid.FixedResistances.FixedResistanceDpM</a>
+is a fixed flow resistance that takes as parameter a nominal flow rate and a nominal pressure drop. The actual resistance is scaled using the above equation.
+</p>
+<p>
+The model
+<a href=\"modelica://Buildings.Fluid.FixedResistances.LosslessPipe\">
+Buildings.Fluid.FixedResistances.LosslessPipe</a>
+is an ideal pipe segment with no pressure drop. It is primarily used
+in models in which the above pressure drop model need to be replaced by a model with no pressure drop.
+</p>
+<p>
+The model
+<a href=\"modelica://Buildings.Fluid.FixedResistances.SplitterFixedResistanceDpM\">
+Buildings.Fluid.FixedResistances.SplitterFixedResistanceDpM</a>
+can be used to model flow splitters or flow merges.
+</p>
+</html>"));
     end FixedResistances;
 
     package HeatExchangers "Package with heat exchanger models"
@@ -11046,17 +11064,33 @@ First implementation.
 
       model HeaterCoolerPrescribed
       "Heater or cooler with prescribed heat flow rate"
-        extends Buildings.Fluid.Interfaces.PartialStaticTwoPortHeatMassTransfer(
-          sensibleOnly=true);
+        extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
+          redeclare final Buildings.Fluid.MixingVolumes.MixingVolume vol);
 
         parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal
         "Heat flow rate at u=1, positive for heating";
         Modelica.Blocks.Interfaces.RealInput u "Control input"
           annotation (Placement(transformation(
                 extent={{-140,40},{-100,80}}, rotation=0)));
+    protected
+        Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
+        "Prescribed heat flow"
+          annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
+        Modelica.Blocks.Math.Gain gai(k=Q_flow_nominal) "Gain"
+          annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
       equation
-        Q_flow = Q_flow_nominal * u;
-        mXi_flow = zeros(Medium.nXi); // no mass added or removed (sensible heat only)
+        connect(u, gai.u) annotation (Line(
+            points={{-120,60},{-82,60}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(gai.y, preHea.Q_flow) annotation (Line(
+            points={{-59,60},{-40,60}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(preHea.port, vol.heatPort) annotation (Line(
+            points={{-20,60},{-9,60},{-9,-10}},
+            color={191,0,0},
+            smooth=Smooth.None));
         annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}), graphics={
               Rectangle(
@@ -11095,21 +11129,24 @@ This model adds heat in the amount of <code>Q_flow = u Q_flow_nominal</code> to 
 The input signal <code>u</code> and the nominal heat flow rate <code>Q_flow_nominal</code> 
 can be positive or negative.
 </p>
-<p>
-Note that for non-zero <code>Q_flow</code>,
-if the mass flow rate tends to zero, the temperature difference over this 
-component tends to infinity.
-Hence, using a proper control for <code>u</code> is essential when using this component.
-</p>
 </html>",
       revisions="<html>
 <ul>
+<li>
+July 11, 2011, by Michael Wetter:<br>
+Redeclared fluid volume as final. This prevents the fluid volume model
+to appear in the dialog window.
+</li>
+<li>
+May 24, 2011, by Michael Wetter:<br>
+Changed base class to allow using the model as a dynamic or a steady-state model.
+</li>
 <li>
 April 17, 2008, by Michael Wetter:<br>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),Diagram(graphics));
       end HeaterCoolerPrescribed;
     annotation (preferedView="info", Documentation(info="<html>
 This package contains models for heat exchangers with and without humidity condensation.
@@ -11121,8 +11158,8 @@ This package contains models for heat exchangers with and without humidity conde
 
       model HumidifierPrescribed
       "Ideal humidifier or dehumidifier with prescribed water mass flow rate addition or subtraction"
-        extends Fluid.Interfaces.PartialStaticTwoPortHeatMassTransfer(
-           sensibleOnly = false);
+        extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
+          redeclare final Buildings.Fluid.MixingVolumes.MixingVolumeMoistAir vol);
 
         parameter Boolean use_T_in= false
         "Get the temperature from the input connector"
@@ -11144,22 +11181,56 @@ This package contains models for heat exchangers with and without humidity conde
           annotation (Placement(transformation(
                 extent={{-140,40},{-100,80}}, rotation=0)));
     protected
-        constant Modelica.SIunits.MassFraction[Medium.nXi] Xi_w = {1}
-        "Mass fraction of water";
-        Modelica.SIunits.MassFlowRate mWat_flow "Water flow rate";
         Modelica.Blocks.Interfaces.RealInput T_in_internal
         "Needed to connect to conditional connector";
+        Modelica.Blocks.Math.Gain gai(k=mWat_flow_nominal) "Gain"
+          annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
+        Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
+        "Prescribed heat flow"
+          annotation (Placement(transformation(extent={{36,68},{56,88}})));
+        Modelica.Blocks.Sources.RealExpression realExpression(y=
+              Medium.enthalpyOfLiquid(T_in_internal))
+          annotation (Placement(transformation(extent={{-96,70},{-20,94}})));
+        Modelica.Blocks.Math.Product pro
+        "Product to compute latent heat added to volume"
+          annotation (Placement(transformation(extent={{0,66},{20,86}})));
+        Modelica.Blocks.Sources.RealExpression realExpression1(y=T_in_internal)
+          annotation (Placement(transformation(extent={{-80,-48},{-52,-24}})));
       equation
+        // Conditional connect statement
         connect(T_in, T_in_internal);
         if not use_T_in then
           T_in_internal = T;
         end if;
 
-        mWat_flow = u * mWat_flow_nominal;
-        Q_flow = Medium.enthalpyOfLiquid(T_in_internal) * mWat_flow;
-        for i in 1:Medium.nXi loop
-           mXi_flow[i] = if ( i == Medium.Water) then  mWat_flow else 0;
-        end for;
+        connect(u, gai.u) annotation (Line(
+            points={{-120,60},{-82,60}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(gai.y, vol.mWat_flow) annotation (Line(
+            points={{-59,60},{-34,60},{-34,-18},{-11,-18}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(realExpression.y, pro.u1)     annotation (Line(
+            points={{-16.2,82},{-2,82}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(gai.y, pro.u2)     annotation (Line(
+            points={{-59,60},{-34,60},{-34,70},{-2,70}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(pro.y, preHea.Q_flow)     annotation (Line(
+            points={{21,76},{28,76},{28,78},{36,78}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(preHea.port, vol.heatPort) annotation (Line(
+            points={{56,78},{80,78},{80,60},{-20,60},{-20,-10},{-9,-10}},
+            color={191,0,0},
+            smooth=Smooth.None));
+        connect(vol.TWat, realExpression1.y) annotation (Line(
+            points={{-11,-14.8},{-30,-14.8},{-30,-36},{-50.6,-36}},
+            color={0,0,127},
+            smooth=Smooth.None));
         annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}), graphics={
               Rectangle(
@@ -11207,21 +11278,21 @@ Model for an air humidifier or dehumidifier.
 </p>
 <p>
 This model adds (or removes) moisture from the air stream.
-The amount of exchanged moisture is equal to <code>m_flow = u * m_flow_nominal</code>.
-The input signal <code>u</code> and the nominal moisture flow rate added to the air stream <code>m_flow_nominal</code> can be positive or negative.
-If the product <code>u * m_flow_nominal</code> is positive, then moisture is added
+The amount of exchanged moisture is equal to
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+m&#775;<sub>wat</sub> = u  m&#775;<sub>wat,nom</sub>,
+</p>
+<p>
+where <i>u</i> is the control input signal and
+<i>m&#775;<sub>wat,nom</sub></i> is equal to the parameter <code>mWat_flow_nominal</code>.
+The parameter <code>mWat_flow_nominal</code> can be positive or negative.
+If <i>m&#775;<sub>wat</sub></i> is positive, then moisture is added
 to the air stream, otherwise it is removed.
 </p>
-<p>
 <p>If the connector <code>T_in</code> is left unconnected, the value
-set by the parameter <code>T</code> is used for temperature of the water that is 
+set by the parameter <code>T</code> is used for the temperature of the water that is 
 added to the air stream.
-</p>
-<p>
-Note that for non-zero <code>m_flow</code>, 
-if the mass flow rate tends to zero, then the moisture difference over this 
-component tends to infinity.
-Hence, using a proper control for <code>u</code> is essential when using this component.
 </p>
 <p>
 This model can only be used with medium models that define the integer constant
@@ -11232,6 +11303,10 @@ in the species vector.
       revisions="<html>
 <ul>
 <li>
+May 24, 2011, by Michael Wetter:<br>
+Changed base class to allow using the model as a dynamic or a steady-state model.
+</li>
+<li>
 April 14, 2010, by Michael Wetter:<br>
 Converted temperature input to a conditional connector.
 </li>
@@ -11240,7 +11315,7 @@ April 17, 2008, by Michael Wetter:<br>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),Diagram(graphics));
       end HumidifierPrescribed;
     annotation (preferedView="info", Documentation(info="<html>
 This package contains models for mass exchangers.
@@ -11255,123 +11330,260 @@ Buildings.Fluid.HeatExchangers</a>.
 
       model MixingVolume
       "Mixing volume with inlet and outlet ports (flow reversal is allowed)"
-        extends Buildings.Fluid.Interfaces.PartialLumpedVolume(
-            m(start=V*rho_nominal, fixed=false),
-            final fluidVolume = V,
-            mC(nominal=V*rho_nominal*C_nominal));
-        extends Buildings.BaseClasses.BaseIcon;
-          import Modelica.Constants.pi;
-
+        outer Modelica.Fluid.System system "System properties";
+        extends Buildings.Fluid.Interfaces.LumpedVolumeDeclarations;
+        parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
+        "Nominal mass flow rate"
+          annotation(Dialog(group = "Nominal condition"));
         // Port definitions
         parameter Integer nPorts=0 "Number of ports"
           annotation(Evaluate=true, Dialog(connectorSizing=true, tab="General",group="Ports"));
+        parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
+        "Small mass flow rate for regularization of zero flow"
+          annotation(Dialog(tab = "Advanced"));
+        parameter Boolean homotopyInitialization = true
+        "= true, use homotopy method"
+          annotation(Evaluate=true, Dialog(tab="Advanced"));
+        parameter Boolean allowFlowReversal = system.allowFlowReversal
+        "= true to allow flow reversal in medium, false restricts to design direction (ports[1] -> ports[2]). Used only if model has two ports."
+          annotation(Dialog(tab="Assumptions"), Evaluate=true);
+        parameter Modelica.SIunits.Volume V "Volume";
+        parameter Boolean prescribedHeatFlowRate=false
+        "Set to true if the model has a prescribed heat flow at its heatPort"
+         annotation(Evaluate=true, Dialog(tab="Assumptions",
+            enable=use_HeatTransfer,
+            group="Heat transfer"));
         Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b ports[nPorts](
             redeclare each package Medium = Medium) "Fluid inlets and outlets"
           annotation (Placement(transformation(extent={{-40,-10},{40,10}},
             origin={0,-100})));
-
-      //  parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0)=system.m_flow_small
-      //    "Regularization range at zero mass flow rate"
-      //    annotation(Dialog(tab="Advanced", group="Port properties", enable=stiffCharacteristicForEmptyPort));
-        Medium.EnthalpyFlowRate ports_H_flow[nPorts];
-        Medium.MassFlowRate ports_mXi_flow[nPorts,Medium.nXi];
-        Medium.MassFlowRate[Medium.nXi] sum_ports_mXi_flow
-        "Substance mass flows through ports";
-        Medium.ExtraPropertyFlowRate ports_mC_flow[nPorts,Medium.nC];
-        Medium.ExtraPropertyFlowRate[Medium.nC] sum_ports_mC_flow
-        "Trace substance mass flows through ports";
-
-        // Heat transfer through boundary
-        parameter Boolean use_HeatTransfer = false
-        "= true to use the HeatTransfer model"
-            annotation (Dialog(tab="Assumptions", group="Heat transfer"));
-        replaceable model HeatTransfer =
-            Modelica.Fluid.Vessels.BaseClasses.HeatTransfer.IdealHeatTransfer
-          constrainedby
-        Modelica.Fluid.Vessels.BaseClasses.HeatTransfer.PartialVesselHeatTransfer
-        "Wall heat transfer"
-            annotation (Dialog(tab="Assumptions", group="Heat transfer",enable=use_HeatTransfer),choicesAllMatching=true);
-        HeatTransfer heatTransfer(
-          redeclare final package Medium = Medium,
-          surfaceAreas={4*pi*(3/4*V/pi)^(2/3)},
-          final n=1,
-          final states = {medium.state},
-          final use_k = use_HeatTransfer)
-            annotation (Placement(transformation(
-              extent={{-10,-10},{30,30}},
-              rotation=90,
-              origin={-50,-10})));
-        Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort if use_HeatTransfer
+        Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+        "Heat port connected to outflowing medium"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-
-        parameter Modelica.SIunits.Volume V "Volume";
-
+        Modelica.SIunits.Temperature T "Temperature of the fluid";
+        Modelica.SIunits.Pressure p "Pressure of the fluid";
+        Modelica.SIunits.MassFraction Xi[Medium.nXi]
+        "Species concentration of the fluid";
+        Medium.ExtraProperty C[Medium.nC](nominal=C_nominal)
+        "Trace substance mixture content";
+         // Models for the steady-state and dynamic energy balance.
     protected
-         parameter Modelica.SIunits.Density rho_nominal=Medium.density(
-           Medium.setState_pTX(
+        Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger steBal(
+          sensibleOnly = true,
+          redeclare final package Medium=Medium,
+          final m_flow_nominal = m_flow_nominal,
+          final dp_nominal = 0,
+          final allowFlowReversal = allowFlowReversal,
+          final m_flow_small = m_flow_small,
+          final homotopyInitialization = homotopyInitialization,
+          final show_V_flow = false,
+          final from_dp = false,
+          final linearizeFlowResistance = true,
+          final deltaM = 0.3,
+          Q_flow = Q_flow,
+          mXi_flow = zeros(Medium.nXi)) if
+              useSteadyStateTwoPort
+        "Model for steady-state balance if nPorts=2";
+        Buildings.Fluid.Interfaces.LumpedVolume dynBal(
+          redeclare final package Medium = Medium,
+          final nPorts = nPorts,
+          final energyDynamics=energyDynamics,
+          final massDynamics=massDynamics,
+          final p_start=p_start,
+          final T_start=T_start,
+          final X_start=X_start,
+          final C_start=C_start,
+          final C_nominal=C_nominal,
+          final fluidVolume = V,
+          m(start=V*rho_nominal),
+          U(start=V*rho_nominal*Medium.specificInternalEnergy(
+              state_start)),
+          Q_flow = Q_flow,
+          mXi_flow = zeros(Medium.nXi)) if
+              not useSteadyStateTwoPort "Model for dynamic energy balance";
+        parameter Medium.ThermodynamicState state_start = Medium.setState_pTX(
             T=T_start,
             p=p_start,
-            X=X_start[1:Medium.nXi])) "Density, used to compute fluid mass"
-                                                 annotation (Evaluate=true);
-
+            X=X_start[1:Medium.nXi]) "Start state";
+        parameter Modelica.SIunits.Density rho_nominal=Medium.density(
+         Medium.setState_pTX(
+           T=T_start,
+           p=p_start,
+           X=X_start[1:Medium.nXi])) "Density, used to compute fluid mass"
+        annotation (Evaluate=true);
+        ////////////////////////////////////////////////////
+        final parameter Boolean useSteadyStateTwoPort=(nPorts == 2) and
+            prescribedHeatFlowRate and (
+            energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) and (
+            massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) and (
+            substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) and (
+            traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)
+        "Flag, true if the model has two ports only and uses a steady state balance"
+          annotation (Evaluate=true);
+        Modelica.SIunits.HeatFlowRate Q_flow
+        "Heat flow across boundaries or energy source/sink";
+        // Outputs that are needed to assign the medium properties
+        Modelica.Blocks.Interfaces.RealOutput hOut_internal(unit="J/kg")
+        "Internal connector for leaving temperature of the component";
+        Modelica.Blocks.Interfaces.RealOutput XiOut_internal[Medium.nXi](unit="1")
+        "Internal connector for leaving species concentration of the component";
+        Modelica.Blocks.Interfaces.RealOutput COut_internal[Medium.nC](unit="1")
+        "Internal connector for leaving trace substances of the component";
       equation
+        ///////////////////////////////////////////////////////////////////////////
+        // asserts
+        if not allowFlowReversal then
+          assert(ports[1].m_flow > -m_flow_small,
+      "Model has flow reversal, but the parameter allowFlowReversal is set to false.
+  m_flow_small    = "       + String(m_flow_small) + "
+  ports[1].m_flow = "       + String(ports[1].m_flow) + "
+");
+        end if;
       // Only one connection allowed to a port to avoid unwanted ideal mixing
-        for i in 1:nPorts loop
-          assert(cardinality(ports[i]) <= 1,"
+        if not useSteadyStateTwoPort then
+          for i in 1:nPorts loop
+          assert(cardinality(ports[i]) == 2 or cardinality(ports[i]) == 0,"
 each ports[i] of volume can at most be connected to one component.
 If two or more connections are present, ideal mixing takes
 place with these connections, which is usually not the intention
 of the modeller. Increase nPorts to add an additional port.
 ");
-        end for;
-
+           end for;
+        end if;
         // actual definition of port variables
-        for i in 1:nPorts loop
-          // fluid flow through ports
-            // regular operation: fluidLevel is above ports[i]
-            // Note: >= covers default values of zero as well
-          ports[i].p          = medium.p;
-          ports[i].h_outflow  = medium.h;
-          ports[i].Xi_outflow = medium.Xi;
-          ports[i].C_outflow  = C;
-
-          ports_H_flow[i]     = ports[i].m_flow * actualStream(ports[i].h_outflow)
-          "Enthalpy flow";
-          ports_mXi_flow[i,:] = ports[i].m_flow * actualStream(ports[i].Xi_outflow)
-          "Component mass flow";
-          ports_mC_flow[i,:]  = ports[i].m_flow * actualStream(ports[i].C_outflow)
-          "Trace substance mass flow";
-        end for;
-
-        for i in 1:Medium.nXi loop
-          sum_ports_mXi_flow[i] = sum(ports_mXi_flow[:,i]);
-        end for;
-
-        for i in 1:Medium.nC loop
-          sum_ports_mC_flow[i]  = sum(ports_mC_flow[:,i]);
-        end for;
-        mb_flow = sum(ports.m_flow);
-        mbXi_flow = sum_ports_mXi_flow;
-        mbC_flow  = sum_ports_mC_flow;
-        Hb_flow = sum(ports_H_flow);
-        Qb_flow = heatTransfer.Q_flows[1];
-
-        connect(heatPort, heatTransfer.heatPorts[1]) annotation (Line(
-            points={{-100,5.55112e-16},{-87,5.55112e-16},{-87,2.22045e-15},{-74,
-                2.22045e-15}},
-            color={191,0,0},
-            smooth=Smooth.None));
-
+        // If the model computes the energy and mass balances as steady-state,
+        // and if it has only two ports,
+        // then we use the same base class as for all other steady state models.
+        if useSteadyStateTwoPort then
+          connect(ports[1], steBal.port_a);
+          connect(ports[2], steBal.port_b);
+          connect(hOut_internal,  steBal.hOut);
+          connect(XiOut_internal, steBal.XiOut);
+          connect(COut_internal,  steBal.COut);
+        else
+          connect(ports, dynBal.ports);
+          connect(hOut_internal,  dynBal.hOut);
+          connect(XiOut_internal, dynBal.XiOut);
+          connect(COut_internal,  dynBal.COut);
+        end if;
+        // Medium properties
+        p = if nPorts > 0 then ports[1].p else p_start;
+        T = Medium.temperature_phX(p=p, h=hOut_internal, X=cat(1,Xi,{1-sum(Xi)}));
+        Xi = XiOut_internal;
+        C = COut_internal;
+        // Port properties
+        heatPort.T = T;
+        heatPort.Q_flow = Q_flow;
         annotation (
       defaultComponentName="vol",
       Documentation(info="<html>
 This model represents an instantaneously mixed volume. 
 Potential and kinetic energy at the port are neglected,
 and there is no pressure drop at the ports.
-The volume can be parameterized to allow heat exchange
-through a <code>heatPort</code>.
+The volume can exchange heat through its <code>heatPort</code>.
+</p>
+<p>
+The volume can be parameterized as a steady-state model or as
+dynamic model.
+</p>
+<p>
+To increase the numerical robustness of the model, the parameter
+<code>prescribedHeatFlowRate</code> can be set by the user. 
+This parameter only has an effect if the model has exactly two fluid ports connected,
+and if it is used as a steady-state model.
+Use the following settings:
+<ul>
+<li>Set <code>prescribedHeatFlowRate=true</code> if there is a model connected to <code>heatPort</code>
+that computes the heat flow rate <i>not</i> as a function of the temperature difference
+between the medium and an ambient temperature. Examples include an ideal electrical heater,
+a pump that rejects heat into the fluid stream, or a chiller that removes heat based on a performance curve.
+</li>
+<li>Set <code>prescribedHeatFlowRate=true</code> if the only means of heat flow at the <code>heatPort</code>
+is computed as <i>K * (T-heatPort.T)</i>, for some temperature <i>T</i> and some conductance <i>K</i>,
+which may itself be a function of temperature or mass flow rate.
+</li>
+</ul>
+</p>
+<h4>Implementation</h4>
+<p>
+If the model is operated in steady-state and has two fluid ports connected,
+then the same energy and mass balance implementation is used as in
+steady-state component models, i.e., the use of <code>actualStream</code>
+is not used for the properties at the port.
+</p>
+<p>
+The implementation of these balance equations is done in the instances
+<code>dynBal</code> for the dynamic balance and <code>steBal</code>
+for the steady-state balance. Both models use the same input variables:
+<ul>
+<li>
+The variable <code>Q_flow</code> is used to add sensible <i>and</i> latent heat to the fluid.
+For example, <code>Q_flow</code> participates in the steady-state energy balance<pre>
+    port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
+</pre>
+where <code>m_flowInv</code> approximates the expression <code>1/m_flow</code>.
+</li>
+<li>
+The variable <code>mXi_flow</code> is used to add a species mass flow rate to the fluid.
+</li>
+</ul>
+</p>
+<p>
+For simple models that uses this model, see
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed\">
+Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed</a> and
+<a href=\"modelica://Buildings.Fluid.MassExchangers.HumidifierPrescribed\">
+Buildings.Fluid.MassExchangers.HumidifierPrescribed</a>.
+</p>
 </html>",       revisions="<html>
 <ul>
+<li>
+September 17, 2011 by Michael Wetter:<br>
+Removed instance <code>medium</code> as this is already used in <code>dynBal</code>.
+Removing the base properties led to 30% faster computing time for a solar thermal system
+that contains many fluid volumes. 
+</li>
+<li>
+September 13, 2011 by Michael Wetter:<br>
+Changed in declaration of <code>medium</code> the parameter assignment
+<code>preferredMediumStates=true</code> to
+<code>preferredMediumStates= not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)</code>.
+Otherwise, for a steady-state model, Dymola 2012 may differentiate the model to obtain <code>T</code>
+as a state. See ticket Dynasim #13596.
+</li>
+<li>
+July 26, 2011 by Michael Wetter:<br>
+Revised model to use new declarations from
+<a href=\"Buildings.Fluid.Interfaces.LumpedVolumeDeclarations\">
+Buildings.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
+</li>
+<li>
+July 14, 2011 by Michael Wetter:<br>
+Added start values for mass and internal energy of dynamic balance
+model.
+</li>
+<li>
+May 25, 2011 by Michael Wetter:<br>
+<ul>
+<li>
+Changed implementation of balance equation. The new implementation uses a different model if 
+exactly two fluid ports are connected, and in addition, the model is used as a steady-state
+component. For this model configuration, the same balance equations are used as were used
+for steady-state component models, i.e., instead of <code>actualStream(...)</code>, the
+<code>inStream(...)</code> formulation is used.
+This changed required the introduction of a new parameter <code>m_flow_nominal</code> which
+is used for smoothing in the steady-state balance equations of the model with two fluid ports.
+This implementation also simplifies the implementation of 
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolumeWaterPort\">
+Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolumeWaterPort</a>,
+which now uses the same equations as this model.
+</li>
+<li>
+Another revision was the removal of the parameter <code>use_HeatTransfer</code> as there is
+no noticable overhead in always having the <code>heatPort</code> connector present.
+</li>
+</ul>
+</li>
 <li>
 July 30, 2010 by Michael Wetter:<br>
 Added nominal value for <code>mC</code> to avoid wrong trajectory 
@@ -11401,8 +11613,233 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
                 fillColor={170,213,255}), Text(
                 extent={{-58,14},{58,-18}},
                 lineColor={0,0,0},
-                textString="V=%V")}));
+                textString="V=%V"),         Text(
+                extent={{-152,100},{148,140}},
+                textString="%name",
+                lineColor={0,0,255})}));
       end MixingVolume;
+
+      model MixingVolumeMoistAir
+      "Mixing volume with heat port for latent heat exchange, to be used with media that contain water"
+        extends BaseClasses.PartialMixingVolumeWaterPort(nPorts(min=2, max=2),
+          steBal(
+          final sensibleOnly = false));
+        // redeclare Medium with a more restricting base class. This improves the error
+        // message if a user selects a medium that does not contain the function
+        // enthalpyOfLiquid(.)
+        replaceable package Medium =
+          Modelica.Media.Interfaces.PartialCondensingGases
+            annotation (choicesAllMatching = true);
+
+    protected
+        parameter Integer i_w(min=1, fixed=false) "Index for water substance";
+        parameter Real s[Medium.nXi](fixed=false)
+        "Vector with zero everywhere except where species is";
+
+      initial algorithm
+        i_w:= -1;
+        if cardinality(mWat_flow) > 0 then
+        for i in 1:Medium.nXi loop
+            if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
+                                                  string2="Water",
+                                                  caseSensitive=false) then
+            i_w := i;
+            s[i] :=1;
+          else
+            s[i] :=0;
+          end if;
+         end for;
+          assert(i_w > 0, "Substance 'water' is not present in medium '"
+               + Medium.mediumName + "'.\n"
+               + "Check medium model.");
+          end if;
+
+      equation
+        if cardinality(mWat_flow) == 0 then
+          mWat_flow = 0;
+          HWat_flow = 0;
+          mXi_flow  = zeros(Medium.nXi);
+        else
+          if cardinality(TWat) == 0 then
+             HWat_flow = mWat_flow * Medium.enthalpyOfLiquid(Medium.T_default);
+          else
+             HWat_flow = mWat_flow * Medium.enthalpyOfLiquid(TWat);
+          end if;
+        // We obtain the substance concentration with a vector multiplication
+        // because Dymola 7.4 cannot find the derivative in the model
+        // Buildings.Fluid.HeatExchangers.Examples.WetCoilDiscretizedPControl
+        // if we set mXi_flow[i] = if ( i == i_w) then mWat_flow else 0;
+          mXi_flow = mWat_flow * s;
+        end if;
+      // Medium species concentration
+        X_w = s * Xi;
+
+        annotation (Diagram(graphics),
+                             Icon(graphics),
+      defaultComponentName="vol",
+      Documentation(info="<html>
+Model for an ideally mixed fluid volume and the ability 
+to store mass and energy. The volume is fixed, 
+and latent and sensible heat can be exchanged.
+<p>
+This model represents the same physics as 
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolume\">
+Buildings.Fluid.MixingVolumes.MixingVolume</a>, but in addition, it allows
+adding or subtracting water in liquid phase.
+The mass flow rate of the added or subtracted water is
+specified at the port <code>mWat_flow</code>.
+The water flow rate is assumed to be added or subtracted at the
+temperature of the input port <code>TWat</code>, or 
+if this port is not connected, at the medium default temperature as
+defined by <code>Medium.T_default</code>.
+Adding water causes a change in 
+enthalpy and species concentration in the volume. 
+</p>
+<p>
+Note that this model can only be used with medium models that include water
+as a substance. In particular, the medium model needs to implement the function
+<code>enthalpyOfLiquid(T)</code> and the integer variable <code>Water</code> that
+contains the index to the water substance. For medium that do not provide this
+functionality, use
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolumeDryAir\">
+Buildings.Fluid.MixingVolumes.MixingVolumeDryAir</a>.
+</p>
+</html>",       revisions="<html>
+<ul>
+<li>
+February 22, by Michael Wetter:<br>
+Improved the code that searches for the index of 'water' in the medium model.
+</li>
+<li>
+May 29, 2010 by Michael Wetter:<br>
+Rewrote computation of index of water substance.
+For the old formulation, Dymola 7.4 failed to differentiate the 
+model when trying to reduce the index of the DAE.
+</li>
+<li>
+August 7, 2008 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+      end MixingVolumeMoistAir;
+
+      package BaseClasses
+      "Package with base classes for Buildings.Fluid.MixingVolumes"
+        extends Modelica.Icons.BasesPackage;
+
+        partial model PartialMixingVolumeWaterPort
+        "Partial mixing volume that allows adding or subtracting water vapor"
+          extends Buildings.Fluid.MixingVolumes.MixingVolume(
+           steBal(
+            sensibleOnly = false,
+            final Q_flow = Q_flow + HWat_flow,
+            final mXi_flow = mXi_flow),
+           dynBal(
+            final Q_flow = Q_flow + HWat_flow,
+            final mXi_flow = mXi_flow));
+
+         // additional declarations
+          Modelica.Blocks.Interfaces.RealInput mWat_flow(final quantity="MassFlowRate",
+                                                         final unit = "kg/s")
+          "Water flow rate added into the medium"
+            annotation (Placement(transformation(extent={{-140,60},{-100,100}},rotation=
+                   0)));
+          Modelica.Blocks.Interfaces.RealInput TWat(final quantity="Temperature",
+                                                    final unit = "K", displayUnit = "degC", min=260)
+          "Temperature of liquid that is drained from or injected into volume"
+            annotation (Placement(transformation(extent={{-140,28},{-100,68}},
+                  rotation=0)));
+          Modelica.Blocks.Interfaces.RealOutput X_w
+          "Species composition of medium"
+            annotation (Placement(transformation(extent={{100,-60},{140,-20}}, rotation=
+                   0)));
+          Medium.MassFlowRate mXi_flow[Medium.nXi]
+          "Mass flow rates of independent substances added to the medium";
+          Modelica.SIunits.HeatFlowRate HWat_flow
+          "Enthalpy flow rate of extracted water";
+
+          annotation (
+            Documentation(info="<html>
+Model for an ideally mixed fluid volume with <code>nP</code> ports and the ability 
+to store mass and energy. The volume is fixed. 
+<p>
+This model represents the same physics as 
+<a href=\"Modelica:Modelica.Fluid.Vessels.Volume\">
+Modelica.Fluid.Vessels.Volume</a> but in addition,
+it allows to connect signals for the water exchanged with the volume.
+The model is partial in order to allow a submodel that can be used with media
+that contain water as a substance, and a submodel that can be used with dry air.
+Having separate models is required because calls to the medium property function
+<code>enthalpyOfLiquid</code> results in a linker error if a medium such as 
+<a href=\"Modelica:Modelica.Media.Air.SimpleAir\">Modelica.Media.Air.SimpleAir</a>
+is used that does not implement this function.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+January 10, 2011 by Michael Wetter:<br>
+Removed <code>ports_p_static</code> and used instead <code>medium.p</code> since
+<code>ports_p_static</code> is not available in 
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolume\">
+Buildings.Fluid.MixingVolumes.MixingVolume</a> which is sometimes used to replace this model.
+</li>
+<li>
+July 30, 2010 by Michael Wetter:<br>
+Added nominal value for <code>mC</code> to avoid wrong trajectory 
+when concentration is around 1E-7.
+See also <a href=\"https://trac.modelica.org/Modelica/ticket/393\">
+https://trac.modelica.org/Modelica/ticket/393</a>.
+</li>
+<li>
+March 24, 2010 by Michael Wetter:<br>
+Changed base class from <code>Modelica.Fluid</code> to <code>Buildings.Fluid</code>.
+<li>
+August 12, 2008 by Michael Wetter:<br>
+Introduced option to compute model in steady state. This allows the heat exchanger model
+to switch from a dynamic model for the medium to a steady state model.
+</li>
+<li>
+August 13, 2008 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),         Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,
+                    -100},{100,100}}),
+                           graphics),
+            Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
+                    100}}), graphics={
+                Text(
+                  extent={{-76,-6},{198,-48}},
+                  lineColor={255,255,255},
+                  fillColor={0,0,0},
+                  fillPattern=FillPattern.Solid,
+                  textString="X_w"),
+                Text(
+                  extent={{-122,114},{-80,82}},
+                  lineColor={0,0,0},
+                  textString="mWat_flow"),
+                Text(
+                  extent={{-152,74},{-42,50}},
+                  lineColor={0,0,0},
+                  textString="TWat"),
+                Ellipse(
+                  extent={{-100,100},{100,-100}},
+                  lineColor={0,0,0},
+                  fillPattern=FillPattern.Sphere,
+                  fillColor={170,213,255}),
+                Text(
+                  extent={{-60,16},{56,-16}},
+                  lineColor={0,0,0},
+                  textString="V=%V")}));
+        end PartialMixingVolumeWaterPort;
+      annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains base classes that are used to construct the models in
+<a href=\"modelica://Buildings.Fluid.MixingVolumes\">Buildings.Fluid.MixingVolumes</a>.
+</p>
+</html>"));
+      end BaseClasses;
     annotation (Documentation(info="<html>
 <p>
 This package contains models for completely mixed volumes.
@@ -11426,9 +11863,7 @@ dynamic model of a coil with water vapor condensation.
       model FlowMachine_y
       "Fan or pump with ideally controlled normalized speed y as input signal"
         extends Buildings.Fluid.Movers.BaseClasses.PrescribedFlowMachine(
-        final N_nominal=1500 "fix N_nominal as it is used only for scaling",
-        redeclare replaceable function flowCharacteristic =
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.baseFlow);
+        final N_nominal=1500 "fix N_nominal as it is used only for scaling");
 
         Modelica.Blocks.Interfaces.RealInput y(min=0, max=1)
         "Constant normalized rotational speed"
@@ -11468,6 +11903,10 @@ User's Guide</a> for more information.
 </html>",   revisions="<html>
 <ul>
 <li>
+May 25, 2011, by Michael Wetter:<br>
+Revised implementation of energy balance to avoid having to use conditionally removed models.
+</li>
+<li>
 July 27, 2010, by Michael Wetter:<br>
 Redesigned model to fix bug in medium balance.
 </li>
@@ -11490,203 +11929,442 @@ Revised implementation to allow zero flow rate.
 
         package Characteristics "Functions for fan or pump characteristics"
 
-          partial function baseFlow
-          "Base class for fan or pump flow characteristics"
-            extends Modelica.Icons.Function;
-            input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
-            input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
-            output Modelica.SIunits.Pressure dp(min=0, displayUnit="Pa")
-            "Fan or pump total pressure";
-          end baseFlow;
-
-          partial function basePower
-          "Base class for fan or pump power consumption characteristics"
-            extends Modelica.Icons.Function;
-            input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
-            input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
-            output Modelica.SIunits.Power consumption "Power consumption";
-          end basePower;
-
-          partial function baseEfficiency
-          "Base class for efficiency characteristics"
-            extends Modelica.Icons.Function;
-            input Real r_V(unit="1")
-            "Volumetric flow rate divided by nominal flow rate";
-            output Real eta(min=0, unit="1") "Efficiency";
-          end baseEfficiency;
-
-          function linearFlow "Linear flow characteristic"
-            extends baseFlow;
-
-            input Modelica.SIunits.VolumeFlowRate V_flow_nominal[2]
-            "Volume flow rate for two operating points (single fan or pump)"
-              annotation(Dialog);
-            input Modelica.SIunits.Pressure dp_nominal[2](each min=0, each displayUnit="Pa")
-            "Fan or pump total pressure for two operating points"
-              annotation(Dialog);
-            /* Linear system to determine the coefficients:
-  dp_nominal[1] = c[1] + V_flow_nominal[1]*c[2];
-  dp_nominal[2] = c[1] + V_flow_nominal[2]*c[2];
-  */
-        protected
-            Real c[2] = Buildings.Fluid.Movers.BaseClasses.Characteristics.solve( [ones(2),V_flow_nominal],dp_nominal)
-            "Coefficients of linear total pressure curve";
-          algorithm
-            dp := r_N^2 * c[1] + r_N*V_flow*c[2];
-            annotation(smoothOrder=100);
-          end linearFlow;
-
-          function quadraticPower "Quadratic power consumption characteristic"
-            extends basePower;
-            input Modelica.SIunits.VolumeFlowRate V_flow_nominal[3]
-            "Volume flow rate for three operating points (single fan or pump)"
-              annotation(Dialog);
-            input Modelica.SIunits.Power P_nominal[3]
-            "Power consumption for three operating points"
-              annotation(Dialog);
-        protected
-            Real V_flow_nominal2[3] = {V_flow_nominal[1]^2,V_flow_nominal[2]^2, V_flow_nominal[3]^2}
-            "Squared nominal flow rates";
-            /* Linear system to determine the coefficients:
-  P_nominal[1] = c[1] + V_flow_nominal[1]*c[2] + V_flow_nominal[1]^2*c[3];
-  P_nominal[2] = c[1] + V_flow_nominal[2]*c[2] + V_flow_nominal[2]^2*c[3];
-  P_nominal[3] = c[1] + V_flow_nominal[3]*c[2] + V_flow_nominal[3]^2*c[3];
-  */
-            Real c[3] = Buildings.Fluid.Movers.BaseClasses.Characteristics.solve( [ones(3),V_flow_nominal,V_flow_nominal2],P_nominal)
-            "Coefficients of quadratic power consumption curve";
-          algorithm
-            consumption := r_N^3*c[1] + r_N^2*V_flow*c[2] + r_N*V_flow^2*c[3];
-          end quadraticPower;
-
-          function constantEfficiency "Constant efficiency characteristic"
-             extends baseEfficiency;
-             input Real eta_nominal(min=0, unit="1") "Nominal efficiency"
-             annotation(Dialog);
-          algorithm
-            eta := eta_nominal;
-          end constantEfficiency;
-
-          function solve "Wrapper for Modelica.Math.Matrices.solve"
-           input Real A[:,size(A,1)];
-           input Real x[size(A,1)];
-          output Real b[size(A,1)];
-          algorithm
-           b:=Modelica.Math.Matrices.solve(A,x);
-
-           annotation(derivative=Buildings.Fluid.Movers.BaseClasses.Characteristics.der_solve,
-                Documentation(info="<html>
-Wrapper function for 
-<a href=\"Modelica:Modelica.Math.Matrices.solve\">
-Modelica.Math.Matrices.solve</a>. This is currently needed since 
-<a href=\"Modelica:Modelica.Math.Matrices.solve\">
-Modelica.Math.Matrices.solve</a> does not specify a 
-derivative. 
-The implementation is based on the code from Hans Olsson, Dynasim support
-request 10872.
-</html>",           revisions="<html>
+          record flowParameters "Record for flow parameters"
+            extends Modelica.Icons.Record;
+            parameter Modelica.SIunits.VolumeFlowRate V_flow[:](each min=0)
+            "Volume flow rate at user-selected operating points";
+            parameter Modelica.SIunits.Pressure dp[size(V_flow,1)](
+               each min=0, each displayUnit="Pa")
+            "Fan or pump total pressure at these flow rates";
+            annotation (Documentation(info="<html>
+<p>
+Data record for performance data that describe volume flow rate versus
+pressure rise.
+The volume flow rate <code>V_flow</code> must be increasing, i.e.,
+<code>V_flow[i] &lt; V_flow[i+1]</code>.
+Both vectors, <code>V_flow</code> and <code>dp</code>
+must have the same size.
+</p>
+</html>", revisions="<html>
 <ul>
-<li><i>October 28, 2009</i>
-    by Michael Wetter</a>:<br>
+<li>
+September 28, 2011, by Michael Wetter:<br>
 First implementation.
 </li>
 </ul>
 </html>"));
-          end solve;
+          end flowParameters;
 
-          function der_solve "Derivative for function solve"
-            input Real A[:,size(A,1)];
-            input Real x[size(A,1)];
-            input Real Ader[:,size(A,1)];
-            input Real xder[size(A,1)];
-            output Real b[size(A,1)];
+          record efficiencyParameters "Record for efficiency parameters"
+            extends Modelica.Icons.Record;
+            parameter Real  r_V[:](each min=0, each max=1, each displayUnit="1")
+            "Volumetric flow rate divided by nominal flow rate at user-selected operating points";
+            parameter Real eta[size(r_V,1)](
+               each min=0, each max=1, each displayUnit="1")
+            "Fan or pump efficiency at these flow rates";
+            annotation (Documentation(info="<html>
+<p>
+Data record for performance data that describe volume flow rate versus
+efficiency.
+The volume flow rate <code>r_V</code> must be increasing, i.e.,
+<code>r_V[i] &lt; r_V[i+1]</code>.
+Both vectors, <code>r_V</code> and <code>eta</code>
+must have the same size.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+September 28, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+          end efficiencyParameters;
+
+          record powerParameters "Record for electrical power parameters"
+            extends Modelica.Icons.Record;
+            parameter Modelica.SIunits.VolumeFlowRate V_flow[:](each min=0)= {0}
+            "Volume flow rate at user-selected operating points";
+            parameter Modelica.SIunits.Power P[size(V_flow,1)](
+               each min=0, max=1, each displayUnit="1") = {0}
+            "Fan or pump electrical power at these flow rates";
+            annotation (Documentation(info="<html>
+<p>
+Data record for performance data that describe volume flow rate versus
+electrical power.
+The volume flow rate <code>V_flow</code> must be increasing, i.e.,
+<code>V_flow[i] &lt; V_flow[i+1]</code>.
+Both vectors, <code>V_flow</code> and <code>P</code>
+must have the same size.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+September 28, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+          end powerParameters;
+
+          function pressure
+          "Flow vs. head characteristics for fan or pump pressure raise"
+            extends Modelica.Icons.Function;
+            input
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters       data
+            "Pressure performance data";
+            input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
+            input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
+            input Modelica.SIunits.VolumeFlowRate VDelta_flow
+            "Small volume flow rate";
+            input Modelica.SIunits.Pressure dpDelta "Small pressure";
+
+            input Modelica.SIunits.VolumeFlowRate V_flow_max
+            "Maximum volume flow rate at r_N=1 and dp=0";
+            input Modelica.SIunits.Pressure dpMax(min=0)
+            "Maximum pressure at r_N=1 and V_flow=0";
+
+            input Real d[:]
+            "Derivatives at support points for spline interpolation";
+            input Real delta
+            "Small value used to transition to other fan curve";
+            input Real cBar[2]
+            "Coefficients for linear approximation of pressure vs. flow rate";
+            input Real kRes(unit="kg/(s.m4)")
+            "Linear coefficient for fan-internal pressure drop";
+            output Modelica.SIunits.Pressure dp "Pressure raise";
+
+        protected
+             Integer dimD(min=2)=size(data.V_flow, 1)
+            "Dimension of data vector";
+
+            function performanceCurve "Performance curve away from the origin"
+              input Modelica.SIunits.VolumeFlowRate V_flow
+              "Volumetric flow rate";
+              input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
+              input Real d[dimD]
+              "Coefficients for polynomial of pressure vs. flow rate";
+              input
+              Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters
+                                                                                      data
+              "Pressure performance data";
+              input Integer dimD "Dimension of data vector";
+
+              output Modelica.SIunits.Pressure dp "Pressure raise";
+
+          protected
+              Modelica.SIunits.VolumeFlowRate rat "Ratio of V_flow/r_N";
+              Integer i "Integer to select data interval";
+            algorithm
+              rat := V_flow/r_N;
+              i :=1;
+              // Since the coefficients for the spline were evaluated for
+              // rat_nominal = V_flow_nominal/r_N_nominal = V_flow_nominal/1, we use
+              // V_flow_nominal below
+              for j in 1:dimD-1 loop
+                 if rat > data.V_flow[j] then
+                   i := j;
+                 end if;
+              end for;
+              // Extrapolate or interpolate the data
+              dp:=r_N^2*Buildings.Utilities.Math.Functions.cubicHermiteLinearExtrapolation(
+                          x=rat,
+                          x1=data.V_flow[i],
+                          x2=data.V_flow[i + 1],
+                          y1=data.dp[i],
+                          y2=data.dp[i + 1],
+                          y1d=d[i],
+                          y2d=d[i+1]);
+              annotation(smoothOrder=1);
+            end performanceCurve;
+
           algorithm
-            b:=Modelica.Math.Matrices.solve(A,xder-Ader*Modelica.Math.Matrices.solve(A,x));
-          end der_solve;
+            if r_N >= delta then
+               dp := performanceCurve(V_flow=V_flow, r_N=r_N, d=d,
+                                      data=data, dimD=dimD);
+            elseif r_N <= delta/2 then
+              dp := flowApproximationAtOrigin(r_N=r_N, V_flow=V_flow,
+                                              VDelta_flow=  VDelta_flow, dpDelta=dpDelta,
+                                              delta=delta, cBar=cBar);
+            else
+              dp := Modelica.Fluid.Utilities.regStep(x=r_N-0.75*delta,
+                                                     y1=performanceCurve(V_flow=V_flow, r_N=r_N, d=d,
+                                                                         data=data, dimD=dimD),
+                                                     y2=flowApproximationAtOrigin(r_N=r_N, V_flow=V_flow,
+                                                             VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                             delta=delta, cBar=cBar),
+                                                     x_small=delta/4);
+            end if;
+            dp := dp - V_flow*kRes;
+            annotation(smoothOrder=1,
+                        Documentation(info="<html>
+<p>
+This function computes the fan static
+pressure raise as a function of volume flow rate and revolution in the form
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  &Delta;p = r<sub>N</sub><sup>2</sup> &nbsp; s(V/r<sub>N</sub>, d)
+  - &Delta;p<sub>r</sub> ,
+</p>
+<p>
+where
+<i>&Delta;p</i> is the pressure rise,
+<i>r<sub>N</sub></i> is the normalized fan speed,
+<i>V</i> is the volume flow rate and
+<i>d</i> are performance data for fan or pump power consumption at <i>r<sub>N</sub>=1</i>.
+The term
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+&Delta;p<sub>r</sub> = V &nbsp; &Delta;p<sub>max</sub> &frasl; V<sub>max</sub> &nbsp; &delta;
+</p>
+<p>
+models the flow resistance of the fan, approximated using a linear equation. 
+This is done for numerical reasons to avoid a singularity at <i>r<sub>N</sub>=0</i>. Since <i>&delta;</i> is small, the contribution of this term is small.
+The fan and pump models in 
+<a href=\"modelica://Buildings.Fluid.Movers\">
+Buildings.Fluid.Movers</a> modify the user-supplied performance data to add the term
+<i>&Delta;p<sub>r</sub></i> prior to computing the performance curve.
+Thus, at full speed, the fan or pump can operate exactly at the user-supplied performance data.
+</p>
+<h4>Implementation</h4>
+<p>
+The function <i>s(&middot;, &middot;)</i> is a cubic hermite spline.
+If the data <i>d</i> define a monotone decreasing sequence, then 
+<i>s(&middot;, d)</i> is a monotone decreasing function.
+</p>
+<p>
+For <i>r<sub>N</sub> &lt; &delta;</i>, the polynomial is replaced with an other model to avoid
+a singularity at the origin. The composite model is once continuously differentiable
+in all input variables.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+August 25, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),             smoothOrder=1);
+          end pressure;
+
+          function flowApproximationAtOrigin
+          "Approximation for fan or pump pressure raise at origin"
+            extends Modelica.Icons.Function;
+            input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
+            input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
+            input Modelica.SIunits.VolumeFlowRate VDelta_flow
+            "Small volume flow rate";
+            input Modelica.SIunits.Pressure dpDelta "Small pressure";
+            input Real delta
+            "Small value used to transition to other fan curve";
+            input Real cBar[2]
+            "Coefficients for linear approximation of pressure vs. flow rate";
+            output Modelica.SIunits.Pressure dp "Pressure raise";
+          algorithm
+            dp := r_N * dpDelta + r_N^2 * (cBar[1] + cBar[2]*V_flow);
+            annotation (Documentation(info="<html>
+<p>
+This function computes the fan static
+pressure raise as a function of volume flow rate and revolution near the origin.
+It is used to avoid a singularity in the pump or fan curve if the revolution 
+approaches zero.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+August 25, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),             smoothOrder=100);
+          end flowApproximationAtOrigin;
+
+          function power
+          "Flow vs. electrical power characteristics for fan or pump"
+            extends Modelica.Icons.Function;
+            input
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters       data
+            "Pressure performance data";
+            input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
+            input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
+            input Real d[:]
+            "Derivatives at support points for spline interpolation";
+            output Modelica.SIunits.Power P "Power consumption";
+
+        protected
+             Integer n=size(data.V_flow, 1) "Dimension of data vector";
+
+             Modelica.SIunits.VolumeFlowRate rat "Ratio of V_flow/r_N";
+             Integer i "Integer to select data interval";
+
+          algorithm
+            if n == 1 then
+              P := r_N^3*data.P[1];
+            else
+              i :=1;
+              // Since the coefficients for the spline were evaluated for
+              // rat_nominal = V_flow_nominal/r_N_nominal = V_flow_nominal/1, we use
+              // V_flow_nominal below
+              for j in 1:n-1 loop
+                 if V_flow > data.V_flow[j] then
+                   i := j;
+                 end if;
+              end for;
+              // Extrapolate or interpolate the data
+              P:=r_N^3*Buildings.Utilities.Math.Functions.cubicHermiteLinearExtrapolation(
+                          x=V_flow,
+                          x1=data.V_flow[i],
+                          x2=data.V_flow[i + 1],
+                          y1=data.P[i],
+                          y2=data.P[i + 1],
+                          y1d=d[i],
+                          y2d=d[i+1]);
+            end if;
+            annotation(smoothOrder=1,
+                        Documentation(info="<html>
+<p>
+This function computes the fan power consumption for given volume flow rate,
+speed and performance data. The power consumption is
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  P = r<sub>N</sub><sup>3</sup> &nbsp; s(V, d),
+</p>
+<p>
+where
+<i>P</i> is the power consumption,
+<i>r<sub>N</sub></i> is the normalized fan speed,
+<i>V</i> is the volume flow rate and
+<i>d</i> are performance data for fan or pump power consumption at <i>r<sub>N</sub>=1</i>.
+</p>
+<h4>Implementation</h4>
+<p>
+The function <i>s(&middot;, &middot;)</i> is a cubic hermite spline.
+If the data <i>d</i> define a monotone decreasing sequence, then 
+<i>s(&middot;, d)</i> is a monotone decreasing function.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+September 28, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),             smoothOrder=1);
+          end power;
+
+          function efficiency
+          "Flow vs. efficiency characteristics for fan or pump"
+            extends Modelica.Icons.Function;
+            input
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+              data "Efficiency performance data";
+            input Real r_V(unit="1")
+            "Volumetric flow rate divided by nominal flow rate";
+            input Real d[:]
+            "Derivatives at support points for spline interpolation";
+            output Real eta(min=0, unit="1") "Efficiency";
+
+        protected
+            Integer n = size(data.r_V, 1) "Number of data points";
+            Integer i "Integer to select data interval";
+          algorithm
+            if n == 1 then
+              eta := data.eta[1];
+            else
+              i :=1;
+              for j in 1:n-1 loop
+                 if r_V > data.r_V[j] then
+                   i := j;
+                 end if;
+              end for;
+              // Extrapolate or interpolate the data
+              eta:=Buildings.Utilities.Math.Functions.cubicHermiteLinearExtrapolation(
+                          x=r_V,
+                          x1=data.r_V[i],
+                          x2=data.r_V[i + 1],
+                          y1=data.eta[i],
+                          y2=data.eta[i + 1],
+                          y1d=d[i],
+                          y2d=d[i+1]);
+            end if;
+
+            annotation(smoothOrder=1,
+                        Documentation(info="<html>
+<p>
+This function computes the fan or pump efficiency for given normalized volume flow rate
+and performance data. The efficiency is
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  &eta; = s(r<sub>V</sub>, d),
+</p>
+<p>
+where
+<i>&eta;</i> is the efficiency,
+<i>r<sub>V</sub></i> is the normalized volume flow rate, and
+<i>d</i> are performance data for fan or pump efficiency.
+</p>
+<h4>Implementation</h4>
+<p>
+The function <i>s(&middot;, &middot;)</i> is a cubic hermite spline.
+If the data <i>d</i> define a monotone decreasing sequence, then 
+<i>s(&middot;, d)</i> is a monotone decreasing function.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+September 28, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),             smoothOrder=1);
+          end efficiency;
           annotation (Documentation(info="<html>
 <p>
-This package implements performance curves for fans and pumps.
+This package implements performance curves for fans and pumps,
+and records for parameter that can be used with these performance
+curves.
 </p>
 <p>
 The following performance curves are implemented:
-<pre>
- dp =f(V_flow, r_N, {V_flow_nominal, dp_nominal})
- P  =f(V_flow, r_N, {V_flow_nominal, dp_nominal})
- eta=f(r_V,         {r_V_nominal, eta_nominal})
-</pre>
-where
-<code>dp</code> is the pressure raise, 
-<code>P</code> is the power consumption,
-<code>eta</code> is the efficiency,
-<code>V_flow</code> is the volume flow rate,
-<code>r_N=N/N_nominal</code> is the normalized revolution
-and the quantities in curly brackets are points used to parameterize the curves.
-Each curve can be a constant, a linear function, a quadratic function or a polynomial
-of arbitrary order.
-</p>
-<p>The package is similar to 
-<a href=\"Modelica:Modelica.Fluid.Machines.BaseClasses.PumpCharacteristics\">
-Modelica.Fluid.Machines.BaseClasses.PumpCharacteristics</a>, with the following exceptions:
-<ul>
-<li>
-Instead of head in meters H20, total pressure in Pascal is used. 
-This makes the models applicable for fans as well since the flow models from Modelica.Fluid use the 
-density of the medium model, such as the density of air instead of water, 
-to convert head to pressure.
-</li>
-<li>
-In <a href=\"Modelica:Modelica.Fluid.Machines.BaseClasses.PumpCharacteristics\">
-Modelica.Fluid.Machines.BaseClasses.PumpCharacteristics</a>, 
-input to the functions is <code>V_flow/r_N</code>,
-where <code>r_N=N/N_nominal</code>,
-and the mover model computes, for example 
-for a quadratic performance curve,
-<pre>
-  dp = r_N^2 * f(V_flow/r_N) 
-     = r_N^2 * ( c1 + c2 * V_flow/r_N + c3 * (V_flow/r_N)^2) 
-     = r_N^2 * c1 + r_N * c2 * V_flow + c3 * V_flow^2.
-</pre>
-Since <code>f(V_flow/r_N) = c1 + c2 * V_flow/r_N + c3 * (V_flow/r_N)^2</code> is
-singular for <code>r_N=0</code>, we redefined this function as
-<code>
-  dp = f(V_flow, r_N) 
-     = r_N^2 * c1 + r_N * c2 * V_flow + c3 * V_flow^2
-</code>
-which allows computing <code>dp</code> for <code>r_N=0</code>.
-Note, however, that the model of the Buildings library, as well as the 
-model of Modelica.Fluid, is still singular for <code>r_N=0</code>
-for performance curves that have a higher order than 2.
-</li>
-<li>
-This package also contains higher order functions for power consumption and efficiency.
-</li>
+<table border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+<tr>
+<th>Independent variable</th>
+<th>Dependent variable</th>
+<th>Record for performance data</th>
+<th>Function</th>
+</tr>
+<tr>
+<td>Volume flow rate</td>
+<td>Pressure</td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters\">
+flowParameters</a></td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.pressure\">
+pressure</a></td>
+</tr>
+<tr>
+<td>Relative volumetric flow rate</td>
+<td>Efficiency</td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters\">
+efficiencyParameters</a></td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiency\">
+efficiency</a></td>
+</tr>
+<tr>
+<td>Volume flow rate</td>
+<td>Power</td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters\">
+powerParameters</a></td>
+<td><a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.power\">
+power</a></td>
+</tr>
+</table>
 </p>
 </html>",
         revisions="<html>
 <ul>
 <li>
-February 25, 2011, by Michael Wetter:<br>
-Fixed wrong variable names and dimensions in efficiency functions.
-In the previous version, some function could not be used due to a syntax
-error.
-Updated the package documentation.
-</li>
-<li>
-October 28, 2009, by Michael Wetter:<br>
-Added Wrapper function <a href=\"modelica://Buildings.Fluid.Movers.BaseClasses.Characteristics.solve\">
-Buildings.Fluid.Movers.BaseClasses.Characteristics.solve</a> for 
-<a href=\"Modelica:Modelica.Math.Matrices.solve\">
-Modelica.Math.Matrices.solve</a>. This is currently needed since 
-<a href=\"Modelica:Modelica.Math.Matrices.solve\">
-Modelica.Math.Matrices.solve</a> does not specify a 
-derivative.
-</li>
-<li>
-October 15, 2009, by Michael Wetter:<br>
-Added derivative function for <code>linearFlow</code>.
-</li>
-<li>
-October 1, 2009, by Michael Wetter:<br>
-First implementation.
+September 29, 2011, by Michael Wetter:<br>
+New implementation due to changes from polynomial to cubic hermite splines.
 </li>
 </ul>
 </html>"));
@@ -11696,11 +12374,10 @@ First implementation.
         "Partial model for fan or pump with speed (y or Nrpm) as input signal"
           extends Buildings.Fluid.Movers.BaseClasses.PartialFlowMachine(
               final show_V_flow = false,
-              souDyn(final control_m_flow=false),
-              souSta(final control_m_flow=false));
+              final m_flow_nominal = max(pressure.V_flow)*rho_nominal,
+              preSou(final control_m_flow=false));
 
           extends Buildings.Fluid.Movers.BaseClasses.FlowMachineInterface(
-            V_flow_nominal=m_flow_nominal/rho_nominal,
             V_flow_max(start=V_flow_nominal),
             final rho_nominal = Medium.density_pTX(Medium.p_default, Medium.T_default, Medium.X_default));
 
@@ -11708,31 +12385,21 @@ First implementation.
       protected
           Modelica.Blocks.Sources.RealExpression dpMac(y=-dpMachine)
           "Pressure drop of the pump or fan"
-            annotation (Placement(transformation(extent={{-80,22},{-60,42}})));
-          Modelica.Blocks.Sources.RealExpression QMac_flow(y=Q_flow + dpMachine*
-                V_in_flow)
-          "Heat input into the medium from the fan or pump (not including flow work)"
-            annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+            annotation (Placement(transformation(extent={{0,20},{20,40}})));
 
+          Modelica.Blocks.Sources.RealExpression PToMedium_flow(y=Q_flow + WFlo) if  addPowerToMedium
+          "Heat and work input into medium"
+            annotation (Placement(transformation(extent={{-100,10},{-80,30}})));
         equation
-         VMachine_flow = V_in_flow;
+         VMachine_flow = -port_b.m_flow/rho;
          rho = rho_in;
 
-          connect(dpMac.y, souSta.dp_in) annotation (Line(
-              points={{-59,32},{66,32},{66,-52}},
+          connect(preSou.dp_in, dpMac.y) annotation (Line(
+              points={{36,8},{36,30},{21,30}},
               color={0,0,127},
               smooth=Smooth.None));
-          connect(dpMac.y, souDyn.dp_in) annotation (Line(
-              points={{-59,32},{16,32},{16,8}},
-              color={0,0,127},
-              smooth=Smooth.None));
-
-          connect(QMac_flow.y, prePow.Q_flow) annotation (Line(
-              points={{-59,50},{-50,50},{-50,24},{-80,24},{-80,10},{-68,10}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(QMac_flow.y, souSta.P_in) annotation (Line(
-              points={{-59,50},{60,50},{60,-52}},
+          connect(PToMedium_flow.y, prePow.Q_flow) annotation (Line(
+              points={{-79,20},{-70,20}},
               color={0,0,127},
               smooth=Smooth.None));
           annotation (
@@ -11772,8 +12439,8 @@ First implementation.
                   fillPattern=FillPattern.Sphere,
                   visible=dynamicBalance,
                   fillColor={0,100,199})}),
-            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
-                    100,100}}),
+            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
+                    100}}),
                     graphics),
             Documentation(info="<html>
 <p>This is the base model for fans and pumps that take as 
@@ -11782,6 +12449,10 @@ or the normalized pump speed <code>y=Nrpm/N_nominal</code>.
 </p>
 </html>",     revisions="<html>
 <ul>
+<li>
+May 25, 2011, by Michael Wetter:<br>
+Revised implementation of energy balance to avoid having to use conditionally removed models.
+</li>
 <li>
 July 27, 2010, by Michael Wetter:<br>
 Redesigned model to fix bug in medium balance.
@@ -11795,116 +12466,71 @@ First implementation.
 
         partial model PartialFlowMachine
         "Partial model to interface fan or pump models with the medium"
+          extends Buildings.Fluid.Interfaces.LumpedVolumeDeclarations;
           import Modelica.Constants;
 
-          extends Buildings.Fluid.Interfaces.PartialStaticTwoPortInterface(show_T=true,
+          extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(show_T=false,
             port_a(
-              h_outflow(start=h_start),
+              h_outflow(start=h_outflow_start),
               final m_flow(min = if allowFlowReversal then -Constants.inf else 0)),
             port_b(
-              h_outflow(start=h_start),
+              h_outflow(start=h_outflow_start),
               p(start=p_start),
               final m_flow(max = if allowFlowReversal then +Constants.inf else 0)));
 
           Delays.DelayFirstOrder vol(
             redeclare package Medium = Medium,
             tau=tau,
-            energyDynamics=energyDynamics,
-            massDynamics=massDynamics,
-            use_T_start=use_T_start,
+            energyDynamics=if dynamicBalance then energyDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
+            massDynamics=if dynamicBalance then massDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
             T_start=T_start,
-            h_start=h_start,
             X_start=X_start,
             C_start=C_start,
             m_flow_nominal=m_flow_nominal,
-            use_HeatTransfer=true,
-            redeclare model HeatTransfer =
-
-              Modelica.Fluid.Vessels.BaseClasses.HeatTransfer.IdealHeatTransfer,
-            nPorts=2,
-            p_start=p_start) if
-               dynamicBalance "Fluid volume for dynamic model"
+            p_start=p_start,
+            prescribedHeatFlowRate=true,
+            allowFlowReversal=allowFlowReversal,
+            nPorts=2) "Fluid volume for dynamic model"
             annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
            parameter Boolean dynamicBalance = true
           "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
-            annotation (Evaluate=true, Dialog(tab="Assumptions", group="Dynamics"));
+            annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
 
           parameter Boolean addPowerToMedium=true
           "Set to false to avoid any power (=heat and flow work) being added to medium (may give simpler equations)";
 
-          parameter Modelica.Fluid.Types.Dynamics energyDynamics=
-                             Modelica.Fluid.Types.Dynamics.SteadyStateInitial
-          "Formulation of energy balance (used if dynamicBalance=true)"
-            annotation (Dialog(tab="Assumptions", group="Dynamics", enable=dynamicBalance));
-          final parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
-          "Formulation of mass balance (used if dynamicBalance=true)"
-            annotation (Dialog(tab="Assumptions", group="Dynamics", enable=dynamicBalance));
-
           parameter Modelica.SIunits.Time tau=1
           "Time constant of fluid volume for nominal flow, used if dynamicBalance=true"
-            annotation (Dialog(tab="Assumptions", group="Dynamics", enable=dynamicBalance));
+            annotation (Dialog(tab="Dynamics", group="Nominal condition", enable=dynamicBalance));
 
-          // Parameters for initialization
-          // Initialization
-          parameter Boolean use_T_start=true
-          "= true, use T_start, otherwise h_start"
-            annotation (Dialog(tab="Initialization"));
-          parameter Modelica.Media.Interfaces.PartialMedium.Temperature T_start=if
-              use_T_start then system.T_start else Medium.temperature_phX(
-              p_start,
-              h_start,
-              X_start) "Start value of temperature"
-            annotation (Dialog(tab="Initialization"));
-          parameter Modelica.Media.Interfaces.PartialMedium.SpecificEnthalpy h_start=
-              if use_T_start then Medium.specificEnthalpy_pTX(
-              p_start,
-              T_start,
-              X_start) else Medium.h_default
-          "Start value of inlet specific enthalpy"
-            annotation (Dialog(tab="Initialization"));
-          parameter Modelica.Media.Interfaces.PartialMedium.MassFraction X_start[Medium.nX]=
-             Medium.X_default "Start value of mass fractions m_i/m"
-            annotation (Dialog(tab="Initialization"));
-          parameter Modelica.Media.Interfaces.PartialMedium.ExtraProperty C_start[
-            Medium.nC]=fill(0, Medium.nC) "Start value of trace substances"
-            annotation (Dialog(tab="Initialization"));
-          parameter Modelica.SIunits.Pressure p_start = Medium.p_default
-          "Start value of inlet pressure"
-            annotation (Dialog(tab="Initialization"));
-          Modelica.SIunits.Density rho_in "Density of inflowing fluid";
-          Modelica.SIunits.VolumeFlowRate V_in_flow
-          "Volume flow rate that flows into the device";
           // Models
-          Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort if dynamicBalance
+          Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
             annotation (Placement(transformation(extent={{-70,-90},{-50,-70}})));
 
       protected
-          IdealSource souDyn(redeclare package Medium =
-                               Medium, final addPowerToMedium=false) if dynamicBalance
-          "Pressure source for dynamic model, this changes the pressure in the medium"
-            annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-          Buildings.Fluid.Movers.BaseClasses.IdealSource souSta(
-                                    redeclare package Medium = Medium,
-                                    final addPowerToMedium=addPowerToMedium) if not dynamicBalance
-          "Source for static model, this changes the pressure in the medium and adds heat"
-            annotation (Placement(transformation(extent={{50,-70},{70,-50}})));
-          Buildings.HeatTransfer.Sources.PrescribedHeatFlow prePow if (dynamicBalance and addPowerToMedium)
+          Modelica.SIunits.Density rho_in "Density of inflowing fluid";
+
+          Buildings.Fluid.Movers.BaseClasses.IdealSource preSou(
+          redeclare package Medium = Medium,
+            allowFlowReversal=allowFlowReversal) "Pressure source"
+            annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+
+          Buildings.HeatTransfer.Sources.PrescribedHeatFlow prePow if addPowerToMedium
           "Prescribed power (=heat and flow work) flow for dynamic model"
-            annotation (Placement(transformation(extent={{-68,0},{-48,20}})));
+            annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
+
+          parameter Medium.ThermodynamicState sta_start=Medium.setState_pTX(
+              T=T_start, p=p_start, X=X_start);
+          parameter Modelica.SIunits.SpecificEnthalpy h_outflow_start = Medium.specificEnthalpy(sta_start)
+          "Start value for outflowing enthalpy";
 
         equation
           // For computing the density, we assume that the fan operates in the design flow direction.
           rho_in = Medium.density(
                Medium.setState_phX(port_a.p, inStream(port_a.h_outflow), inStream(port_a.Xi_outflow)));
-          V_in_flow = m_flow/rho_in;
           connect(prePow.port, vol.heatPort) annotation (Line(
-              points={{-48,10},{-40,10}},
+              points={{-50,20},{-44,20},{-44,10},{-40,10}},
               color={191,0,0},
-              smooth=Smooth.None));
-
-          connect(souSta.port_b, port_b) annotation (Line(
-              points={{70,-60},{80,-60},{80,5.55112e-16},{100,5.55112e-16}},
-              color={0,127,255},
               smooth=Smooth.None));
 
           connect(vol.heatPort, heatPort) annotation (Line(
@@ -11912,22 +12538,18 @@ First implementation.
               color={191,0,0},
               smooth=Smooth.None));
           connect(port_a, vol.ports[1]) annotation (Line(
-              points={{-100,5.55112e-16},{-52,5.55112e-16},{-52,0},{-32,0},{-32,
+              points={{-100,5.55112e-16},{-66,5.55112e-16},{-66,-5.55112e-16},{-32,
                   -5.55112e-16}},
               color={0,127,255},
               smooth=Smooth.None));
-          connect(souDyn.port_b, port_b) annotation (Line(
-              points={{20,6.10623e-16},{69,6.10623e-16},{69,5.55112e-16},{100,
+          connect(vol.ports[2], preSou.port_a) annotation (Line(
+              points={{-28,-5.55112e-16},{-5,-5.55112e-16},{-5,6.10623e-16},{20,
+                  6.10623e-16}},
+              color={0,127,255},
+              smooth=Smooth.None));
+          connect(preSou.port_b, port_b) annotation (Line(
+              points={{40,6.10623e-16},{70,6.10623e-16},{70,5.55112e-16},{100,
                   5.55112e-16}},
-              color={0,127,255},
-              smooth=Smooth.None));
-          connect(souSta.port_a, port_a) annotation (Line(
-              points={{50,-60},{-60,-60},{-60,5.55112e-16},{-100,5.55112e-16}},
-              color={0,127,255},
-              smooth=Smooth.None));
-          connect(vol.ports[2], souDyn.port_a) annotation (Line(
-              points={{-28,-5.55112e-16},{-15,-5.55112e-16},{-15,6.10623e-16},{
-                  -5.55112e-16,6.10623e-16}},
               color={0,127,255},
               smooth=Smooth.None));
           annotation (
@@ -11967,16 +12589,9 @@ First implementation.
                   fillPattern=FillPattern.Sphere,
                   visible=dynamicBalance,
                   fillColor={0,100,199})}),
-            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
-                    100,100}}),
-                    graphics={Text(
-                  extent={{-48,-74},{98,-94}},
-                  lineColor={0,0,255},
-                  textString="Note that one of the two fluid streams will be removed"),
-                  Text(
-                  extent={{-48,-84},{70,-102}},
-                  lineColor={0,0,255},
-                  textString="depending on the value of dynamicBalance.")}),
+            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
+                    100}}),
+                    graphics),
             Documentation(info="<html>
 <p>This is the base model for fans and pumps.
 It provides an interface
@@ -11985,9 +12600,9 @@ and the implementation of the energy and pressure balance
 of the fluid.
 </p>
 <p>
-The model has two fluid streams. Depending on the value of
-the parameter <code>dynamicBalance</code>, one of the streams
-is removed.
+Depending on the value of
+the parameter <code>dynamicBalance</code>, the fluid volume
+is computed using a dynamic balance or a steady-state balance.
 </p>
 <p>
 The parameter <code>addPowerToMedium</code> determines whether 
@@ -12001,6 +12616,10 @@ and more robust simulation, in particular if the mass flow is equal to zero.
 </p>
 </html>",     revisions="<html>
 <ul>
+<li>
+May 25, 2011, by Michael Wetter:<br>
+Revised implementation of energy balance to avoid having to use conditionally removed models.
+</li>
 <li>
 July 29, 2010, by Michael Wetter:<br>
 Reduced fan time constant from 10 to 1 second.
@@ -12016,146 +12635,9 @@ First implementation.
 </html>"));
         end PartialFlowMachine;
 
-        partial model FlowMachineInterface
-        "Partial model with performance curves for fans or pumps"
-          extends Buildings.Fluid.Movers.BaseClasses.PowerInterface;
-
-          import Modelica.Constants;
-
-          // Characteristics
-          replaceable function flowCharacteristic =
-              Buildings.Fluid.Movers.BaseClasses.Characteristics.baseFlow
-          "Total pressure vs. V_flow characteristic at nominal speed"
-            annotation(Dialog(group="Characteristics"), choicesAllMatching=true);
-          parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm
-            N_nominal = 1500 "Nominal rotational speed for flow characteristic"
-            annotation(Dialog(group="Characteristics"));
-          parameter Modelica.SIunits.VolumeFlowRate V_flow_nominal
-          "Nominal volume flow rate, used for homotopy";
-
-          parameter Boolean homotopyInitialization = true
-          "= true, use homotopy method"
-            annotation(Evaluate=true, Dialog(tab="Advanced"));
-
-          replaceable function powerCharacteristic =
-
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.quadraticPower (
-               V_flow_nominal={0,0,0},P_nominal={0,0,0})
-          "Power consumption vs. V_flow at nominal speed and density"
-            annotation(Dialog(group="Characteristics", enable = use_powerCharacteristic),
-                       choicesAllMatching=true);
-
-          // Variables
-          Modelica.SIunits.Density rho "Medium density";
-          Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm N(min=0, start = N_nominal)
-          "Shaft rotational speed";
-          Real r_N(min=0, start=1, unit="1") "Ratio N/N_nominal";
-
-      protected
-          constant Real delta = 0.01
-          "Constant used in finite difference approximation to derivative";
-        initial equation
-          // Equation to compute V_flow_max
-          0 = flowCharacteristic(V_flow=V_flow_max, r_N=1);
-
-        equation
-          r_N = N/N_nominal;
-          // For the homotopy method, we approximate dpMachine by a finite difference equation
-          // that is linear in VMachine_flow, and that goes linearly to 0 as r_N goes to 0.
-          if homotopyInitialization then
-             dpMachine = homotopy(actual=flowCharacteristic(V_flow=VMachine_flow, r_N=r_N),
-                                  simplified=r_N*
-                                      (flowCharacteristic(V_flow=V_flow_nominal, r_N=1)
-                                       +(VMachine_flow-V_flow_nominal)*
-                                        (flowCharacteristic(V_flow=(1+delta)*V_flow_nominal, r_N=1)
-                                        -flowCharacteristic(V_flow=(1-delta)*V_flow_nominal, r_N=1))
-                                         /(2*delta*V_flow_nominal)));
-
-           else
-             dpMachine = flowCharacteristic(V_flow=VMachine_flow, r_N=r_N);
-           end if;
-
-          // Power consumption
-          if use_powerCharacteristic then
-            // For the homotopy, we want PEle/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
-            // temperature near zero flow.
-            if homotopyInitialization then
-              PEle = homotopy(actual=powerCharacteristic(V_flow=VMachine_flow, r_N=r_N),
-                              simplified=VMachine_flow/V_flow_nominal*powerCharacteristic(V_flow=V_flow_nominal, r_N=1));
-            else
-              PEle = (rho/rho_nominal)*powerCharacteristic(V_flow=VMachine_flow, r_N=r_N);
-            end if;
-            // In this configuration, we only now the total power consumption.
-            // Hence, we assign the efficiency in equal parts to the motor and the hydraulic losses
-            etaMot = sqrt(eta);
-          else
-            if homotopyInitialization then
-              etaHyd = homotopy(actual=hydraulicEfficiency(r_V=r_V), simplified=hydraulicEfficiency(r_V=1));
-              etaMot = homotopy(actual=motorEfficiency(r_V=r_V),     simplified=motorEfficiency(r_V=r_V));
-            else
-              etaHyd = hydraulicEfficiency(r_V=r_V);
-              etaMot = motorEfficiency(r_V=r_V);
-            end if;
-          end if;
-
-          annotation (
-            Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
-                    100}}), graphics),
-            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
-                    100,100}}),
-                    graphics),
-            Documentation(info="<html>
-<p>
-This is an interface that implements the functions to compute the head, power draw 
-and efficiency of fans and pumps. It is used by the model 
-<a href=\"modelica://Buildings.Fluids.Movers.BaseClasses.PrescribedFlowMachine\">PrescribedFlowMachine</a>.
-</p>
-The nominal hydraulic characteristic (total pressure vs. volume flow rate) is given by the the replaceable function <code>flowCharacteristic</code>.
-<p>The fan or pump energy balance can be specified in two alternative ways: </p>
-<p><ul>
-<li>
-If <code>use_powerCharacteristic = false</code>, the replaceable function
-<code>efficiencyCharacteristic</code>
-(efficiency vs. normalized volume flow rate) is used to determine the efficiency, 
-and then the power consumption. The default is a constant efficiency of 0.8.
-</li>
-<li>
-If <code>use_powerCharacteristic = true</code>, the replaceable function
-<code>powerCharacteristic</code> (power consumption vs. normalized volume flow rate 
-at nominal conditions) 
-is used to determine the power consumption, and then the efficiency. 
-Use
-<code>powerCharacteristic</code> to specify a non-zero power consumption for zero flow rate.
-</p>
-</html>",
-        revisions="<html>
-<ul>
-<li>
-March 28 2011, by Michael Wetter:<br>
-Added <code>homotopy</code> operator.
-</li>
-<li>
-March 23 2010, by Michael Wetter:<br>
-First implementation.
-</li>
-</ul>
-</html>"));
-        end FlowMachineInterface;
-
         model IdealSource
         "Base class for pressure and mass flow source with optional power input"
           extends Modelica.Fluid.Interfaces.PartialTwoPortTransport(final show_V_flow=true);
-          Modelica.Blocks.Interfaces.RealInput P_in if addPowerToMedium
-          "Power added to the medium"
-            annotation (Placement(transformation(extent={{-20,-20},{20,20}},
-                rotation=270,
-                origin={0,80}),    iconTransformation(
-                extent={{-20,-20},{20,20}},
-                rotation=270,
-                origin={0,80})));
-
-          parameter Boolean addPowerToMedium
-          "Set to false to avoid any power being added to medium (may give simpler equations)";
 
           // what to control
           parameter Boolean control_m_flow
@@ -12185,10 +12667,8 @@ First implementation.
           "Needed to connect to conditional connector";
           Modelica.Blocks.Interfaces.RealInput dp_internal
           "Needed to connect to conditional connector";
-          Modelica.Blocks.Interfaces.RealInput P_internal
-          "Needed to connect to conditional connector";
-
         equation
+
           // Ideal control
           if control_m_flow then
             m_flow = m_flow_internal;
@@ -12198,22 +12678,12 @@ First implementation.
             m_flow_internal = 0;
           end if;
 
-          if not addPowerToMedium then
-            P_internal = 0;
-          end if;
-
           connect(dp_internal, dp_in);
           connect(m_flow_internal, m_flow_in);
-          connect(P_internal, P_in);
 
           // Energy balance (no storage)
-          if addPowerToMedium then
-            port_a.m_flow*port_a.h_outflow + port_b.m_flow*inStream(port_b.h_outflow) = -P_internal;
-            port_b.m_flow*port_b.h_outflow + port_a.m_flow*inStream(port_a.h_outflow) = -P_internal;
-          else
-            port_a.h_outflow = inStream(port_b.h_outflow);
-            port_b.h_outflow = inStream(port_a.h_outflow);
-          end if;
+          port_a.h_outflow = inStream(port_b.h_outflow);
+          port_b.h_outflow = inStream(port_a.h_outflow);
 
           annotation (Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,
                     -100},{100,100}}), graphics={
@@ -12236,20 +12706,11 @@ First implementation.
                   visible=control_m_flow,
                   extent={{-80,44},{-24,24}},
                   lineColor={255,255,255},
-                  textString="m"),
-                Text(
-                  visible=addPowerToMedium,
-                  extent={{-30,44},{26,24}},
-                  lineColor={255,255,255},
-                  textString="P")}),
+                  textString="m")}),
             Documentation(info="<html>
 <p>
 Model of a fictious pipe that is used as a base class
 for a pressure source or to prescribe a mass flow rate.
-Optionally, power can be added to the enthalpy balance of the medium.
-If <code>addPowerToMedium = false</code>, then no power will be added to the medium.
-This can lead to simpler equations and more robust simulation, in particular
-if the mass flow rate is zero.
 </p>
 <p>
 Note that for fans and pumps with dynamic balance,
@@ -12260,6 +12721,11 @@ adding heat to the volume, and flow work to this model.
 </html>",
         revisions="<html>
 <ul>
+<li>
+May 25, 2011 by Michael Wetter:<br>
+Removed the option to add power to the medium, as this is dealt with in the volume
+that is used in the mover model.
+</li>
 <li>
 July 27, 2010 by Michael Wetter:<br>
 Redesigned model to fix bug in medium balance.
@@ -12294,20 +12760,20 @@ First implementation.
           "= true, use homotopy method"
             annotation(Evaluate=true, Dialog(tab="Advanced"));
 
-          replaceable function motorEfficiency =
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.constantEfficiency(eta_nominal = 0.7) constrainedby
-          Characteristics.baseEfficiency
-          "Efficiency vs. normalized volume flow rate"
-            annotation(Dialog(group="Characteristics"),
-                       enable = not use_powerCharacteristic,
-                       choicesAllMatching=true);
-          replaceable function hydraulicEfficiency =
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.constantEfficiency(eta_nominal = 0.7) constrainedby
-          Characteristics.baseEfficiency
-          "Efficiency vs. normalized volume flow rate"
-            annotation(Dialog(group="Characteristics"),
-                       enable = not use_powerCharacteristic,
-                       choicesAllMatching=true);
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+              motorEfficiency(r_V={1}, eta={0.7})
+          "Normalized volume flow rate vs. efficiency"
+            annotation(Placement(transformation(extent={{60,-40},{80,-20}})),
+                       Dialog(group="Characteristics"),
+                       enable = not use_powerCharacteristic);
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+              hydraulicEfficiency(r_V={1}, eta={0.7})
+          "Normalized volume flow rate vs. efficiency"
+            annotation(Placement(transformation(extent={{60,-80},{80,-60}})),
+                       Dialog(group="Characteristics"),
+                       enable = not use_powerCharacteristic);
 
           parameter Modelica.SIunits.Density rho_nominal
           "Nominal fluid density";
@@ -12322,25 +12788,50 @@ First implementation.
           Real etaHyd(min=0, max=1) "Hydraulic efficiency";
           Real etaMot(min=0, max=1) "Motor efficiency";
 
-          Real r_V(start=1)
-          "Ratio V_flow/V_flow_max = V_flow/V_flow(dp=0, N=N_nominal)";
-
           Modelica.SIunits.Pressure dpMachine(displayUnit="Pa")
           "Pressure increase";
           Modelica.SIunits.VolumeFlowRate VMachine_flow "Volume flow rate";
       protected
           parameter Modelica.SIunits.VolumeFlowRate V_flow_max(fixed=false)
-          "Maximum volume flow rate";
-          Modelica.SIunits.HeatFlowRate QThe_flow "Heat input into the medium";
+          "Maximum volume flow rate, used for smoothing";
+          //Modelica.SIunits.HeatFlowRate QThe_flow "Heat input into the medium";
           parameter Modelica.SIunits.VolumeFlowRate delta_V_flow = 1E-3*V_flow_max
           "Factor used for setting heat input into medium to zero at very small flows";
-        equation
-          r_V = VMachine_flow/V_flow_max;
+          final parameter Real motDer[size(motorEfficiency.r_V, 1)](fixed=false)
+          "Coefficients for polynomial of pressure vs. flow rate"
+            annotation (Evaluate=true);
+          final parameter Real hydDer[size(hydraulicEfficiency.r_V,1)](fixed=false)
+          "Coefficients for polynomial of pressure vs. flow rate"
+            annotation (Evaluate=true);
 
-          eta    = etaHyd * etaMot;
+          Modelica.SIunits.HeatFlowRate QThe_flow
+          "Heat input from fan or pump to medium";
+
+        initial algorithm
+         // Compute derivatives for cubic spline
+         motDer :=
+           if use_powerCharacteristic then
+             zeros(size(motorEfficiency.r_V, 1))
+           elseif ( size(motorEfficiency.r_V, 1) == 1)  then
+               {0}
+           else
+              Buildings.Utilities.Math.Functions.splineDerivatives(
+              x=motorEfficiency.r_V,
+              y=motorEfficiency.eta);
+          hydDer :=
+             if use_powerCharacteristic then
+               zeros(size(hydraulicEfficiency.r_V, 1))
+             elseif ( size(hydraulicEfficiency.r_V, 1) == 1)  then
+               {0}
+             else
+               Buildings.Utilities.Math.Functions.splineDerivatives(
+                           x=hydraulicEfficiency.r_V,
+                           y=hydraulicEfficiency.eta);
+        equation
+          eta = etaHyd * etaMot;
           WFlo = eta * PEle;
           // Flow work
-          WFlo   = dpMachine*VMachine_flow;
+          WFlo = dpMachine*VMachine_flow;
           // Hydraulic power (transmitted by shaft), etaHyd = WFlo/WHyd
           etaHyd * WHyd   = WFlo;
           // Heat input into medium
@@ -12349,11 +12840,11 @@ First implementation.
           // The next statement sets the heat input into the medium to zero for very small flow rates.
           if homotopyInitialization then
             Q_flow = homotopy(actual=Buildings.Utilities.Math.Functions.spliceFunction(pos=QThe_flow, neg=0,
-                               x=abs(VMachine_flow)-2*delta_V_flow, deltax=delta_V_flow),
+                               x=noEvent(abs(VMachine_flow))-2*delta_V_flow, deltax=delta_V_flow),
                              simplified=0);
           else
             Q_flow = Buildings.Utilities.Math.Functions.spliceFunction(pos=QThe_flow, neg=0,
-                               x=abs(VMachine_flow)-2*delta_V_flow, deltax=delta_V_flow);
+                               x=noEvent(abs(VMachine_flow))-2*delta_V_flow, deltax=delta_V_flow);
           end if;
           annotation (
             Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
@@ -12381,19 +12872,504 @@ Buildings.Fluid.Movers.BaseClasses.FlowMachineInterface</a>.
     millimeters water (mmH20). Therefore, to avoid confusion and to make this model applicable for any medium,
     the model has been changed to use total pressure in Pascals instead of head in meters.
 </li>
-<li><i>Dec 2008</i>
-    by R&uuml;diger Franke:<br>
-    <ul>
-    <li>Replaced simplified mass and energy balances with rigorous formulation (base class PartialLumpedVolume)</li>
-    <li>Introduced optional HeatTransfer model defining Qb_flow</li>
-    <li>Enabled events when the checkValve is operating to support the opening of a discrete valve before port_a</li>
-    </ul></li>
 <li><i>31 Oct 2005</i>
     by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
        Model added to the Fluid library</li>
 </ul>
 </html>"));
         end PowerInterface;
+
+        partial model FlowMachineInterface
+        "Partial model with performance curves for fans or pumps"
+          extends Buildings.Fluid.Movers.BaseClasses.PowerInterface(
+            VMachine_flow(start=V_flow_nominal),
+            V_flow_max(start=V_flow_nominal));
+
+          import Modelica.Constants;
+          import cha = Buildings.Fluid.Movers.BaseClasses.Characteristics;
+
+          parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm
+            N_nominal = 1500 "Nominal rotational speed for flow characteristic"
+            annotation(Dialog(group="Characteristics"));
+          final parameter Modelica.SIunits.VolumeFlowRate V_flow_nominal = pressure.V_flow[size(pressure.V_flow,1)]
+          "Nominal volume flow rate, used for homotopy";
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters           pressure
+          "Volume flow rate vs. total pressure rise"
+            annotation(Placement(transformation(extent={{20,-80},{40,-60}})),
+                       Dialog(group="Characteristics"));
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters           power
+          "Volume flow rate vs. electrical power consumption"
+            annotation(Placement(transformation(extent={{20,-40},{40,-20}})),
+                       Dialog(group="Characteristics", enable = use_powerCharacteristic));
+
+          parameter Boolean homotopyInitialization = true
+          "= true, use homotopy method"
+            annotation(Evaluate=true, Dialog(tab="Advanced"));
+
+          Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm N(min=0, start = N_nominal)
+          "Shaft rotational speed";
+          Real r_N(min=0, start=1, unit="1") "Ratio N/N_nominal";
+          Real r_V(start=1, unit="1") "Ratio V_flow/V_flow_max";
+      protected
+          parameter Modelica.SIunits.VolumeFlowRate VDelta_flow(fixed=false, start=delta*V_flow_nominal)
+          "Small volume flow rate";
+          parameter Modelica.SIunits.Pressure dpDelta(fixed=false, start=100)
+          "Small pressure";
+          parameter Real delta = 0.05
+          "Small value used to transition to other fan curve";
+          parameter Real cBar[2](fixed=false)
+          "Coefficients for linear approximation of pressure vs. flow rate";
+          parameter Modelica.SIunits.Pressure dpMax(min=0, fixed=false);
+          parameter Real kRes(min=0, unit="kg/(s.m4)", fixed=false)
+          "Coefficient for internal pressure drop of fan or pump";
+
+          parameter Integer curve(min=1, max=3, fixed=false)
+          "Flag, used to pick the right representatio of the fan or pump pressure curve";
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters           pCur1(
+            V_flow(each fixed=false)=zeros(nOri), dp(each fixed=false))
+          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters           pCur2(
+            V_flow(each fixed=false)=zeros(nOri+1), dp(each fixed=false))
+          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+          parameter
+          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters           pCur3(
+            V_flow(each fixed=false)=zeros(nOri+2), dp(each fixed=false))
+          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+          parameter Integer nOri = size(pressure.V_flow,1)
+          "Number of data points for pressure curve";
+          parameter Real preDer1[nOri](fixed=false)
+          "Derivatives of flow rate vs. pressure at the support points";
+          parameter Real preDer2[nOri+1](fixed=false)
+          "Derivatives of flow rate vs. pressure at the support points";
+          parameter Real preDer3[nOri+2](fixed=false)
+          "Derivatives of flow rate vs. pressure at the support points";
+          parameter Real powDer[size(power.V_flow,1)]=
+           if use_powerCharacteristic then
+             Buildings.Utilities.Math.Functions.splineDerivatives(
+                           x=power.V_flow,
+                           y=power.P)
+           else
+             zeros(size(power.V_flow,1))
+          "Coefficients for polynomial of pressure vs. flow rate";
+
+          parameter Boolean haveMinimumDecrease(fixed=false)
+          "Flag used for reporting";
+          parameter Boolean haveDPMax(fixed=false)
+          "Flag, true if user specified data that contain dpMax";
+          parameter Boolean haveVMax(fixed=false)
+          "Flag, true if user specified data that contain V_flow_max";
+
+          // Variables
+          Modelica.SIunits.Density rho "Medium density";
+
+        function getPerformanceDataAsString
+          input
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters     pressure
+            "Performance data";
+          input Real derivative[:](unit="kg/(s.m4)") "Derivative";
+          input Integer minimumLength =  6 "Minimum width of result";
+          input Integer significantDigits = 6 "Number of significant digits";
+          output String str "String representation";
+        algorithm
+          str :="";
+          for i in 1:size(derivative, 1) loop
+            str :=str + "  V_flow[" + String(i) + "]=" + String(
+                pressure.V_flow[i],
+                minimumLength=minimumLength,
+                significantDigits=significantDigits) + "\t" + "dp[" + String(i) + "]=" +
+                String(
+                pressure.dp[i],
+                minimumLength=minimumLength,
+                significantDigits=significantDigits) + "\tResulting derivative dp/dV_flow = "
+                 + String(
+                derivative[i],
+                minimumLength=minimumLength,
+                significantDigits=significantDigits) + "\n";
+          end for;
+        end getPerformanceDataAsString;
+
+        function getArrayAsString
+          input Real array[:] "Array to be printed";
+          input String varName "Variable name";
+          input Integer minimumLength =  6 "Minimum width of result";
+          input Integer significantDigits = 6 "Number of significant digits";
+          output String str "String representation";
+        algorithm
+          str :="";
+          for i in 1:size(array, 1) loop
+            str :=str + "  " + varName + "[" + String(i) + "]=" + String(
+                array[i],
+                minimumLength=minimumLength,
+                significantDigits=significantDigits) + "\n";
+          end for;
+        end getArrayAsString;
+
+        initial algorithm
+          // Check validity of data
+          assert(size(pressure.V_flow, 1) > 1, "Must have at least two data points for pressure.V_flow.");
+          assert(Buildings.Utilities.Math.Functions.isMonotonic(x=pressure.V_flow, strict=true) and
+          pressure.V_flow[1] > -Modelica.Constants.eps,
+          "The volume flow rate for the fan pressure rise must be a strictly decreasing sequence
+  with the first element being non-zero.
+The following performance data have been entered:
+"         + getArrayAsString(pressure.V_flow, "pressure.V_flow"));
+
+          // Check if V_flow_max or dpMax are provided by user
+          haveVMax  :=(abs(pressure.dp[nOri])   < Modelica.Constants.eps);
+          haveDPMax :=(abs(pressure.V_flow[1])  < Modelica.Constants.eps);
+          // Assign V_flow_max and dpMax
+          if haveVMax then
+            V_flow_max :=pressure.V_flow[nOri];
+          else
+            assert((pressure.V_flow[nOri]-pressure.V_flow[nOri-1])/((pressure.dp[nOri]-pressure.dp[nOri-1]))<0,
+            "The last two pressure points for the fan or pump performance curve must be decreasing.
+    You need to set more reasonable parameters.
+Received 
+"         + getArrayAsString(pressure.dp, "dp"));
+            V_flow_max :=pressure.V_flow[nOri] - (pressure.V_flow[nOri] - pressure.V_flow[
+              nOri - 1])/((pressure.dp[nOri] - pressure.dp[nOri - 1]))*pressure.dp[nOri];
+          end if;
+          if haveDPMax then
+            dpMax :=pressure.dp[1];
+          else
+            dpMax :=pressure.dp[1] - ((pressure.dp[2] - pressure.dp[1])/(pressure.V_flow[
+              2] - pressure.V_flow[1]))*pressure.V_flow[1];
+          end if;
+
+          // Check if minimum decrease condition is satisfied
+          haveMinimumDecrease :=true;
+          kRes :=dpMax/V_flow_max*delta^2/10;
+          for i in 1:nOri-1 loop
+            if ((pressure.dp[i+1]-pressure.dp[i])/(pressure.V_flow[i+1]-pressure.V_flow[i]) >= -kRes) then
+              haveMinimumDecrease :=false;
+            end if;
+          end for;
+          // Write warning if the volumetric flow rate versus pressure curve does not satisfy
+          // the minimum decrease condition
+          if (not haveMinimumDecrease) then
+            Modelica.Utilities.Streams.print("
+Warning:
+========
+It is recommended that the volume flow rate versus pressure relation
+of the fan or pump satisfies the minimum decrease condition
+
+        (pressure.dp[i+1]-pressure.dp[i])
+d[i] = ----------------------------------------- < "         + String(-kRes) + "
+       (pressure.V_flow[i+1]-pressure.V_flow[i])
+ 
+is "         + getArrayAsString({(pressure.dp[i+1]-pressure.dp[i])/(pressure.V_flow[i+1]-pressure.V_flow[i]) for i in 1:nOri-1}, "d") + "
+Otherwise, a solution to the equations may not exist if the fan or pump speed is reduced.
+In this situation, the solver will fail due to non-convergence and 
+the simulation stops.");
+          end if;
+
+          // Correction for flow resistance of pump or fan
+          // Case 1:
+          if (haveVMax and haveDPMax) or (nOri == 2) then
+            curve :=1; // V_flow_max and dpMax are provided by the user, or we only have two data points
+            for i in 1:nOri loop
+              pCur1.dp[i]  :=pressure.dp[i] + pressure.V_flow[i] * kRes;
+              pCur1.V_flow[i] := pressure.V_flow[i];
+            end for;
+              pCur2.V_flow := zeros(nOri + 1);
+              pCur2.dp     := zeros(nOri + 1);
+              pCur3.V_flow := zeros(nOri + 2);
+              pCur3.dp     := zeros(nOri + 2);
+              preDer1:=Buildings.Utilities.Math.Functions.splineDerivatives(x=pCur1.V_flow, y=pCur1.dp);
+              preDer2:=zeros(nOri+1);
+              preDer3:=zeros(nOri+2);
+          elseif haveVMax or haveDPMax then
+            curve :=2; // V_flow_max or dpMax is provided by the user, but not both
+            if haveVMax then
+              pCur2.V_flow[1] := 0;
+              pCur2.dp[1]     := dpMax;
+              for i in 1:nOri loop
+                pCur2.dp[i+1]  :=pressure.dp[i] + pressure.V_flow[i] * kRes;
+                pCur2.V_flow[i+1] := pressure.dp[i];
+              end for;
+            else
+              for i in 1:nOri loop
+                pCur2.dp[i]  :=pressure.dp[i] + pressure.V_flow[i] * kRes;
+                pCur2.V_flow[i] := pressure.V_flow[i];
+              end for;
+              pCur2.V_flow[nOri+1] := V_flow_max;
+              pCur2.dp[nOri+1]     := 0;
+            end if;
+            pCur1.V_flow := zeros(nOri);
+            pCur1.dp     := zeros(nOri);
+            pCur3.V_flow := zeros(nOri + 2);
+            pCur3.dp     := zeros(nOri + 2);
+            preDer1:=zeros(nOri);
+            preDer2:=Buildings.Utilities.Math.Functions.splineDerivatives(x=pCur2.V_flow, y=pCur2.dp);
+            preDer3:=zeros(nOri+2);
+          else
+            curve :=3; // Neither V_flow_max nor dpMax are provided by the user
+            pCur3.V_flow[1] := 0;
+            pCur3.dp[1]     := dpMax;
+            for i in 1:nOri loop
+              pCur3.dp[i+1]  :=pressure.dp[i] + pressure.V_flow[i] * kRes;
+              pCur3.V_flow[i+1] := pressure.V_flow[i];
+            end for;
+            pCur3.V_flow[nOri+2] := V_flow_max;
+            pCur3.dp[nOri+2]     := 0;
+            pCur1.V_flow := zeros(nOri);
+            pCur1.dp     := zeros(nOri);
+            pCur2.V_flow := zeros(nOri + 1);
+            pCur2.dp     := zeros(nOri + 1);
+            preDer1:=zeros(nOri);
+            preDer2:=zeros(nOri+1);
+            preDer3:=Buildings.Utilities.Math.Functions.splineDerivatives(x=pCur3.V_flow, y=pCur3.dp);
+          end if;
+
+          // Equation to compute VDelta_flow. By the affinity laws, the volume flow rate is proportional to the speed.
+          VDelta_flow :=V_flow_max*delta;
+
+          // Equation to compute dpDelta
+          dpDelta :=cha.pressure(
+            data=if (curve == 1) then pCur1 elseif (curve == 2) then pCur2 else pCur3,
+            V_flow=0,
+            r_N=delta,
+            VDelta_flow=0,
+            dpDelta=0,
+            V_flow_max=Modelica.Constants.eps,
+            dpMax=0,
+            delta=0,
+            d=if (curve == 1) then preDer1 elseif (curve == 2) then preDer2 else preDer3,
+            cBar=zeros(2),
+            kRes=  kRes);
+
+          // Linear equations to determine cBar
+          // Conditions for r_N=delta, V_flow = VDelta_flow
+          // Conditions for r_N=delta, V_flow = 0
+          cBar[1] :=cha.pressure(
+            data=if (curve == 1) then pCur1 elseif (curve == 2) then pCur2 else pCur3,
+            V_flow=0,
+            r_N=delta,
+            VDelta_flow=0,
+            dpDelta=0,
+            V_flow_max=Modelica.Constants.eps,
+            dpMax=0,
+            delta=0,
+            d=if (curve == 1) then preDer1 elseif (curve == 2) then preDer2 else preDer3,
+            cBar=zeros(2),
+            kRes=  kRes) * (1-delta)/delta^2;
+
+          cBar[2] :=((cha.pressure(
+            data=if (curve == 1) then pCur1 elseif (curve == 2) then pCur2 else pCur3,
+            V_flow=VDelta_flow,
+            r_N=delta,
+            VDelta_flow=0,
+            dpDelta=0,
+            V_flow_max=Modelica.Constants.eps,
+            dpMax=0,
+            delta=0,
+            d=if (curve == 1) then preDer1 elseif (curve == 2) then preDer2 else preDer3,
+            cBar=zeros(2),
+            kRes=  kRes) - delta*dpDelta)/delta^2 - cBar[1])/VDelta_flow;
+        equation
+          r_N = N/N_nominal;
+          r_V = VMachine_flow/V_flow_max;
+          // For the homotopy method, we approximate dpMachine by an equation
+          // that is linear in VMachine_flow, and that goes linearly to 0 as r_N goes to 0.
+          // The three branches below are identical, except that we pass either
+          // pCur1, pCur2 or pCur3, and preDer1, preDer2 or preDer3
+          if (curve == 1) then
+            if homotopyInitialization then
+               dpMachine = homotopy(actual=cha.pressure(data=pCur1,
+                                                            V_flow=VMachine_flow, r_N=r_N,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer1, cBar=cBar, kRes=kRes),
+                                  simplified=r_N*
+                                      (cha.pressure(data=pCur1,
+                                                            V_flow=V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer1, cBar=cBar, kRes=kRes)
+                                       +(VMachine_flow-V_flow_nominal)*
+                                        (cha.pressure(data=pCur1,
+                                                            V_flow=(1+delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer1, cBar=cBar, kRes=kRes)
+                                        -cha.pressure(data=pCur1,
+                                                            V_flow=(1-delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer1, cBar=cBar, kRes=kRes))
+                                         /(2*delta*V_flow_nominal)));
+
+             else
+               dpMachine = cha.pressure(data=pCur1, V_flow=VMachine_flow, r_N=r_N,
+                                                        VDelta_flow=VDelta_flow, dpDelta=dpDelta, V_flow_max=V_flow_max, dpMax=dpMax,
+                                                        delta=delta, d=preDer1, cBar=cBar, kRes=kRes);
+             end if;
+             // end of computation for this branch
+           elseif (curve == 2) then
+            if homotopyInitialization then
+               dpMachine = homotopy(actual=cha.pressure(data=pCur2,
+                                                            V_flow=VMachine_flow, r_N=r_N,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer2, cBar=cBar, kRes=kRes),
+                                  simplified=r_N*
+                                      (cha.pressure(data=pCur2,
+                                                            V_flow=V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer2, cBar=cBar, kRes=kRes)
+                                       +(VMachine_flow-V_flow_nominal)*
+                                        (cha.pressure(data=pCur2,
+                                                            V_flow=(1+delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer2, cBar=cBar, kRes=kRes)
+                                        -cha.pressure(data=pCur2,
+                                                            V_flow=(1-delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer2, cBar=cBar, kRes=kRes))
+                                         /(2*delta*V_flow_nominal)));
+
+             else
+               dpMachine = cha.pressure(data=pCur2, V_flow=VMachine_flow, r_N=r_N,
+                                                        VDelta_flow=VDelta_flow, dpDelta=dpDelta, V_flow_max=V_flow_max, dpMax=dpMax,
+                                                        delta=delta, d=preDer2, cBar=cBar, kRes=kRes);
+             end if;
+             // end of computation for this branch
+          else
+            if homotopyInitialization then
+               dpMachine = homotopy(actual=cha.pressure(data=pCur3,
+                                                            V_flow=VMachine_flow, r_N=r_N,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer3, cBar=cBar, kRes=kRes),
+                                  simplified=r_N*
+                                      (cha.pressure(data=pCur3,
+                                                            V_flow=V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer3, cBar=cBar, kRes=kRes)
+                                       +(VMachine_flow-V_flow_nominal)*
+                                        (cha.pressure(data=pCur3,
+                                                            V_flow=(1+delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer3, cBar=cBar, kRes=kRes)
+                                        -cha.pressure(data=pCur3,
+                                                            V_flow=(1-delta)*V_flow_nominal, r_N=1,
+                                                            VDelta_flow=VDelta_flow, dpDelta=dpDelta,
+                                                            V_flow_max=V_flow_max, dpMax=dpMax,
+                                                            delta=delta, d=preDer3, cBar=cBar, kRes=kRes))
+                                         /(2*delta*V_flow_nominal)));
+
+             else
+               dpMachine = cha.pressure(data=pCur3, V_flow=VMachine_flow, r_N=r_N,
+                                                        VDelta_flow=VDelta_flow, dpDelta=dpDelta, V_flow_max=V_flow_max, dpMax=dpMax,
+                                                        delta=delta, d=preDer3, cBar=cBar, kRes=kRes);
+             end if;
+             // end of computation for this branch
+          end if;
+          // Power consumption
+          if use_powerCharacteristic then
+            // For the homotopy, we want PEle/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
+            // temperature near zero flow.
+            if homotopyInitialization then
+              PEle = homotopy(actual=cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer),
+                              simplified=VMachine_flow/V_flow_nominal*
+                                    cha.power(data=power, V_flow=V_flow_nominal, r_N=1, d=powDer));
+            else
+              PEle = (rho/rho_nominal)*cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer);
+            end if;
+            // In this configuration, we only now the total power consumption.
+            // Hence, we assign the efficiency in equal parts to the motor and the hydraulic losses
+            etaMot = sqrt(eta);
+          else
+            if homotopyInitialization then
+              etaHyd = homotopy(actual=cha.efficiency(data=hydraulicEfficiency,     r_V=r_V, d=hydDer),
+                                simplified=cha.efficiency(data=hydraulicEfficiency, r_V=1,   d=hydDer));
+              etaMot = homotopy(actual=cha.efficiency(data=motorEfficiency,     r_V=r_V, d=motDer),
+                                simplified=cha.efficiency(data=motorEfficiency, r_V=1,   d=motDer));
+            else
+              etaHyd = cha.efficiency(data=hydraulicEfficiency, r_V=r_V, d=hydDer);
+              etaMot = cha.efficiency(data=motorEfficiency,     r_V=r_V, d=motDer);
+            end if;
+          end if;
+
+          annotation (
+            Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
+                    100}}), graphics),
+            Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
+                    100,100}}),
+                    graphics),
+            Documentation(info="<html>
+<p>
+This is an interface that implements the functions to compute the head, power draw 
+and efficiency of fans and pumps. It is used by the model 
+<a href=\"modelica://Buildings.Fluids.Movers.BaseClasses.PrescribedFlowMachine\">PrescribedFlowMachine</a>.
+</p>
+<p>
+The nominal hydraulic characteristic (volume flow rate versus total pressure) is given by a set of data points.
+A cubic hermite spline with linear extrapolation is used to compute the performance at other
+operating points.
+</p>
+<p>The fan or pump energy balance can be specified in two alternative ways: </p>
+<p>
+<ul>
+<li>
+If <code>use_powerCharacteristic = false</code>, then the data points for
+normalized volume flow rate versus efficiency is used to determine the efficiency, 
+and then the power consumption. The default is a constant efficiency of 0.8.
+</li>
+<li>
+If <code>use_powerCharacteristic = true</code>, then the data points for
+normalized volume flow rate versus power consumption
+is used to determine the power consumption, and then the efficiency
+is computed based on the actual power consumption and the flow work. 
+</p>
+<h4>Implementation</h4>
+<p>
+For numerical reasons, the user-provided data points for volume flow rate 
+versus pressure rise are modified to add a fan internal flow resistance.
+Because this flow resistance is subtracted during the simulation when
+computing the fan pressure rise, the model reproduces the exact points 
+that were provided by the user.
+</p>
+<p>
+Also for numerical reasons, the pressure rise at zero flow rate and 
+the flow rate at zero pressure rise is added to the user-provided data,
+unless the user already provides these data points.
+Since Modelica 3.2 does not allow dynamic memory allocation, this 
+implementation required the use of three different arrays for the 
+situation where no additional point is added, where one additional
+point is added and where two additional points are added.
+The parameter <code>curve</code> causes the correct data record
+to be used during the simulation.
+</p>
+</html>",
+        revisions="<html>
+<ul>
+<li>
+October 4 2011, by Michael Wetter:<br>
+Revised the implementation of the pressure drop computation as a function
+of speed and volume flow rate.
+The new implementation avoids a singularity near zero volume flow rate and zero speed.
+</li>
+<li>
+March 28 2011, by Michael Wetter:<br>
+Added <code>homotopy</code> operator.
+</li>
+<li>
+March 23 2010, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end FlowMachineInterface;
       annotation (preferedView="info", Documentation(info="<html>
 <p>
 This package contains base classes that are used to construct the models in
@@ -12410,25 +13386,47 @@ This package contains components models for fans and pumps.
       extends Modelica.Icons.SensorsPackage;
 
       model EnthalpyFlowRate "Ideal enthalphy flow rate sensor"
-        extends Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor;
+        extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Modelica.Icons.RotationalSensor;
-
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
         "Enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{-10,-10},{10,10}},
               rotation=90)));
-
+        parameter Modelica.SIunits.SpecificEnthalpy h_out_start=
+          Medium.specificEnthalpy_pTX(Medium.p_default, Medium.T_default, Medium.X_default)
+        "Initial or guess value of measured specific enthalpy"
+          annotation (Dialog(group="Initialization"));
+        Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
+        "Medium enthalpy to which the sensor is exposed";
+        Modelica.SIunits.SpecificEnthalpy h_out(start=h_out_start)
+        "Medium enthalpy that is used to compute the enthalpy flow rate";
+      initial equation
+        if dynamic then
+          if initType == Modelica.Blocks.Types.Init.SteadyState then
+            der(h_out) = 0;
+          elseif initType == Modelica.Blocks.Types.Init.InitialState or
+                 initType == Modelica.Blocks.Types.Init.InitialOutput then
+            h_out = h_out_start;
+          end if;
+        end if;
       equation
         if allowFlowReversal then
-          H_flow = port_a.m_flow * Modelica.Fluid.Utilities.regStep(port_a.m_flow,
+          hMed_out = Modelica.Fluid.Utilities.regStep(port_a.m_flow,
                        port_b.h_outflow,
                        port_a.h_outflow, m_flow_small);
-
         else
-          H_flow = port_a.m_flow * port_b.h_outflow;
+          hMed_out = port_b.h_outflow;
         end if;
+        // Specific enthalpy measured by sensor
+        if dynamic then
+          der(h_out) = (hMed_out-h_out)*k/tau;
+        else
+          h_out = hMed_out;
+        end if;
+        // Sensor output signal
+        H_flow = port_a.m_flow * h_out;
       annotation (defaultComponentName="senEntFlo",
         Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}}), graphics),
@@ -12446,13 +13444,30 @@ This component monitors the enthalphy flow rate of the medium in the flow
 between fluid ports. The sensor is ideal, i.e., it does not influence the fluid.
 </p>
 <p>
+If the parameter <code>tau</code> is non-zero, then the measured
+specific enthalpy <i>h<sub>out</sub></i> that is used to 
+compute the enthalpy flow rate 
+<i>H&#775; = m&#775; h<sub>out</sub></i> 
+is computed using a first order differential equation. 
+See <a href=\"modelica://Buildings.Fluid.Sensors.UsersGuide\">
+Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
+</p>
+<p>
 For a sensor that measures the latent enthalpy flow rate, use
 <a href=\"modelica://Buildings.Fluid.Sensors.LatentEnthalpyFlowRate\">
 Buildings.Fluid.Sensors.LatentEnthalpyFlowRate</a>.
 </p>
 </html>
 ",       revisions="<html>
+<html>
+<p>
 <ul>
+<li>
+June 3, 2011 by Michael Wetter:<br>
+Revised implementation to add dynamics in such a way that 
+the time constant increases as the mass flow rate tends to zero.
+This can improve the numerics.
+</li>
 <li>
 April 9, 2008 by Michael Wetter:<br>
 First implementation.
@@ -12464,7 +13479,7 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
 
       model SensibleEnthalpyFlowRate
       "Ideal enthalphy flow rate sensor that outputs the sensible enthalpy flow rate only"
-        extends Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor;
+        extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Modelica.Icons.RotationalSensor;
         // redeclare Medium with a more restricting base class. This improves the error
         // message if a user selects a medium that does not contain the function
@@ -12472,30 +13487,55 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         replaceable package Medium =
             Modelica.Media.Interfaces.PartialCondensingGases
             annotation (choicesAllMatching = true);
+        parameter Integer i_w = 1 "Index for water substance";
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
         "Sensible enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{-10,-10},{10,10}},
               rotation=90)));
-
+        parameter Modelica.SIunits.SpecificEnthalpy h_out_start=
+          Medium.enthalpyOfNonCondensingGas(
+            Medium.temperature(Medium.setState_phX(
+              Medium.p_default, Medium.T_default, Medium.X_default)))
+        "<html>Initial or guess value of measured specific <b>sensible</b> enthalpy</html>"
+          annotation (Dialog(group="Initialization"));
+        Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
+        "Medium sensible enthalpy to which the sensor is exposed";
+        Modelica.SIunits.SpecificEnthalpy h_out(start=h_out_start)
+        "Medium sensible enthalpy that is used to compute the enthalpy flow rate";
     protected
         Medium.MassFraction XiActual[Medium.nXi]
-        "Medium mass fraction in port_a";
-        Medium.SpecificEnthalpy hActual "Medium enthalpy in port_a";
-        parameter Integer i_w(fixed=false) "Index for water substance";
+        "Medium mass fraction to which sensor is exposed to";
+        Medium.SpecificEnthalpy hActual
+        "Medium enthalpy to which sensor is exposed to";
+        Medium.ThermodynamicState sta
+        "Medium state to which sensor is exposed to";
+        parameter Integer i_w_internal(fixed=false) "Index for water substance";
       initial algorithm
-        i_w :=-1;
+        // Compute index of species vector that carries the water vapor concentration
+        i_w_internal :=-1;
           for i in 1:Medium.nXi loop
             if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
                                                   string2="Water",
                                                   caseSensitive=false) then
-              i_w :=i;
+              i_w_internal :=i;
             end if;
           end for;
-        assert(i_w > 0, "Substance 'water' is not present in medium '"
+        assert(i_w_internal > 0, "Substance 'water' is not present in medium '"
                         + Medium.mediumName + "'.\n"
                         + "Change medium model to one that has 'water' as a substance.");
+        assert(i_w == i_w_internal, "Parameter 'i_w' must be set to '" + String(i_w) + "'.\n");
+      initial equation
+       // Compute initial state
+       if dynamic then
+          if initType == Modelica.Blocks.Types.Init.SteadyState then
+            der(h_out) = 0;
+          elseif initType == Modelica.Blocks.Types.Init.InitialState or
+                 initType == Modelica.Blocks.Types.Init.InitialOutput then
+            h_out = h_out_start;
+          end if;
+        end if;
       equation
         if allowFlowReversal then
            XiActual = Modelica.Fluid.Utilities.regStep(port_a.m_flow,
@@ -12508,46 +13548,104 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
            XiActual = port_b.Xi_outflow;
            hActual = port_b.h_outflow;
         end if;
-        H_flow = port_a.m_flow * (1-XiActual[i_w]) * Medium.enthalpyOfNonCondensingGas(
-            Medium.temperature(Medium.setState_phX(port_a.p, hActual, XiActual)));
+        // Specific enthalpy measured by sensor
+        sta = Medium.setState_phX(port_a.p, hActual, XiActual);
+        hMed_out = (1-XiActual[i_w]) * Medium.enthalpyOfNonCondensingGas(
+            Medium.temperature(sta));
+        if dynamic then
+          der(h_out) = (hMed_out-h_out)*k/tau;
+        else
+          h_out = hMed_out;
+        end if;
+        // Sensor output signal
+        H_flow = port_a.m_flow * h_out;
       annotation (defaultComponentName="senEntFlo",
         Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}}), graphics),
         Icon(graphics={
+              Ellipse(
+                extent={{-70,70},{70,-70}},
+                lineColor={0,0,0},
+                fillColor={170,213,255},
+                fillPattern=FillPattern.Solid),
               Line(points={{-100,0},{-70,0}}, color={0,128,255}),
               Line(points={{70,0},{100,0}}, color={0,128,255}),
               Line(points={{0,100},{0,70}}, color={0,0,127}),
               Text(
                 extent={{180,151},{20,99}},
                 lineColor={0,0,0},
-                textString="HS_flow")}),
+                textString="HS_flow"),
+              Polygon(
+                points={{-0.48,31.6},{18,26},{18,57.2},{-0.48,31.6}},
+                lineColor={0,0,0},
+                fillColor={0,0,0},
+                fillPattern=FillPattern.Solid),
+              Line(points={{0,0},{9.02,28.6}}, color={0,0,0}),
+              Ellipse(
+                extent={{-5,5},{5,-5}},
+                lineColor={0,0,0},
+                fillColor={0,0,0},
+                fillPattern=FillPattern.Solid),
+              Line(points={{37.6,13.7},{65.8,23.9}}, color={0,0,0}),
+              Line(points={{22.9,32.8},{40.2,57.3}}, color={0,0,0}),
+              Line(points={{0,70},{0,40}}, color={0,0,0}),
+              Line(points={{-22.9,32.8},{-40.2,57.3}}, color={0,0,0}),
+              Line(points={{-37.6,13.7},{-65.8,23.9}}, color={0,0,0})}),
         Documentation(info="<html>
 <p>
 This component monitors the <i>sensible</i> enthalphy flow rate of the medium in the flow
-between fluid ports. In particular, if the enthalpy flow rate is
-<pre>
-  HTotal_flow = HSensible_flow + HLatent_flow,
-</pre>
-where <code>HSensible_flow = m_flow * (1-X[water]) * cp_air</code>, then
-this sensor outputs <code>H_flow = HSensible_flow</code>.
-This sensor can only be used with medium models that implement the function
-<code>enthalpyOfNonCondensingGas(state)</code>. 
+between fluid ports. In particular, if the total enthalpy flow rate is
+<p align=\"center\" style=\"font-style:italic;\">
+  H&#775;<sub>tot</sub> = H&#775;<sub>sen</sub> + H&#775;<sub>lat</sub>,
+</p>
+where 
+<i>H&#775;<sub>sen</sub> = m&#775; (1-X<sub>w</sub>) c<sub>p,air</sub></i>, 
+then this sensor outputs <i>H&#775; = H&#775;<sub>sen</sub></i>. 
+</p>
+<p>
+If the parameter <code>tau</code> is non-zero, then the measured
+specific sensible enthalpy <i>h<sub>out</sub></i> that is used to 
+compute the sensible enthalpy flow rate 
+<i>H&#775;<sub>sen</sub> = m&#775; h<sub>out</sub></i> 
+is computed using a first order differential equation. 
+See <a href=\"modelica://Buildings.Fluid.Sensors.UsersGuide\">
+Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
 <p>
 For a sensor that measures 
-<code>HTotal_flow</code>, use
+<i>H&#775;<sub>tot</sub></i>, use
 <a href=\"modelica://Buildings.Fluid.Sensors.EnthalpyFlowRate\">
 Buildings.Fluid.Sensors.EnthalpyFlowRate</a>.<br>
 For a sensor that measures 
-<code>HLatent_flow</code>, use
+<i>H&#775;<sub>lat</sub></i>, use
 <a href=\"modelica://Buildings.Fluid.Sensors.LatentEnthalpyFlowRate\">
 Buildings.Fluid.Sensors.LatentEnthalpyFlowRate</a>.
 <p>
 The sensor is ideal, i.e., it does not influence the fluid.
+The sensor can only be used with medium models that implement the function
+<code>enthalpyOfNonCondensingGas(state)</code>.
 </p>
 </html>
 ",       revisions="<html>
 <ul>
+<li>
+November 3, 2011, by Michael Wetter:<br>
+Moved <code>der(h_out) := 0;</code> from the initial algorithm section to 
+the initial equation section
+as this assignment does not conform to the Modelica specification.
+</li>
+<li>
+August 10, 2011 by Michael Wetter:<br>
+Added parameter <code>i_w</code> and an assert statement to
+make sure it is set correctly. Without this change, Dymola
+cannot differentiate the model when reducing the index of the DAE.
+</li>
+<li>
+June 3, 2011 by Michael Wetter:<br>
+Revised implementation to add dynamics in such a way that 
+the time constant increases as the mass flow rate tends to zero.
+This can improve the numerics.
+</li>
 <li>
 February 22, by Michael Wetter:<br>
 Improved code that searches for index of 'water' in the medium model.
@@ -12562,24 +13660,28 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
       end SensibleEnthalpyFlowRate;
 
       model MassFractionTwoPort "Ideal two port mass fraction sensor"
-        extends Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor;
+        extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor;
         extends Modelica.Icons.RotationalSensor;
         parameter String substanceName = "water" "Name of species substance";
-
-        Modelica.Blocks.Interfaces.RealOutput X(min=0, max=1)
+        Modelica.Blocks.Interfaces.RealOutput X(min=0, max=1, start=X_start)
         "Mass fraction of the passing fluid"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{10,-10},{-10,10}},
               rotation=270)));
+        parameter Medium.MassFraction X_start=Medium.X_default[ind]
+        "Initial or guess value of output (= state)"
+          annotation (Dialog(group="Initialization"));
+        Medium.MassFraction XMed(start=X_start)
+        "Mass fraction to which the sensor is exposed";
     protected
         parameter Integer ind(fixed=false)
         "Index of species in vector of auxiliary substances";
         Medium.MassFraction XiVec[Medium.nXi](
             quantity=Medium.extraPropertiesNames)
         "Trace substances vector, needed because indexed argument for the operator inStream is not supported";
-
       initial algorithm
+        // Compute the index of the element in the substance vector
         ind:= -1;
         for i in 1:Medium.nX loop
           if ( Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
@@ -12591,6 +13693,16 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         assert(ind > 0, "Species with name '" + substanceName + "' is not present in medium '"
                + Medium.mediumName + "'.\n"
                + "Check sensor parameter and medium model.");
+      initial equation
+        // Assign initial conditions
+        if dynamic then
+          if initType == Modelica.Blocks.Types.Init.SteadyState then
+            der(X) = 0;
+           elseif initType == Modelica.Blocks.Types.Init.InitialState or
+                 initType == Modelica.Blocks.Types.Init.InitialOutput then
+            X = X_start;
+          end if;
+        end if;
       equation
         if allowFlowReversal then
           XiVec = Modelica.Fluid.Utilities.regStep(port_a.m_flow,
@@ -12598,8 +13710,13 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         else
           XiVec = port_b.Xi_outflow;
         end if;
-        X = if ind > Medium.nXi then (1-sum(XiVec)) else XiVec[ind];
-
+        XMed = if ind > Medium.nXi then (1-sum(XiVec)) else XiVec[ind];
+        // Output signal of sensor
+        if dynamic then
+          der(X)  = (XMed-X)*k/tau;
+        else
+          X = XMed;
+        end if;
       annotation (defaultComponentName="senMasFra",
         Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
                   100,100}},
@@ -12618,10 +13735,29 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
 <p>
 This component monitors the mass fraction of the passing fluid. 
 The sensor is ideal, i.e. it does not influence the fluid.
+If the parameter <code>tau</code> is non-zero, then its output
+is computed using a first order differential equation. 
+Setting <code>tau=0</code> is <i>not</i> recommend. See
+<a href=\"modelica://Buildings.Fluid.Sensors.UsersGuide\">
+Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
 </html>
 ",       revisions="<html>
+<html>
+<p>
 <ul>
+<li>
+November 3, 2011, by Michael Wetter:<br>
+Moved <code>der(X) := 0;</code> from the initial algorithm section to 
+the initial equation section
+as this assignment does not conform to the Modelica specification.
+</li>
+<li>
+June 3, 2011 by Michael Wetter:<br>
+Revised implementation to add dynamics in such a way that 
+the time constant increases as the mass flow rate tends to zero.
+This significantly improves the numerics.
+</li>
 <li>
 February 22, by Michael Wetter:<br>
 Improved code that searches for index of the substance name in the medium model.
@@ -12635,128 +13771,209 @@ First implementation.
       end MassFractionTwoPort;
 
       model TemperatureTwoPort "Ideal two port temperature sensor"
-        extends Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor;
-
-        Modelica.Blocks.Interfaces.RealOutput T( final quantity="Temperature",
-                                                 final unit="K",
-                                                 displayUnit = "degC",
-                                                 min = 0)
+        extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor;
+        Modelica.Blocks.Interfaces.RealOutput T(final quantity="Temperature",
+                                                final unit="K",
+                                                displayUnit = "degC",
+                                                min = 0,
+                                                start=T_start)
         "Temperature of the passing fluid"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{10,-10},{-10,10}},
               rotation=270)));
+        parameter Modelica.SIunits.Temperature T_start=Medium.T_default
+        "Initial or guess value of output (= state)"
+          annotation (Dialog(group="Initialization"));
+        Medium.Temperature TMed(start=T_start)
+        "Medium temperature to which the sensor is exposed";
     protected
         Medium.Temperature T_a_inflow
         "Temperature of inflowing fluid at port_a";
         Medium.Temperature T_b_inflow
         "Temperature of inflowing fluid at port_b or T_a_inflow, if uni-directional flow";
+      initial equation
+        if dynamic then
+          if initType == Modelica.Blocks.Types.Init.SteadyState then
+            der(T) = 0;
+           elseif initType == Modelica.Blocks.Types.Init.InitialState or
+                 initType == Modelica.Blocks.Types.Init.InitialOutput then
+            T = T_start;
+          end if;
+        end if;
       equation
         if allowFlowReversal then
-          T_a_inflow = Medium.temperature(Medium.setState_phX(port_b.p, port_b.h_outflow, port_b.Xi_outflow));
-          T_b_inflow = Medium.temperature(Medium.setState_phX(port_a.p, port_a.h_outflow, port_a.Xi_outflow));
-          T = Modelica.Fluid.Utilities.regStep(port_a.m_flow, T_a_inflow, T_b_inflow, m_flow_small);
+           T_a_inflow = Medium.temperature(Medium.setState_phX(port_b.p, port_b.h_outflow, port_b.Xi_outflow));
+           T_b_inflow = Medium.temperature(Medium.setState_phX(port_a.p, port_a.h_outflow, port_a.Xi_outflow));
+           TMed = Modelica.Fluid.Utilities.regStep(port_a.m_flow, T_a_inflow, T_b_inflow, m_flow_small);
         else
-           T = Medium.temperature(Medium.setState_phX(port_b.p, port_b.h_outflow, port_b.Xi_outflow));
-           T_a_inflow = T;
-           T_b_inflow = T;
+           TMed = Medium.temperature(Medium.setState_phX(port_b.p, port_b.h_outflow, port_b.Xi_outflow));
+           T_a_inflow = TMed;
+           T_b_inflow = TMed;
+        end if;
+        // Output signal of sensor
+        if dynamic then
+          der(T) = (TMed-T)*k/tau;
+        else
+          T = TMed;
         end if;
       annotation (defaultComponentName="senTem",
-        Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
-                  100,100}},
-              grid={1,1}),
+        Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
+                  100}}),
                 graphics),
-        Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}},
-              grid={1,1}), graphics={
-              Line(points={{0,100},{0,50}}, color={0,0,127}),
-              Line(points={{-92,0},{100,0}}, color={0,128,255}),
+          Icon(graphics={
+              Line(points={{-100,0},{92,0}}, color={0,128,255}),
               Ellipse(
-                extent={{-20,-68},{20,-30}},
+                extent={{-20,-58},{20,-20}},
                 lineColor={0,0,0},
                 lineThickness=0.5,
                 fillColor={191,0,0},
                 fillPattern=FillPattern.Solid),
+              Line(points={{-40,60},{-12,60}}, color={0,0,0}),
+              Line(points={{-40,30},{-12,30}}, color={0,0,0}),
+              Line(points={{-40,0},{-12,0}}, color={0,0,0}),
               Rectangle(
-                extent={{-12,50},{12,-34}},
+                extent={{-12,60},{12,-24}},
                 lineColor={191,0,0},
                 fillColor={191,0,0},
                 fillPattern=FillPattern.Solid),
               Polygon(
-                points={{-12,50},{-12,70},{-10,76},{-6,78},{0,80},{6,78},{10,76},{12,
-                    70},{12,50},{-12,50}},
+                points={{-12,60},{-12,80},{-10,86},{-6,88},{0,90},{6,88},{10,86},{12,
+                    80},{12,60},{-12,60}},
                 lineColor={0,0,0},
                 lineThickness=0.5),
-              Line(
-                points={{-12,50},{-12,-35}},
-                color={0,0,0},
-                thickness=0.5),
-              Line(
-                points={{12,50},{12,-34}},
-                color={0,0,0},
-                thickness=0.5),
-              Line(points={{-40,-10},{-12,-10}}, color={0,0,0}),
-              Line(points={{-40,20},{-12,20}}, color={0,0,0}),
-              Line(points={{-40,50},{-12,50}}, color={0,0,0}),
               Text(
-                extent={{94,122},{0,92}},
+                extent={{102,140},{-18,90}},
                 lineColor={0,0,0},
-                textString="T")}),
-        Documentation(info="<html>
+                textString="T"),
+              Line(
+                points={{-12,60},{-12,-25}},
+                color={0,0,0},
+                thickness=0.5),
+              Line(
+                points={{12,60},{12,-24}},
+                color={0,0,0},
+                thickness=0.5),
+              Line(points={{0,100},{0,50}}, color={0,0,127})}),
+          Documentation(info="<html>
 <p>
-This component monitors the temperature of the passing fluid. 
-The sensor is ideal, i.e. it does not influence the fluid.
+This component monitors the temperature of the medium in the flow
+between fluid ports. The sensor does not influence the fluid. 
+If the parameter <code>tau</code> is non-zero, then its output
+is computed using a first order differential equation. 
+Setting <code>tau=0</code> is <i>not</i> recommend. See
+<a href=\"modelica://Buildings.Fluid.Sensors.UsersGuide\">
+Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
 </html>
-",    revisions="<html>
+",       revisions="<html>
+<html>
+<p>
 <ul>
 <li>
-September 29, 2009, by Michael Wetter:<br>
-First implementation.
-Implementation is based on <code>Modelica.Fluid</code>.
+June 3, 2011 by Michael Wetter:<br>
+Revised implementation to add dynamics in such a way that 
+the time constant increases as the mass flow rate tends to zero.
+This significantly improves the numerics.
+</li>
+<li>
+February 26, 2010 by Michael Wetter:<br>
+Set start attribute for temperature output. Prior to this change,
+the output was 0 at initial time, which caused the plot of the output to 
+use 0 Kelvin as the lower value of the ordinate.
 </li>
 </ul>
-</html>"));
+</html>"),
+      revisions="<html>
+<ul>
+<li>
+September 10, 2008, by Michael Wetter:<br>
+First implementation.
+Implementation is based on 
+<a href=\"modelica://Buildings.Fluid.Sensors.Temperature\">Buildings.Fluid.Sensors.Temperature</a>.
+</li>
+</ul>
+</html>");
       end TemperatureTwoPort;
 
       package BaseClasses
       "Package with base classes for Buildings.Fluid.Sensors"
         extends Modelica.Icons.BasesPackage;
 
+        partial model PartialDynamicFlowSensor
+        "Partial component to model sensors that measure flow properties using a dynamic model"
+          extends PartialFlowSensor;
+          parameter Modelica.SIunits.Time tau(min=0) = 1
+          "Time constant at nominal flow rate"   annotation (Evaluate=true);
+          parameter Modelica.Blocks.Types.Init initType = Modelica.Blocks.Types.Init.NoInit
+          "Type of initialization (InitialState and InitialOutput are identical)"
+             annotation(Evaluate=true, Dialog(group="Initialization"));
+      protected
+          Real k(start=1)
+          "Gain to take flow rate into account for sensor time constant";
+          final parameter Boolean dynamic = tau > 1E-10 or tau < -1E-10
+          "Flag, true if the sensor is a dynamic sensor";
+          Real mNor_flow "Normalized mass flow rate";
+        equation
+          if dynamic then
+            mNor_flow = port_a.m_flow/m_flow_nominal;
+            k = Modelica.Fluid.Utilities.regStep(x=port_a.m_flow,
+                                                 y1= mNor_flow,
+                                                 y2=-mNor_flow,
+                                                 x_small=m_flow_small);
+          else
+            mNor_flow = 1;
+            k = 1;
+          end if;
+          annotation (Icon(graphics={
+                Line(visible=(tau <> 0),
+                points={{52,60},{58,74},{66,86},{76,92},{88,96},{98,96}}, color={0,
+                      0,127})}), Documentation(info="<html>
+<p>
+Partial component to model a sensor that measures any intensive properties
+of a flow, e.g., to get temperature or density in the flow
+between fluid connectors.</p>
+<p>
+The sensor computes a gain that is zero at zero mass flow rate.
+This avoids fast transients if the flow is close to zero, thereby
+improving the numerical efficiency.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+July 7, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end PartialDynamicFlowSensor;
+
         partial model PartialFlowSensor
         "Partial component to model sensors that measure flow properties"
           extends Modelica.Fluid.Interfaces.PartialTwoPort;
-
           parameter Medium.MassFlowRate m_flow_nominal(min=0)
           "Nominal mass flow rate, used for regularization near zero flow"
             annotation(Dialog(group = "Nominal condition"));
           parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
           "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
             annotation(Dialog(group="Advanced"));
-
         equation
           // mass balance
           0 = port_a.m_flow + port_b.m_flow;
-
           // momentum equation (no pressure loss)
           port_a.p = port_b.p;
-
           // isenthalpic state transformation (no storage and no loss of energy)
           port_a.h_outflow = inStream(port_b.h_outflow);
           port_b.h_outflow = inStream(port_a.h_outflow);
-
           port_a.Xi_outflow = inStream(port_b.Xi_outflow);
           port_b.Xi_outflow = inStream(port_a.Xi_outflow);
-
           port_a.C_outflow = inStream(port_b.C_outflow);
           port_b.C_outflow = inStream(port_a.C_outflow);
           annotation (Documentation(info="<html>
 <p>
-Partial component to model a sensor that measures any intensive properties
-of a flow, e.g., to get temperature or density in the flow
-between fluid connectors.</p>
-<p>
-The model includes zero-volume balance equations. Sensor models inheriting from
-this partial class should add a medium instance to calculate the measured property.
+Partial component to model a sensor.
+The sensor is ideal. It does not influence mass, energy,
+species or substance balance, and it has no flow friction.
 </p>
 </html>",
         revisions="<html>
@@ -13198,38 +14415,24 @@ to define fixed or prescribed ambient conditions.
 
           input Modelica.SIunits.Pressure dp(displayUnit="Pa")
           "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
-          input Real k(unit="")
+          input Real k(min=0, unit="")
           "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
           input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
           "Mass flow rate";
-          input Boolean linearized = false
-          "= true, use linear relation between m_flow and dp for any flow rate";
-           output Modelica.SIunits.MassFlowRate m_flow
+          output Modelica.SIunits.MassFlowRate m_flow
           "Mass flow rate in design flow direction";
       protected
           Modelica.SIunits.Pressure dp_turbulent(displayUnit="Pa")
           "Turbulent flow if |dp| >= dp_small, not a parameter because k can be a function of time";
       protected
          Real kSqu(unit="kg.m") "Flow coefficient, kSqu=k^2=m_flow^2/|dp|";
-         constant Real conv(unit="m.s2/kg") = 1
-          "Factor, needed to satisfy unit check";
-         constant Real conv2 = sqrt(conv)
-          "Factor, needed to satisfy unit check";
         algorithm
-          // if dp==0, we avoid a computation
-          if (dp == 0 or k==0) then
-              m_flow := 0;
-          else
-             kSqu:=k*k;
-             dp_turbulent :=m_flow_turbulent^2/kSqu;
-             if linearized then
-                m_flow :=k*dp*conv2;
-             else
-                m_flow :=Modelica.Fluid.Utilities.regRoot2(x=dp, x_small=dp_turbulent, k1=kSqu, k2=kSqu);
-             end if;
-          end if;
+         kSqu:=k*k;
+         dp_turbulent :=m_flow_turbulent^2/kSqu;
+         m_flow :=Modelica.Fluid.Utilities.regRoot2(x=dp, x_small=dp_turbulent, k1=kSqu, k2=kSqu);
+
         annotation(LateInline=true,
-                   inverse(dp=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k, m_flow_turbulent=m_flow_turbulent, linearized=linearized)),
+                   inverse(dp=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k, m_flow_turbulent=m_flow_turbulent)),
                    smoothOrder=2,
                    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
                     {100,100}}), graphics={Line(
@@ -13245,14 +14448,36 @@ to define fixed or prescribed ambient conditions.
         Documentation(info="<html>
 <p>
 Function that computes the pressure drop of flow elements as
-<pre>
-  m_flow = sign(dp) * k * sqrt(|dp|),
-</pre>
+<p align=\"center\" style=\"font-style:italic;\">
+  m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
+</p>
 with regularization near the origin.
-The variable <code>m_flow_turbulent</code> determines the location of the regularization.
+Therefore, the flow coefficient is
+<p align=\"center\" style=\"font-style:italic;\">
+  k = m &frasl; &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span> 
+</p>
+The input <code>m_flow_turbulent</code> determines the location of the regularization.
 </p>
 </html>",         revisions="<html>
 <ul>
+<li>
+August 10, 2011, by Michael Wetter:<br>
+Removed <code>if-then</code> optimization that set <code>m_flow=0</code> if <code>dp=0</code>,
+as this causes the derivative to be discontinuous at <code>dp=0</code>.
+</li>
+<li>
+August 4, 2011, by Michael Wetter:<br>
+Implemented linearized model in this model instead of 
+in the functions
+<a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp\">
+Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp</a>
+and
+<a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow\">
+Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow</a>. 
+With the previous implementation, 
+the symbolic processor may not rearrange the equations, which can lead 
+to coupled equations instead of an explicit solution.
+</li>
 <li>
 March 29, 2010 by Michael Wetter:<br>
 Changed implementation to allow <code>k=0</code>, which is
@@ -13262,6 +14487,13 @@ the case for a closed valve with no leakage
 </html>"),
         revisions="<html>
 <ul>
+<li>
+August 4, 2011, by Michael Wetter:<br>
+Removed option to use a linear function. The linear implementation is now done
+in models that call this function. With the previous implementation, 
+the symbolic processor may not rearrange the equations, which can lead 
+to coupled equations instead of an explicit solution.
+</li>
 <li>
 April 13, 2009, by Michael Wetter:<br>
 First implementation.
@@ -13278,30 +14510,16 @@ First implementation.
           "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
           input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
           "Mass flow rate";
-          input Boolean linearized = false
-          "= true, use linear relation between m_flow and dp for any flow rate";
           output Modelica.SIunits.Pressure dp(displayUnit="Pa")
           "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
       protected
          Real kSquInv(unit="1/(kg.m)") "Flow coefficient";
-         constant Real conv(unit="m.s2/kg") = 1
-          "Factor, needed to satisfy unit check";
-         constant Real conv2 = sqrt(conv)
-          "Factor, needed to satisfy unit check";
         algorithm
-          // if m_flow == 0, we avoid a computation
-          if (m_flow == 0) then
-            dp := 0;
-          else
-            if linearized then
-               dp := m_flow/k/conv2;
-            else
-               kSquInv:=1/k^2;
-               dp :=Modelica.Fluid.Utilities.regSquare2(x=m_flow, x_small=m_flow_turbulent, k1=kSquInv, k2=kSquInv);
-            end if;
-          end if;
+         kSquInv:=1/k^2;
+         dp :=Modelica.Fluid.Utilities.regSquare2(x=m_flow, x_small=m_flow_turbulent, k1=kSquInv, k2=kSquInv);
+
          annotation (LateInline=true,
-                     inverse(m_flow=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(dp=dp, k=k, m_flow_turbulent=m_flow_turbulent, linearized=linearized)),
+                     inverse(m_flow=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(dp=dp, k=k, m_flow_turbulent=m_flow_turbulent)),
                      smoothOrder=2,
                      Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}}), graphics={Line(
@@ -13317,15 +14535,31 @@ First implementation.
         Documentation(info="<html>
 <p>
 Function that computes the pressure drop of flow elements as
-<pre>
-  dp = 1/k^2 * sign(m_flow) m_flow^2
-</pre>
+<p align=\"center\" style=\"font-style:italic;\">
+  &Delta;p = sign(m) (m &frasl; k)<sup>2</sup> 
+</p>
 with regularization near the origin.
-The variable <code>m_flow_turbulent</code> determines the location of the regularization.
+Therefore, the flow coefficient is
+<p align=\"center\" style=\"font-style:italic;\">
+  k = m &frasl; &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span> 
+</p>
+The input <code>m_flow_turbulent</code> determines the location of the regularization.
 </p>
 </html>"),
         revisions="<html>
 <ul>
+<li>
+August 10, 2011, by Michael Wetter:<br>
+Removed <code>if-then</code> optimization that set <code>dp=0</code> if <code>m_flow=0</code>,
+as this causes the derivative to be discontinuous at <code>m_flow=0</code>.
+</li>
+<li>
+August 4, 2011, by Michael Wetter:<br>
+Removed option to use a linear function. The linear implementation is now done
+in models that call this function. With the previous implementation, 
+the symbolic processor may not rearrange the equations, which can lead 
+to coupled equations instead of an explicit solution.
+</li>
 <li>
 April 13, 2009, by Michael Wetter:<br>
 First implementation.
@@ -13360,10 +14594,10 @@ First implementation.
 
       partial model PartialResistance
       "Partial model for a hydraulic resistance"
-          extends Buildings.Fluid.Interfaces.PartialStaticTwoPortInterface(
+          extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
            show_T=false, show_V_flow=false,
-           m_flow(start=m_flow_nominal, nominal=m_flow_nominal_pos),
-           dp(start=dp_nominal, nominal=dp_nominal_pos));
+           m_flow(start=0, nominal=m_flow_nominal_pos),
+           dp(start=0, nominal=dp_nominal_pos));
 
         parameter Boolean from_dp = false
         "= true, use m_flow = f(dp) else dp = f(m_flow)"
@@ -13391,12 +14625,7 @@ First implementation.
            Medium.setState_pTX(T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
         parameter Modelica.SIunits.DynamicViscosity eta_nominal=Medium.dynamicViscosity(sta0)
         "Dynamic viscosity, used to compute transition to turbulent flow regime";
-        parameter Modelica.SIunits.SpecificEnthalpy h0=Medium.h_default
-        "Initial value for solver for specific enthalpy";             //specificEnthalpy(sta0)
-       constant Real conv(unit="m.s2/kg") = 1
-        "Factor, needed to satisfy unit check";
-       constant Real conv2 = sqrt(conv) "Factor, needed to satisfy unit check";
-       final parameter Boolean computeFlowResistance=(dp_nominal_pos > Modelica.Constants.eps)
+        final parameter Boolean computeFlowResistance=(dp_nominal_pos > Modelica.Constants.eps)
         "Flag to enable/disable computation of flow resistance"
          annotation(Evaluate=true);
     protected
@@ -13411,26 +14640,28 @@ First implementation.
       equation
         // Pressure drop calculation
         if computeFlowResistance then
-          if homotopyInitialization then
-            if from_dp then
-              m_flow=homotopy(actual=FlowModels.basicFlowFunction_dp(dp=dp, k=k,
-                                         m_flow_turbulent=m_flow_turbulent,
-                                         linearized=linearized),
-                              simplified=m_flow_nominal_pos*dp/dp_nominal_pos);
-            else
-              dp=homotopy(actual=FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k,
-                                         m_flow_turbulent=m_flow_turbulent,
-                                         linearized=linearized),
+          if linearized then
+            m_flow*m_flow_nominal_pos = k^2*dp;
+          else
+            if homotopyInitialization then
+              if from_dp then
+                m_flow=homotopy(actual=FlowModels.basicFlowFunction_dp(dp=dp, k=k,
+                                         m_flow_turbulent=m_flow_turbulent),
+                                         simplified=m_flow_nominal_pos*dp/dp_nominal_pos);
+              else
+                dp=homotopy(actual=FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k,
+                                         m_flow_turbulent=m_flow_turbulent),
                           simplified=dp_nominal_pos*m_flow/m_flow_nominal_pos);
-            end if;
-          else // do not use homotopy
-            if from_dp then
-              m_flow=FlowModels.basicFlowFunction_dp(dp=dp, k=k, m_flow_turbulent=m_flow_turbulent, linearized=linearized);
-            else
-              dp=FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k, m_flow_turbulent=m_flow_turbulent, linearized=linearized);
-            end if;
-          end if; // homotopyInitialization
-        else
+               end if;  // from_dp
+            else // do not use homotopy
+              if from_dp then
+                m_flow=FlowModels.basicFlowFunction_dp(dp=dp, k=k, m_flow_turbulent=m_flow_turbulent);
+              else
+                dp=FlowModels.basicFlowFunction_m_flow(m_flow=m_flow, k=k, m_flow_turbulent=m_flow_turbulent);
+              end if;  // from_dp
+            end if; // homotopyInitialization
+          end if; // linearized
+        else // do not compute flow resistance
           dp = 0;
         end if;  // computeFlowResistance
 
@@ -13475,12 +14706,24 @@ The pressure drop is computed by an instance of
 <a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels.BasicFlowModel\">
 Buildings.Fluid.BaseClasses.FlowModels.BasicFlowModel</a>,
 i.e., using a regularized implementation of the equation
-<pre>
-  m_flow = sign(dp) * k * sqrt(|dp|).
-</pre>
+<p align=\"center\" style=\"font-style:italic;\">
+  m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
 </p>
 </html>",       revisions="<html>
 <ul>
+<li>
+August 5, 2011, by Michael Wetter:<br>
+Moved linearized pressure drop equation from the function body to the equation
+section. With the previous implementation, 
+the symbolic processor may not rearrange the equations, which can lead 
+to coupled equations instead of an explicit solution.
+</li>
+<li>
+June 20, 2011 by Michael Wetter:<br>
+Set start values for <code>m_flow</code> and <code>dp</code> to zero, since
+most HVAC systems start at zero flow. With this change, the start values
+appear in the GUI and can be set by the user.
+</li>
 <li>
 April 2, 2011 by Michael Wetter:<br>
 Added <code>m_flow_nominal_pos</code> and <code>dp_nominal_pos</code> to allow
@@ -13538,76 +14781,351 @@ This package contains base classes that are used to construct the models in
     package Interfaces "Package with interfaces for fluid models"
       extends Modelica.Icons.InterfacesPackage;
 
-      partial model PartialStaticTwoPortHeatMassTransfer
-      "Partial model transporting fluid between two ports without storing mass or energy"
-        extends Buildings.Fluid.Interfaces.PartialStaticTwoPortInterface(
-        showDesignFlowDirection = false);
+      model TwoPortHeatMassExchanger
+      "Partial model transporting one fluid stream with storing mass or energy"
+        extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
+          port_a(h_outflow(start=h_outflow_start)),
+          port_b(h_outflow(start=h_outflow_start)));
         extends Buildings.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-          final computeFlowResistance=(dp_nominal > Modelica.Constants.eps));
+          final computeFlowResistance=true);
         import Modelica.Constants;
 
-        Modelica.SIunits.HeatFlowRate Q_flow "Heat transfered into the medium";
-        Medium.MassFlowRate mXi_flow[Medium.nXi]
-        "Mass flow rates of independent substances added to the medium";
+        replaceable Buildings.Fluid.MixingVolumes.MixingVolume vol
+          constrainedby Buildings.Fluid.MixingVolumes.MixingVolume(
+          redeclare final package Medium = Medium,
+          nPorts = 2,
+          V=m_flow_nominal*tau/rho_nominal,
+          final m_flow_nominal = m_flow_nominal,
+          final energyDynamics=energyDynamics,
+          final massDynamics=massDynamics,
+          final p_start=p_start,
+          final T_start=T_start,
+          final X_start=X_start,
+          final C_start=C_start) "Volume for fluid stream"
+                                          annotation (Placement(transformation(extent={{-9,0},{
+                  11,-20}},         rotation=0)));
+
+        parameter Modelica.SIunits.Time tau = 30
+        "Time constant at nominal flow (if energyDynamics <> SteadyState)"
+           annotation (Evaluate=true, Dialog(tab = "Dynamics", group="Nominal condition"));
+
+        // Advanced
+        parameter Boolean homotopyInitialization = true
+        "= true, use homotopy method"
+          annotation(Evaluate=true, Dialog(tab="Advanced"));
+
+        // Dynamics
+        parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+        "Formulation of energy balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+        parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
+        "Formulation of mass balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+        // Initialization
+        parameter Medium.AbsolutePressure p_start = Medium.p_default
+        "Start value of pressure"
+          annotation(Dialog(tab = "Initialization"));
+        parameter Medium.Temperature T_start = Medium.T_default
+        "Start value of temperature"
+          annotation(Dialog(tab = "Initialization"));
+        parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
+        "Start value of mass fractions m_i/m"
+          annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
+        parameter Medium.ExtraProperty C_start[Medium.nC](
+             quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
+        "Start value of trace substances"
+          annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+
     protected
-        constant Boolean sensibleOnly "Set to true if sensible exchange only";
+        parameter Medium.ThermodynamicState sta_nominal=Medium.setState_pTX(
+            T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
+        parameter Modelica.SIunits.Density rho_nominal=Medium.density(sta_nominal)
+        "Density, used to compute fluid volume";
+        parameter Medium.ThermodynamicState sta_start=Medium.setState_pTX(
+            T=T_start, p=p_start, X=X_start);
+        parameter Modelica.SIunits.SpecificEnthalpy h_outflow_start = Medium.specificEnthalpy(sta_start)
+        "Start value for outflowing enthalpy";
+    public
+        Buildings.Fluid.FixedResistances.FixedResistanceDpM preDro(
+          redeclare package Medium = Medium,
+          final use_dh=false,
+          final m_flow_nominal=m_flow_nominal,
+          final deltaM=deltaM,
+          final allowFlowReversal=allowFlowReversal,
+          final m_flow_small=m_flow_small,
+          final show_T=false,
+          final show_V_flow=show_V_flow,
+          final from_dp=from_dp,
+          final linearized=linearizeFlowResistance,
+          final homotopyInitialization=homotopyInitialization,
+          final dp_nominal=dp_nominal) "Pressure drop model"
+          annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+      initial algorithm
+        assert((energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) or
+                tau > Modelica.Constants.eps,
+      "The parameter tau, or the volume of the model from which tau may be derived, is unreasonably small.
+ Set energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState to model steady-state.
+ Received tau = "       + String(tau) + "\n");
+        assert((massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) or
+                tau > Modelica.Constants.eps,
+      "The parameter tau, or the volume of the model from which tau may be derived, is unreasonably small.          
+ Set massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState to model steady-state.
+ Received tau = "       + String(tau) + "\n");
+
       equation
-        // Energy balance (no storage, no heat loss/gain)
-        port_a.m_flow*port_a.h_outflow + port_b.m_flow*inStream(port_b.h_outflow) = -Q_flow;
-        port_b.m_flow*port_b.h_outflow + port_a.m_flow*inStream(port_a.h_outflow) = -Q_flow;
+        connect(vol.ports[2], port_b) annotation (Line(
+            points={{1,5.55112e-16},{27.25,5.55112e-16},{27.25,1.11022e-15},{51.5,
+                1.11022e-15},{51.5,5.55112e-16},{100,5.55112e-16}},
+            color={0,127,255},
+            smooth=Smooth.None));
+        connect(port_a, preDro.port_a) annotation (Line(
+            points={{-100,5.55112e-16},{-90,5.55112e-16},{-90,1.16573e-15},{-80,
+                1.16573e-15},{-80,6.10623e-16},{-60,6.10623e-16}},
+            color={0,127,255},
+            smooth=Smooth.None));
+        connect(preDro.port_b, vol.ports[1]) annotation (Line(
+            points={{-40,6.10623e-16},{-30.25,6.10623e-16},{-30.25,1.16573e-15},{
+                -20.5,1.16573e-15},{-20.5,5.55112e-16},{1,5.55112e-16}},
+            color={0,127,255},
+            smooth=Smooth.None));
+        annotation (
+          Diagram(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={1,1}), graphics),
+          Documentation(info="<html>
+<p>
+This component transports one fluid stream. 
+It provides the basic model for implementing dynamic and steady-state
+models that exchange heat and water vapor with the fluid stream.
+The model also computes the pressure drop due to the flow resistance.
+By setting the parameter <code>dp_nominal=0</code>, the computation
+of the pressure drop can be avoided.
+The variable <code>vol.heatPort.T</code> always has the value of
+the temperature of the medium that leaves the component.
+For the actual temperatures at the port, the variables <code>sta_a.T</code>
+and <code>sta_b.T</code> can be used. These two variables are provided by 
+the base class
+<a href=\"modelica://Buildings.Fluid.Interfaces.PartialTwoPortInterface\">
+Buildings.Fluid.Interfaces.PartialTwoPortInterface</a>.
+</p>
+<p>
+For models that extend this model, see for example
+<ul>
+<li>
+the ideal heater or cooler
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed\">
+Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed</a>,
+</li>
+<li>
+the ideal humidifier
+<a href=\"modelica://Buildings.Fluid.MassExchangers.HumidifierPrescribed\">
+Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed</a>, and
+</li>
+<li>
+the boiler
+<a href=\"modelica://Buildings.Fluid.Boilers.BoilerPolynomial\">
+Buildings.Fluid.Boilers.BoilerPolynomial</a>.
+</li>
+</ul>
+</p>
+<h4>Implementation</h4>
+<p>
+The variable names follow the conventions used in 
+<a href=\"modelica://Modelica.Fluid.HeatExchangers.BasicHX\">
+Modelica.Fluid.HeatExchangers.BasicHX</a>.
+</p>
+</html>",       revisions="<html>
+<ul>
+<li>
+September 13, 2011, by Michael Wetter:<br>
+Changed assignment of <code>vol(mass/energyDynamics=...)</code> as the
+previous assignment caused a non-literal start value that was ignored.
+</li>
+<li>
+July 29, 2011, by Michael Wetter:<br>
+Added start value for outflowing enthalpy.
+</li>
+<li>
+July 11, 2011, by Michael Wetter:<br>
+Changed parameterization of fluid volume so that steady-state balance is
+used when <code>tau = 0</code>.
+</li>
+<li>
+May 25, 2011, by Michael Wetter:<br>
+Removed temperature sensor and changed implementation of fluid volume
+to allow use of this model for the steady-state and dynamic humidifier
+<a href=\"modelica://Buildings.Fluid.MassExchangers.HumidifierPrescribed\">
+Buildings.Fluid.MassExchangers.HumidifierPrescribed</a>.
+</li>
+<li>
+March 25, 2011, by Michael Wetter:<br>
+Added homotopy operator.
+</li>
+<li>
+March 21, 2010 by Michael Wetter:<br>
+Changed pressure start value from <code>system.p_start</code>
+to <code>Medium.p_default</code> since HVAC models may have water and 
+air, which are typically at different pressures.
+</li>
+<li>
+April 13, 2009, by Michael Wetter:<br>
+Added model to compute flow friction.
+</li>
+<li>
+January 29, 2009 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),Icon(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={1,1}), graphics={
+              Rectangle(
+                extent={{-70,60},{70,-60}},
+                lineColor={0,0,255},
+                pattern=LinePattern.None,
+                fillColor={95,95,95},
+                fillPattern=FillPattern.Solid),
+              Rectangle(
+                extent={{-101,6},{100,-4}},
+                lineColor={0,0,255},
+                pattern=LinePattern.None,
+                fillColor={0,0,255},
+                fillPattern=FillPattern.Solid),
+              Rectangle(
+                extent={{0,-4},{100,6}},
+                lineColor={0,0,255},
+                pattern=LinePattern.None,
+                fillColor={255,0,0},
+                fillPattern=FillPattern.Solid)}));
+      end TwoPortHeatMassExchanger;
 
-        // Mass balance (no storage)
-        port_a.m_flow + port_b.m_flow = -sum(mXi_flow);
-
-        // Species balance, mXi_flow is ignored by this model
+      model StaticTwoPortHeatMassExchanger
+      "Partial model transporting fluid between two ports without storing mass or energy"
+        extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
+        showDesignFlowDirection = false,
+        final show_T=true);
+        extends Buildings.Fluid.Interfaces.TwoPortFlowResistanceParameters(
+          final computeFlowResistance=(abs(dp_nominal) > Modelica.Constants.eps));
+        import Modelica.Constants;
+        input Modelica.SIunits.HeatFlowRate Q_flow
+        "Heat transfered into the medium";
+        input Medium.MassFlowRate mXi_flow[Medium.nXi]
+        "Mass flow rates of independent substances added to the medium";
+        constant Boolean sensibleOnly "Set to true if sensible exchange only";
+        // Outputs that are needed in models that extend this model
+        Modelica.Blocks.Interfaces.RealOutput hOut(unit="J/kg")
+        "Leaving temperature of the component";
+        Modelica.Blocks.Interfaces.RealOutput XiOut[Medium.nXi](unit="1")
+        "Leaving species concentration of the component";
+        Modelica.Blocks.Interfaces.RealOutput COut[Medium.nC](unit="1")
+        "Leaving trace substances of the component";
+        constant Boolean use_safeDivision=true
+        "Set to true to improve numerical robustness";
+    protected
+        Real m_flowInv(unit="s/kg") "Regularization of 1/m_flow";
+        final parameter Real k(unit="")=if computeFlowResistance
+         then abs(m_flow_nominal)/sqrt(abs(dp_nominal)) else 0
+        "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
+        final parameter Real kLin(unit="") = if computeFlowResistance
+         then abs(m_flow_nominal/dp_nominal) else 0;
+      equation
+        // Regularization of m_flow around the origin to avoid a division by zero
+       if use_safeDivision then
+          m_flowInv = Buildings.Utilities.Math.Functions.inverseXRegularized(x=port_a.m_flow, delta=m_flow_small/1E3);
+       else
+           m_flowInv = 1/port_a.m_flow;
+       end if;
+       if allowFlowReversal then
+      // This formulation fails to simulate in Buildings.Fluid.MixingVolumes.Examples.MixingVolumePrescribedHeatFlowRate
+      // with Dymola 2012. See also Dynasim ticket 13596.
+      // It works with Dymola 2012 FD01.
+         if (port_a.m_flow >= 0) then
+           hOut =  port_b.h_outflow;
+           XiOut = port_b.Xi_outflow;
+           COut =  port_b.C_outflow;
+          else
+           hOut =  port_a.h_outflow;
+           XiOut = port_a.Xi_outflow;
+           COut =  port_a.C_outflow;
+          end if;
+       else
+         hOut =  port_b.h_outflow;
+         XiOut = port_b.Xi_outflow;
+         COut =  port_b.C_outflow;
+       end if;
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // Energy balance and mass balance
         if sensibleOnly then
+          // Mass balance
+          port_a.m_flow = -port_b.m_flow;
+          // Energy balance
+          port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
+          port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
+          // Transport of species
           port_a.Xi_outflow = inStream(port_b.Xi_outflow);
           port_b.Xi_outflow = inStream(port_a.Xi_outflow);
+          // Transport of trace substances
+          port_a.C_outflow = inStream(port_b.C_outflow);
+          port_b.C_outflow = inStream(port_a.C_outflow);
         else
-          port_a.m_flow*port_a.Xi_outflow + port_b.m_flow*inStream(port_b.Xi_outflow) = -mXi_flow;
-          port_b.m_flow*port_b.Xi_outflow + port_a.m_flow*inStream(port_a.Xi_outflow) = -mXi_flow;
-        end if;
-        // Transport of trace substances
-        port_a.C_outflow = inStream(port_b.C_outflow);
-        port_b.C_outflow = inStream(port_a.C_outflow);
-
+          // Mass balance (no storage)
+          port_a.m_flow + port_b.m_flow = -sum(mXi_flow);
+          // Energy balance.
+          // This equation is approximate since m_flow = port_a.m_flow is used for the mass flow rate
+          // at both ports. Since mXi_flow << m_flow, the error is small.
+          port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
+          port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
+          // Transport of species
+          for i in 1:Medium.nXi loop
+            port_b.Xi_outflow[i] = inStream(port_a.Xi_outflow[i]) + mXi_flow[i] * m_flowInv;
+            port_a.Xi_outflow[i] = inStream(port_b.Xi_outflow[i]) - mXi_flow[i] * m_flowInv;
+          end for;
+          // Transport of trace substances
+          for i in 1:Medium.nC loop
+            port_a.m_flow*port_a.C_outflow[i] = -port_b.m_flow*inStream(port_b.C_outflow[i]);
+            port_b.m_flow*port_b.C_outflow[i] = -port_a.m_flow*inStream(port_a.C_outflow[i]);
+          end for;
+        end if; // sensibleOnly
+        //////////////////////////////////////////////////////////////////////////////////////////
         // Pressure drop calculation
         if computeFlowResistance then
-          if homotopyInitialization then
-            if from_dp then
-              m_flow = homotopy(actual=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
+          if linearizeFlowResistance then
+            m_flow = kLin*dp;
+          else
+            if homotopyInitialization then
+              if from_dp then
+                 m_flow = homotopy(actual=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
                                           dp=dp,
-                                          k=m_flow_nominal/sqrt(dp_nominal),
-                                          m_flow_turbulent=deltaM * m_flow_nominal,
-                                          linearized=linearizeFlowResistance),
-                                simplified=m_flow_nominal*dp/dp_nominal);
-            else
-              dp = homotopy(actual=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(
+                                          k=k,
+                                          m_flow_turbulent=deltaM * m_flow_nominal),
+                                          simplified=m_flow_nominal*dp/dp_nominal);
+               else
+                 dp = homotopy(actual=Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(
                                           m_flow=m_flow,
-                                          k=m_flow_nominal/sqrt(dp_nominal),
-                                          m_flow_turbulent=deltaM * m_flow_nominal,
-                                          linearized=linearizeFlowResistance),
-                            simplified=dp_nominal*m_flow/m_flow_nominal);
-            end if;
-          else // do not use homotopy
-            if from_dp then
-              m_flow = Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
+                                          k=k,
+                                          m_flow_turbulent=deltaM * m_flow_nominal),
+                                          simplified=dp_nominal*m_flow/m_flow_nominal);
+              end if; // from_dp
+            else // do not use homotopy
+              if from_dp then
+                m_flow = Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
                                           dp=dp,
-                                          k=m_flow_nominal/sqrt(dp_nominal),
-                                          m_flow_turbulent=deltaM * m_flow_nominal,
-                                          linearized=linearizeFlowResistance);
-            else
-              dp = Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(
+                                          k=k,
+                                          m_flow_turbulent=deltaM * m_flow_nominal);
+              else
+                dp = Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow(
                                           m_flow=m_flow,
-                                          k=m_flow_nominal/sqrt(dp_nominal),
-                                          m_flow_turbulent=deltaM * m_flow_nominal,
-                                          linearized=linearizeFlowResistance);
-            end if;
-          end if; // homotopyInitialization
+                                          k=k,
+                                          m_flow_turbulent=deltaM * m_flow_nominal);
+              end if; // from_dp
+            end if; // homotopyInitialization
+          end if; // linearized
         else // do not compute flow resistance
           dp = 0;
         end if; // computeFlowResistance
-
         annotation (
           preferedView="info",
           Diagram(coordinateSystem(
@@ -13623,8 +15141,9 @@ Modelica.Fluid.Interfaces.PartialTwoPortTransport</a> but it does
 use a different implementation for handling reverse flow because
 in this component, mass flow rate can be added or removed from
 the medium.
+</p>
 <p>
-Depending on the parameter settings, this component computes
+If <code>dp_nominal &gt; Modelica.Constants.eps</code>, this component computes
 pressure drop due to flow friction.
 The pressure drop is defined by a quadratic function that goes through
 the point <code>(m_flow_nominal, dp_nominal)</code>. At <code>|m_flow| &lt; deltaM * m_flow_nominal</code>,
@@ -13632,19 +15151,51 @@ the pressure drop vs. flow relation is linearized.
 If the parameter <code>linearizeFlowResistance</code> is set to true,
 then the whole pressure drop vs. flow resistance curve is linearized.
 </p>
+<h4>Implementation</h4>
 <p>
-When using this partial component, an equation for 
-the energy and mass balances need to be added, such as
-<pre>
-  mWat_flow = u * m_flow_nominal;
-  Q_flow = Medium.enthalpyOfLiquid(TWat) * mWat_flow;
-  for i in 1:Medium.nXi loop
-     mXi_flow[i] = if ( i == Medium.Water) then  mWat_flow else 0;
-  end for;
-</pre>
+This model uses inputs and constants that need to be set by models
+that extend or instantiate this model.
+The following inputs need to be assigned:
+<ul>
+<li>
+<code>Q_flow</code>, which is the heat flow rate added to the medium.
+</li>
+<li>
+<code>mXi_flow</code>, which is the species mass flow rate added to the medium.
+</li>
+</ul>
+</p>
+<p>
+Set the constant <code>sensibleOnly=true</code> if the model that extends
+or instantiates this model sets <code>mXi_flow = zeros(Medium.nXi)</code>.
 </p>
 </html>",       revisions="<html>
 <ul>
+<li>
+December 14, 2011 by Michael Wetter:<br>
+Changed assignment of <code>hOut</code>, <code>XiOut</code> and
+<code>COut</code> to no longer declare that it is continuous. 
+The declaration of continuity, i.e, the 
+<code>smooth(0, if (port_a.m_flow >= 0) then ...</code> declaration,
+was required for Dymola 2012 to simulate, but it is no longer needed 
+for Dymola 2012 FD01.
+</li>
+<li>
+August 19, 2011, by Michael Wetter:<br>
+Changed assignment of <code>hOut</code>, <code>XiOut</code> and
+<code>COut</code> to declare that it is not differentiable.
+</li>
+<li>
+August 4, 2011, by Michael Wetter:<br>
+Moved linearized pressure drop equation from the function body to the equation
+section. With the previous implementation, 
+the symbolic processor may not rearrange the equations, which can lead 
+to coupled equations instead of an explicit solution.
+</li>
+<li>
+March 29, 2011, by Michael Wetter:<br>
+Changed energy and mass balance to avoid a division by zero if <code>m_flow=0</code>.
+</li>
 <li>
 March 27, 2011, by Michael Wetter:<br>
 Added <code>homotopy</code> operator.
@@ -13683,9 +15234,9 @@ First implementation.
               preserveAspectRatio=false,
               extent={{-100,-100},{100,100}},
               grid={1,1}), graphics));
-      end PartialStaticTwoPortHeatMassTransfer;
+      end StaticTwoPortHeatMassExchanger;
 
-      partial model PartialStaticTwoPortInterface
+      partial model PartialTwoPortInterface
       "Partial model transporting fluid between two ports without storing mass or energy"
         import Modelica.Constants;
         extends Modelica.Fluid.Interfaces.PartialTwoPort(
@@ -13715,9 +15266,9 @@ First implementation.
             m_flow/Medium.density(sta_a) if show_V_flow
         "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
 
-        Medium.MassFlowRate m_flow(start=0)
+        Medium.MassFlowRate m_flow(start=0) = port_a.m_flow
         "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
-        Modelica.SIunits.Pressure dp(start=0, displayUnit="Pa")
+        Modelica.SIunits.Pressure dp(start=0, displayUnit="Pa") = port_a.p - port_b.p
         "Pressure difference between port_a and port_b";
 
         Medium.ThermodynamicState sta_a=if homotopyInitialization then
@@ -13730,7 +15281,8 @@ First implementation.
             Medium.setState_phX(port_a.p,
                                 actualStream(port_a.h_outflow),
                                 actualStream(port_a.Xi_outflow)) if
-               show_T or show_V_flow "Medium properties in port_a";
+               show_T "Medium properties in port_a";
+
         Medium.ThermodynamicState sta_b=if homotopyInitialization then
             Medium.setState_phX(port_b.p,
                                 homotopy(actual=actualStream(port_b.h_outflow),
@@ -13742,13 +15294,6 @@ First implementation.
                                 actualStream(port_b.h_outflow),
                                 actualStream(port_b.Xi_outflow)) if
                 show_T "Medium properties in port_b";
-
-      equation
-        // Design direction of mass flow rate
-        m_flow = port_a.m_flow;
-
-        // Pressure difference between ports
-        dp = port_a.p - port_b.p;
 
         annotation (
           preferedView="info",
@@ -13771,8 +15316,8 @@ Thus, it can be used as a base class for a heat <i>and</i> mass transfer compone
 <p>
 The model is used by other models in this package that add heat transfer,
 mass transfer and pressure drop equations. See for example
-<a href=\"modelica://Buildings.Fluid.Interfaces.PartialStaticTwoPortHeatMassTransfer\">
-Buildings.Fluid.Interfaces.PartialStaticTwoPortHeatMassTransfer</a>.
+<a href=\"modelica://Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger\">
+Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>.
 </p>
 </html>",       revisions="<html>
 <ul>
@@ -13797,110 +15342,37 @@ First implementation.
 </li>
 </ul>
 </html>"));
-      end PartialStaticTwoPortInterface;
+      end PartialTwoPortInterface;
 
-      record TwoPortFlowResistanceParameters
-      "Parameters for flow resistance for models with two ports"
+      model LumpedVolume "Lumped volume with mass and energy balance"
 
-        parameter Boolean computeFlowResistance = true
-        "=true, compute flow resistance. Set to false to assume no friction"
-          annotation (Evaluate=true, Dialog(tab="Flow resistance"));
+      //  outer Modelica.Fluid.System system "System properties";
+        extends Buildings.Fluid.Interfaces.LumpedVolumeDeclarations;
+        // Port definitions
+        parameter Integer nPorts=0 "Number of ports"
+          annotation(Evaluate=true, Dialog(connectorSizing=true, tab="General",group="Ports"));
+        Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b ports[nPorts](
+            redeclare each package Medium = Medium) "Fluid inlets and outlets"
+          annotation (Placement(transformation(extent={{-40,-10},{40,10}},
+            origin={0,-100})));
 
-        parameter Boolean from_dp = false
-        "= true, use m_flow = f(dp) else dp = f(m_flow)"
-          annotation (Evaluate=true, Dialog(enable = computeFlowResistance,
-                      tab="Flow resistance"));
-        parameter Modelica.SIunits.Pressure dp_nominal(min=0, displayUnit="Pa")
-        "Pressure"                                  annotation(Dialog(group = "Nominal condition"));
-        parameter Boolean linearizeFlowResistance = false
-        "= true, use linear relation between m_flow and dp for any flow rate"
-          annotation(Dialog(enable = computeFlowResistance,
-                     tab="Flow resistance"));
-        parameter Real deltaM = 0.1
-        "Fraction of nominal flow rate where flow transitions to laminar"
-          annotation(Dialog(enable = computeFlowResistance, tab="Flow resistance"));
-
-      annotation (preferedView="info",
-      Documentation(info="<html>
-This class contains parameters that are used to
-compute the pressure drop in models that have one fluid stream.
-Note that the nominal mass flow rate is not declared here because
-the model 
-<a href=\"modelica://Buildings.Fluid.Interfaces.PartialStaticTwoPortInterface\">
-PartialStaticTwoPortInterface</a>
-already declares it.
-</html>",
-      revisions="<html>
-<ul>
-<li>
-April 13, 2009, by Michael Wetter:<br>
-First implementation.
-</li>
-</ul>
-</html>"));
-      end TwoPortFlowResistanceParameters;
-
-      partial model PartialLumpedVolume
-      "Lumped volume with mass and energy balance"
-        import Modelica.Fluid.Types;
-        import Modelica.Fluid.Types.Dynamics;
-
-        outer Modelica.Fluid.System system "System properties";
-        replaceable package Medium =
-          Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-            annotation (choicesAllMatching = true);
-
-        // Inputs provided to the volume model
-        input Modelica.SIunits.Volume fluidVolume "Volume";
-
-        // Assumptions
-        parameter Types.Dynamics energyDynamics=system.energyDynamics
-        "Formulation of energy balance"
-          annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
-        parameter Types.Dynamics massDynamics=system.massDynamics
-        "Formulation of mass balance"
-          annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
-        parameter Types.Dynamics substanceDynamics=massDynamics
-        "Formulation of substance balance"
-          annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
-        parameter Types.Dynamics traceDynamics=massDynamics
-        "Formulation of trace substance balance"
-          annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
-
-        // Initialization
-        parameter Medium.AbsolutePressure p_start = Medium.p_default
-        "Start value of pressure"
-          annotation(Dialog(tab = "Initialization"));
-        parameter Boolean use_T_start = true
-        "= true, use T_start, otherwise h_start"
-          annotation(Dialog(tab = "Initialization"), Evaluate=true);
-        parameter Medium.Temperature T_start=
-          if use_T_start then system.T_start else Medium.temperature_phX(p_start,h_start,X_start)
-        "Start value of temperature"
-          annotation(Dialog(tab = "Initialization", enable = use_T_start));
-        parameter Medium.SpecificEnthalpy h_start=
-          if use_T_start then Medium.specificEnthalpy_pTX(p_start, T_start, X_start) else Medium.h_default
-        "Start value of specific enthalpy"
-          annotation(Dialog(tab = "Initialization", enable = not use_T_start));
-        parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
-        "Start value of mass fractions m_i/m"
-          annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
-        parameter Medium.ExtraProperty C_start[Medium.nC](
-             quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
-        "Start value of trace substances"
-          annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
-        parameter Medium.ExtraProperty C_nominal[Medium.nC](
-             quantity=Medium.extraPropertiesNames) = fill(1E-2, Medium.nC)
-        "Nominal value of trace substances. (Set to typical order of magnitude.)"
-         annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
         // Set nominal attributes where literal values can be used.
         Medium.BaseProperties medium(
-          preferredMediumStates=true,
-          p(start=p_start, nominal=Medium.p_default),
-          h(start=h_start),
-          T(start=T_start, nominal=Medium.T_default),
-          Xi(start=X_start[1:Medium.nXi], nominal=Medium.X_default[1:Medium.nXi]))
-        "Medium properties";
+          preferredMediumStates= not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState),
+          p(start=p_start,
+            nominal=Medium.p_default,
+            stateSelect=if not (massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)
+                           then StateSelect.prefer else StateSelect.default),
+          h(start=Medium.specificEnthalpy_pTX(p_start, T_start, X_start)),
+          T(start=T_start,
+            nominal=Medium.T_default,
+            stateSelect=if (not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState))
+                           then StateSelect.prefer else StateSelect.default),
+          Xi(start=X_start[1:Medium.nXi],
+             nominal=Medium.X_default[1:Medium.nXi],
+             stateSelect=if (not (substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState))
+                           then StateSelect.prefer else StateSelect.default),
+          d(start=rho_nominal)) "Medium properties";
 
         Modelica.SIunits.Energy U "Internal energy of fluid";
         Modelica.SIunits.Mass m "Mass of fluid";
@@ -13913,7 +15385,6 @@ First implementation.
         Medium.ExtraProperty C[Medium.nC](nominal=C_nominal)
         "Trace substance mixture content";
 
-        // variables that need to be defined by an extending class
         Modelica.SIunits.MassFlowRate mb_flow "Mass flows across boundaries";
         Modelica.SIunits.MassFlowRate[Medium.nXi] mbXi_flow
         "Substance mass flows across boundaries";
@@ -13921,115 +15392,213 @@ First implementation.
         "Trace substance mass flows across boundaries";
         Modelica.SIunits.EnthalpyFlowRate Hb_flow
         "Enthalpy flow across boundaries or energy source/sink";
-        Modelica.SIunits.HeatFlowRate Qb_flow
-        "Heat flow across boundaries or energy source/sink";
+
+        // Inputs that need to be defined by an extending class
+        input Modelica.SIunits.Volume fluidVolume "Volume";
+        input Modelica.SIunits.HeatFlowRate Q_flow
+        "Net heat input into component other than through the fluid ports";
+        input Modelica.SIunits.MassFlowRate[Medium.nXi] mXi_flow
+        "Net substance mass flow rate into the component other than through the fluid ports";
+
+        // Outputs that are needed in models that extend this model
+        Modelica.Blocks.Interfaces.RealOutput hOut(unit="J/kg")
+        "Leaving temperature of the component";
+        Modelica.Blocks.Interfaces.RealOutput XiOut[Medium.nXi](unit="1")
+        "Leaving species concentration of the component";
+        Modelica.Blocks.Interfaces.RealOutput COut[Medium.nC](unit="1")
+        "Leaving trace substances of the component";
     protected
         parameter Boolean initialize_p = not Medium.singleState
         "= true to set up initial equations for pressure";
-      equation
-      /* statement from original model  
-   assert(not (energyDynamics<>Dynamics.SteadyState and massDynamics==Dynamics.SteadyState) or Medium.singleState,
-    "Bad combination of dynamics options and Medium not conserving mass if fluidVolume is fixed.");
-*/
 
+        Medium.EnthalpyFlowRate ports_H_flow[nPorts];
+        Medium.MassFlowRate ports_mXi_flow[nPorts,Medium.nXi];
+        Medium.ExtraPropertyFlowRate ports_mC_flow[nPorts,Medium.nC];
+
+        parameter Modelica.SIunits.Density rho_nominal=Medium.density(
+         Medium.setState_pTX(
+           T=T_start,
+           p=p_start,
+           X=X_start[1:Medium.nXi])) "Density, used to compute fluid mass"
+        annotation (Evaluate=true);
+
+      equation
         // Total quantities
         m = fluidVolume*medium.d;
         mXi = m*medium.Xi;
         U = m*medium.u;
         mC = m*C;
 
+        hOut = medium.h;
+        XiOut = medium.Xi;
+        COut = C;
+
+        for i in 1:nPorts loop
+          ports_H_flow[i]     = ports[i].m_flow * actualStream(ports[i].h_outflow)
+          "Enthalpy flow";
+          ports_mXi_flow[i,:] = ports[i].m_flow * actualStream(ports[i].Xi_outflow)
+          "Component mass flow";
+          ports_mC_flow[i,:]  = ports[i].m_flow * actualStream(ports[i].C_outflow)
+          "Trace substance mass flow";
+        end for;
+
+        for i in 1:Medium.nXi loop
+          mbXi_flow[i] = sum(ports_mXi_flow[:,i]);
+        end for;
+
+        for i in 1:Medium.nC loop
+          mbC_flow[i]  = sum(ports_mC_flow[:,i]);
+        end for;
+
+        mb_flow = sum(ports.m_flow);
+        Hb_flow = sum(ports_H_flow);
+
         // Energy and mass balances
-        if energyDynamics == Dynamics.SteadyState then
-          0 = Hb_flow + Qb_flow;
+        if energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
+          0 = Hb_flow + Q_flow;
         else
-          der(U) = Hb_flow + Qb_flow;
+          der(U) = Hb_flow + Q_flow;
         end if;
 
-        if massDynamics == Dynamics.SteadyState then
-          0 = mb_flow;
+        if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
+          0 = mb_flow + sum(mXi_flow);
         else
-          der(m) = mb_flow;
+          der(m) = mb_flow + sum(mXi_flow);
         end if;
 
-        if substanceDynamics == Dynamics.SteadyState then
-          zeros(Medium.nXi) = mbXi_flow;
+        if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
+          zeros(Medium.nXi) = mbXi_flow + mXi_flow;
         else
-          der(mXi) = mbXi_flow;
+          der(mXi) = mbXi_flow + mXi_flow;
         end if;
 
-        if traceDynamics == Dynamics.SteadyState then
+        if traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
           zeros(Medium.nC)  = mbC_flow;
         else
           der(mC)  = mbC_flow;
         end if;
 
+        // Properties of outgoing flows
+        for i in 1:nPorts loop
+            ports[i].p          = medium.p;
+            ports[i].h_outflow  = medium.h;
+            ports[i].Xi_outflow = medium.Xi;
+            ports[i].C_outflow  = C;
+        end for;
       initial equation
+        // Make sure that if energyDynamics is SteadyState, then
+        // massDynamics is also SteadyState.
+        // Otherwise, the system of ordinary differential equations may be inconsistent.
+        if energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
+          assert(massDynamics == energyDynamics, "
+         If 'massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState', then it is 
+         required that 'energyDynamics==Modelica.Fluid.Types.Dynamics.SteadyState'.
+         Otherwise, the system of equations may not be consistent.
+         You need to select other parameter values.");
+        end if;
+
         // initialization of balances
-        if energyDynamics == Dynamics.FixedInitial then
-          if use_T_start then
+        if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      //    if use_T_start then
             medium.T = T_start;
-          else
-            medium.h = h_start;
-          end if;
-        elseif energyDynamics == Dynamics.SteadyStateInitial then
-          if use_T_start then
-            der(medium.T) = 0;
-          else
-            der(medium.h) = 0;
+      //    else
+      //      medium.h = h_start;
+      //    end if;
+        else
+          if energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+      //      if use_T_start then
+              der(medium.T) = 0;
+      //      else
+      //        der(medium.h) = 0;
+      //      end if;
           end if;
         end if;
 
-        if massDynamics == Dynamics.FixedInitial then
+        if massDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
           if initialize_p then
             medium.p = p_start;
           end if;
-        elseif massDynamics == Dynamics.SteadyStateInitial then
-          if initialize_p then
-            der(medium.p) = 0;
+        else
+          if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+            if initialize_p then
+              der(medium.p) = 0;
+            end if;
           end if;
         end if;
 
-        if substanceDynamics == Dynamics.FixedInitial then
+        if substanceDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
           medium.Xi = X_start[1:Medium.nXi];
-        elseif substanceDynamics == Dynamics.SteadyStateInitial then
-          der(medium.Xi) = zeros(Medium.nXi);
+        else
+          if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+            der(medium.Xi) = zeros(Medium.nXi);
+          end if;
         end if;
 
-        if traceDynamics == Dynamics.FixedInitial then
+        if traceDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
           C = C_start[1:Medium.nC];
-        elseif traceDynamics == Dynamics.SteadyStateInitial then
-          der(C) = zeros(Medium.nC);
+        else
+          if traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+            der(C) = zeros(Medium.nC);
+          end if;
         end if;
 
         annotation (
           Documentation(info="<html>
-<p>Interface and base class for an ideally mixed fluid volume with the ability to store mass and energy. 
-An extending class must specify an equation for
-<code>Qb_flow</code>, e.g. convective or latent heat flow rate across the boundary.
-</p>
-The component volume <code>fluidVolume</code> is an input that needs to be set in the extending class to complete the model. </pre>
-<p>Further source terms must be defined by an extending class for fluid flow across the segment boundary: </p>
-<p><ul>
-<li><code>Hb_flow</code>, enthalpy flow,</li>
-<li><code>mb_flow</code>, mass flow,</li>
-<li><code>mbXi_flow</code>, substance mass flow, and</li>
-<li><code>mbC_flow</code>, trace substance mass flow.</li>
-</ul></p>
 <p>
-<b>Note:</b> This model is similar to 
-<a href=\"modelica://Modelica.Fluid.Interfaces.PartialLumpedVolume\">
-Modelica.Fluid.Interfaces.PartialLumpedVolume</a>, except for 
+Basic model for an ideally mixed fluid volume with the ability to store mass and energy.
+</p>
+<h4>Implementation</h4>
+<p>
+When extending or instantiating this model, the following inputs need to be assigned:
 <ul>
-<li>the assert statement, which 
-has been removed in this model
-<li>the <code>final</code> keyword for
-the declaration of the the substance and trace substance balance.
+<li>
+<code>fluidVolume</code>, which is the actual volume occupied by the fluid.
+For most components, this can be set to a parameter. However, for components such as 
+expansion vessels, the fluid volume can change in time.
+</li>
+<li>
+<code>Q_flow</code>, which is the sensible plus latent heat flow rate added to the medium.
+</li>
+<li>
+<code>mXi_flow</code>, which is the species mass flow rate added to the medium.
+</li>
 </ul>
-These modifications have been made to allow modeling the air humidity using
-a differential equation, while modeling the total mass balance as a steady-state
-equation.
+</p>
+<p>
+The model can be used as a dynamic model or as a steady-state model.
+However, for a steady-state model with exactly two fluid ports connected, 
+the model
+<a href=\"modelica://Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger\">
+Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>
+provides a more efficient implementation.
+</p>
+<p>
+For models that instantiates this model, see
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolume\">
+Buildings.Fluid.MixingVolumes.MixingVolume</a> and
+<a href=\"modelica://Buildings.Fluid.Storage.ExpansionVessel\">
+Buildings.Fluid.Storage.ExpansionVessel</a>.
+</p>
 </html>",       revisions="<html>
 <ul>
+<li>
+July 31, 2011 by Michael Wetter:<br>
+Added test to stop model translation if the setting for
+<code>energyBalance</code> and <code>massBalance</code>
+can lead to inconsistent equations.
+</li>
+<li>
+July 26, 2011 by Michael Wetter:<br>
+Removed the option to use <code>h_start</code>, as this
+is not needed for building simulation. 
+Also removed the reference to <code>Modelica.Fluid.System</code>.
+Moved parameters and medium to 
+<a href=\"Buildings.Fluid.Interfaces.LumpedVolumeDeclarations\">
+Buildings.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
+<li>
+July 14, 2011 by Michael Wetter:<br>
+Added start value for medium density.
+</li>
 <li>
 March 29, 2011 by Michael Wetter:<br>
 Changed default value for <code>substanceDynamics</code> and
@@ -14068,7 +15637,139 @@ Implemented first version in <code>Buildings</code> library, based on model from
 </html>"),Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
                   100,100}}),
                   graphics));
-      end PartialLumpedVolume;
+      end LumpedVolume;
+
+      record TwoPortFlowResistanceParameters
+      "Parameters for flow resistance for models with two ports"
+
+        parameter Boolean computeFlowResistance = true
+        "=true, compute flow resistance. Set to false to assume no friction"
+          annotation (Evaluate=true, Dialog(tab="Flow resistance"));
+
+        parameter Boolean from_dp = false
+        "= true, use m_flow = f(dp) else dp = f(m_flow)"
+          annotation (Evaluate=true, Dialog(enable = computeFlowResistance,
+                      tab="Flow resistance"));
+        parameter Modelica.SIunits.Pressure dp_nominal(min=0, displayUnit="Pa")
+        "Pressure"                                  annotation(Dialog(group = "Nominal condition"));
+        parameter Boolean linearizeFlowResistance = false
+        "= true, use linear relation between m_flow and dp for any flow rate"
+          annotation(Dialog(enable = computeFlowResistance,
+                     tab="Flow resistance"));
+        parameter Real deltaM = 0.1
+        "Fraction of nominal flow rate where flow transitions to laminar"
+          annotation(Dialog(enable = computeFlowResistance, tab="Flow resistance"));
+
+      annotation (preferedView="info",
+      Documentation(info="<html>
+This class contains parameters that are used to
+compute the pressure drop in models that have one fluid stream.
+Note that the nominal mass flow rate is not declared here because
+the model 
+<a href=\"modelica://Buildings.Fluid.Interfaces.PartialTwoPortInterface\">
+PartialTwoPortInterface</a>
+already declares it.
+</html>",
+      revisions="<html>
+<ul>
+<li>
+April 13, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+      end TwoPortFlowResistanceParameters;
+
+      record LumpedVolumeDeclarations "Declarations for lumped volumes"
+        replaceable package Medium =
+          Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+            annotation (choicesAllMatching = true);
+
+        // Assumptions
+        parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+        "Formulation of energy balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+        parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
+        "Formulation of mass balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+        final parameter Modelica.Fluid.Types.Dynamics substanceDynamics=energyDynamics
+        "Formulation of substance balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+        final parameter Modelica.Fluid.Types.Dynamics traceDynamics=energyDynamics
+        "Formulation of trace substance balance"
+          annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+        // Initialization
+        parameter Medium.AbsolutePressure p_start = Medium.p_default
+        "Start value of pressure"
+          annotation(Dialog(tab = "Initialization"));
+      //  parameter Boolean use_T_start = true "= true, use T_start, otherwise h_start"
+       //   annotation(Dialog(tab = "Initialization"), Evaluate=true);
+        parameter Medium.Temperature T_start=Medium.T_default
+        "Start value of temperature"
+          annotation(Dialog(tab = "Initialization"));
+      //  parameter Medium.SpecificEnthalpy h_start=
+      //    if use_T_start then Medium.specificEnthalpy_pTX(p_start, T_start, X_start) else Medium.h_default
+      //    "Start value of specific enthalpy"
+      //    annotation(Dialog(tab = "Initialization", enable = not use_T_start));
+        parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
+        "Start value of mass fractions m_i/m"
+          annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
+        parameter Medium.ExtraProperty C_start[Medium.nC](
+             quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
+        "Start value of trace substances"
+          annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+        parameter Medium.ExtraProperty C_nominal[Medium.nC](
+             quantity=Medium.extraPropertiesNames) = fill(1E-2, Medium.nC)
+        "Nominal value of trace substances. (Set to typical order of magnitude.)"
+         annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+
+      annotation (preferedView="info",
+      Documentation(info="<html>
+<p>
+This class contains parameters and medium properties
+that are used in the lumped  volume model, and in models that extend the 
+lumped volume model.
+</p>
+<p>
+These parameters are used by
+<a href=\"modelica://Buildings.Fluid.Interfaces.LumpedVolume\">
+Buildings.Fluid.Interfaces.LumpedVolume</a>,
+<a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolume\">
+Buildings.Fluid.MixingVolumes.MixingVolume</a>,
+<a href=\"modelica://Buildings.Rooms.MixedAir\">
+Buildings.Rooms.MixedAir</a>, and by
+<a href=\"modelica://Buildings.Rooms.BaseClasses.MixedAir\">
+Buildings.Rooms.BaseClasses.MixedAir</a>.
+</p>
+</html>",
+      revisions="<html>
+<ul>
+<li>
+August 2, 2011, by Michael Wetter:<br>
+Set <code>substanceDynamics</code> and <code>traceDynamics<code> to final
+and equal to <code>energyDynamics</code>, 
+as there is no need to make them different from <code>energyDynamics</code>.
+</li>
+<li>
+August 1, 2011, by Michael Wetter:<br>
+Changed default value for <code>energyDynamics</code> to
+<code>Modelica.Fluid.Types.Dynamics.DynamicFreeInitial</code> because
+<code>Modelica.Fluid.Types.Dynamics.SteadyStateInitial</code> leads
+to high order DAE that Dymola cannot reduce.
+</li>
+<li>
+July 31, 2011, by Michael Wetter:<br>
+Changed default value for <code>energyDynamics</code> to
+<code>Modelica.Fluid.Types.Dynamics.SteadyStateInitial</code>.
+</li>
+<li>
+April 13, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+      end LumpedVolumeDeclarations;
     annotation (preferedView="info", Documentation(info="<html>
 This package contains basic classes that are used to build
 component models that change the state of the
@@ -14220,10 +15921,10 @@ This package contains models for heat transfer elements.
       package MoistAirUnsaturated
       "Package with moist air model that decouples pressure and temperature and that has no liquid water"
         extends Modelica.Media.Interfaces.PartialCondensingGases(
+           final singleState = false,
            mediumName="MoistAirPTDecoupledUnsaturated",
            substanceNames={"water", "air"},
            final reducedX=true,
-           final singleState=false,
            reference_X={0.01,0.99},
            fluidConstants = {Modelica.Media.IdealGases.Common.FluidData.H2O,
                              Modelica.Media.IdealGases.Common.FluidData.N2});
@@ -14242,6 +15943,11 @@ This package contains models for heat transfer elements.
         constant Buildings.Media.PerfectGases.Common.DataRecord steam=
               Buildings.Media.PerfectGases.Common.SingleGasData.H2O;
         import SI = Modelica.SIunits;
+
+        constant AbsolutePressure pStp = 101325
+        "Pressure for which dStp is defined";
+
+        constant Density dStp = 1.2 "Fluid density at pressure pStp";
 
         redeclare replaceable model extends BaseProperties(
           T(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
@@ -14268,9 +15974,7 @@ This package contains models for heat transfer elements.
           MassFraction x_sat
           "Steam water mass content of saturation boundary in kg_water/kg_dryair";
           AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
-         constant AbsolutePressure pStp = 101325
-          "Pressure for which dStp is defined";
-         constant Density dStp = 1.2 "Fluid density at pressure pStp";
+
         equation
           assert(T >= 200.0 and T <= 423.15, "
 Temperature T is not in the allowed range
@@ -14280,11 +15984,11 @@ required from medium model \""           + mediumName + "\".");
         /*
     assert(Xi[Water] <= X_sat, "The medium model '" + mediumName + "' must not be saturated.\n"
      + "To model a saturated medium, use 'Buildings.Media.GasesPTDecoupled.MoistAir' instead of this medium.\n"
-     + " T         = " + realString(T) + "\n"
-     + " X_sat     = " + realString(X_sat) + "\n"
-     + " Xi[Water] = " + realString(Xi[Water]) + "\n"
-     + " phi       = " + realString(phi) + "\n"
-     + " p         = " + realString(p));
+     + " T         = " + String(T) + "\n"
+     + " X_sat     = " + String(X_sat) + "\n"
+     + " Xi[Water] = " + String(Xi[Water]) + "\n"
+     + " phi       = " + String(phi) + "\n"
+     + " p         = " + String(p));
   */
 
           MM = 1/(Xi[Water]/MMX[Water]+(1.0-Xi[Water])/MMX[Air]);
@@ -14300,10 +16004,17 @@ required from medium model \""           + mediumName + "\".");
 
           h = specificEnthalpy_pTX(p,T,Xi);
           R = dryair.R*(1 - Xi[Water]) + steam.R*Xi[Water];
-          //
-          u = h - R*T;
+
+          // Equation for ideal gas, from h=u+p*v and R*T=p*v, from which follows that  u = h-R*T.
+          // u = h-R*T;
+
+          // However, in this medium, the gas law is d/dStp=p/pStp, from which follows using h=u+pv that
+          // u= h-p*v = h-p/d = h-pStp/dStp
+          u = h-pStp/dStp;
+
           //    d = p/(R*T);
           d/dStp = p/pStp;
+
           /* Note, u and d are computed under the assumption that the volume of the liquid
          water is neglible with respect to the volume of air and of steam
       */
@@ -14315,7 +16026,6 @@ required from medium model \""           + mediumName + "\".");
           x_sat    = k_mair*p_steam_sat/max(100*Modelica.Constants.eps,p - p_steam_sat);
           x_water = Xi[Water]/max(X_air,100*Modelica.Constants.eps);
           phi = p/p_steam_sat*Xi[Water]/(Xi[Water] + k_mair*X_air);
-          annotation(structurallyIncomplete);
         end BaseProperties;
 
         redeclare function setState_pTX
@@ -14410,7 +16120,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
          input ThermodynamicState state;
          output Density d "Density";
        algorithm
-        d :=state.p*1.2/101325;
+        d :=state.p*dStp/pStp;
        end density;
 
        redeclare function specificEntropy
@@ -14546,7 +16256,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
         "Specific internal energy"
         extends Modelica.Icons.Function;
       algorithm
-        u := Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T;
+        u := Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.h_pTX(state.p,state.T,state.X) - pStp/dStp;
       end specificInternalEnergy;
 
       redeclare function extends specificGibbsEnergy "Specific Gibbs energy"
@@ -14583,11 +16293,11 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       /*
   assert(X[Water]-0.001 < x_sat/(1 + x_sat), "The medium model '" + mediumName + "' must not be saturated.\n"
      + "To model a saturated medium, use 'Buildings.Media.GasesPTDecoupled.MoistAir' instead of this medium.\n"
-     + " T         = " + realString(T) + "\n"
-     + " x_sat     = " + realString(x_sat) + "\n"
-     + " X[Water] = "  + realString(X[Water]) + "\n"
-     + " phi       = " + realString(X[Water]/((x_sat)/(1+x_sat))) + "\n"
-     + " p         = " + realString(p));
+     + " T         = " + String(T) + "\n"
+     + " x_sat     = " + String(x_sat) + "\n"
+     + " X[Water] = "  + String(X[Water]) + "\n"
+     + " phi       = " + String(X[Water]/((x_sat)/(1+x_sat))) + "\n"
+     + " p         = " + String(p));
      */
         h := (T - 273.15)*dryair.cp * (1 - X[Water]) + ((T-273.15) * steam.cp + 2501014.5) * X[Water];
         annotation(smoothOrder=5);
@@ -14613,11 +16323,11 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       /*  
   assert(X[Water]-0.001 < x_sat/(1 + x_sat), "The medium model '" + mediumName + "' must not be saturated.\n"
      + "To model a saturated medium, use 'Buildings.Media.GasesPTDecoupled.MoistAir' instead of this medium.\n"
-     + " T         = " + realString(T) + "\n"
-     + " x_sat     = " + realString(x_sat) + "\n"
-     + " X[Water] = " + realString(X[Water]) + "\n"
-     + " phi       = " + realString(X[Water]/((x_sat)/(1+x_sat))) + "\n"
-     + " p         = " + realString(p));
+     + " T         = " + String(T) + "\n"
+     + " x_sat     = " + String(x_sat) + "\n"
+     + " X[Water] = " + String(X[Water]) + "\n"
+     + " phi       = " + String(X[Water]/((x_sat)/(1+x_sat))) + "\n"
+     + " p         = " + String(p));
 */
         annotation(smoothOrder=5);
       end T_phX;
@@ -14668,6 +16378,11 @@ because it allows to invert the function <code>T_phX</code> analytically.
 </html>",       revisions="<html>
 <ul>
 <li>
+August 3, 2011, by Michael Wetter:<br>
+Fixed bug in <code>u=h-R*T</code>, which is only valid for ideal gases. 
+For this medium, the function is <code>u=h-pStd/dStp</code>.
+</li>
+<li>
 January 27, 2010, by Michael Wetter:<br>
 Fixed bug in <code>else</code> branch of function <code>setState_phX</code>
 that lead to a run-time error when the constructor of this function was called.
@@ -14692,13 +16407,33 @@ First implementation.
 <p>
 Medium models in this package use the gas law
 <i>d/d<sub>stp</sub> = p/p<sub>stp</sub></i> where 
-<i>pStd</i> and <i>d<sub>stp</sub></i> are constants for a reference
+<i>p<sub>std</sub></i> and <i>d<sub>stp</sub></i> are constants for a reference
 temperature and density instead of the ideal gas law
 <i>&rho; = p &frasl;(R T)</i>.
 </p>
 <p>
 This new formulation often leads to smaller systems of nonlinear equations 
 because pressure and temperature are decoupled, at the expense of accuracy.
+</p>
+<p>
+Note that models in this package implement the equation for the internal energy as
+<p align=\"center\" style=\"font-style:italic;\">
+  u = h - p<sub>stp</sub> &frasl; &rho;<sub>stp</sub>,
+</p>
+where 
+<i>u</i> is the internal energy per unit mass,
+<i>h</i> is the enthalpy per unit mass,
+<i>p<sub>stp</sub></i> is the static pressure and
+<i>&rho;<sub>stp</sub></i> is the mass density at standard pressure and temperature.
+The reason for this implementation is that in general,
+<p align=\"center\" style=\"font-style:italic;\">
+  h = u + p v,
+</p>
+from which follows that
+<p align=\"center\" style=\"font-style:italic;\">
+  u = h - p v = h - p &frasl; &rho; = h - p<sub>stp</sub> &frasl; &rho;<sub>std</sub>,
+</p>
+because <i>p &frasl; &rho; = p<sub>stp</sub> &frasl; &rho;<sub>stp</sub></i> in this medium model.
 </p>
 </html>",     revisions="<html>
 <ul>
@@ -14729,7 +16464,7 @@ First implementation.
         constant Integer Air=2
         "Index of air (in substanceNames, massFractions X, etc.)";
 
-        constant Real k_mair =  steam.MM/dryair.MM "ratio of molar weights";
+        constant Real k_mair =  steam.MM/dryair.MM "Ratio of molar weights";
 
         constant Buildings.Media.PerfectGases.Common.DataRecord dryair=
               Buildings.Media.PerfectGases.Common.SingleGasData.Air;
@@ -14754,8 +16489,8 @@ First implementation.
      If other variables are selected as states, static state selection
      is no longer possible and non-linear algebraic equations occur.
       */
-          MassFraction x_water "mass of total water/mass of dry air";
-          Real phi "relative humidity";
+          MassFraction x_water "Mass of total water/mass of dry air";
+          Real phi "Relative humidity";
 
       protected
           constant SI.MolarMass[2] MMX = {steam.MM,dryair.MM}
@@ -14800,7 +16535,6 @@ required from medium model \""           + mediumName + "\".");
           x_sat    = k_mair*p_steam_sat/max(100*Modelica.Constants.eps,p - p_steam_sat);
           x_water = Xi[Water]/max(X_air,100*Modelica.Constants.eps);
           phi = p/p_steam_sat*Xi[Water]/(Xi[Water] + k_mair*X_air);
-          annotation(structurallyIncomplete);
         end BaseProperties;
 
         redeclare function setState_pTX
@@ -15140,26 +16874,9 @@ Temperature is computed from pressure, specific enthalpy and composition via num
 <p>
 This is a medium model that is similar to 
 <a href=\"Modelica:Modelica.Media.Air.MoistAir\">
-Modelica.Media.Air.MoistAir</a> but 
+Modelica.Media.Air.MoistAir</a> but it is a perfect gas, i.e., 
 it has a constant specific heat capacity.
-</p><p>
-In particular, the medium is <i>thermally perfect</i>, i.e., 
-<ul>
-<li>
-it is in thermodynamic equilibrium,
-</li><li>
-it is chemically not reacting, and
-</li><li>
-internal energy and enthalpy are functions of the temperature only.
-</li>
-</ul>
-In addition, the gas is <i>calorically perfect</i>, i.e., the
-specific heat capacities at constant pressure
-and constant volume are both constant (Bower 1998).
 </p>
-<h4>References</h4>
-Bower, William B. <i>A primer in fluid mechanics: Dynamics of flows in one
-space dimension</i>. CRC Press. 1998.
 </html>",       revisions="<html>
 <ul>
 <li>
@@ -15259,7 +16976,43 @@ First implementation.
 </ul>
 </html>");
         end SingleGasData;
+      annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains records that are used to model perfect gases.
+</p>
+</html>"));
       end Common;
+    annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains models of <i>thermally perfect</i> gases.
+</p>
+<p>
+A medium is called thermally perfect if
+<ul>
+<li>
+it is in thermodynamic equilibrium,
+</li><li>
+it is chemically not reacting, and
+</li><li>
+internal energy and enthalpy are functions of temperature only.
+</li>
+</ul>
+<p>
+In addition, the gases in this package are <i>calorically perfect</i>, i.e., the
+specific heat capacities at constant pressure <i>c<sub>p</sub></i>
+and constant volume <i>c<sub>v</sub></i> are both constant (Bower 1998).
+</p>
+<p>
+For dry and moist air media that also have a constant density, see
+<a href=\"modelica://Buildings.Media.GasesConstantDensity\">
+Buildings.Media.GasesConstantDensity</a>.
+</p>
+<h4>References</h4>
+<p>
+Bower, William B. <i>A primer in fluid mechanics: Dynamics of flows in one
+space dimension</i>. CRC Press. 1998.
+</p>
+</html>"));
     end PerfectGases;
     annotation (preferedView="info", Documentation(info="<html>
 This package contains different implementations for
@@ -15473,13 +17226,13 @@ First implementation.
              assert(socketFD >= 0, "Socket file descripter for BCVTB must be positive.\n" +
                                  "   A negative value indicates that no connection\n" +
                                  "   could be established. Check file 'utilSocket.log'.\n" +
-                                 "   Received: socketFD = " + integerString(socketFD));
+                                 "   Received: socketFD = " + String(socketFD));
            flaRea   := 0;
            uRInt    := zeros(nDblWri);
            uRIntPre := zeros(nDblWri);
            for i in 1:nDblWri loop
              assert(flaDblWri[i]>=0 and flaDblWri[i]<=2,
-                "Parameter flaDblWri out of range for " + integerString(i) + "-th component.");
+                "Parameter flaDblWri out of range for " + String(i) + "-th component.");
              if (flaDblWri[i] == 0) then
                 _uStart[i] := uStart[i];               // Current value.
              elseif (flaDblWri[i] == 1) then
@@ -15500,7 +17253,7 @@ First implementation.
           when {sampleTrigger} then
             assert(flaRea == 0, "BCVTB interface attempts to exchange data after Ptolemy reached its final time.\n" +
                                 "   Aborting simulation. Check final time in Modelica and in Ptolemy.\n" +
-                                "   Received: flaRea = " + integerString(flaRea));
+                                "   Received: flaRea = " + String(flaRea));
              // Compute value that will be sent to the BCVTB interface
              for i in 1:nDblWri loop
                if (flaDblWri[i] == 0) then
@@ -15533,10 +17286,10 @@ First implementation.
             // Check for valid return flags
             assert(flaRea >= 0, "BCVTB sent a negative flag to Modelica during data transfer.\n" +
                                 "   Aborting simulation. Check file 'utilSocket.log'.\n" +
-                                "   Received: flaRea = " + integerString(flaRea));
+                                "   Received: flaRea = " + String(flaRea));
             assert(retVal >= 0, "Obtained negative return value during data transfer with BCVTB.\n" +
                                 "   Aborting simulation. Check file 'utilSocket.log'.\n" +
-                                "   Received: retVal = " + integerString(retVal));
+                                "   Received: retVal = " + String(retVal));
 
             // Store current value of integral
             uRIntPre:=uRInt;
@@ -15880,10 +17633,8 @@ First implementation.
           "Model with interfaces for media with moist air that will be linked to the BCVTB which models the response of the room"
             import Buildings;
             extends Modelica.Icons.Example;
-          // package Medium = Modelica.Media.Air.MoistAir;
             package Medium =
               Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated;
-
             parameter Modelica.Media.Interfaces.PartialMedium.MassFlowRate m_flow_nominal=
                 259.2*6/1.2/3600 "Nominal mass flow rate";
             Buildings.Fluid.FixedResistances.FixedResistanceDpM dp1(
@@ -15917,7 +17668,7 @@ First implementation.
               redeclare package Medium = Medium,
               m_flow=0,
               use_m_flow_in=false,
-            m_flow_nominal=m_flow_nominal)
+              m_flow_nominal=m_flow_nominal)
               annotation (Placement(transformation(extent={{204,-4},{224,16}})));
             Buildings.Fluid.MassExchangers.HumidifierPrescribed hum(
               m_flow_nominal=m_flow_nominal,
@@ -15992,11 +17743,9 @@ First implementation.
               annotation (Placement(transformation(extent={{310,62},{330,82}})));
             Buildings.Fluid.Movers.FlowMachine_y fan(redeclare package Medium
               =                                                                 Medium,
-                redeclare function flowCharacteristic =
-                  Buildings.Fluid.Movers.BaseClasses.Characteristics.linearFlow
-                (   V_flow_nominal={0,m_flow_nominal/1.2}, dp_nominal={2*400,400}),
-              m_flow_nominal=m_flow_nominal,
-            dynamicBalance=false)
+                  pressure(V_flow={0,m_flow_nominal/1.2},
+                    dp={2*400,400}),
+                  dynamicBalance=false)
               annotation (Placement(transformation(extent={{140,62},{160,82}})));
             Modelica.Blocks.Sources.Constant yFan(k=1) "Fan control signal"
               annotation (Placement(transformation(extent={{120,100},{140,120}})));
@@ -16094,12 +17843,13 @@ First implementation.
                 color={0,127,255},
                 smooth=Smooth.None));
             connect(perToRel.y, bouBCVTB.phi) annotation (Line(
-                points={{43,0},{202,0}},
+                points={{43,6.10623e-16},{82.75,6.10623e-16},{82.75,1.16573e-15},
+                  {122.5,1.16573e-15},{122.5,5.55112e-16},{202,5.55112e-16}},
                 color={0,127,0},
                 smooth=Smooth.None,
                 pattern=LinePattern.Dash));
             connect(deMultiplex2_1.y4[1], perToRel.u) annotation (Line(
-                points={{-19,21},{-8,21},{-8,0},{20,0}},
+                points={{-19,21},{-8,21},{-8,6.66134e-16},{20,6.66134e-16}},
                 color={0,127,0},
                 smooth=Smooth.None,
                 pattern=LinePattern.Dash));
@@ -16148,7 +17898,7 @@ First implementation.
                 smooth=Smooth.None,
                 pattern=LinePattern.Dash));
             connect(to_degC.Celsius, mul.u5[1]) annotation (Line(
-                points={{381,68},{392,68},{392,0},{418,0}},
+                points={{381,68},{392,68},{392,-6.66134e-16},{418,-6.66134e-16}},
                 color={0,127,0},
                 smooth=Smooth.None,
                 pattern=LinePattern.Dash));
@@ -16212,6 +17962,11 @@ This model is implemented in <code>bcvtb\\examples\\dymolaEPlusXY-singleZone</co
 where <code>XY</code> denotes the EnergyPlus version number.
 </html>",           revisions="<html>
 <ul>
+<li>
+January 13, 2012, by Michael Wetter:<br>
+Updated fan parameters, which were still for version 0.12 of the 
+Buildings library and hence caused a translation error with version 1.0 or higher.
+</li>
 <li>
 April 5, 2011, by Michael Wetter:<br>
 Changed sensor models from one-port sensors to two port sensors.
@@ -16491,6 +18246,17 @@ This package contains base classes that are used to construct the models in
 </html>"));
         end BaseClasses;
       end BCVTB;
+    annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains components models for input and output.
+Its package
+<a href=\"modelica://Buildings.Utilities.IO.BCVTB\">
+Buildings.Utilities.IO.BCVTB</a>
+can be used for co-simulation with the
+<a href=\"http://simulationresearch.lbl.gov/bcvtb\">
+Building Controls Virtual Test Bed</a>.
+</p>
+</html>"));
     end IO;
 
     package Math "Library with functions such as for smoothing"
@@ -16498,6 +18264,55 @@ This package contains base classes that are used to construct the models in
 
       package Functions "Package with mathematical functions"
         extends Modelica.Icons.BasesPackage;
+
+        function cubicHermiteLinearExtrapolation
+        "Interpolate using a cubic Hermite spline with linear extrapolation"
+          input Real x "Abscissa value";
+          input Real x1 "Lower abscissa value";
+          input Real x2 "Upper abscissa value";
+          input Real y1 "Lower ordinate value";
+          input Real y2 "Upper ordinate value";
+          input Real y1d "Lower gradient";
+          input Real y2d "Upper gradient";
+          output Real y "Interpolated ordinate value";
+        algorithm
+          if (x > x1 and x < x2) then
+            y:=Modelica.Fluid.Utilities.cubicHermite(
+              x=x,
+              x1=x1,
+              x2=x2,
+              y1=y1,
+              y2=y2,
+              y1d=y1d,
+              y2d=y2d);
+          elseif x <= x1 then
+            // linear extrapolation
+            y:=y1 + (x - x1)*y1d;
+          else
+            y:=y2 + (x - x2)*y2d;
+          end if;
+          annotation(smoothOrder=1,
+              Documentation(info="<html>
+<p>
+For <i>x<sub>1</sub> &lt; x &lt; x<sub>2</sub></i>, this function interpolates
+using cubic hermite spline. For <i>x</i> outside this interval, the function 
+linearly extrapolates.
+</p>
+<p>
+For how to use this function, see
+<a href=\"modelica://Buildings.Utilities.Math.Functions.Examples.CubicHermite\">
+Buildings.Utilities.Math.Functions.Examples.CubicHermite</a>.
+</p>
+</html>",
+        revisions="<html>
+<ul>
+<li>
+September 27, 2011 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end cubicHermiteLinearExtrapolation;
 
         function spliceFunction
             input Real pos "Argument of x > 0";
@@ -16545,6 +18360,213 @@ First implementation.
 </ul>
 </html>"));
         end spliceFunction;
+
+        function splineDerivatives
+        "Function to compute the derivatives for cubic hermite spline interpolation"
+          input Real x[size(x, 1)] "Support point, strict monotone increasing";
+          input Real y[size(x, 1)] "Function values at x";
+          input Boolean ensureMonotonicity=isMonotonic(y, strict=false)
+          "Set to true to ensure monotonicity of the cubic hermite";
+          output Real d[size(x, 1)] "Derivative at the support points";
+      protected
+          Integer n=size(x, 1) "Number of data points";
+          Real delta[n - 1] "Slope of secant line between data points";
+          Real alpha "Coefficient to ensure monotonicity";
+          Real beta "Coefficient to ensure monotonicity";
+          Real tau "Coefficient to ensure monotonicity";
+
+        algorithm
+          if (n>1) then
+            assert(x[1] < x[n], "x must be strictly increasing.
+  Received x[1] = "         + String(x[1]) + "
+           x["         + String(n) + "] = " + String(x[n]));
+          // Check data
+            assert(isMonotonic(x, strict=true),
+              "x-values must be strictly monontone increasing or decreasing.");
+            if ensureMonotonicity then
+              assert(isMonotonic(y, strict=false),
+                "If ensureMonotonicity=true, y-values must be monontone increasing or decreasing.");
+            end if;
+          end if;
+
+          // Compute derivatives at the support points
+          if n == 1 then
+            // only one data point
+            d[1] :=0;
+          elseif n == 2 then
+            // linear function
+            d[1] := (y[2] - y[1])/(x[2] - x[1]);
+            d[2] := d[1];
+          else
+            // Slopes of the secant lines between i and i+1
+            for i in 1:n - 1 loop
+              delta[i] := (y[i + 1] - y[i])/(x[i + 1] - x[i]);
+            end for;
+            // Initial values for tangents at the support points.
+            // End points use one-sided derivatives
+            d[1] := delta[1];
+            d[n] := delta[n - 1];
+
+            for i in 2:n - 1 loop
+              d[i] := (delta[i - 1] + delta[i])/2;
+            end for;
+
+          end if;
+          // Ensure monotonicity
+          if n > 2 and ensureMonotonicity then
+            for i in 1:n - 1 loop
+              if (abs(delta[i]) < Modelica.Constants.small) then
+                d[i] := 0;
+                d[i + 1] := 0;
+              else
+                alpha := d[i]/delta[i];
+                beta := d[i + 1]/delta[i];
+                // Constrain derivative to ensure monotonicity in this interval
+                if (alpha^2 + beta^2) > 9 then
+                  tau := 3/(alpha^2 + beta^2)^(1/2);
+                  d[i] := delta[i]*alpha*tau;
+                  d[i + 1] := delta[i]*beta*tau;
+                end if;
+              end if;
+            end for;
+          end if;
+          annotation (Documentation(info="<html>
+<p>
+This function computes the derivatives at the support points <i>x<sub>i</sub></i>
+that can be used as input for evaluating a cubic hermite spline.
+If <code>ensureMonotonicity=true</code>, then the support points <i>y<sub>i</sub></i>
+need to be monotone increasing (or increasing), and the computed derivatives
+<i>d<sub>i</sub></i> are such that the cubic hermite is monotone increasing (or decreasing).
+The algorithm to ensure monotonicity is based on the method described in Fritsch and Carlson (1980) for
+<i>&rho; = &rho;<sub>2</sub></i>.
+</p>
+<p>
+This function is typically used with
+<a href=\"modelica://Buildings.Utilities.Math.Functions.cubicHermiteLinearExtrapolation\">
+Buildings.Utilities.Math.Functions.cubicHermiteLinearExtrapolation</a>
+which is used to evaluate the cubic spline.
+Because in many applications, the shape of the spline depends on parameters,
+this function has been implemented in such a way that all derivatives can be 
+computed at once and then stored for use during the time stepping,
+in which the above function may be called.
+</p>
+<h4>References</h4>
+<p>
+F.N. Fritsch and R.E. Carlson, <a href=\"http://dx.doi.org/10.1137/0717021\">Monotone piecewise cubic interpolation</a>. 
+<i>SIAM J. Numer. Anal.</i>, 17 (1980), pp. 238?246.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+September 29, 2011 by Michael Wetter:<br>
+Added special case for one data point and two data points.
+</li>
+<li>
+September 27, 2011 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end splineDerivatives;
+
+        function inverseXRegularized
+        "Function that approximates 1/x by a twice continuously differentiable function"
+         input Real x "Abscissa value";
+         input Real delta(min=0)
+          "Abscissa value below which approximation occurs";
+         output Real y "Function value";
+      protected
+         Real delta2 "Delta^2";
+         Real x2_d2 "=x^2/delta^2";
+        algorithm
+          delta2 :=delta*delta;
+          x2_d2  := x*x/delta2;
+          y :=smooth(2, if (abs(x) > delta) then 1/x else
+            x/delta2 + x*abs(x/delta2/delta*(2 - x2_d2*(3 - x2_d2))));
+          annotation (
+            Documentation(info="<html>
+<p>
+Function that approximates <i>y=1 &frasl; x</i> 
+inside the interval <i>-&delta; &le; x &le; &delta;</i>.
+The approximation is twice continuously differentiable with a bounded derivative on the whole 
+real line.
+<p>
+See the package <code>Examples</code> for the graph.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+April 18, 2011, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"),          smoothOrder=2, Inline=true);
+        end inverseXRegularized;
+
+        function isMonotonic
+        "Returns true if the argument is a monotonic sequence"
+          input Real x[:] "Sequence to be tested";
+          input Boolean strict=false
+          "Set to true to test for strict monotonicity";
+          output Boolean monotonic
+          "True if x is monotonic increasing or decreasing";
+      protected
+          Integer n=size(x, 1) "Number of data points";
+
+        algorithm
+          if n == 1 then
+            monotonic := true;
+          else
+            monotonic := true;
+            if strict then
+              if (x[1] >= x[n]) then
+                for i in 1:n - 1 loop
+                  if (not x[i] > x[i + 1]) then
+                    monotonic := false;
+                  end if;
+                end for;
+              else
+                for i in 1:n - 1 loop
+                  if (not x[i] < x[i + 1]) then
+                    monotonic := false;
+                  end if;
+                end for;
+              end if;
+            else
+              // not strict
+              if (x[1] >= x[n]) then
+                for i in 1:n - 1 loop
+                  if (not x[i] >= x[i + 1]) then
+                    monotonic := false;
+                  end if;
+                end for;
+              else
+                for i in 1:n - 1 loop
+                  if (not x[i] <= x[i + 1]) then
+                    monotonic := false;
+                  end if;
+                end for;
+              end if;
+            end if;
+            // strict
+          end if;
+
+          annotation (Documentation(info="<html>
+<p>
+This function returns <code>true</code> if its argument is 
+monotonic increasing or decreasing, and <code>false</code> otherwise.
+If <code>strict=true</code>, then strict monotonicity is tested,
+otherwise weak monotonicity is tested.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+September 28, 2011 by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end isMonotonic;
 
         package BaseClasses
         "Package with base classes for Buildings.Utilities.Math.Functions"
@@ -16606,7 +18628,25 @@ This package contains base classes that are used to construct the models in
 </p>
 </html>"));
         end BaseClasses;
+      annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains functions for commonly used
+mathematical operations. The functions are used in 
+the blocks
+<a href=\"modelica://Buildings.Utilities.Math\">
+Buildings.Utilities.Math</a>.
+</p>
+</html>"));
       end Functions;
+    annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains blocks and functions for commonly used
+mathematical operations. 
+The classes in this package augment the classes
+<a href=\"modelica://Modelica.Blocks\">
+Modelica.Blocks</a>.
+</p>
+</html>"));
     end Math;
 
     package Psychrometrics "Library with psychrometric functions"
@@ -16782,6 +18822,11 @@ The nomenclature used in this package is described at
 Buildings.UsersGuide.Conventions</a>.
 </html>"));
     end Psychrometrics;
+  annotation (preferedView="info", Documentation(info="<html>
+<p>
+This package contains utility models such as for thermal comfort calculation, input/output, co-simulation, psychrometric calculations and various functions that are used throughout the library.
+</p>
+</html>"));
   end Utilities;
 
   package BaseClasses "Package with base classes for the Buildings library"
@@ -16816,10 +18861,19 @@ This package contains base classes that are used to construct the models in
 </p>
 </html>"));
   end BaseClasses;
-annotation (preferedView="info",
-      version="0.11.1",
-      uses(Modelica(version="3.2")),
-      Documentation(info="<html>
+annotation (
+version="1.0",
+versionBuild=3,
+versionDate="2011-11-04",
+dateModified = "$Date: 2011-12-08 16:25:22 -0800 (Thu, 08 Dec 2011) $",
+uses(Modelica(version="3.2")),
+conversion(
+ from(version="0.12",
+      script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_0.12_to_1.0.mos")),
+revisionId="$Id: package.mo 3247 2012-01-13 01:26:32Z mwetter $",
+preferredView="info",
+Documentation(info="<html>
+<p>
 The <code>Buildings</code> library is a free library
 for modeling building energy and control systems. 
 Many models are based on models from the package
@@ -16835,7 +18889,7 @@ In the lower part of the figure, there is a dynamic model of a boiler, a pump an
 The heat distribution is done using a hydronic heating system with a three way valve and a pump with variable revolutions. The upper right hand corner shows a room model that is connected to a radiator whose flow is controlled by a thermostatic valve.
 </p>
 <p align=\"center\">
-<img src=\"../Images/UsersGuide/HydronicHeating.png\" border=\"1\">
+<img src=\"modelica://Buildings/Resources/Images/UsersGuide/HydronicHeating.png\" border=\"1\">
 </p>
 <p>
 The web page for this library is
@@ -16851,5 +18905,5 @@ to solve specific problems.
 end Buildings;
 model Buildings_Utilities_IO_BCVTB_Examples_MoistAir
  extends Buildings.Utilities.IO.BCVTB.Examples.MoistAir;
-  annotation(experiment(Tolerance=1e-05, Algorithm="Lsodar"),uses(Buildings(version="0.11.1")));
+  annotation(experiment(Tolerance=1e-05, Algorithm="Lsodar"),uses(Buildings(version="1.0")));
 end Buildings_Utilities_IO_BCVTB_Examples_MoistAir;
