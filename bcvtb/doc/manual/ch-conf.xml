@@ -631,7 +631,7 @@ Check box; if activated, a separate window will be opened that displays the cons
     accomplished by using an object of type
     <code>ExternalInterface:Schedule</code> and an object of
     type <code>Output:Variable</code>. To interface
-    EnergyPlus using the EMS feature, the following three
+    EnergyPlus using an EnergyPlus schedule, the following three
     items are needed:
    </para>
    <itemizedlist>
@@ -643,8 +643,8 @@ Check box; if activated, a separate window will be opened that displays the cons
     </listitem>
     <listitem>
      <para>
-      EnergyPlus objects that write data from the external
-      interface to the EMS.
+      An EnergyPlus schedule object to which the external interface
+      can write to.
      </para>
     </listitem>
     <listitem>
