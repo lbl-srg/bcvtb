@@ -1,3 +1,14 @@
+// The next lines check the EnvironmentVariable "BCVTB_32bit" to determine whether 
+// dymola should compile in 32 bit or 64 bit mode. This is needed because the dll from the bcvtb
+// is 64 bit on 64 bit computers, but Dymola 2012 FD01 on Windows compiles by default in 32 bit.
+(val, fla) = Modelica.Utilities.System.getEnvironmentVariable("BCVTB_32bit");
+if (fla == true) then
+  if (Modelica.Utilities.Strings.isEqual(val, "false")) then
+    Hidden.CompileWith64 = 2;
+  end if;
+end if;
 openModel("TwoRoomsTotal.mo");
 simulateModel("Buildings_Utilities_IO_BCVTB_Examples_TwoRooms", startTime=0, stopTime=21600);
 exit();
+
+
