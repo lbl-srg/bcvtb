@@ -2,9 +2,9 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 60082 2010-12-26 19:07:30Z cxh $
+# @Version: $Id: makefile 62669 2011-12-30 05:34:32Z cxh $
 #
-# @Copyright (c) 2000-2010 The Regents of the University of California.
+# @Copyright (c) 2000-2011 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -85,7 +85,8 @@ OTHER_FILES_TO_BE_JARED = \
 	whatsNew6.0.htm \
 	whatsNew7.0.htm \
 	whatsNew8.0.htm \
-	whatsNew8.1.htm
+	whatsNew8.1.htm \
+	whatsNew9.0.htm
 
 EXTRA_SRCS = \
 	ClassesIllustrated.htm \

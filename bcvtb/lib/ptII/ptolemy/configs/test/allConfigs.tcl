@@ -2,7 +2,7 @@
 #
 # @Author: Steve Neuendorffer, Contributor: Christopher Hylands
 #
-# $Id: allConfigs.tcl 61458 2011-07-11 19:54:07Z cxh $
+# $Id: allConfigs.tcl 62780 2012-01-12 17:20:09Z bldmastr $
 #
 # @Copyright (c) 2000-2011 The Regents of the University of California.
 # All rights reserved.
@@ -307,10 +307,12 @@ foreach i $configs {
 
     test "$i-3.1" "Test to see if $i contains any actors whose type constraints don't clone" {
 	    set results [[java::cast ptolemy.actor.gui.Configuration $configuration] check]
+	    # FIXME: Need to call this twice to find problems with RecordAssembler.
+	    set results2 [[java::cast ptolemy.actor.gui.Configuration $configuration] check]
    	    # Don't call return as the last line of a test proc, since return
 	    # throws an exception.
-	    list $results
-    } {{}}
+	    list $results $results2
+    } {{} {}}
 
 
     test "$i-4.1" "Test to see if $i contains any actors that might not drag and drop properly by creating ChangeRequests " {

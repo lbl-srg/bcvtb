@@ -3,7 +3,7 @@
 #
 # @Authors: Christopher Brooks
 #
-# @Version: $Id: makefile 61872 2011-08-17 21:54:30Z cxh $
+# @Version: $Id: makefile 62688 2011-12-31 18:22:20Z cxh $
 #
 # @Copyright (c) 2010-2011 The Regents of the University of California.
 # All rights reserved.
@@ -37,7 +37,7 @@ ME =		ptolemy/configs/test/junit
 ROOT =		../../../..
 
 # JUNIT_JAR is searched for by $PTII/configure and set in $PTII/mk/ptII.mk
-CLASSPATH =	$(ROOT)$(CLASSPATHSEPARATOR)$(JUNIT_JARS)$(CLASSPATHSEPARATOR)$(PTJACL_JAR)
+CLASSPATH =	$(ROOT)$(CLASSPATHSEPARATOR)$(JUNIT_JARS)$(CLASSPATHSEPARATOR)$(COMPLETE_CLASSPATH)
 
 # Get configuration info
 CONFIG =	$(ROOT)/mk/ptII.mk
