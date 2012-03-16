@@ -7,10 +7,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note: We set the number of outputs to 1024, since matlab requires the
 %       size of output arrays to be fixed.
-%       If more elements are required, changed the entry y4[1024] in the
-%       assignment of 'funSpe' below, and in the file lib/defines.h,
-%       change the entry #define NDBLMAX 1024 to the required number of
-%       elements.
+%       If more elements are required, 
+%        - change the entry y4[1024] in the assignment of 'funSpe' below, 
+%        - change NDBLMAX=1024 in the file exchangeDoublesWithSocket.m,
+%          and 
+%        - change the entry #define NDBLMAX 1024 in the file lib/defines.h
+%
 %       Then, compile the matlab files by opening a development console.
 %       On Windows, this can be done by double-clicking the file 
 %       bcvtb/bin/setDevelopmentEnvironment.bat. On Linux and Mac, 
@@ -24,7 +26,7 @@
 %
 %
 % Compile matlab library
-% This creates a file bcvtbMatlab.m with the function prototypes.
+% This creates a file bcvtb.m with the function prototypes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 os=deblank(getenv('BCVTB_OS'));
 if (strcmp(os,'windows')) % have Windows  
