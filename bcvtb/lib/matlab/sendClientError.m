@@ -11,9 +11,7 @@ function retVal = sendClientError(sockfd, flaWri)
 %  2009-06-26 MWetter@lbl.gov: First version.
   
 if (sockfd < 0 )
-  fprintf(['Warning: Cannot send a client error signal to the BCVTB since\n', ...
-           '         the socket file descripter is negative.\n', ...
-           '         Socket file descripter = %d\n'], sockfd);
+  fprintf('Warning: Cannot close socket in closeIPC(%d) because argument is negative', sockfd);
   retVal = -1;
 elseif ~libisloaded(getBCVTBLibName())
   fprintf('Warning: Cannot close socket in closeIPC because BCVTB library is not loaded');
