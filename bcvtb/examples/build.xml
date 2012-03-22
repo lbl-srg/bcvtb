@@ -38,7 +38,7 @@
     <ant dir="ePlus70Simulink-simple"        target="clean"/>
     <ant dir="ePlus70Ptolemy-vav"            target="clean"/>
     <ant dir="espr-shading"                  target="clean"/>
-    <ant dir="espr-hvac"                     target="clean"/>
+    <ant dir="esprMatlab-hvac"               target="clean"/>
     <ant dir="multiRate-systemCommand"       target="clean"/>
     <delete dir=".">
       <include name="**/history.xml"/>
@@ -55,7 +55,7 @@
     <ant dir="systemCommand"           target="all"/>
     <ant dir="multiRate-systemCommand" target="all"/>
     <ant dir="espr-shading"            target="all"/>
-    <ant dir="espr-hvac"               target="all"/>
+    <ant dir="esprMatlab-hvac"               target="all"/>
 "/>
   </target>
   
@@ -83,7 +83,7 @@
     <ant dir="ptolemy-room"                  target="unitTest"/>
     <ant dir="multiRate-systemCommand"       target="unitTest"/>
     <ant dir="espr-shading"                  target="unitTest"/>
-    <ant dir="espr-hvac"                     target="unitTest"/>
+    <ant dir="esprMatlab-hvac"               target="unitTest"/>
   </target>
 
   <!-- Unit tests for EnergyPlus only -->
