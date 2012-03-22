@@ -60,7 +60,16 @@
   <condition property="have.BACnetALC" value="true">
       <equals arg1="${haveBACnetALC}"  arg2="true" trim="true"/>
    </condition>
+  <condition property="have.eps-r" value="true">
+      <equals arg1="${haveESPR}"  arg2="true" trim="true"/>
+   </condition>
 
+  <condition property="have.eps-rMatlab" value="true">
+    <and>
+      <equals arg1="${haveESPR}"  arg2="true" trim="true"/>
+      <equals arg1="${haveMatlab}" arg2="true" trim="true"/>
+    </and>
+  </condition>
 
   <!-- Set conditions that are used by different build files -->
   <condition property="mac" value="true">
@@ -69,9 +78,20 @@
   <condition property="linux" value="true">
     <os name="Linux"/>
   </condition>
+  <!-- Windows 32 bit or 64 bit -->
   <condition property="windows" value="true">
     <os family="windows"/>
   </condition>
+  <!-- Windows 64 bit -->
+  <condition property="windows64" value="true">
+    <and>
+      <os family="windows"/>
+      <equals arg1="${env.BCVTB_32bit}"     arg2="false" trim="true"/>
+    </and>
+  </condition>
+
+
+
 
   <!-- Set the path to the Microsoft SDK, which is needed by bacnet-stack -->
   <property name="BCVTB_SDKLib_DIR" value="${env.BCVTB_SDKLib_DIR}"/>
@@ -171,6 +191,9 @@
         <propertyref prefix="have."/>
         <propertyref prefix="path."/>
         <propertyref prefix="ptUnitTest."/>
+        <propertyref prefix="mac"/>
+        <propertyref prefix="windows"/>
+        <propertyref prefix="linux"/>
       </propertyset>
     </echoproperties>
     <echo message="cc.compile      = ${cc.compile}"/>

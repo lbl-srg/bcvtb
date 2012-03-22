@@ -155,6 +155,11 @@ fi
 if test "`which gensky 2> /dev/null`"; then
     echo haveRadiance=true >> $PROPERTYFILE
 fi
+# Check whether esp-r is installed
+if test "`which bps 2> /dev/null`"; then
+    echo haveESPR=true >> $PROPERTYFILE
+fi
+
 echo haveBACnetALC=${haveBACnetALC}  >> $PROPERTYFILE
 echo haveADInterfaceMCC=${haveADInterfaceMCC}  >> $PROPERTYFILE
 ##############################################################

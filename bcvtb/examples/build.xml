@@ -37,6 +37,8 @@
     <ant dir="ePlus70-schedule"              target="clean"/>
     <ant dir="ePlus70Simulink-simple"        target="clean"/>
     <ant dir="ePlus70Ptolemy-vav"            target="clean"/>
+    <ant dir="espr-shading"                  target="clean"/>
+    <ant dir="espr-hvac"                     target="clean"/>
     <ant dir="multiRate-systemCommand"       target="clean"/>
     <delete dir=".">
       <include name="**/history.xml"/>
@@ -52,6 +54,9 @@
     <ant dir="f90-room"                target="all"/>
     <ant dir="systemCommand"           target="all"/>
     <ant dir="multiRate-systemCommand" target="all"/>
+    <ant dir="espr-shading"            target="all"/>
+    <ant dir="espr-hvac"               target="all"/>
+"/>
   </target>
   
   <!-- Unit tests -->
@@ -77,6 +82,8 @@
     <ant dir="dymolaSimulink-room"           target="unitTest"/>
     <ant dir="ptolemy-room"                  target="unitTest"/>
     <ant dir="multiRate-systemCommand"       target="unitTest"/>
+    <ant dir="espr-shading"                  target="unitTest"/>
+    <ant dir="espr-hvac"                     target="unitTest"/>
   </target>
 
   <!-- Unit tests for EnergyPlus only -->
