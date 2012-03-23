@@ -1,4 +1,9 @@
 #!/bin/sh
+#########################################################
+#
+# Script that is called by the BCVTB to run ESP-r.
+#
+#########################################################
 BCVTBpath=..
 ESPR_PATH=`which bps`
 
