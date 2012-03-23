@@ -1791,7 +1791,7 @@ sudo ./Install -d /usr/local</programlisting>
       </para>
       <note>
         <para>
-          The ESP-r interface and examples have only been tested on Linux.
+          The ESP-r interface and examples have only been tested on Linux and Mac OS X.
         </para>
       </note>
     </section>
@@ -1800,7 +1800,7 @@ sudo ./Install -d /usr/local</programlisting>
       <section>
         <title>HVAC control in MATLAB</title>
         <para>
-          This example is available in the directory <code>examples/esprMatlab-shade</code>.
+          This example is available in the directory <code>examples/esprMatlab-hvac</code>.
           It demonstrates heating control of an ESP-r building model 
           with control logic implemented in MATLAB. Please refer to 
           <xref linkend="tit-MatlabCon"></xref> for how to configure MATLAB.
@@ -1835,10 +1835,15 @@ sudo ./Install -d /usr/local</programlisting>
   15   15  # Define initial sensor values 
    1    2  # Define which zones' actuator values to overwrite</programlisting>
       <para>
-        The BCVTB starts the simulation of the building model in text-mode by running 
-        the shell script <code>esp-r/bcvtb/espr/call_espr</code>. This file can be configured as follows:
+        The BCVTB starts EPS-r in text-mode by running 
+        the shell script <code>esp-r/bcvtb/call_espr</code>. This file can be configured as follows:
       </para>
       <programlisting language="csh" linenumbering="numbered">#!/bin/sh
+#########################################################
+#
+# Script that is called by the BCVTB to run ESP-r.
+#
+#########################################################
 BCVTBpath=..
 ESPR_PATH=`which bps`
 
@@ -1853,18 +1858,18 @@ rm -f ${BCVTBpath}/resfile.res
 rm -f ${BCVTBpath}/output.txt.par
 rm -f ${BCVTBpath}/output.txt
 
-bps -file ${BCVTBpath}/cfg/bld_simple_BCVTB.cfg -mode text &lt;&lt;ABC
+bps -file ${BCVTBpath}/cfg/bld_basic_BCVTB.cfg -mode text &lt;&lt;ABC
 
 c
 ${BCVTBpath}/resfile.res
-1 8 # start date dd/mm
-10 8 # end date dd/mm
-1 # startup days
-2 # timesteps per hour
+8 2 # start date dd/mm
+10 2 # end date dd/mm
+2 # startup days
+12 # timesteps per hour
 n
 s
 y
-BCVTB_shading_example
+BCVTB1_heating_example
 y
 y
 -
@@ -1881,23 +1886,32 @@ res -file ${BCVTBpath}/resfile.res -mode text &lt;&lt;BCD
 d # enquire about
 >
 a
-${BCVTBpath}/output.txt
+../output.txt
 results
-f # energy delivered
-h # zone energy balance
-b
-b
+-
+d
+f
+d # hours below a value
+b # temperature
+a # zones
+21 # setpoint
+-
+c # hours above a value
+b # temperature
+a # zones 
+24 # setpoint
+-
 -
 -
 BCD
-
 exiVal=$?
 if [ $exiVal != 0 ]; then
     echo "Error: ESP-r program 'res' failed with exit code $exiVal'."
     exit $exiVal
 fi
-exit 0</programlisting>
-         <para>Lines 20-24 of the shell script controls the simulation start and stop days, 
+exit 0
+</programlisting>
+         <para>Lines 25-28 of the shell script controls the simulation start and stop days, 
          number of startup days, and number of time-steps per hour. 
          If you change these settings, you need to change the simulation control 
          parameters in the BCVTB <code>system.xml</code> and the Matlab <code>.m</code> file accordingly.
