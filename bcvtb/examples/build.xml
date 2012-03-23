@@ -55,8 +55,7 @@
     <ant dir="systemCommand"           target="all"/>
     <ant dir="multiRate-systemCommand" target="all"/>
     <ant dir="espr-shading"            target="all"/>
-    <ant dir="esprMatlab-hvac"               target="all"/>
-"/>
+    <ant dir="esprMatlab-hvac"         target="all"/>
   </target>
   
   <!-- Unit tests -->
