@@ -1747,6 +1747,231 @@ quit;</screen>
    </para>
   </section>
  </section>
+<!-- *** Simulink ************************************************ -->
+ <section xml:id="tit-EsprCon">
+  <title>ESP-r</title>
+  <section>
+  <title>Introduction</title>
+    <para>
+    ESP-r is an integrated energy modelling tool for the simulation 
+    of the thermal, visual and acoustic performance of buildings 
+    and the energy use and gaseous emissions associated with 
+    environmental control systems.
+    </para>
+  </section>
+    <note>
+      <para>
+        Using ESP-r in the BCVTB requires advanced ESP-r knowledge and skills. 
+        A BCVTB user that is new to ESP-r should first learn to use ESP-r 
+        before attempting to use ESP-r in BCVTB. 
+        A good starting point for learning is the 
+        <ulink url="http://www.esru.strath.ac.uk/Documents/ESP-r_cookbook_dec_2010.pdf">
+        ESP-r Cookbook</ulink>.
+      </para>
+    </note>
+    <section>
+      <title>Configuring ESP-r</title>
+      <para>
+        ESP-r with the BCVTB functionality is not available in the standard precompiled ESP-r versions, 
+        but it can be downloaded from the subversion repository branch 'ESP-r_BCVTB' 
+        and installed using
+      </para>
+      <programlisting language="csh">svn checkout https://espr.svn.cvsdude.com/esp-r/branches/ESP-r_BCVTB
+cd ESP-r_BCVTB/src
+sudo ./Install -d /usr/local</programlisting>
+      <para>
+        To run the examples, only the module <code>bps</code> needs to be compiled, 
+        together with the training files and databases.
+      </para>
+      <para>
+        You will also need to add ESP-r's binary directory to your path variable, which may be done
+        by adding the line
+      <programlisting language="csh">export PATH=$PATH:/usr/local/esp-r/bin</programlisting>
+      to your <code>~/.bashrc</code> file and restarting the bash shell.
+      </para>
+      <note>
+        <para>
+          The ESP-r interface and examples have only been tested on Linux.
+        </para>
+      </note>
+    </section>
+    <section>
+      <title>Examples</title>
+      <section>
+        <title>HVAC control in MATLAB</title>
+        <para>
+          This example is available in the directory <code>examples/esprMatlab-shade</code>.
+          It demonstrates heating control of an ESP-r building model 
+          with control logic implemented in MATLAB. Please refer to 
+          <xref linkend="tit-MatlabCon"></xref> for how to configure MATLAB.
+        </para>
+        <para>
+          The control logic represents a PID controller for two zones in the building. 
+          The room temperature is sensed, and sent from ESP-r to MATLAB. 
+          The control algorithm in MATLAB computes the required heating power, 
+          and sends this back to ESP-r.
+        </para>
+        <para>
+          To exchange sensor and actuator values with the BCVTB, first 
+          define the sensor and actuator locations as you would normally do in ESP-r. 
+          This results in a typical ESP-r control file, see the example control 
+          file <code>esp-r/ctl/bld_basic.ctl</code>. The next step is to 
+          configure the BCVTB coupling. This is done under the 
+          <code>* BCVTB</code> heading in the control file 
+          (see <code>esp-r/ctl/bld_basic.ctl</code> and below). 
+          The <code>BCVTBflag</code> indicates the specific BCVTB application 
+          (0 = no BCVTB coupling, 1 = basic ESP-r controller, 2 = advanced optics control). 
+          The three lines below this flag are used to control which sensor and actuators 
+          are coupled to the BCVTB (based on their ESP-r zone numbers) and to set 
+          the initial sensor values. Note that it is not necessary to couple 
+          all sensors and actuators. If an actuator is not coupled, then the ESP-r 
+          control logic as defined in the <code>.ctl</code> file will be used.
+        </para>
+        <programlisting language="csh">* BCVTB 
+# The BCVTBflag indicates the specific BCVTB application: 
+# 0 = no BCVTB coupling, 1 = basic esp-r controller, 2 = advanced optics control 
+   1    # BCVTBflag 
+   1    2  # Define which zones' sensor values to send 
+  15   15  # Define initial sensor values 
+   1    2  # Define which zones' actuator values to overwrite</programlisting>
+      <para>
+        The BCVTB starts the simulation of the building model in text-mode by running 
+        the shell script <code>esp-r/bcvtb/espr/call_espr</code>. This file can be configured as follows:
+      </para>
+      <programlisting language="csh" linenumbering="numbered">#!/bin/sh
+BCVTBpath=..
+ESPR_PATH=`which bps`
+
+# Check wether ESP-r is installed and on the PATH
+if [ "${ESPR_PATH}x" == "x" ]; then
+    echo "Error: Did not find ESP-r executable 'bps'."
+    echo "       ESP-r directory must be on the PATH variable."
+    exit 1
+fi
+
+rm -f ${BCVTBpath}/resfile.res
+rm -f ${BCVTBpath}/output.txt.par
+rm -f ${BCVTBpath}/output.txt
+
+bps -file ${BCVTBpath}/cfg/bld_simple_BCVTB.cfg -mode text &lt;&lt;ABC
+
+c
+${BCVTBpath}/resfile.res
+1 8 # start date dd/mm
+10 8 # end date dd/mm
+1 # startup days
+2 # timesteps per hour
+n
+s
+y
+BCVTB_shading_example
+y
+y
+-
+-
+ABC
+exiVal=$?
+if [ $exiVal != 0 ]; then
+    echo "Error: ESP-r program 'bps' failed with exit code $exiVal'."
+    exit $exiVal
+fi
+
+res -file ${BCVTBpath}/resfile.res -mode text &lt;&lt;BCD
+
+d # enquire about
+>
+a
+${BCVTBpath}/output.txt
+results
+f # energy delivered
+h # zone energy balance
+b
+b
+-
+-
+BCD
+
+exiVal=$?
+if [ $exiVal != 0 ]; then
+    echo "Error: ESP-r program 'res' failed with exit code $exiVal'."
+    exit $exiVal
+fi
+exit 0</programlisting>
+         <para>Lines 20-24 of the shell script controls the simulation start and stop days, 
+         number of startup days, and number of time-steps per hour. 
+         If you change these settings, you need to change the simulation control 
+         parameters in the BCVTB <code>system.xml</code> and the Matlab <code>.m</code> file accordingly.
+         </para>
+      </section>
+      <section>
+        <title>Solar shading control in Ptolemy II</title>
+        <para>
+          This example is available in the directory <code>examples/espr-shading</code>.
+          In this example, a shading controller is implemented in ESP-r. 
+          The solar shading is modeled by using ESP-r's <emphasis>advanced optics</emphasis> 
+          module. Three sets of bi-directional window data are included in the file 
+          <code>espr-shading/esp-r/bidata.txt</code>. Each set corresponds to a double glazing 
+          unit with interior Venetian blinds at slat angles of 0&#x00b0;, 45&#x00b0; and 90&#x00b0;. 
+          New types of complex glazing systems can be added with the help of 
+          <ulink url="http://windows.lbl.gov/software/window/window.html">WINDOW 6</ulink>.
+          The control logic in the present example is implemented in Ptolemy II. 
+          The controller output is an integer that refers to the selected set of window properties. 
+          In this example, the room temperature is the sensor variable.
+        </para>
+      </section>
+    </section> <!-- End of examples -->
+    <section>
+      <title>Developing new applications</title>
+      <para>
+        The previous sections describe two illustrative examples to 
+        demonstrate the basic principles of coupling ESP-r with BCVTB. 
+        With minor code changes, it is possible to adapt these examples to 
+        meet the needs of variations of these cases.
+        Communication between ESP-r and BCVTB was set up in a generic way with 
+        the aim of limiting the required code changes in ESP-r. Nevertheless, 
+        it is important that you become familiar with ESP-r's source code structure. 
+        ESP-r's developers guide provides a good starting point.
+      </para>
+      <para>
+        The BCVTB settings in ESP-r are declared and initialized in a new header 
+        file, <code>include/bcvtb.h</code>. The actual calls to the 
+        subroutines for data exchange with BCVTB are 
+        made in <code>esrubps/bmatsv.F</code>. 
+        These subroutines can be found in <code>esrubld/bcvtb.F90</code>. 
+        The implementation logic is similar to the FORTRAN 90 example, 
+        found in the directory <code>bcvtb/examples/f90-room</code>. 
+        Before the first time step the connection gets established. In every subsequent 
+        time step the data exchange takes place, just after completion of 
+        ESP-r's zone loop. The ESP-r to BCVTB coupling makes use of two new 
+        data structures, one for sending (<code>bcvtb_y</code>) and one 
+        for receiving (<code>bcvtb_u</code>). 
+        Both structures are FORTRAN arrays, with the array length equal to 
+        the number of exchanged variables. The task of the developer is to 
+        identify the right location in the code where the variable of 
+        choice is calculated. To enable the exchange of that variable, 
+        you have to add lines with the following structure:
+      </para>
+      <programlisting>	C Receiving variable from BCVTB
+	variable #n = bcvtb_u(n)
+
+	C Sending variable to BCVTB
+	bcvtb_y(m) = variable #m</programlisting>
+      <para>
+        In addition, common blocks may be needed to pass the newly created variables between the various subroutines.
+      </para>
+      <para>
+        It is good practice to enclose BCVTB-related code in conditional 
+        statements with a <code>BCVTBflag</code> as identifier. 
+        This avoids the risk of unintentional interference with existing code, 
+        and allows ESP-r to run in normal mode if the <code>BCVTBflag</code> 
+        is set to 0.  Currently, <code>BCVTBflag=1</code> and <code>BCVTBflag=2</code> 
+        are in use for the examples given in the previous sections. 
+        New applications shall be given a unique <code>BCVTBflag</code>. 
+</para>
+</section>
+
+
+ </section>
 <!-- *** SystemCommand ******************************************* -->
  <section xml:id="tit-CustomExeCon">
   <title>Custom program using a system command</title>

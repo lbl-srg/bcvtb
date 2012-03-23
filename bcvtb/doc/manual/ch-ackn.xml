@@ -16,10 +16,15 @@
    We thank:
    <itemizedlist mark="none" spacing="compact">
      <listitem><para>
-	 Gregor Henze, Charles
-	 Corbin, Anthony Florita and Peter May-Ostendorp from the
-	 University of Colorado at Boulder for their contributions
-	 to the MATLAB interface and the EnergyPlus 3.0 upgrade. 
+	 Pieter-Jan Hoes and Roel Loonen from the Technical University of Eindhoven
+         for the implementation of the ESP-r interface.
+     </para></listitem>
+     <listitem><para>
+	 We thank Thierry S. Nouidui from LBNL for the implementation of the
+         analog/digital interface.
+     </para></listitem>
+     <listitem><para>
+	 We thank Andrew McNeill from LBNL for providing the Radiance example.
      </para></listitem>
      <listitem><para>
 	 Rui Zhang from Carnegie Mellon for her contributions
@@ -32,11 +37,10 @@
 	 interface.
      </para></listitem>
      <listitem><para>
-	 We thank Andrew McNeill from LBNL for providing the Radiance example.
-     </para></listitem>
-     <listitem><para>
-	 We thank Thierry S. Nouidui from LBNL for the implementation of the
-         analog/digital interface.
+	 Gregor Henze, Charles
+	 Corbin, Anthony Florita and Peter May-Ostendorp from the
+	 University of Colorado at Boulder for their contributions
+	 to the MATLAB interface and the EnergyPlus 3.0 upgrade. 
      </para></listitem>
    </itemizedlist>
    </para>
