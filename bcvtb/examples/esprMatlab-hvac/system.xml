@@ -112,7 +112,7 @@ to ESP-r.</text></svg></configure>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[60.0, 425.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={2176, 50, 1382, 779}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={531, 50, 1382, 779}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1160, 649]">
     </property>
@@ -127,7 +127,7 @@ to ESP-r.</text></svg></configure>
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="sen1, sen2">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={784, 58, 581, 371}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={777, 58, 581, 371}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[565, 307]">
         </property>
@@ -148,13 +148,13 @@ to ESP-r.</text></svg></configure>
         </configure>
     </entity>
     <entity name="ESP-r" class="lbnl.actor.lib.Simulator">
-        <property name="programName" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb/espr/call_espr">
+        <property name="programName" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb/call_espr">
         </property>
         <property name="programArguments" class="ptolemy.data.expr.Parameter" value="">
         </property>
-        <property name="workingDirectory" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb/espr">
+        <property name="workingDirectory" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb">
         </property>
-        <property name="simulationLogFile" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb/espr/simulation.log">
+        <property name="simulationLogFile" class="ptolemy.data.expr.FileParameter" value="esp-r/bcvtb/simulation.log">
         </property>
         <property name="socketTimeout" class="ptolemy.data.expr.Parameter" value="30000">
             <display name="socketTimeout [milliseconds]"/>

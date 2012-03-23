@@ -6,7 +6,7 @@
   <target name="clean" description="Deletes generated files">
     <!-- Delete esp-r files -->
     <delete verbose="true">
-      <fileset dir="esp-r/bcvtb/espr" 
+      <fileset dir="esp-r/bcvtb" 
                includes="simulation.log,socket.cfg,utilSocket.log"/>
       <fileset dir="esp-r" 
                includes="resfile.res,output.txt.par,output.txt"/>
