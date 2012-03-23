@@ -1816,9 +1816,10 @@ sudo ./Install -d /usr/local</programlisting>
           define the sensor and actuator locations as you would normally do in ESP-r. 
           This results in a typical ESP-r control file, see the example control 
           file <code>esp-r/ctl/bld_basic.ctl</code>. The next step is to 
-          configure the BCVTB coupling. This is done under the 
-          <code>* BCVTB</code> heading in the control file 
-          (see <code>esp-r/ctl/bld_basic.ctl</code> and below). 
+          configure the BCVTB coupling in the file <code>esp-r/ctl/bld_basic.ctl</code>. 
+          This is done under the 
+          <code>* BCVTB</code> heading in the control file of which a snippet is
+          shown in <xref linkend="fig-esprHVACCtl"></xref>.
           The <code>BCVTBflag</code> indicates the specific BCVTB application 
           (0 = no BCVTB coupling, 1 = basic ESP-r controller, 2 = advanced optics control). 
           The three lines below this flag are used to control which sensor and actuators 
@@ -1827,18 +1828,21 @@ sudo ./Install -d /usr/local</programlisting>
           all sensors and actuators. If an actuator is not coupled, then the ESP-r 
           control logic as defined in the <code>.ctl</code> file will be used.
         </para>
-        <programlisting language="csh">* BCVTB 
+        <figure xml:id="fig-esprHVACCtl">>
+          <programlisting language="csh">* BCVTB 
 # The BCVTBflag indicates the specific BCVTB application: 
 # 0 = no BCVTB coupling, 1 = basic esp-r controller, 2 = advanced optics control 
    1    # BCVTBflag 
    1    2  # Define which zones' sensor values to send 
   15   15  # Define initial sensor values 
    1    2  # Define which zones' actuator values to overwrite</programlisting>
+          <title>Snippet of the ESP-r input file that shows the configuration of the BCVTB interface.</title>
+        </figure>
       <para>
         The BCVTB starts EPS-r in text-mode by running 
         the shell script <code>esp-r/bcvtb/call_espr</code>. This file can be configured as follows:
       </para>
-      <programlisting language="csh" linenumbering="numbered">#!/bin/sh
+        <programlisting language="csh" linenumbering="numbered">#!/bin/sh
 #########################################################
 #
 # Script that is called by the BCVTB to run ESP-r.
@@ -1965,11 +1969,11 @@ exit 0
         choice is calculated. To enable the exchange of that variable, 
         you have to add lines with the following structure:
       </para>
-      <programlisting>	C Receiving variable from BCVTB
-	variable #n = bcvtb_u(n)
+      <programlisting>       C Receiving variable from BCVTB
+         variable #n = bcvtb_u(n)
 
-	C Sending variable to BCVTB
-	bcvtb_y(m) = variable #m</programlisting>
+       C Sending variable to BCVTB
+         bcvtb_y(m) = variable #m</programlisting>
       <para>
         In addition, common blocks may be needed to pass the newly created variables between the various subroutines.
       </para>
