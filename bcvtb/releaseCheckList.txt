@@ -1,6 +1,9 @@
 Checklist of BCVTB release
 **************************
 
+Update release notes in
+doc/manual/ch-rele.xml
+
 Run
 source bin/setDevelopmentEnvironment.sh 
 

@@ -1,0 +1,41 @@
+<chapter xml:id="releaseNotes">
+  <title>Release Notes</title>
+  <section>
+    <title>Version 1.2.0</title>
+    <para>
+      <itemizedlist spacing="compact">
+        <listitem><para>
+          Added ESP-r as a client. Examples files can be found in
+          <code>examples/esprMatlab-hvac</code> and in
+          <code>examples/espr-shading</code> and are explained
+          in <xref linkend="tit-EsprCon"></xref>.
+        </para></listitem>
+      </itemizedlist>
+    </para>
+        </section>
+  <section>
+    <title>Version 1.1.0</title>
+    <para>
+      <itemizedlist spacing="compact">
+        <listitem><para>
+          The example files have been updated for EnergyPlus 7.0.
+        </para></listitem>
+        <listitem><para>
+          An actor has been added that allows reading CSV files.
+        </para></listitem>
+        <listitem><para>
+          The BCVTB has also been compiled for 
+          Windows 64 bit (in addition to Windows 32 bit, 
+          Linux 32/64bit and Mac OS X 64 bit).
+        </para></listitem>
+      </itemizedlist>
+    </para>
+  </section>
+  <section>
+    <title>Version 1.0.0</title>
+    <para>
+      First release.
+    </para>
+  </section>
+</chapter>
+
