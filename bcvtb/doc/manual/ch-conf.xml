@@ -2806,13 +2806,13 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
      <emphasis>Thus, select this box if the BCVTB should continue its operation when a run-time error, such as a network timeout, occurs.</emphasis>
     </para>
     <para>
-     The <code>BACnetReader</code> has the following ports:
-     There is one input port, which is a trigger port. If
-     the SDF Director is used in the Ptolemy II system
+     The <code>BACnetReader</code> has one input port, which is a trigger port. 
+     If the SDF Director is used in the Ptolemy II system
      model, then this port need not be connected. The
-     <code>BACnetReader</code> has the following output
-     ports:
-     <informaltable>
+     <code>BACnetReader</code> has the output
+     ports shown in <xref linkend="tab-BACnetReaOutPor"></xref>.
+     <table xml:id="tab-BACnetReaOutPor">
+       <title>Output ports of the <code>BACnetReader</code> actor.</title>
       <tgroup align="left" cols="2">
        <colspec colwidth="1*"></colspec>
        <colspec colwidth="3*"></colspec> 
@@ -2864,7 +2864,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
         </row>
        </tbody>
       </tgroup>
-     </informaltable>
+     </table>
     </para>
    </section>
 <!-- BACnetReader -->
@@ -2918,9 +2918,10 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     <para>
      The <code>BACnetWriter</code> has one input port. This
      port is used to collect the data that need to be sent
-     to the BACnet devices. The <code>BACnetReader</code>
-     has the following output ports:
-     <informaltable>
+     to the BACnet devices. The <code>BACnetWriter</code>
+     has the output ports shown in <xref linkend="tab-BACnetWriOutPor"></xref>.
+     <table xml:id="tab-BACnetWriOutPor">
+       <title>Output ports of the <code>BACnetWriter</code> actor.</title>
       <tgroup align="left" cols="2">
        <colspec colwidth="1*"></colspec>
        <colspec colwidth="3*"></colspec>
@@ -2952,7 +2953,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
         </row>
        </tbody>
       </tgroup>
-     </informaltable>
+     </table>
     </para>
    </section>
 <!-- BACnetWriter -->
@@ -3213,9 +3214,10 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
      There is one input port, which is a trigger port. If
      the SDF Director is used in the Ptolemy II system
      model, then this port need not be connected. The
-     <code>ADInterfaceMCCReader</code> has the following output
-     ports:
-     <informaltable>
+     <code>ADInterfaceMCCReader</code> has the output ports shown
+     in <xref linkend="tab-ADIntMCCReaderOutPor"></xref>.
+     <table xml:id="tab-ADIntMCCReaderOutPor">
+       <title>Output ports of the <code>ADInterfaceMCCReader</code> actor.</title>
       <tgroup align="left" cols="2">
        <colspec colwidth="1*"></colspec>
        <colspec colwidth="3*"></colspec> 
@@ -3264,7 +3266,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
         </row>
        </tbody>
       </tgroup>
-     </informaltable>
+     </table>
     </para>
 <!-- ADInterfaceMCCReader -->
     <para>
@@ -3297,8 +3299,10 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
      The <code>ADInterfaceMCCWriter</code> has one multiport input. This
      port is used to collect the data that need to be sent
      to the ADInterfaceMCCdevices. The <code>ADInterfaceMCCWriter</code>
-     has the following output ports:
-     <informaltable>
+     has the output ports shown
+     in <xref linkend="tab-ADIntMCCWriterOutPor"></xref>.
+     <table xml:id="tab-ADIntMCCWriterOutPor">
+       <title>Output ports of the <code>ADInterfaceMCCWriter</code> actor.</title>
       <tgroup align="left" cols="2">
        <colspec colwidth="1*"></colspec>
        <colspec colwidth="3*"></colspec>
@@ -3330,7 +3334,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
         </row>
        </tbody>
       </tgroup>
-     </informaltable>
+     </table>
     </para>
    </section>
 <!-- ADInterfaceMCCWriter -->

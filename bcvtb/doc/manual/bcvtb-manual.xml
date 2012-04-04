@@ -11,6 +11,7 @@
 <!-- References to the different chapters that are included
         in this document -->
 <!ENTITY buildDate SYSTEM "buildDate.txt">
+<!ENTITY ch-rele SYSTEM "ch-rele.xml">
 <!ENTITY ch-intr SYSTEM "ch-intr.xml">
 <!ENTITY ch-inst SYSTEM "ch-inst.xml">
 <!ENTITY ch-simu SYSTEM "ch-simu.xml">
@@ -41,6 +42,7 @@
   </copyright>
  </bookinfo>
 <!-- *************************************************************  -->
+&ch-rele;
 &ch-intr;
 &ch-inst;
 &ch-simu;
