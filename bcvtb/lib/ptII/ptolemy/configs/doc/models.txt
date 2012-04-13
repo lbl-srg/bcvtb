@@ -67,6 +67,16 @@ $CLASSPATH/ptolemy/caltrop/demo/FunctionClosures/FunctionClosures.xml
 $CLASSPATH/ptolemy/caltrop/demo/FunctionDefinition/FunctionDefinition.xml
 $CLASSPATH/ptolemy/caltrop/demo/Primes/Primes.xml
 $CLASSPATH/ptolemy/caltrop/demo/SDFDDI/SDFDDI.xml
+$CLASSPATH/ptolemy/cg/adapter/generic/program/procedural/c/adapters/ptolemy/domains/ptides/demo/OnePlatform/OnePlatform.xml
+$CLASSPATH/ptolemy/cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Accumulator/Accumulator.xml
+$CLASSPATH/ptolemy/cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Speaker/Speaker.xml
+$CLASSPATH/ptolemy/cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TimeTriggeredTunnelingBallDevice/TimeTriggeredTunnelingBallDevice.xml
+$CLASSPATH/ptolemy/cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TunnelingBallDevice/TunnelingBallDevice.xml
+$CLASSPATH/ptolemy/cg/lib/demo/CompiledCompositeActor/CompiledCompositeActor.xml
+$CLASSPATH/ptolemy/cg/lib/demo/ModularCG/ModularCG.xml
+$CLASSPATH/ptolemy/cg/lib/demo/ModularCGPubSub/ModularCGPubSub.xml
+$CLASSPATH/ptolemy/cg/lib/demo/Scale/ScaleC.xml
+$CLASSPATH/ptolemy/cg/lib/demo/Scale/ScaleJava.xml
 $CLASSPATH/ptolemy/codegen/c/domains/fsm/demo/Mod4Counter/Mod4Counter.xml
 $CLASSPATH/ptolemy/codegen/c/domains/pn/demo/Gravitation/Gravitation.xml
 $CLASSPATH/ptolemy/codegen/c/domains/pn/demo/PNButterfly/PNButterfly.xml
@@ -111,7 +121,6 @@ $CLASSPATH/ptolemy/domains/continuous/demo/FurutaPendulum/FurutaPendulum.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/HybridPlant/HybridPlant.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/HybridPlant/RandomHybridPlant.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/Hysteresis/Hysteresis.xml
-$CLASSPATH/ptolemy/domains/continuous/demo/Hysteresis/HysteresisWithBernoulliLosses.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/Hysteresis/HysteresisWithRandomDelay.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/Hysteresis/HysteresisWithRandomLosses.xml
 $CLASSPATH/ptolemy/domains/continuous/demo/LevelCrossingDetector/LevelCrossingDetector.xml
@@ -203,6 +212,7 @@ $CLASSPATH/ptolemy/domains/ddf/demo/RandomWalk/RandomWalk.xml
 $CLASSPATH/ptolemy/domains/ddf/demo/RijndaelEncryption/RijndaelEncryption.xml
 $CLASSPATH/ptolemy/domains/de/demo/AssemblyLine/AssemblyLine.xml
 $CLASSPATH/ptolemy/domains/de/demo/Clock/Clock.xml
+$CLASSPATH/ptolemy/domains/de/demo/ClockDrift/ClockDrift.xml
 $CLASSPATH/ptolemy/domains/de/demo/Inspection/Inspection.xml
 $CLASSPATH/ptolemy/domains/de/demo/LongRuns/LongRuns.xml
 $CLASSPATH/ptolemy/domains/de/demo/ModalModel/ModalModel.xml
@@ -210,6 +220,7 @@ $CLASSPATH/ptolemy/domains/de/demo/QueueAndServer/QueueAndServer.xml
 $CLASSPATH/ptolemy/domains/de/demo/RealTimeComposite/RealTimeComposite.xml
 $CLASSPATH/ptolemy/domains/de/demo/SmartSender/SmartSender.xml
 $CLASSPATH/ptolemy/domains/de/demo/TimingParadox/TimingParadox.xml
+$CLASSPATH/ptolemy/domains/de/demo/Trilateration/Trilateration.xml
 $CLASSPATH/ptolemy/domains/de/demo/VariableDelay/VariableDelay.xml
 $CLASSPATH/ptolemy/domains/dt/demo/Eye/Eye.xml
 $CLASSPATH/ptolemy/domains/fsm/demo/ABP/ABP.xml

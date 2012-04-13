@@ -93,10 +93,10 @@
   </para>
   <para>
    For convenience, the examples in the BCVTB expose the
-   three parameters <code>startTime</code>,
-   <code>timeStep</code> and <code>finalTime</code>. These
+   three parameters <code>beginTime</code>,
+   <code>timeStep</code> and <code>endTime</code>. These
    three parameters have units of seconds and needs to
-   correspond with the start time, time step and final time
+   correspond with the begin time, time step and end time
    that is used in the simulation program. The parameters
    used to configure the SDF Director are shown in
    <xref linkend="confSDFDire"></xref>
@@ -821,7 +821,7 @@ Output:Variable,
      <figure xml:id="confEPlusSche">
       <mediaobject>
        <imageobject role="html">
-        <imagedata fileref="img/configuration-energyplus-schedule.png" format="PNG" scale="50"></imagedata>
+        <imagedata fileref="img/configuration-energyplus-schedule.png" format="PNG" scale="100"></imagedata>
        </imageobject>
        <imageobject role="dblatex">
         <imagedata fileref="img/configuration-energyplus-schedule.pdf" format="PDF" scalefit="1"></imagedata>

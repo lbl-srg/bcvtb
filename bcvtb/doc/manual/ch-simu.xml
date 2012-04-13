@@ -27,7 +27,7 @@
     </note>
   </para>
  </section>
- <section>
+ <section xml:id="tit-runExpWin">
   <title>Running the BCVTB from an explorer window</title>
   <para>
    To run an example from an explorer window, double-click
@@ -50,7 +50,7 @@
    <code>system.xml</code> for Linux and Mac OS X.
   </para>
  </section>
- <section>
+ <section xml:id="tit-runTerWin">
   <title>Running the BCVTB from a terminal window</title>
   <para>
    To run an example from a console (i.e., a dos-shell on
@@ -176,7 +176,7 @@
   <para>
    The optional argument <code>-parameterName value</code>
    are model parameters and their values, such as
-   <code>-finalTime 3600</code>. Note that a hyphen must
+   <code>-endTime 3600</code>. Note that a hyphen must
    precede the keyword <code>parameterName</code>.
   </para>
   <example>
@@ -205,15 +205,15 @@
    <listitem>
     <para>
      If the model <code>system.xml</code> has a top-level
-     parameter named <code>finalTime</code> and an actor
+     parameter named <code>endTime</code> and an actor
      with name <code>Controller</code>, and
      <code>Controller</code> contains a parameter named
      <code>Kp</code> then
     </para>
-<screen>java -jar BCVTB.jar -run system.xml -finalTime 86400 -Controller.Kp 10</screen>
+<screen>java -jar BCVTB.jar -run system.xml -endTime 86400 -Controller.Kp 10</screen>
     <para>
      runs the model <code>system.xml</code> up to
-     <code>finalTime=86400</code>, with the parameter
+     <code>endTime=86400</code>, with the parameter
      <code>Kp</code> of the controller set to
      <code>10</code>.
     </para>

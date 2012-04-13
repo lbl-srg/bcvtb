@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 62669 2011-12-30 05:34:32Z cxh $
+# @Version: $Id: makefile 62921 2012-02-06 02:28:02Z bldmastr $
 #
 # @Copyright (c) 2000-2011 The Regents of the University of California.
 # All rights reserved.
@@ -152,7 +152,7 @@ models.txt: $(ROOT)/ptolemy/actor/gui/HTMLAbout.class completeDemos.htm
 	"$(JAVA)" "-Dptolemy.ptII.dir=$(PTII)" \
 		-classpath "$(CLASSPATH)$(CLASSPATHSEPARATOR)$(AUXCLASSPATH)" \
 		ptolemy.actor.gui.HTMLAbout 
-	LC_ALL=C sort -f models.txt > /tmp/models.txt
+	LC_ALL=C sort -f models.txt | uniq > /tmp/models.txt
 	mv /tmp/models.txt models.txt
 
 update: $(DERIVED_FILES)

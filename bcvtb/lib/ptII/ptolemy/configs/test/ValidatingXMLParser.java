@@ -49,7 +49,7 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 61458 2011-07-11 19:54:07Z cxh $
+ @version $Id: ValidatingXMLParser.java 62791 2012-01-18 01:13:26Z cxh $
  @since Ptolemy II 8.1
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
@@ -105,7 +105,8 @@ public class ValidatingXMLParser extends DefaultHandler {
         }
     }
 
-    /** Resolve an entity by checking for http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
+    /** Resolve an entity by checking for
+     *  http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
      *  and, if found, return the value of MoMLParser.MoML_1.dtd.
      */
     public static class MoMLEntityResolver implements EntityResolver {
@@ -115,6 +116,7 @@ public class ValidatingXMLParser extends DefaultHandler {
          *  @return If systemID equals http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd
          *  then return an InputSource based on the value of MoMLParser.MoML_DTD_1,
          *  otherwise return null.
+         *  @exception SAXException If the MoML DTD cannot be created.
          */
         public InputSource resolveEntity(String publicID, String systemID)
                 throws SAXException {

@@ -5,7 +5,7 @@
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
-        <property name="iterations" class="ptolemy.data.expr.Parameter" value="(finalTime-startTime)/timeStep">
+        <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep">
         </property>
         <property name="vectorizationFactor" class="ptolemy.data.expr.Parameter" value="1">
         </property>
@@ -35,7 +35,7 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[190.0, 45.0]">
         </property>
     </property>
-    <property name="startTime" class="ptolemy.data.expr.Parameter" value="0">
+    <property name="beginTime" class="ptolemy.data.expr.Parameter" value="0">
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">
             <property name="_color" class="ptolemy.actor.gui.ColorAttribute" value="{0.0, 0.0, 1.0, 1.0}">
             </property>
@@ -52,7 +52,7 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[190.0, 65.0]">
         </property>
     </property>
-    <property name="finalTime" class="ptolemy.data.expr.Parameter" value="2*24*3600+3*24*3600">
+    <property name="endTime" class="ptolemy.data.expr.Parameter" value="2*24*3600+3*24*3600">
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">
             <property name="_color" class="ptolemy.actor.gui.ColorAttribute" value="{0.0, 0.0, 1.0, 1.0}">
             </property>
@@ -208,7 +208,7 @@ to ESP-r.</text></svg></configure>
         <property name="_hideName" class="ptolemy.data.expr.SingletonParameter" value="true">
         </property>
     </entity>
-    <entity name="RunTime [seconds]" class="ptolemy.actor.lib.MonitorValue">
+    <entity name="RunTime [seconds]" class="ptolemy.actor.lib.gui.MonitorValue">
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
         </property>
@@ -225,7 +225,7 @@ to ESP-r.</text></svg></configure>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[330.0, 565.0]">
         </property>
     </entity>
-    <entity name="SimulationTime [hours]" class="ptolemy.actor.lib.MonitorValue">
+    <entity name="SimulationTime [hours]" class="ptolemy.actor.lib.gui.MonitorValue">
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
         </property>

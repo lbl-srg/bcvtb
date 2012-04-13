@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
+import java.io.FileReader;
 import java.util.Properties;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,6 +23,7 @@ public class Launcher{
     {
 	ptFile = null;
 	run     = false;
+	update  = false;
 	console = false;
 	pb = new ProcessBuilder();
 	prop = pb.environment();
@@ -60,6 +62,7 @@ public class Launcher{
 	if (args[i].equals("-command")) return false;
 	if (args[i].equals("-file")) return false;
 	if (args[i].equals("-run")) return false;
+	if (args[i].equals("-update")) return false;
 	if (args[i].equals("-console")) return false;
 	if (args[i].equals("-diagnostics")) return false;
 	if (args[i].equals("-command")) return false;
@@ -107,6 +110,10 @@ public class Launcher{
 		    // run it
 		    run = true;
 		    getCommandFlags = false;
+		}else if(args[i].equals("-update")){
+		    // run it
+                    update=true;
+                    getCommandFlags = true;
 		}else if(args[i].equals("-diagnostics")){
 		    // Dump system variables
 		    _dumpProperties(prop);
@@ -115,6 +122,8 @@ public class Launcher{
 		    // We are still scanning for command flags.
 		    // This is a command flag
 		    ptArgs.add(args[i]);
+                    if (update) // only one command flag is needed for "-update 1.2 fileName.xml"
+                        getCommandFlags = false;
 		}else{
 		    // Retrieve the ptFile
 		    ptFile = args[i];
@@ -139,7 +148,7 @@ public class Launcher{
     /** Get the user property file name.
      *
      *@return The name of the user property file.
-     *@throws Exception If the operating system is not supported.
+     *@exception Exception If the operating system is not supported.
      */
     protected String getUserPropertyFileName()
 	throws Exception{
@@ -237,6 +246,11 @@ public class Launcher{
 		comLis.add("ptolemy.actor.gui.PtExecuteApplication");
 		comLis.add("-bcvtb");
 	    }
+	    else if ( update ){
+                comLis.add("-classpath");
+                comLis.add(prop.get("BCVTB_HOME") + PS + "bin" + PS + "BCVTB.jar");
+		comLis.add("BCVTB.VersionUpdater");
+	    }
 	    else{
 		comLis.add("ptolemy.vergil.VergilApplication");
 		comLis.add("-bcvtb");
@@ -250,6 +264,12 @@ public class Launcher{
 			+ LS + "       Call program as java -jar bin/BCVTB.jar -console modelFile.xml";
 		    throw new UnsupportedOperationException(em);
 		}
+                else if (update){
+		    final String em = "Error: If flag -update is used, a model file is required as an argument."
+			+ LS + "       Call program as java -jar bin/BCVTB.jar -update toVersion modelFile.xml"
+			+ LS + "       where 'toVersion' is the new version number, such as 1.2";
+		    throw new UnsupportedOperationException(em);
+                }
 	    }
 	    else
 		comLis.add(ptFile);
@@ -257,8 +277,8 @@ public class Launcher{
 	//	for (int i = 0; i < comLis.size(); i++)
 	//	    System.err.println("aabb " + comLis.get(i));
 	// Set commands to process builder
-	pb.command(comLis);
-
+        pb.command(comLis);
+        
 	/*
 	System.err.print("\n----- JVMFlags: ");
 	for ( Iterator<String> iter = JVMFlags.iterator(); iter.hasNext(); )
@@ -652,7 +672,8 @@ public class Launcher{
 	try{
 	    Launcher l = new Launcher();
 	    l.setCommand(args);
-	    retVal = l.startProcess();
+	    l.updateSystemFile();
+            retVal = l.startProcess();
 	}
 	catch(NoClassDefFoundError e){
 	    showThrowable(e);
@@ -663,12 +684,44 @@ public class Launcher{
 	return retVal;
     }
 
+    /** Update the <code>ptFile</code> if it is from an old version
+
+     *@exception FileNotFoundException if the file is not found
+     *@exception IOException if the file cannot be read
+     *@exception Exception if an Exception occurs in <code>VersionUpdater.main(String[])</code>
+     */
+    protected void updateSystemFile()
+	throws FileNotFoundException, IOException, Exception{
+	if (ptFile == null)
+	    return;
+	boolean foundText = false;
+	// If ptFile != null, then it exists. This was checked earlier.
+	FileReader fr = new FileReader(ptFile);
+        BufferedReader reader = new BufferedReader(fr);
+	String lin;
+	while ((lin = reader.readLine()) != null) {
+	    if ((lin.indexOf("property name=\"startTime\"") > -1 )||
+		(lin.indexOf("property name=\"finalTime\"") > -1 )){
+		foundText = true;
+		break;
+	    }
+	}
+	reader.close();
+	fr.close();
+	if (foundText){
+	    String[] args = {"1.1", ptFile};
+	    VersionUpdater.main(args);
+	}
+    }
+
     /** User properties */
     protected Properties userProp;
     /** Ptolemy file, or <code>null</code> if not specified */
     protected String ptFile;
     /** Flag, <code>true</code> if user set <code>-run</code> flag */
     protected boolean run;
+    /** Flag, <code>true</code> if user set <code>-update</code> flag */
+    protected boolean update;
     /** Flag, <code>true</code> if user set <code>-console</code> flag */
     protected static boolean console = false;
 

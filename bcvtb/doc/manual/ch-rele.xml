@@ -4,12 +4,52 @@
     <title>Version 1.2.0</title>
     <para>
       <itemizedlist spacing="compact">
-        <listitem><para>
-          Added ESP-r as a client. Examples files can be found in
-          <code>examples/esprMatlab-hvac</code> and in
-          <code>examples/espr-shading</code> and are explained
-          in <xref linkend="tit-EsprCon"></xref>.
-        </para></listitem>
+        <listitem>
+          <para>
+            Ptolemy II has been updated to version 9.0.devel.
+            Ptolemy II 9.0 introduced two new parameters called <code>startTime</code> 
+            and <code>stopTime</code> in the SDF Director. These parameters cause 
+            a name clash in the BCVTB examples which already use these names for their
+            own parameters. 
+	    The BCVTB will update files automatically to the new syntax when they
+	    are opened from a command line as described in 
+	    <xref linkend="tit-runTerWin"></xref> or in
+	    <xref linkend="tit-comLinArg"></xref>.
+	    However, if files are opened from an explorer window as described in
+	    <xref linkend="tit-runExpWin"></xref>, then files are not updated
+	    automatically.<footnote>
+	    <para>
+	      In this case, files are not automatically updated because Ptolemy II,
+	      and not the BCVTB, receives the file name. Hence, the BCVTB cannot 
+	      update the files automatically.
+	    </para>
+	    </footnote>
+            To manually update existing BCVTB files, the following strings need to be replaced
+            in the file <code>system.xml</code> (or <code>system-windows.xml</code>):
+            <itemizedlist spacing="compact">
+              <listitem>
+                <para>
+                  Replace <code>startTime</code> with <code>beginTime</code>.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Replace <code>stopTime</code> with <code>endTime</code>.
+                </para>
+              </listitem>
+            </itemizedlist>
+            These strings can be replaced using a text editor or by running
+            <screen>bcvtb -update 1.1 system.xml</screen>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added ESP-r as a client. Examples files can be found in
+            <code>examples/esprMatlab-hvac</code> and in
+            <code>examples/espr-shading</code> and are explained
+            in <xref linkend="tit-EsprCon"></xref>.
+        </para>
+        </listitem>
       </itemizedlist>
     </para>
         </section>

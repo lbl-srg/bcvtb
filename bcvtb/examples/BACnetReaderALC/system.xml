@@ -13,7 +13,7 @@
     <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{401.9565799302796, 236.814180776892}">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
-        <property name="iterations" class="ptolemy.data.expr.Parameter" value="(finalTime-startTime)/timeStep+1">
+        <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
         </property>
         <property name="allowDisconnectedGraphs" class="ptolemy.data.expr.Parameter" value="true">
         </property>
@@ -47,7 +47,7 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[175.0, 60.0]">
         </property>
     </property>
-    <property name="startTime" class="ptolemy.data.expr.Parameter" value="0">
+    <property name="beginTime" class="ptolemy.data.expr.Parameter" value="0">
         <property name="_hideName" class="ptolemy.kernel.util.SingletonAttribute">
         </property>
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">
@@ -66,7 +66,7 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[175.0, 85.0]">
         </property>
     </property>
-    <property name="finalTime" class="ptolemy.data.expr.Parameter" value="15">
+    <property name="endTime" class="ptolemy.data.expr.Parameter" value="15">
         <property name="_hideName" class="ptolemy.kernel.util.SingletonAttribute">
         </property>
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">

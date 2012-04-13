@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: completeDemos.htm 62648 2011-12-28 23:14:44Z bldmastr $ -->
+<!-- $Id: completeDemos.htm 63233 2012-03-25 18:21:00Z cxh $ -->
 <!--
 
 demosPtiny.htm is derived from this file by including
@@ -45,7 +45,8 @@ we do codegen, we get Foo.java instead of foo.java
 See the <a href="demos.htm">quick tour</a> for a smaller
 set of demos that highlight the key features of Ptolemy II.
 
-<h1>Ptolemy II Domains</h1>
+<h1>Ptolemy II Domains Demonstrations</h1>
+Ptolemy II models that illustrate Model of Computation-oriented functionality.
 <ul>
 
 <!--/vergilDocs-->
@@ -115,13 +116,28 @@ set of demos that highlight the key features of Ptolemy II.
 <li><a href="#taskpt">TaskPt</a>
 <li><a href="#tm">TM (Timed Multitasking)</a>
 <li><a href="#wireless">Wireless</a>
+</ul>
+
+<h1>Ptolemy II Non-model Of Computation (MoC) Demonstrations </h1>
+Ptolemy II models that illustrate non-MoC oriented functionality
+<ul>
+<li><a href="#hoc">Higher Order Components</a></li>
 <li><a href="#modelTransformation">Model Transformation</a>
 <li> Code Generation
-  <ul>
-  <li><a href="#pnCodegen">C PN Code Generation</a>
-  <li><a href="#sdfCodegen">C SDF Code Generation</a>
-  <li><a href="#javaSDFCodegen">Java SDF Code Generation</a>
- </ul>
+  <ul> 
+    <li><a href="cg"><code>ptolemy/cg</code> Code Generation</a></li>
+    <ul>
+      <li><a href="#cgLib"><code>ptolemy/cg</code> Library demos</a></li>
+      <li><a href="#cgPtides"><code>ptolemy/cg</code> Ptides demos</a></li>
+    </ul>
+
+    <li><a href="#codegen"><code>ptolemy/codegen</code> Code Generation</a></li>
+    <ul>
+      <li><a href="#pnCodegen">C PN Code Generation</a>
+      <li><a href="#sdfCodegen">C SDF Code Generation</a>
+      <li><a href="#javaSDFCodegen">Java SDF Code Generation</a>
+    </ul>
+  </ul>
 <li><a href="#ontologies">Ontology Analysis</a>
 <li><a href="#noDomain">Models that have no domain</a>
 <!--vergilDocs-->
@@ -134,8 +150,8 @@ set of demos that highlight the key features of Ptolemy II.
 <!--/vergilDocs-->
 <h3><a name="ca">Cellular Automata (CA)</a></h3>
 <ul>
-<li><a href="../../domains/ca/demo/Conway/Conway.xml">Conway's Game of Life</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../domains/ca/demo/ConwayRandom/ConwayRandom.xml">Conway's Game of Life Random</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../domains/ca/demo/Conway/Conway.xml">Conway's Game of Life</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../domains/ca/demo/ConwayRandom/ConwayRandom.xml">Conway's Game of Life Random</a> (New in Ptolemy II 9.0)</li>
 </ul>
 <!--vergilDocs-->
 
@@ -183,7 +199,6 @@ An recent implementation of Continuous Time semantics, for use with the <a href=
 <li>Hybrid Plant: <a href="../../domains/continuous/demo/HybridPlant/HybridPlant.xml">Deterministic</a>, 
 <a href="../../domains/continuous/demo/HybridPlant/RandomHybridPlant.xml">Random</a> 
 <li><a href="../../domains/continuous/demo/Hysteresis/Hysteresis.xml">Hysteresis</a> 
-<li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithBernoulliLosses.xml">HysteresisWithBernoulliLosses</a> 
 <li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithRandomDelay.xml">HysteresisWithRandomDelay</a> 
 <li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithRandomLosses.xml">HysteresisWithRandomLosses</a> 
 <li><a href="../../domains/continuous/demo/LevelCrossingDetector/LevelCrossingDetector.xml">Level Crossing Detector</a>,
@@ -372,6 +387,7 @@ An earlier implementation of Continuous Time semantics, for use with the <a href
 <li><a href="../../actor/parameters/demo/Bouncer/Bouncer.xml">Bouncer: location control,
 visible parameters, and MonitorValue</a> 
 <li><a href="../../domains/de/demo/Clock/Clock.xml">Clock</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)  
+<li><a href="../../domains/de/demo/ClockDrift/ClockDrift.xml">Clock Drift</a> (New in Ptolemy II 9.0)
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ConcurrentChat.xml">Concurrent Chat</a> 
 <li><a href="../../codegen/rtmaude/demo/HierarchicalTrafficLight/HierarchicalTrafficLight.xml">Hierarchical Traffic Light Verification, Real Time Maude Code Generation Version</a> (Requires RT Maude, see the <a href="../../verification/README.html">Verification documentation) 
 <li><a href="../../actor/lib/hoc/demo/HocDE/HocDE.xml">Higher-Order Components</a> 
@@ -397,27 +413,26 @@ visible parameters, and MonitorValue</a>
 <!--vergilDocs-->
 
 <li><a href="../../domains/de/demo/RealTimeComposite/RealTimeComposite.xml">Real Time Composite</a>  
-<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/SpontaneousSources.xml">SpontaneousSources</a> 
-
-
-<!--/vergilDocs-->
-<!--Ptiny does not include Verification --> 
-<li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightDECTA.xml">Simple Traffic Light Verification DE Version</a> (Requires RED 7.0, see the <a href="../../verification/README.html">Verification documentation)  
-<li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightRTMaudeCG.xml">Simple Traffic Light Verification, Real Time Maude Code Generation Version</a> (Requires RT Maude, see the <a href="../../verification/README.html">Verification documentation)  
-
-<!--vergilDocs-->
 
 <li><a href="../../data/type/demo/Router/Router.xml">Router</a>
 
 <!--/vergilDocs-->
 <!--Ptiny does not include serial actor--> 
-<li><a href="../../actor/lib/io/comm/demo/SerialPort/SerialPort.xml">Using the serial port</a>
+<li><a href="../../actor/lib/io/comm/demo/SerialPort/SerialPort.xml">Serial Port</a>
 (Uses the serial port, see <a href="../../../doc/codeDoc/ptolemy/actor/lib/io/comm/SerialComm.html">SerialPort actor documentation</a>)
 <!--vergilDocs-->
+
+<!--/vergilDocs-->
+<!--Ptiny does not include Verification --> 
+<li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightDECTA.xml">Simple Traffic Light Verification DE Version</a> (Requires RED 7.0, see the <a href="../../verification/README.html">Verification documentation)  
+<li><a href="../../verification/demo/SimpleTrafficLight/SimpleTrafficLightRTMaudeCG.xml">Simple Traffic Light Verification, Real Time Maude Code Generation Version</a> (Requires RT Maude, see the <a href="../../verification/README.html">Verification documentation)  
+<!--vergilDocs-->
+
 <li><a href="../../domains/de/demo/SmartSender/SmartSender.xml">Smart Sender</a>
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/SpontaneousSources.xml">SpontaneousSources</a> 
 <li><a href="../../domains/de/demo/TimingParadox/TimingParadox.xml">Timing Paradox</a> 
+<li><a href="../../domains/de/demo/Trilateration/Trilateration.xml">Trilateration</a> (New in Ptolemy II 9.0)</li>
 <li><a href="../../domains/de/demo/VariableDelay/VariableDelay.xml">Variable Delay</a>
-</ul>
 </ul>
 
 <!--/vergilDocs-->
@@ -519,8 +534,8 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <!--Ptiny does not include Petrinet --> 
 <h3><a name="petrinet">Petrinet</a><h3>
 <ul>
-<li><a href="../../domains/petrinet/demo/PetriNetDiningPhilosophers/PetriNetDiningPhilosophers.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../domains/petrinet/demo/PetriNetSimple/PetriNetSimple.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../domains/petrinet/demo/PetriNetDiningPhilosophers/PetriNetDiningPhilosophers.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../domains/petrinet/demo/PetriNetSimple/PetriNetSimple.xml">Petri Net Dining Philosophers</a> (New in Ptolemy II 9.0)</li>
 
 </ul>
 <!--vergilDocs-->
@@ -580,14 +595,14 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
      directory and the name of the model should match. -->
 
 <ul>
-<li><a href="../../demo/Brewery/Brewery.xml">Brewery (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicDistributedPowerPlant/PtidesBasicDistributedPowerPlant.xml">Distributed Power Plant (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicMixedSimulator/PtidesBasicMixedSimulator.xml">Mixed Simulator (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesNetworkLatencyTest/PtidesNetworkLatencyTest.xml">Network Latency Test (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicPowerPlant/PtidesBasicPowerPlant.xml">Power Plant (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PrintingPress/PrintingPress.xml">Printing Press (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicOnePlatform/PtidesBasicOnePlatform.xml">Single Platform (New in Ptolemy II 8.1)</a>
-<li><a href="../../domains/ptides/demo/PtidesSynchrophasor/PtidesSynchrophasor.xml">Synchrophasor (New in Ptolemy II 8.1)</a>
+<li><a href="../../demo/Brewery/Brewery.xml">Brewery (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicDistributedPowerPlant/PtidesBasicDistributedPowerPlant.xml">Distributed Power Plant (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicMixedSimulator/PtidesBasicMixedSimulator.xml">Mixed Simulator (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesNetworkLatencyTest/PtidesNetworkLatencyTest.xml">Network Latency Test (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicPowerPlant/PtidesBasicPowerPlant.xml">Power Plant (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PrintingPress/PrintingPress.xml">Printing Press (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesBasicOnePlatform/PtidesBasicOnePlatform.xml">Single Platform (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PtidesSynchrophasor/PtidesSynchrophasor.xml">Synchrophasor (New in Ptolemy II 9.0)</a>
 </ul>
 
 <!--vergilDocs-->
@@ -669,7 +684,7 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <li><a href="../../domains/sdf/demo/Eye/Eye.xml">Eye Diagram</a>
 <li><a href="../../domains/sdf/demo/FixFIR/FixFIR.xml">Fixed-Point FIR Filter</a>
 <li><a href="../../domains/sdf/demo/FixPoint/FixPoint.xml">Fixed-Point Arithmetic</a>
-<li><a href="../../actor/lib/fmi/demo/FMUBouncingBall/FMUBouncingBall.xml">Functional Mock-up Unit (FMU) Bouncing Ball</a> (New in Ptolemy II 8.1)
+<li><a href="../../actor/lib/fmi/demo/FMUBouncingBall/FMUBouncingBall.xml">Functional Mock-up Unit (FMU) Bouncing Ball</a> (New in Ptolemy II 9.0)
 <li><a href="../../domains/sdf/demo/FourierSeries/FourierSeries.xml">Fourier Series</a>
 <!--/vergilDocs-->
 <li><a href="../../domains/sdf/demo/Gravitation/Gravitation.xml">Gravitation</a>  (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
@@ -702,6 +717,10 @@ requires that JMF be installed:
 <li><a href="../../actor/lib/javasound/demo/KarplusStrong/KarplusStrong.xml">Karplus-Strong Sound Synthesis</a>
 <li><a href="../../domains/sdf/demo/LMSAdaptive/LMSAdaptive.xml">LMS Adaptive Filter</a> 
 <li><a href="../../domains/sdf/demo/LogisticMap/LogisticMap.xml">LogisticMap</a>
+<li><a href="../../domains/sdf/demo/MaximumEntropySpectrum/MaximumEntropySpectrum.xml">Maximum Entropy Spectrum</a> 
+
+<li><a href="../../matlab/demo/MatlabExpression/MatlabExpression.xml">Matlab in SDF</a> (Requires that Matlab be installed locally)
+
 <!--/vergilDocs-->
 <!--Don't include MobileFunction in Ptiny-->
 <li><a href="../../actor/lib/hoc/demo/MobileFunction/MobileFunction.xml">Mobile Function</a>
@@ -709,30 +728,23 @@ requires that JMF be installed:
 
 <li><a href="../../domains/sdf/demo/ModelDisplay/ModelDisplay.xml">ModelDisplay</a>  
 <li><a href="../../actor/lib/hoc/demo/ModelReference/ModelReference.xml">Model Reference</a>
-
 <li><a href="../../domains/sdf/demo/MultipleRuns/MultipleRuns.xml">Multiple Runs</a>
+<li><a href="../../moml/demo/Networked/Networked.xml">Network Integration</a>
 <li><a href="../../domains/sdf/demo/NoisySinewave/NoisySinewave.xml">NoisySinewave</a>
 <li><a href="../../data/type/demo/Objects/Objects.xml">Objects</a> 
-<!--/vergilDocs-->
 
+<!--/vergilDocs-->
 <!--Ptiny does not include codegen-->
 <!--OrthogonalCom - Used by codegen -->
 <li><a href="../../domains/sdf/demo/OrthogonalCom/OrthogonalCom.xml">Orthogonal Communications</a> 
 <!--vergilDocs-->
-
-<li><a href="../../domains/sdf/demo/MaximumEntropySpectrum/MaximumEntropySpectrum.xml">Maximum Entropy Spectrum</a> 
-
-<li><a href="../../matlab/demo/MatlabExpression/MatlabExpression.xml">Matlab in SDF</a> (Requires that Matlab be installed locally)
-
-<li><a href="../../moml/demo/Networked/Networked.xml">Network Integration</a>
-
 
 <!--Kepler and BCVTB does not include Python-->
 <!--/ptinyKeplerDocs-->
 <!--/bcvtbDocs-->
 <li><a href="../../actor/lib/python/demo/Ptolemnizer/Ptolemnizer.xml">Ptolemnizer (using Python)</a>
 <li><a href="../../actor/lib/python/demo/PythonScale/PythonScale.xml">Python Integration</a>
-<li><a href="../../actor/lib/python/demo/PythonScale/PythonScale.xml">Python Record Manipulation</a> (New in Ptolemy II 8.1) 
+<li><a href="../../actor/lib/python/demo/PythonScale/PythonScale.xml">Python Record Manipulation</a> (New in Ptolemy II 9.0) 
 <!--ptinyKeplerDocs-->
 <!--bcvtbDocs-->
 
@@ -743,7 +755,7 @@ requires that JMF be installed:
 
 <!--/vergilDocs-->
 <!--Ptiny does not include sdf/optimize-->
-<li><a href="../../domains/sdf/optimize/demo/SDFOptimize/SDFOptimize.xml">SDF Optimize</a> (New in Ptolemy II 8.1)
+<li><a href="../../domains/sdf/optimize/demo/SDFOptimize/SDFOptimize.xml">SDF Optimize</a> (New in Ptolemy II 9.0)
 
 <!--Ptiny does not include the security actors-->
 <li><a href="../../actor/lib/security/demo/Signature/Signature.xml">Security Signature</a>
@@ -805,8 +817,8 @@ requires that JMF be installed:
 <!--Ptiny does not include TaskPt-->
 <h3><a name="taskpt">TaskPt</a></h3>
 <ul>
-<li><a href="../../domains/taskpt/demo/SharedMemory/SharedMemory.xml">SharedMemory</a> (New in Ptolemy II 8.1)
-<li><a href="../../domains/taskpt/demo/Task/Task.xml">Task</a> (New in Ptolemy II 8.1)
+<li><a href="../../domains/taskpt/demo/SharedMemory/SharedMemory.xml">SharedMemory</a> (New in Ptolemy II 9.0)
+<li><a href="../../domains/taskpt/demo/Task/Task.xml">Task</a> (New in Ptolemy II 9.0)
 </ul>
 <!--Ptiny does not include TM-->
 <h3><a name="tm">Priority driven multi-tasking (TM)</a></h3>
@@ -845,6 +857,37 @@ requires that JMF be installed:
 <li><a href="../../domains/wireless/demo/Zigbee/Zigbee.xml">Zigbee</a> 
 </ul>
 
+<h3><a name="hoc">Higher Order Components</a></h3>
+<!-- These are duplicates of some of the domain-oriented models above. -->
+<ul>
+<li><a href="../../actor/lib/hoc/demo/ApplyFFT/ApplyFFT.xml">ApplyFFT</a>
+
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/BackgroundExecution.xml">Background Execution</a> 
+<li><a href="../../actor/lib/hoc/demo/Case/Case.xml">Case</a>
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ConcurrentChat.xml">Concurrent Chat</a> 
+<li><a href="../../actor/lib/hoc/demo/DFTSubSet/DFTSubSet.xml">DFT Subset</a> 
+
+<!--/vergilDocs-->
+<!--Ptiny does not include ExecDemos and RunDemos--> 
+<li><a href="../../demo/ExecDemos/ExecDemos.xml">ExecDemos</a>
+<!--vergilDocs-->
+
+<li><a href="../../actor/lib/hoc/demo/HocDE/HocDE.xml">Higher-Order Components</a> 
+<li><a href="../../actor/lib/hoc/demo/IterateOverArray/IterateOverArray.xml">IterateOverArray</a>
+<li><a href="../../actor/lib/hoc/demo/MobileFunction/MobileFunction.xml">Mobile Function</a>
+<li><a href="../../actor/lib/hoc/demo/ModelReference/ModelReference.xml">Model Reference</a>
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/MulticoreExecution.xml">MulticoreExecution</a> 
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
+
+<!--/vergilDocs-->
+<!--Ptiny does not include ExecDemos and RunDemos--> 
+<li><a href="../../demo/ExecDemos/RunDemos.xml">RunDemos</a>
+<!--vergilDocs-->
+
+<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/SpontaneousSources.xml">SpontaneousSources</a> 
+</ul>
+
 <!--/ptinyKeplerDocs-->
 <!-- Ptiny does not include gt because it requires extra UI classes -->
 <h3><a name="modelTransformation">Model Transformation</a></h3>
@@ -872,15 +915,48 @@ requires that JMF be installed:
 
 <!--/ptinyKeplerDocs-->
 <!-- Ptiny does not include codegen -->
+Ptolemy II has several generations of code generation facilities.  
+<br/><code>ptolemy/cg/</code> is the most recent facility.
+<br/><code>ptolemy/codegen</code> is the older facility.
 
-<h3><a name="pnCodegen">C PN Code Generation</a></h3>
+<h3><a name="cg"><code>ptolemy/cg</code></a></h3>
+Newer Ptolemy code generation demos that use files  in <code>ptolemy/cg</code>.
+
+<h4><a name="cgLib"><code>ptolemy/cg</code> Library demos</a></h4>
+<!-- Please keep the demos alphabetical -->
+<ul>
+<li><a href="../../cg/lib/demo/CompiledCompositeActor/CompiledCompositeActor.xml">CompiledCompositeActor</a></li>
+<li><a href="../../cg/lib/demo/ModularCG/ModularCG.xml">ModularCG</a></li>
+<li><a href="../../cg/lib/demo/ModularCGPubSub/ModularCGPubSub.xml">ModularCGPubSub</a></li>
+<li><a href="../../cg/lib/demo/Scale/ScaleC.xml">Scale C</a></li>
+<li><a href="../../cg/lib/demo/Scale/ScaleJava.xml">Scale Java</a></li>
+</ul>
+
+<h4><a name="cgPtides"><code>ptolemy/cg</code> Ptides demos</a></h4>
+<ul>
+<!-- Please keep the demos alphabetical -->
+<li><a href="../../cg/adapter/generic/program/procedural/c/adapters/ptolemy/domains/ptides/demo/OnePlatform/OnePlatform.xml">OnePlatform</a></li>
+</ul>
+
+<h4><a name="cgPtidesLuminary"><code>ptolemy/cg</code> Ptides Luminary demos</a></h4>
+<ul>
+<!-- Please keep the demos alphabetical -->
+<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Accumulator/Accumulator.xml">Accumulator</a></li>
+<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Speaker/Speaker.xml">Speaker</a></li>
+<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TimeTriggeredTunnelingBallDevice/TimeTriggeredTunnelingBallDevice.xml">TimeTriggeredTunnelingBallDevice</a></li>
+<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TunnelingBallDevice/TunnelingBallDevice.xml">TunnelingBallDevice</a></li>
+</ul>
+
+<h3><a name"codegen"><code>ptolemy/codegen</code></h3>
+Older Ptolemy code generation demos that use files  in <code>ptolemy/codegen</code>.
+<h4><a name="pnCodegen">C PN Code Generation</a></h4>
 <ul>
 <!-- Please keep the demos alphabetical -->
 <li><a href="../../codegen/c/domains/pn/demo/Gravitation/Gravitation.xml">Gravitation</a> 
 <li><a href="../../codegen/c/domains/pn/demo/PNButterfly/PNButterfly.xml">PN Butterfly</a> 
 </ul>
 
-<h3><a name="sdfCodegen">C SDF Code Generation</a></h3>
+<h4><a name="sdfCodegen">C SDF Code Generation</a></h4>
 <ul>
 <!-- Please keep the demos alphabetical -->
 <li><a href="../../domains/sdf/demo/Butterfly/Butterfly.xml">Butterfly</a>
@@ -897,7 +973,7 @@ Ptolemy II 8.0)
 
 </ul>
 
-<h3><a name="javaSDFCodegen">Java SDF Code Generation</a></h3>
+<h4><a name="javaSDFCodegen">Java SDF Code Generation</a></h4>
 <ul>
 <li><a href="../../codegen/java/actor/lib/embeddedJava/demo/CompiledCompositeActor/CompiledCompositeActor.xml">Expression demo with Java CompiledCompositeActor</a>    
 <li><a href="../../codegen/java/actor/lib/embeddedJava/demo/Scale/Scale.xml">Scale with Embedded Java</a>  
@@ -919,16 +995,16 @@ Ptolemy II 8.0)
 <h3><a name="applications">Applications</h3>
 <h4>Fuel System</h4>
 <ul>
-<li><a href="../../demo/FuelSystem/FuelSystem.xml">Simple Tank Model</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../demo/FuelSystem/FuelSystemSingleTankImproved.xml">Improved Tank Model</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../demo/FuelSystem/FuelSystemErrorHandling.xml">Tank Model with Error Handling</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../demo/FuelSystem/FuelSystem2Tanks.xml">2 Tank Model</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../demo/FuelSystem/FuelSystemQuantityManager.xml">2 Tank Model with Bus communication</a> (New in Ptolemy II 8.1)</li>
-<li><a href="../../demo/FuelSystem/FuelSystemOntology.xml">2 Tank Model with Ontological Information</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/FuelSystem/FuelSystem.xml">Simple Tank Model</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemSingleTankImproved.xml">Improved Tank Model</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemErrorHandling.xml">Tank Model with Error Handling</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../demo/FuelSystem/FuelSystem2Tanks.xml">2 Tank Model</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemQuantityManager.xml">2 Tank Model with Bus communication</a> (New in Ptolemy II 9.0)</li>
+<li><a href="../../demo/FuelSystem/FuelSystemOntology.xml">2 Tank Model with Ontological Information</a> (New in Ptolemy II 9.0)</li>
 </ul>
 <h4>Power Plant</h4>
 <ul>
-<li><a href="../../demo/PowerPlant/PowerPlant.xml">Power Plant Model</a> (New in Ptolemy II 8.1)</li>
+<li><a href="../../demo/PowerPlant/PowerPlant.xml">Power Plant Model</a> (New in Ptolemy II 9.0)</li>
 </ul>
 
 <!-- Ptiny does not include these somewhat esoteric models -->

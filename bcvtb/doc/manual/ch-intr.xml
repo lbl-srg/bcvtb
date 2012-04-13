@@ -17,7 +17,7 @@
  <figure xml:id="ptolemyEPlusSimuMac">
   <mediaobject>
    <imageobject role="html">
-    <imagedata fileref="img/ptolemyEPlusSimuMac.png" format="PNG" scale="50"/>
+    <imagedata fileref="img/ptolemyEPlusSimuMac.png" format="PNG" scale="100"/>
    </imageobject>
    <imageobject role="dblatex">
     <imagedata fileref="img/ptolemyEPlusSimuMac.pdf" format="PDF" scale="50"/>
