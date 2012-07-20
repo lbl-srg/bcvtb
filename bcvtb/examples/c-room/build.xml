@@ -19,7 +19,7 @@
       <fileset dir="." includes="*.c"/>
       <includepath path="../../lib/util"/>
       <includepath path="../../lib"/>
-      <libset dir="../../lib/util" libs="${lib.bcvtb}"/>
+      <libset dir="../../lib/util" libs="${lib.bcvtb}, m"/>
       <linkerarg value="../../lib/util/bcvtb.lib" if="windows"/>
     </cpptasks:cc>
   </target>
