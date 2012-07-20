@@ -782,9 +782,7 @@ int sendclientmessage(const int *sockfd, const int *flaWri){
   int zI = 0;
   int retVal = 0;
   double zD = 0;
-  int bufLen = HEADER_LENGTH;
-  char inpBuf[HEADER_LENGTH];
-  memset(inpBuf, '\0', HEADER_LENGTH);
+  char *inpBuf;
 
   if ( *sockfd >= 0 ){
     retVal = writetosocket(sockfd, flaWri, &zI, &zI, &zI, &zD,
@@ -797,7 +795,20 @@ int sendclientmessage(const int *sockfd, const int *flaWri){
       // No error. Wait for acknowledgement. This is needed on Windows for E+.
       // Otherwise, E+ sometimes terminates and breaks the socket connection before
       // Ptolemy read the message.
-      retVal = readbufferfromsocket(sockfd, inpBuf, &bufLen);
+
+      inpBuf = malloc(REQUIRED_READ_LENGTH * sizeof(char));
+      if (inpBuf == NULL) {
+        perror("malloc failed in sendclientmessage.");
+#ifdef NDEBUG
+        fprintf(f1, "malloc failed in sendclientmessage.\n");
+#endif
+        free(inpBuf);
+        return -11;
+      }
+      memset(inpBuf, '\0', REQUIRED_READ_LENGTH);
+      
+      retVal = readbufferfromsocket(sockfd, inpBuf, &REQUIRED_READ_LENGTH);
+      free(inpBuf);
     }
   }
   else
@@ -910,10 +921,6 @@ int readfromsocket(const int *sockfd, int *flaRea,
     REQUIRED_READ_LENGTH = getRequiredReadBufferLength(sockfd);
     if ( REQUIRED_READ_LENGTH <= 0 )
       return -1;
-    // Increase the buffer length for the socket
-    //    retVal = setrequiredbufferlength(*sockfd, REQUIRED_READ_LENGTH, SO_RCVBUF);
-    //    if ( retVal != 0 )
-    //      return retVal;
   }
   // Increase the buffer that is used to store the data
   inpBuf = malloc(REQUIRED_READ_LENGTH * sizeof(char));

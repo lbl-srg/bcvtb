@@ -50,6 +50,14 @@
             in <xref linkend="tit-EsprCon"></xref>.
         </para>
         </listitem>
+        <listitem>
+	  <para>
+	    Fixed a buffer overflow in <code>lib/util/utilSocket.c</code> that
+	    occured in the function <code>int sendclientmessage(const int *sockfd, const int *flaWri)</code>.
+	    The buffer overflow causes the error message <code>*** stack smashing detected ***</code>,
+	    followed by a termination of the client program.
+        </para>
+        </listitem>
       </itemizedlist>
     </para>
         </section>
