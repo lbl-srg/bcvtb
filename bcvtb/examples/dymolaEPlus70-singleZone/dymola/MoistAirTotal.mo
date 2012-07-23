@@ -18896,7 +18896,7 @@ Implemented first version in <code>Buildings</code> library, based on model from
        if use_safeDivision then
           m_flowInv = Buildings.Utilities.Math.Functions.inverseXRegularized(x=port_a.m_flow, delta=m_flow_small/1E3);
        else
-           m_flowInv = 1/port_a.m_flow;
+           m_flowInv = 0; // m_flowInv is not used if use_safeDivision = false.
        end if;
        if allowFlowReversal then
       // This formulation fails to simulate in Buildings.Fluid.MixingVolumes.Examples.MixingVolumePrescribedHeatFlowRate
@@ -18922,8 +18922,13 @@ Implemented first version in <code>Buildings</code> library, based on model from
           // Mass balance
           port_a.m_flow = -port_b.m_flow;
           // Energy balance
-          port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
-          port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
+          if use_safeDivision then
+            port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
+            port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
+          else
+            port_a.m_flow * (inStream(port_a.h_outflow) - port_b.h_outflow) = Q_flow;
+            port_a.m_flow * (inStream(port_b.h_outflow) - port_a.h_outflow) = -Q_flow;
+          end if;
           // Transport of species
           port_a.Xi_outflow = inStream(port_b.Xi_outflow);
           port_b.Xi_outflow = inStream(port_a.Xi_outflow);
@@ -18936,13 +18941,23 @@ Implemented first version in <code>Buildings</code> library, based on model from
           // Energy balance.
           // This equation is approximate since m_flow = port_a.m_flow is used for the mass flow rate
           // at both ports. Since mXi_flow << m_flow, the error is small.
-          port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
-          port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
-          // Transport of species
-          for i in 1:Medium.nXi loop
-            port_b.Xi_outflow[i] = inStream(port_a.Xi_outflow[i]) + mXi_flow[i] * m_flowInv;
-            port_a.Xi_outflow[i] = inStream(port_b.Xi_outflow[i]) - mXi_flow[i] * m_flowInv;
-          end for;
+          if use_safeDivision then
+            port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
+            port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
+            // Transport of species
+            for i in 1:Medium.nXi loop
+              port_b.Xi_outflow[i] = inStream(port_a.Xi_outflow[i]) + mXi_flow[i] * m_flowInv;
+              port_a.Xi_outflow[i] = inStream(port_b.Xi_outflow[i]) - mXi_flow[i] * m_flowInv;
+            end for;
+           else
+            port_a.m_flow * (port_b.h_outflow - inStream(port_a.h_outflow)) = Q_flow;
+            port_a.m_flow * (port_a.h_outflow - inStream(port_b.h_outflow)) = -Q_flow;
+            // Transport of species
+            for i in 1:Medium.nXi loop
+              port_a.m_flow * (port_b.Xi_outflow[i] - inStream(port_a.Xi_outflow[i])) = mXi_flow[i];
+              port_a.m_flow * (port_a.Xi_outflow[i] - inStream(port_b.Xi_outflow[i])) =- mXi_flow[i];
+            end for;
+           end if;
           // Transport of trace substances
           for i in 1:Medium.nC loop
             port_a.m_flow*port_a.C_outflow[i] = -port_b.m_flow*inStream(port_b.C_outflow[i]);
@@ -18989,6 +19004,12 @@ or instantiates this model sets <code>mXi_flow = zeros(Medium.nXi)</code>.
 </html>",
       revisions="<html>
 <ul>
+<li>
+June 22, 2012 by Michael Wetter:<br>
+Reformulated implementation with <code>m_flowInv</code> to use <code>port_a.m_flow * ...</code>
+if <code>use_safeDivision=false</code>. This avoids a division by zero if 
+<code>port_a.m_flow=0</code>.
+</li>
 <li>
 February 7, 2012 by Michael Wetter:<br>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
@@ -20726,6 +20747,22 @@ First implementation.
 
              end if;
            end for;
+           // Exchange initial values
+            if activateInterface then
+              (flaRea, simTimRea, yR, retVal) :=
+                Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals(
+                socketFD=socketFD,
+                flaWri=flaWri,
+                simTimWri=time,
+                dblValWri=_uStart,
+                nDblWri=size(uRWri, 1),
+                nDblRea=size(yR, 1));
+            else
+              flaRea := 0;
+              simTimRea := time;
+              yR := yRFixed;
+              retVal := 0;
+              end if;
 
         equation
            for i in 1:nDblWri loop
@@ -20756,7 +20793,7 @@ First implementation.
                 socketFD=socketFD,
                 flaWri=flaWri,
                 simTimWri=time,
-                dblValWri=if firstTrigger then _uStart else uRWri,
+                dblValWri=uRWri,
                 nDblWri=size(uRWri, 1),
                 nDblRea=size(yR, 1));
             else
@@ -20774,7 +20811,7 @@ First implementation.
                                 "   Received: retVal = " + String(retVal));
 
             // Store current value of integral
-            uRIntPre:=uRInt;
+          uRIntPre:=uRInt;
           end when;
            // Close socket connnection
            when terminal() then
@@ -20992,6 +21029,15 @@ directory even if <code>activateInterface=false</code>.
 </p>
 </html>",         revisions="<html>
 <ul>
+<li>
+July 19, 2012, by Michael Wetter:<br>
+Added a call to <code>Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals</code>
+in the <code>initial algorithm</code> section.
+This is needed to propagate the initial condition to the server.
+It also leads to one more data exchange, which is correct and avoids the
+warning message in Ptolemy that says that the simulation reached its stop time
+one time step prior to the final time.
+</li>
 <li>
 January 19, 2010, by Michael Wetter:<br>
 Introduced parameter to set initial value to be sent to the BCVTB.
@@ -22347,7 +22393,7 @@ annotation (
 version="1.2",
 versionBuild=0,
 versionDate="2012-02-29",
-dateModified = "$Date: 2012-04-04 14:40:55 -0700 (Wed, 04 Apr 2012) $",
+dateModified = "$Date: 2012-07-18 15:42:54 -0700 (Wed, 18 Jul 2012) $",
 uses(Modelica(version="3.2")),
 conversion(
  from(version="1.1",
@@ -22356,7 +22402,7 @@ conversion(
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.0_to_1.1.mos"),
  from(version="0.12",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_0.12_to_1.0.mos")),
-revisionId="$Id: package.mo 3830 2012-04-04 21:40:55Z mwetter $",
+revisionId="$Id: package.mo 4258 2012-07-18 22:42:54Z mwetter $",
 preferredView="info",
 Documentation(info="<html>
 <p>

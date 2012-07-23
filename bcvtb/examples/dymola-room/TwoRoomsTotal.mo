@@ -2011,6 +2011,22 @@ This package contains models for heat transfer elements.
 
              end if;
            end for;
+           // Exchange initial values
+            if activateInterface then
+              (flaRea, simTimRea, yR, retVal) :=
+                Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals(
+                socketFD=socketFD,
+                flaWri=flaWri,
+                simTimWri=time,
+                dblValWri=_uStart,
+                nDblWri=size(uRWri, 1),
+                nDblRea=size(yR, 1));
+            else
+              flaRea := 0;
+              simTimRea := time;
+              yR := yRFixed;
+              retVal := 0;
+              end if;
 
         equation
            for i in 1:nDblWri loop
@@ -2041,7 +2057,7 @@ This package contains models for heat transfer elements.
                 socketFD=socketFD,
                 flaWri=flaWri,
                 simTimWri=time,
-                dblValWri=if firstTrigger then _uStart else uRWri,
+                dblValWri=uRWri,
                 nDblWri=size(uRWri, 1),
                 nDblRea=size(yR, 1));
             else
@@ -2059,7 +2075,7 @@ This package contains models for heat transfer elements.
                                 "   Received: retVal = " + String(retVal));
 
             // Store current value of integral
-            uRIntPre:=uRInt;
+          uRIntPre:=uRInt;
           end when;
            // Close socket connnection
            when terminal() then
@@ -2277,6 +2293,15 @@ directory even if <code>activateInterface=false</code>.
 </p>
 </html>",         revisions="<html>
 <ul>
+<li>
+July 19, 2012, by Michael Wetter:<br>
+Added a call to <code>Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals</code>
+in the <code>initial algorithm</code> section.
+This is needed to propagate the initial condition to the server.
+It also leads to one more data exchange, which is correct and avoids the
+warning message in Ptolemy that says that the simulation reached its stop time
+one time step prior to the final time.
+</li>
 <li>
 January 19, 2010, by Michael Wetter:<br>
 Introduced parameter to set initial value to be sent to the BCVTB.
@@ -2646,7 +2671,7 @@ annotation (
 version="1.2",
 versionBuild=0,
 versionDate="2012-02-29",
-dateModified = "$Date: 2012-04-04 14:40:55 -0700 (Wed, 04 Apr 2012) $",
+dateModified = "$Date: 2012-07-18 15:42:54 -0700 (Wed, 18 Jul 2012) $",
 uses(Modelica(version="3.2")),
 conversion(
  from(version="1.1",
@@ -2655,7 +2680,7 @@ conversion(
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.0_to_1.1.mos"),
  from(version="0.12",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_0.12_to_1.0.mos")),
-revisionId="$Id: package.mo 3830 2012-04-04 21:40:55Z mwetter $",
+revisionId="$Id: package.mo 4258 2012-07-18 22:42:54Z mwetter $",
 preferredView="info",
 Documentation(info="<html>
 <p>
