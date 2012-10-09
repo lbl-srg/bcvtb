@@ -61,6 +61,10 @@
    <ulink url="http://ptolemy.berkeley.edu/ptolemyII/tutorial.htm">Ptolemy II tutorial</ulink>
    from UC Berkeley.
   </para>
+  
+   <section xml:id="tit-SDF">
+  <title>Synchronous Data Flow (SDF) director</title>
+  
   <para>
    In Ptolemy II, different
    <emphasis>models of computations</emphasis>
@@ -247,7 +251,37 @@ Check box; if activated, a separate window will be opened that displays the cons
 	    </title>
    </figure>
   </para>
+  </section>
+  <section>
+  <title>Data Type Conversion</title>
+  <para>
+    <figure xml:id="convStrDbl">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/conversion-strings-doubles.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/conversion-strings-doubles.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Ptolemy II system model that converts an array of strings into an array of doubles.
+	    </title>
+   </figure> 
+   This example shows how to convert an array of strings into an array of doubles in Ptolemy II. 
+   Such a type conversion may be needed if the output of the BACnet reader is used by other actors.
+ The model shown in <xref linkend="convStrDbl"></xref> illustrates the type conversion and
+  can be found in the directory
+ <code>bcvtb/examples/ptolemy-dataTypeConversion/system.xml</code>.
+   
+ The conversion was done by 
+ dragging an <code>ExpressionToToken</code> actor onto an <code>IterateOverArray</code> actor, and
+ setting the output of the <code>ExpressionToToken</code> actor to <code>arrayType(String)</code>
+ by right clicking on <code>ExpressionToToken</code> and selecting <guimenuitem>Customize->Ports</guimenuitem>.
+  </para>
+  </section>
  </section>
+ 
 <!-- *** EnergyPlus ********************************************** -->
  <section xml:id="tit-EnePluCon">
   <title>EnergyPlus</title>
