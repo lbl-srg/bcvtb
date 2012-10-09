@@ -88,7 +88,8 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  nSte = (int)nearbyint(endTim/delTim);
+  //nSte = (int)nearbyint(endTim/delTim);
+  nSte = (int)floor((endTim/delTim) + 0.5); // added by TNouidui. nearbyint not defined on Windows.
   if (abs(nSte*delTim-endTim) > 1E-10*endTim){
     printf("Error: End time divided by time step must be an integer.\n");
     printf("       Number of time steps is %d.\n", nSte);
