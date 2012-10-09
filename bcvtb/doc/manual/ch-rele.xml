@@ -58,6 +58,23 @@
 	    followed by a termination of the client program.
         </para>
         </listitem>
+	<listitem>
+	  <para>
+	    The example files have been updated for EnergyPlus 7.1.
+        </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The example files have been updated for EnergyPlus 7.2.
+        </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    Added an example file which describes how to convert an array of strings 
+	    into an array of doubles. The example file can be found 
+	    in <code>examples/ptolemy-dataTypeConversion</code>.
+        </para>
+        </listitem>
       </itemizedlist>
     </para>
         </section>

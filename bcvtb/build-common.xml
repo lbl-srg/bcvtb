@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="bcvtb-settings"> 
- <property name="VERSION"    value="1.1.0"/>
+ <property name="VERSION"    value="1.2.0"/>
 
   <!-- Version information -->
   <filterset id="build.filters">
