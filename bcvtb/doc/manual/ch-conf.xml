@@ -269,10 +269,10 @@ Check box; if activated, a separate window will be opened that displays the cons
 	    </title>
    </figure> 
    This example shows how to convert an array of strings into an array of doubles in Ptolemy II. 
-   Such a type conversion may be needed if the output of the BACnet reader is used by other actors.
+   Such a type conversion may be needed if the output of the <code>BACnetReader</code> actor is used by other actors.
  The model shown in <xref linkend="convStrDbl"></xref> illustrates the type conversion and
   can be found in the directory
- <code>bcvtb/examples/ptolemy-dataTypeConversion/system.xml</code>.
+ <code>bcvtb/examples/ptolemy-dataTypeConversion</code>.
    
  The conversion was done by 
  dragging an <code>ExpressionToToken</code> actor onto an <code>IterateOverArray</code> actor, and

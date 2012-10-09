@@ -70,7 +70,7 @@
         </listitem>
 	<listitem>
 	  <para>
-	    Added an example file which describes how to convert an array of strings 
+	    An example file has been added that describes how to convert an array of strings 
 	    into an array of doubles. The example file can be found 
 	    in <code>examples/ptolemy-dataTypeConversion</code>.
         </para>
