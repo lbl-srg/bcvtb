@@ -70,19 +70,19 @@
   <target name="insertBCVTBVersionInfo"
           description="Inserts the BCVTB version information">
 
-       <replace failOnNoReplacements="true"  
+       <replace failOnNoReplacements="true"     
 	       file="./ptolemy/configs/bcvtb/intro.htm"> 
         <replacetoken><![CDATA[<h1>Building Controls Virtual Test Bed (BCVTB) Edition</h1>]]></replacetoken>
         <replacevalue><![CDATA[<h1>BCVTB Edition, Version MYVERSION, MYDATE</h1>]]>
 	</replacevalue>
       </replace>
-      <replace failOnNoReplacements="true"  
+      <replace failOnNoReplacements="true"     
 	       file="./ptolemy/configs/bcvtb/intro.htm" token="MYVERSION" value="${VERSION}"/> 
-      <replace failOnNoReplacements="true" 
+      <replace failOnNoReplacements="true"      
 	       file="./ptolemy/configs/bcvtb/intro.htm" token="MYDATE" value="${TODAY}"/> 
 
       <!-- Update copyright link -->
-      <replace failOnNoReplacements="true" 
+      <replace failOnNoReplacements="true"     
 	       file="./ptolemy/configs/bcvtb/intro.htm"> 
         <replacetoken><![CDATA[<li><a href="about:copyright" target="_blank">Copyright</a></li>]]></replacetoken>
         <replacevalue><![CDATA[
@@ -92,7 +92,7 @@
 </replace>
 
       <!-- Replace example list so that it points to BCVTB example list -->
-      <replace failOnNoReplacements="true" 
+      <replace failOnNoReplacements="true"      
 	       file="./ptolemy/configs/bcvtb/intro.htm"> 
         <replacetoken><![CDATA[<h2>Demonstrations</h2>
 <ul>
@@ -118,7 +118,7 @@ Analog/digital interface that links to a room model with closed loop control.
 Modelica simple room model, controls simulated by Ptolemy.
 </li>
 <li>
- <a href="../../../../../examples/dymolaEPlus72-singleZone/system-windows.xml">dymolaEPlus70-room</a>:
+ <a href="../../../../../examples/dymolaEPlus72-singleZone/system-windows.xml">dymolaEPlus72-room</a>:
 Modelica model of HVAC system, building simulated by EnergyPlus.
 </li>
 <li>
@@ -213,7 +213,7 @@ Note that this example requires ALC hardware to run and a BACnet connnection.
 Modelica simple room model, controls simulated by Ptolemy.
 </li>
 <li>
- <a href="../../../../../examples/dymolaEPlus70-singleZone/system.xml">dymolaEPlus70-room</a>:
+ <a href="../../../../../examples/dymolaEPlus72-singleZone/system.xml">dymolaEPlus72-room</a>:
 Modelica model of HVAC system, building simulated by EnergyPlus.
 </li>
 <li>
@@ -321,7 +321,7 @@ on Mac OS X.
   </replace>
 
   <!-- Update bcvtbLibrary.xml to include library that are not shipped with ptolemy -->
-  <replace failOnNoReplacements="true" 
+  <replace failOnNoReplacements="true"       
 	   file="./ptolemy/configs/bcvtb/bcvtbLibrary.xml"> 
   <replacetoken><![CDATA[</entity>
 </entity>]]></replacetoken>
