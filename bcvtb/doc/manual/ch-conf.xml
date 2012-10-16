@@ -255,29 +255,65 @@ Check box; if activated, a separate window will be opened that displays the cons
   <section>
   <title>Data Type Conversion</title>
   <para>
-    <figure xml:id="convStrDbl">
+    <figure xml:id="convStrDbl-2">
     <mediaobject>
      <imageobject role="html">
-      <imagedata fileref="img/conversion-strings-doubles.png" format="PNG"></imagedata>
+      <imagedata fileref="img/conversion-strings-doubles-p2.png" format="PNG"></imagedata>
      </imageobject>
      <imageobject role="dblatex">
-      <imagedata fileref="img/conversion-strings-doubles.pdf" format="PDF" scalefit="1"></imagedata>
+      <imagedata fileref="img/conversion-strings-doubles-p2.pdf" format="PDF" scalefit="1"></imagedata>
      </imageobject>
     </mediaobject>
     <title>
 	    Ptolemy II system model that converts an array of strings into an array of doubles.
 	    </title>
    </figure> 
-   This example shows how to convert an array of strings into an array of doubles in Ptolemy II. 
-   Such a type conversion may be needed if the output of the <code>BACnetReader</code> actor is used by other actors.
- The model shown in <xref linkend="convStrDbl"></xref> illustrates the type conversion and
-  can be found in the directory
+ This example shows how to convert an array of strings into an array of doubles in Ptolemy II. 
+ Such a type conversion may be needed if the output of the <code>BACnetReader</code> actor is used by other actors.
+ The model shown in <xref linkend="convStrDbl-2"></xref> illustrates the type conversion and
+ can be found in the directory
  <code>bcvtb/examples/ptolemy-dataTypeConversion</code>.
-   
+
  The conversion was done by 
- dragging an <code>ExpressionToToken</code> actor onto an <code>IterateOverArray</code> actor, and
- setting the output of the <code>ExpressionToToken</code> actor to <code>arrayType(String)</code>
- by right clicking on <code>ExpressionToToken</code> and selecting <guimenuitem>Customize->Ports</guimenuitem>.
+<orderedlist>
+   <listitem>
+          dragging and dropping an <code>IterateOverArray</code> actor from the library,
+        </listitem>
+ <listitem>
+          dragging an <code>ExpressionToToken</code> actor from the library onto it (See <xref linkend="convStrDbl-1"></xref>),
+        </listitem>
+<listitem>
+          setting the output of the <code>IterateOverArray</code> actor to <code>arrayType(double)</code> by right clicking 
+on <code>IterateOverArray</code> and selecting <guimenuitem>Customize->Ports</guimenuitem>,
+        </listitem>
+<listitem>
+          including an additional <code>ExpressionToToken</code> actor to the system model where its output is connected to 
+the <code>IterateOverArray</code> actor input,
+        </listitem>
+<listitem>
+          setting the output of the <code>ExpressionToToken</code> 
+actor to <code>arrayType(string)</code>,
+        </listitem>
+  <listitem>
+          adding an <code>arrayToMatrix</code> actor to the system model and setting the 
+output of this actor to <code>[double]</code>.
+        </listitem>
+  </orderedlist>
+
+    <figure xml:id="convStrDbl-1">
+    <mediaobject>
+     <imageobject role="html">
+      <imagedata fileref="img/conversion-strings-doubles-p1.png" format="PNG"></imagedata>
+     </imageobject>
+     <imageobject role="dblatex">
+      <imagedata fileref="img/conversion-strings-doubles-p1.pdf" format="PDF" scalefit="1"></imagedata>
+     </imageobject>
+    </mediaobject>
+    <title>
+	    Ptolemy II system model that shows the use of the <code>IterateOverArray</code> actor.
+	    </title>
+   </figure> 
+
   </para>
   </section>
  </section>
@@ -3321,6 +3357,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
           4: channel with 5 volts bipolar</entry>
          </row>
          <row>
+
           <entry>ChannelOptions</entry>
           <entry>0</entry>
          </row>
