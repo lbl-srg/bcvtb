@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.0.beta">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
@@ -116,9 +116,9 @@ To see the implementation, open the ModalModel actor.</text></svg></configure>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[60.0, 410.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={533, 111, 1070, 584}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={362, 111, 1078, 640}, maximized=false}">
     </property>
-    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[862, 454]">
+    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[862, 516]">
     </property>
     <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0582916964073">
     </property>
@@ -301,6 +301,8 @@ To see the implementation, open the ModalModel actor.</text></svg></configure>
         </entity>
         <entity name="call" class="ptolemy.domains.modal.modal.Refinement">
             <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                </property>
                 <property name="_location" class="ptolemy.kernel.util.Location" value="65.0, 35.0">
                 </property>
             </property>

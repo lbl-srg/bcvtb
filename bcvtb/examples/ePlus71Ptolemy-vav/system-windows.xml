@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system-windows" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="8.1.devel">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
@@ -115,7 +115,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[25.0, 270.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={82, 47, 1160, 646}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={82, 47, 1161, 653}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[945, 529]">
     </property>
@@ -1532,6 +1532,8 @@ The supply air temperature setpoint is ramped up or down over a two-hour window.
                     </entity>
                     <entity name="state" class="ptolemy.domains.modal.modal.Refinement">
                         <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                            <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                            </property>
                             <property name="_location" class="ptolemy.kernel.util.Location" value="[60.0, 45.0]">
                             </property>
                         </property>
@@ -1577,6 +1579,8 @@ The supply air temperature setpoint is ramped up or down over a two-hour window.
                     </entity>
                     <entity name="heating" class="ptolemy.domains.modal.modal.Refinement">
                         <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                            <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                            </property>
                             <property name="_location" class="ptolemy.kernel.util.Location" value="[85.0, 50.0]">
                             </property>
                         </property>
@@ -1622,6 +1626,8 @@ The supply air temperature setpoint is ramped up or down over a two-hour window.
                     </entity>
                     <entity name="cooling" class="ptolemy.domains.modal.modal.Refinement">
                         <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                            <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                            </property>
                             <property name="_location" class="ptolemy.kernel.util.Location" value="{60, 30}">
                             </property>
                         </property>
@@ -3409,31 +3415,6 @@ The supply air temperature setpoint is ramped up or down over a two-hour window.
                         <link port="MultiplyDivide.divide" relation="relation14"/>
                         <link port="MultiplyDivide.output" relation="relation5"/>
                     </entity>
-                    <entity name="controls" class="ptolemy.domains.modal.modal.Refinement">
-                        <port name="yOADam" class="ptolemy.domains.modal.modal.RefinementPort">
-                            <property name="output"/>
-                            <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                            </property>
-                        </port>
-                        <port name="TSet" class="ptolemy.domains.modal.modal.RefinementPort">
-                            <property name="input"/>
-                            <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                            </property>
-                        </port>
-                        <port name="TOut" class="ptolemy.domains.modal.modal.RefinementPort">
-                            <property name="input"/>
-                            <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                            </property>
-                        </port>
-                        <port name="TRet" class="ptolemy.domains.modal.modal.RefinementPort">
-                            <property name="input"/>
-                            <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                            </property>
-                        </port>
-                        <port name="port" class="ptolemy.domains.modal.modal.RefinementPort">
-                            <property name="output"/>
-                        </port>
-                    </entity>
                     <relation name="yOADamRelation" class="ptolemy.actor.TypedIORelation">
                         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
                         </property>
@@ -3474,11 +3455,6 @@ The supply air temperature setpoint is ramped up or down over a two-hour window.
                     <link port="controlsRefi.TOut" relation="TOutRelation"/>
                     <link port="controlsRefi.TRet" relation="TRetRelation"/>
                     <link port="controlsRefi.port" relation="portRelation"/>
-                    <link port="controls.yOADam" relation="yOADamRelation"/>
-                    <link port="controls.TSet" relation="TSetRelation"/>
-                    <link port="controls.TOut" relation="TOutRelation"/>
-                    <link port="controls.TRet" relation="TRetRelation"/>
-                    <link port="controls.port" relation="portRelation"/>
                 </entity>
                 <entity name="Scale" class="ptolemy.actor.lib.Scale">
                     <property name="factor" class="ptolemy.data.expr.Parameter" value="10">
@@ -4321,6 +4297,8 @@ limiter, which is input into a linear set point scheduler.</text></svg></configu
                 </entity>
                 <entity name="heating" class="ptolemy.domains.modal.modal.Refinement">
                     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                        <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                        </property>
                         <property name="_location" class="ptolemy.kernel.util.Location" value="[85.0, 50.0]">
                         </property>
                     </property>
@@ -4392,6 +4370,8 @@ limiter, which is input into a linear set point scheduler.</text></svg></configu
                 </entity>
                 <entity name="controlsRefi" class="ptolemy.domains.modal.modal.Refinement">
                     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
+                        <property name="iterations" class="ptolemy.data.expr.Parameter" value="0">
+                        </property>
                         <property name="_location" class="ptolemy.kernel.util.Location" value="{60, 30}">
                         </property>
                     </property>
@@ -4473,33 +4453,6 @@ limiter, which is input into a linear set point scheduler.</text></svg></configu
                     <link port="opMode" relation="relation"/>
                     <link port="Const.output" relation="relation"/>
                 </entity>
-                <entity name="controls" class="ptolemy.domains.modal.modal.Refinement">
-                    <port name="opMode" class="ptolemy.domains.modal.modal.RefinementPort">
-                        <property name="output"/>
-                        <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                        </property>
-                    </port>
-                    <port name="THeaSet" class="ptolemy.domains.modal.modal.RefinementPort">
-                        <property name="input"/>
-                        <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                        </property>
-                    </port>
-                    <port name="TCooSet" class="ptolemy.domains.modal.modal.RefinementPort">
-                        <property name="input"/>
-                        <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                        </property>
-                    </port>
-                    <port name="TOut" class="ptolemy.domains.modal.modal.RefinementPort">
-                        <property name="input"/>
-                        <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                        </property>
-                    </port>
-                    <port name="TRet" class="ptolemy.domains.modal.modal.RefinementPort">
-                        <property name="input"/>
-                        <property name="_location" class="ptolemy.kernel.util.Location" value="{0.0, 0.0}">
-                        </property>
-                    </port>
-                </entity>
                 <relation name="opModeRelation" class="ptolemy.actor.TypedIORelation">
                     <property name="width" class="ptolemy.data.expr.Parameter" value="1">
                     </property>
@@ -4540,11 +4493,6 @@ limiter, which is input into a linear set point scheduler.</text></svg></configu
                 <link port="controlsRefi.TCooSet" relation="TCooSetRelation"/>
                 <link port="controlsRefi.TOut" relation="TOutRelation"/>
                 <link port="controlsRefi.TRet" relation="TRetRelation"/>
-                <link port="controls.opMode" relation="opModeRelation"/>
-                <link port="controls.THeaSet" relation="THeaSetRelation"/>
-                <link port="controls.TCooSet" relation="TCooSetRelation"/>
-                <link port="controls.TOut" relation="TOutRelation"/>
-                <link port="controls.TRet" relation="TRetRelation"/>
             </entity>
             <entity name="VectorDisassembler" class="ptolemy.actor.lib.VectorDisassembler">
                 <property name="_location" class="ptolemy.kernel.util.Location" value="[-65.0, 355.0]">

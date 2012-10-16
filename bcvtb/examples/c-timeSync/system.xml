@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
     </property>
     <property name="timeStep" class="ptolemy.data.expr.Parameter" value="1">
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">
@@ -115,9 +115,9 @@ and y_{k+1} is written to the BSD socket.</text></svg></configure>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{10.0, 440.0}">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={544, 108, 1005, 588}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={435, 108, 1004, 640}, maximized=false}">
     </property>
-    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[788, 471]">
+    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[788, 516]">
     </property>
     <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0">
     </property>
@@ -133,6 +133,7 @@ and y_{k+1} is written to the BSD socket.</text></svg></configure>
         <property name="simulationLogFile" class="ptolemy.data.expr.FileParameter" value="workingDir1/simulation.log">
         </property>
         <property name="socketTimeout" class="ptolemy.data.expr.Parameter" value="1000">
+            <display name="socketTimeout [milliseconds]"/>
         </property>
         <property name="SimulatorIcon" class="ptolemy.vergil.icon.EditorIcon">
             <property name="rectangle" class="ptolemy.vergil.kernel.attributes.RectangleAttribute">
@@ -177,6 +178,7 @@ and y_{k+1} is written to the BSD socket.</text></svg></configure>
         <property name="simulationLogFile" class="ptolemy.data.expr.FileParameter" value="workingDir2/simulation.log">
         </property>
         <property name="socketTimeout" class="ptolemy.data.expr.Parameter" value="1000">
+            <display name="socketTimeout [milliseconds]"/>
         </property>
         <property name="SimulatorIcon" class="ptolemy.vergil.icon.EditorIcon">
             <property name="rectangle" class="ptolemy.vergil.kernel.attributes.RectangleAttribute">
@@ -254,7 +256,7 @@ and y_{k+1} is written to the BSD socket.</text></svg></configure>
         </property>
         <property name="columnsDisplayed" class="ptolemy.data.expr.Parameter" value="50">
         </property>
-        <property name="title" class="ptolemy.kernel.util.StringAttribute" value="output">
+        <property name="title" class="ptolemy.data.expr.StringParameter" value="output">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{525.0, 310.0}">
         </property>
