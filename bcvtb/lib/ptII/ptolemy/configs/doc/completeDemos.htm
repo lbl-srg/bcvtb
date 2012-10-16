@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: completeDemos.htm 63233 2012-03-25 18:21:00Z cxh $ -->
+<!-- $Id: completeDemos.htm 64376 2012-08-16 23:01:21Z cxh $ -->
 <!--
 
 demosPtiny.htm is derived from this file by including
@@ -57,7 +57,6 @@ Ptolemy II models that illustrate Model of Computation-oriented functionality.
 
 <li><a href="#continuous">Continuous (Continuous Time)</a>
 <!--/bcvtbDocs-->
-<li><a href="#ct">CT (Continuous Time)</a>
 <!--/vergilDocs-->
 
 <li><a href="#dde">DDE (Distributed Discrete Events)</a>
@@ -74,8 +73,6 @@ Ptolemy II models that illustrate Model of Computation-oriented functionality.
 <!--/vergilDocs-->
 <li><a href="#dt">DT (Discrete Time)</a>
 <!--vergilDocs-->
-
-<li><a href="#fsm">FSM (Finite State Machines)</a>
 
 <!--/vergilDocs-->
 <li><a href="#giotto">Giotto (Synchronous Periodic Systems)</a>
@@ -129,13 +126,6 @@ Ptolemy II models that illustrate non-MoC oriented functionality
     <ul>
       <li><a href="#cgLib"><code>ptolemy/cg</code> Library demos</a></li>
       <li><a href="#cgPtides"><code>ptolemy/cg</code> Ptides demos</a></li>
-    </ul>
-
-    <li><a href="#codegen"><code>ptolemy/codegen</code> Code Generation</a></li>
-    <ul>
-      <li><a href="#pnCodegen">C PN Code Generation</a>
-      <li><a href="#sdfCodegen">C SDF Code Generation</a>
-      <li><a href="#javaSDFCodegen">Java SDF Code Generation</a>
     </ul>
   </ul>
 <li><a href="#ontologies">Ontology Analysis</a>
@@ -194,6 +184,7 @@ An recent implementation of Continuous Time semantics, for use with the <a href=
 <li><a href="../../domains/continuous/demo/ComparedClocks/ComparedClocks.xml">Compared Clocks</a> 
 <li><a href="../../domains/continuous/demo/ContinuousInsideDE/ContinuousInsideDE.xml">Continuous Inside DE</a>
 <li><a href="../../domains/continuous/demo/Derivative/Derivative.xml">Derivative</a> 
+<li><a href="../../domains/continuous/demo/TwoMachineInfiniteBusControl/TwoMachineInfiniteBusControl.xml">Distributed Generation Hybrid Control</a>
 <li><a href="../../domains/continuous/demo/Transmission/EfficiencyCurve.xml">Efficiency Curve</a> 
 <li><a href="../../domains/continuous/demo/FurutaPendulum/FurutaPendulum.xml">Furuta Pendulum</a> 
 <li>Hybrid Plant: <a href="../../domains/continuous/demo/HybridPlant/HybridPlant.xml">Deterministic</a>, 
@@ -260,87 +251,10 @@ An recent implementation of Continuous Time semantics, for use with the <a href=
 <li><a href="../../domains/continuous/demo/Switch/Switch.xml">Switch</a>
 <li><a href="../../domains/continuous/demo/Thermostat/Thermostat.xml">Thermostat</a>
 <li><a href="../../domains/continuous/demo/Transmission/Transmission.xml">Transmission</a>
+<li><a href="../../domains/continuous/demo/TwoMachineInfiniteBusControl/TwoMachineInfiniteBusControl.xml">Two Machine Infinite Bus Control</a> (New in Ptolemy II 9.0)
 <li><a href="../../domains/continuous/demo/V2V/V2V.xml">Vehicle 2 Vehicle</a>
 </ul>
 <!--/bcvtbDocs-->
-<h3><a name="ct">Continuous Time (CT)</a></h3>
-An earlier implementation of Continuous Time semantics, for use with the <a href="#fsm">Finite State Machine</a> domain.
-<ul>
-<!-- Please keep the demos alphabetical -->
-<!--/vergilDocs-->
-
-<li><a href="../../domains/ct/demo/BouncingBall/BouncingBallWithoutGR.xml">Bouncing Ball</a> (Does not require Java 3D)
-<!-- BouncingBall uses GR, and we don't ship GR in ptiny -->
-<li><a href="../../domains/ct/demo/BouncingBall/BouncingBall.xml">Bouncing Ball</a>  (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/Brownian/Brownian.xml">Brownian</a> 
-<!--/vergilDocs-->
-<!-- CartPendulum uses PDFAttribute, which is not shipped in ptiny -->
-<li><a href="../../domains/ct/demo/CartPendulum/CartPendulum.xml">Cart with Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<!--/vergilDocs-->
-
-<li><a href="../../domains/ct/demo/CarTracking/CarTracking.xml">Car Tracking</a> 
-<li><a href="../../domains/ct/demo/ComparedClocks/ComparedClocks.xml">Compared Clocks</a>
-<li><a href="../../domains/ct/demo/CTInsideDE/CTInsideDE.xml">CT Inside DE</a>
-<li><a href="../../domains/ct/demo/Transmission/EfficiencyCurve.xml">Efficiency Curve</a>
-<li><a href="../../domains/ct/demo/Helicopter/Helicopter.xml">Helicopter Control</a>
-<li><a href="../../domains/ct/demo/HierarchicalExecution/HierarchicalExecution.xml">Hierarchical Execution</a>
-<li>Hybrid Plant: <a href="../../domains/ct/demo/HybridPlant/DeterministicHybridPlant.xml">Deterministic</a>, 
-<a href="../../domains/ct/demo/HybridPlant/RandomHybridPlant.xml">Random</a>
-<li><a href="../../domains/ct/demo/Hysteresis/Hysteresis.xml">Hysteresis</a>
-<li><a href="../../domains/ct/demo/Hysteresis/HysteresisWithRandomDelay.xml">HysteresisWithRandomDelay</a>
-<li><a href="../../domains/ct/demo/Hysteresis/HysteresisWithRandomLosses.xml">HysteresisWithRandomLosses</a>
-<li><a href="../../domains/ct/demo/Spontaneous/IncreasingRatePoisson.xml">IncreasingRatePoisson</a>
-<li><a href="../../domains/ct/demo/LevelCrossingDetector/LevelCrossingDetector.xml">Level Crossing Detector</a>
-<li><a href="../../domains/ct/demo/LevelCrossingDetector/LevelCrossingDetectorDetectingDirections.xml">Level Crossing Detector with Different Detecting Directions</a>
-<li><a href="../../domains/ct/demo/LevelCrossingDetectorDetectsGlitches/LevelCrossingDetectorDetectsGlitches.xml">Level Crossing Detector Detects Glitches</a>
-<li><a href="../../domains/ct/demo/Lorenz/Lorenz.xml">Lorenz Attractors</a>
-<!-- Saber -->
-<li><a href="../../matlab/demo/MatlabCT/MatlabCT.xml">Matlab in CT</a> (Requires that Matlab be installed locally)
-<li><a href="../../domains/ct/demo/SigmaDelta/SigmaDelta.xml">MEMS accelerometer</a>
-<li><a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradle.xml">NewtonsCradle</a>
-
-<!--/vergilDocs-->
-<!-- These Newton's Cradle demos require GR -->
-<li><a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradleAnimated.xml">NewtonsCradleAnimated</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradleComplicated.xml">Newton's Cradle with Complicated Dynamics</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradleNondeterministic.xml">Newton's Cradle with Nondeterministic State Machine</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradlePerfectlyInelastic1.xml">Newton's Cradle with Perfectly Inelastic Collisions</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimated.xml">Newton's Cradle with Configurable Parameters</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimatedNondeterministic.xml">Newton's Cradle with Balls Having Different Masses</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li><a href="../../domains/ct/demo/Pendulum3D/Pendulum3D.xml">3D Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/Spontaneous/Poisson.xml">Poisson</a>
-<li><a href="../../domains/ct/demo/SampledClocks/SampledClocks.xml">Sampled Clocks</a>
-<li><a href="../../domains/ct/demo/Satellite/Satellite.xml">Satellite</a>
-
-<!--/vergilDocs-->
-<!-- SinuBouncingBall uses PDFAttribute, which is not shipped in ptiny -->
-<li><a href="../../domains/ct/demo/SinuBouncingBall/SinuBouncingBall.xml">Ball Bouncing on a Sinusoidal Surface</a>
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/SquareWave/SquareWave.xml">Square Wave Response</a>
-<!--/vergilDocs-->
-<!-- Starmac uses Java3D -->
-<li><a href="../../domains/ct/demo/Starmac/Starmac.xml">Starmac</a>
-<li><a href="../../domains/ct/demo/StickyMasses/StickyMasses.xml">Sticky Point Masses</a>
-<li><a href="../../domains/ct/demo/StickyMasses/StickyMassesNewVersion.xml">Sticky Point Masses Modified Version</a>
-<li><a href="../../domains/ct/demo/Switch/Switch.xml">Switching Continuous Signals using Modal Models</a> 
-<li><a href="../../domains/ct/demo/Thermostat/Thermostat.xml">Thermostat</a>
-<li><a href="../../domains/ct/demo/Transmission/Transmission.xml">Transmission</a>
-<li><a href="../../domains/ct/demo/ContinuousClock/TriggeredContinuousClock.xml">Triggered Continuous Clock</a>
-
-<!--/bcvtbDocs-->
-<!-- Units includes ct.lib.Integrator, which is not shipped with BCVTB -->
-<li><a href="../../data/unit/demo/Units/Units.xml">Units</a>
-<!--bcvtbDocs-->
-
-<li><a href="../../domains/ct/demo/V2V/V2V.xml">Vehicle 2 Vehicle</a>
-<!-- jspaces -->
-<!--vergilDocs-->
-</ul>
 
 <!--/vergilDocs-->
 
@@ -389,9 +303,9 @@ visible parameters, and MonitorValue</a>
 <li><a href="../../domains/de/demo/Clock/Clock.xml">Clock</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)  
 <li><a href="../../domains/de/demo/ClockDrift/ClockDrift.xml">Clock Drift</a> (New in Ptolemy II 9.0)
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ConcurrentChat.xml">Concurrent Chat</a> 
-<li><a href="../../codegen/rtmaude/demo/HierarchicalTrafficLight/HierarchicalTrafficLight.xml">Hierarchical Traffic Light Verification, Real Time Maude Code Generation Version</a> (Requires RT Maude, see the <a href="../../verification/README.html">Verification documentation) 
 <li><a href="../../actor/lib/hoc/demo/HocDE/HocDE.xml">Higher-Order Components</a> 
 <!--vergilDocs-->
+<li><a href="../../domains/de/demo/OpenQueueingNetwork/OpenQueueingNetwork.xml">Open Queueing Network</a>
 <li><a href="../../domains/de/demo/Inspection/Inspection.xml">Inspection Paradox</a>
 <li><a href="../../domains/de/demo/LongRuns/LongRuns.xml">Long Runs</a>
 <li><a href="../../domains/de/demo/ModalModel/ModalModel.xml">Modal Model</a> 
@@ -446,19 +360,6 @@ visible parameters, and MonitorValue</a>
 
 <!--vergilDocs-->
 <!--/bcvtbDocs-->
-<h3><a name="fsm">Finite State Machine (FSM)</a></h3>
-An earlier implementation of Finite State Machine semantics, for use with the <a href="#ct">CT</a> domain.
-<ul>
-<li><a href="../../domains/fsm/demo/ABP/ABP.xml">Alternating&nbsp;Bit</a>
-<li><a href="../../domains/fsm/demo/ChainedTransitions/ChainedTransitions.xml">Chained Transitions</a>
-<li><a href="../../domains/fsm/demo/Blending/Blending.xml">Blending</a> (In the full version of Ptolemy: with codegen)
-<li><a href="../../domains/fsm/demo/ModalBSC/ModalBSC.xml">Modal&nbsp;Binary Symmetric Channel</a> (In the full version of Ptolemy: with codegen)
-<!-- FSM MultipleRuns has problems with dangling threads, so we -->
-<!-- comment it ../../domains/fsm/demo/MultipleRuns/MultipleRuns.xml Multiple&nbsp;Runs -->
---> 
-<li><a href="../../domains/fsm/demo/StateTracker/StateTracker.xml">State&nbsp;Tracker</a>
-<!-- systemLevelType-->
-</ul>
 
 <!--/vergilDocs-->
 <!--Ptiny does not include Giotto-->
@@ -544,6 +445,9 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 
 <ul>
 <li><a href="../../domains/pn/demo/BrockAckerman/BrockAckerman.xml">Brock-Ackerman Anomaly</a>
+<li><a href="../../domains/pn/demo/CounterMachine/CounterMachine.xml">Counter Machine</a> - 
+<a href="../../domains/pn/demo/CounterMachine/CounterMachineWithException.xml">Counter Machine With Exception</a> -
+<a href="../../domains/pn/demo/CounterMachine/CounterMachinePrelim.xml">Counter Machine Prelim</a> (New in Ptolemy II 9.0)</li>
 <li><a href="../../domains/pn/demo/NondeterministicMerge/NondeterministicMerge.xml">Nondeterministic Merge</a>
 <li><a href="../../domains/pn/demo/NondeterministicMergeWithFeedback/NondeterministicMergeWithFeedback.xml">Nondeterministic Merge with Feedback</a>   
 <li><a href="../../domains/pn/demo/OrderedMerge/OrderedMerge.xml">Ordered Merge</a>
@@ -878,7 +782,6 @@ requires that JMF be installed:
 <li><a href="../../actor/lib/hoc/demo/ModelReference/ModelReference.xml">Model Reference</a>
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/MulticoreExecution.xml">MulticoreExecution</a> 
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
-<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
 
 <!--/vergilDocs-->
 <!--Ptiny does not include ExecDemos and RunDemos--> 
@@ -915,9 +818,6 @@ requires that JMF be installed:
 
 <!--/ptinyKeplerDocs-->
 <!-- Ptiny does not include codegen -->
-Ptolemy II has several generations of code generation facilities.  
-<br/><code>ptolemy/cg/</code> is the most recent facility.
-<br/><code>ptolemy/codegen</code> is the older facility.
 
 <h3><a name="cg"><code>ptolemy/cg</code></a></h3>
 Newer Ptolemy code generation demos that use files  in <code>ptolemy/cg</code>.
@@ -949,36 +849,15 @@ Newer Ptolemy code generation demos that use files  in <code>ptolemy/cg</code>.
 
 <h3><a name"codegen"><code>ptolemy/codegen</code></h3>
 Older Ptolemy code generation demos that use files  in <code>ptolemy/codegen</code>.
-<h4><a name="pnCodegen">C PN Code Generation</a></h4>
-<ul>
-<!-- Please keep the demos alphabetical -->
-<li><a href="../../codegen/c/domains/pn/demo/Gravitation/Gravitation.xml">Gravitation</a> 
-<li><a href="../../codegen/c/domains/pn/demo/PNButterfly/PNButterfly.xml">PN Butterfly</a> 
-</ul>
 
 <h4><a name="sdfCodegen">C SDF Code Generation</a></h4>
 <ul>
 <!-- Please keep the demos alphabetical -->
 <li><a href="../../domains/sdf/demo/Butterfly/Butterfly.xml">Butterfly</a>
-<li><a href="../../codegen/demo/Butterfly/Butterfly.xml">Butterfly</a> (with C CompiledCompositeActor)
 <li><a href="../../actor/lib/hoc/demo/Case/Case.xml">Case</a>
-<li><a href="../../codegen/demo/Life/Life.xml">Life</a>  
 <li><a href="../../domains/sdf/demo/LogisticMap/LogisticMap.xml">LogisticMap</a>   
-<li><a href="../../codegen/c/domains/fsm/demo/Mod4Counter/Mod4Counter.xml">Mod4Counter</a> 
-<li><a href="../../actor/lib/jni/demo/Scale/Scale.xml">Scale</a>  
-<li><a href="../../actor/lib/jni/demo/Scale/ScaleWithEmbeddedCFileActor.xml">Scale with EmbeddedCFileActor</a>  (New in 
-Ptolemy II 8.0)
-<li><a href="../../actor/lib/jni/demo/SimplePassPointer/SimplePassPointer.xml">Simple Pass Pointer</a> 
-<li><a  href="../../actor/lib/jni/demo/SimplePassPointer/SimplePassPointerWithECFA.xml">Simple Pass Pointer With ECFA</a>  
-
 </ul>
 
-<h4><a name="javaSDFCodegen">Java SDF Code Generation</a></h4>
-<ul>
-<li><a href="../../codegen/java/actor/lib/embeddedJava/demo/CompiledCompositeActor/CompiledCompositeActor.xml">Expression demo with Java CompiledCompositeActor</a>    
-<li><a href="../../codegen/java/actor/lib/embeddedJava/demo/Scale/Scale.xml">Scale with Embedded Java</a>  
-
-</ul>
 <!--ptinyKeplerDocs-->
 
 <!--/ptinyKeplerDocs-->
@@ -1012,37 +891,6 @@ Ptolemy II 8.0)
 <ul>
 <li><a href="../../configs/doc/ClassesIllustrated.xml">Classes Illustrated</a>
 <li><a href="../../domains/curriculum/demo/Curriculum/Curriculum.xml">Curriculum</a> 
-<li><a href="../../domains/fsm/demo/SystemLevelType/README.htm">FSM Domain System Level Type models</a>:
-<!-- The SystemLevelType models are included here so that we can be sure that they open -->
-<ul>
-<li><a href="../../domains/fsm/demo/SystemLevelType/CSPDomain.xml"><code>CSPDomain.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/CSPDomain_PolyActor.xml"><code>CSPDomain_PolyActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/CSPDomain_SDFActor.xml"><code>CSPDomain_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DEDomain.xml"><code>DEDomain.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DEDomain_PolyActor.xml"><code>DEDomain_PolyActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DEDomain_SDFActor.xml"><code>DEDomain_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DP.xml"><code>DP.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DummyDirector1.xml"><code>DummyDirector1.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DummyDirector1_SDFActor.xml"><code>DummyDirector1_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DummyDirector2.xml"><code>DummyDirector2.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/DummyDirector2_SDFActor.xml"><code>DummyDirector2_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/InterruptableWaitingThreadA.xml"><code>InterruptableWaitingThreadA.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/Interrupter.xml"><code>Interrupter.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/Monitor.xml"><code>Monitor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/PNDomain.xml"><code>PNDomain.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/PNDomain_PolyActor.xml"><code>PNDomain_PolyActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/PNDomain_SDFActor.xml"><code>PNDomain_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/PolyActor.xml"><code>PolyActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/SDFActor.xml"><code>SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/SDFDomain.xml"><code>SDFDomain.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/SDFDomain_PolyActor.xml"><code>SDFDomain_PolyActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/SDFDomain_SDFActor.xml"><code>SDFDomain_SDFActor.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/ThreadA.xml"><code>ThreadA.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/ThreadA_Monitor_ThreadB.xml"><code>ThreadA_Monitor_ThreadB.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/ThreadB.xml"><code>ThreadB.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/ThreadBNotifies.xml"><code>ThreadBNotifies.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/Trigger.xml"><code>Trigger.xml</code></a>
-<li><a href="../../domains/fsm/demo/SystemLevelType/UNKNOWN.xml"><code>UNKNOWN.xml</code></a>
 </ul>
 
 <!-- Don't ship Fuzzy because it is gpl'd -->

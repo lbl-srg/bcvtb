@@ -49,7 +49,7 @@ import ptolemy.util.test.junit.JUnitTclTestBase;
  * </pre>
  *
  * @author Christopher Brooks
- * @version $Id: JUnitTclTest.java 61988 2011-09-14 05:05:37Z cxh $
+ * @version $Id: JUnitTclTest.java 64753 2012-10-02 02:05:53Z cxh $
  * @since Ptolemy II 8.1
  * @Pt.ProposedRating Green (cxh)
  * @Pt.AcceptedRating Green (cxh)
@@ -57,4 +57,3 @@ import ptolemy.util.test.junit.JUnitTclTestBase;
 public class JUnitTclTest extends JUnitTclTestBase {
     // This class is empty, all the action occurs in the parent.
 }
-

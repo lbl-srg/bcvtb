@@ -2,9 +2,9 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 62921 2012-02-06 02:28:02Z bldmastr $
+# @Version: $Id: makefile 64744 2012-10-01 22:51:43Z cxh $
 #
-# @Copyright (c) 2000-2011 The Regents of the University of California.
+# @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -159,6 +159,8 @@ update: $(DERIVED_FILES)
 	svn commit -m "Master files changed" $(DERIVED_FILES)
 	rm -f doc.jar
 	$(MAKE) doc.jar
+	# The first commit will change completeDemosPtiny.htm, which will cause completeDemosBcvtb.htm to be updated
+	svn commit -m "Master files changed" $(DERIVED_FILES)
 
 update_clean: 
 	rm -f $(DERIVED_FILES)
@@ -167,11 +169,12 @@ check_applets:
 	@ls `grep .xml completeDemos.htm | grep -v "<!--" | $(GAWK) -F \" '{print $$2}' | sed 's/.xml/.htm/'` 2>&1 | sed 's/ls: //' | grep "No such file" | $(GAWK) '{print $$1}' | sed 's@:@@'
 
 check_tests:
-	@$(ROOT)/adm/bin/chkdemotests
+	@$(ROOT)/adm/bin/chkdemotests 
 
 listDemos:
-	@ls `grep .xml completeDemos.htm | grep -v "<!--" | $(GAWK) -F \" '{print $$2}'`
+	@ls `grep .xml completeDemos.htm | grep -v "<!--" | $(GAWK) -F \" '{print $$2}'` | sort
 
+listNewDemos:
 	#@ls `grep .xml completeDemos.htm | grep -i "New in Ptolemy II 8.0" | grep -v "<!--" | $(GAWK) -F \" '{print $$2}'`
 
 # Open the demos 10 at a time, print statistics and close.

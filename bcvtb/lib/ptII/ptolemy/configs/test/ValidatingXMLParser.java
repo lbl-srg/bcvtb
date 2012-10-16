@@ -1,6 +1,6 @@
 /* A validating parser.
 
- Copyright (c) 2010-2011 The Regents of the University of California.
+ Copyright (c) 2010-2012 The Regents of the University of California.
  All rights reserved.
  Permission is hereby granted, without written agreement and without
  license or royalty fees, to use, copy, modify, and distribute this
@@ -49,7 +49,7 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 62791 2012-01-18 01:13:26Z cxh $
+ @version $Id: ValidatingXMLParser.java 64746 2012-10-01 23:55:52Z cxh $
  @since Ptolemy II 8.1
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
@@ -60,7 +60,10 @@ public class ValidatingXMLParser extends DefaultHandler {
      *  is replaced with the value of MoMLParser.MoML_1.dtd.
      *  @param args A single element array that names the xml file to
      *  be parsed.  The file should have
-     *  &lt;configure&gt;...&lt;configure&gt; removed.
+     *  &lt;configure&gt;...&lt;configure&gt; removed.  One workaround
+     *  is to remove the configure tags with a script before
+     *  validating, see $PTII/ptolemy/moml/test/removeconfigure.
+     *  See also <a href="http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIfaq.htm#MoML">http://ptolemy.eecs.berkeley.edu/ptolemyII/ptIIfaq.htm#MoML</a>
      */
     public static void main(String[] args) {
         try {

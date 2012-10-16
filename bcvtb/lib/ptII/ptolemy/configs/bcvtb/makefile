@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 59334 2010-09-29 17:41:28Z bldmastr $
+# @Version: $Id: makefile 63578 2012-05-15 19:44:29Z hudson $
 #
 # @Copyright (c) 2009 The Regents of the University of California.
 # All rights reserved.
@@ -95,7 +95,7 @@ bcvtbModels.txt: $(ROOT)/ptolemy/actor/gui/HTMLAbout.class ../doc/completeDemosB
 	mv $@.sorted $@
 
 ../doc/completeDemosBcvtb.htm: ../doc/completeDemos.htm
-	(cd ../doc; $(MAKE) completeDemosBcvtb.htm
+	(cd ../doc; $(MAKE) completeDemosBcvtb.htm)
 
 # Get the rest of the rules
 include $(ROOT)/mk/ptcommon.mk

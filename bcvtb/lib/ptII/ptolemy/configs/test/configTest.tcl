@@ -16,7 +16,7 @@ if {[string compare test [info procs test]] == 1} then {
     # Alphabetical please
     $inputFileNamesToSkip add "/apps/apps.xml"
     $inputFileNamesToSkip add "/apps/superb/superb.xml"
-    $inputFileNamesToSkip add "/attributes/decorative.xml"
+    #$inputFileNamesToSkip add "/attributes/decorative.xml"
     $inputFileNamesToSkip add "/chic/chic.xml"
     #$inputFileNamesToSkip add "/codegen.xml"
     $inputFileNamesToSkip add "/configs/ellipse.xml"
@@ -43,11 +43,11 @@ if {[string compare test [info procs test]] == 1} then {
 
     # Filter out graphical classes while inside MoMLParser
     # See ptII/util/testsuite/removeGraphicalClasses.tcl
-    removeGraphicalClasses $parser
+    #removeGraphicalClasses $parser
 
     set loader [[$parser getClass] getClassLoader]
 
-set URL [$loader getResource ptolemy/configs/dsp/configuration.xml]
+set URL [$loader getResource ptolemy/configs/ptiny/configuration.xml]
 puts "Checking [$URL toString]"
 set object [$parser {parse java.net.URL java.net.URL} $URL $URL]
 set configuration [java::cast ptolemy.kernel.CompositeEntity $object]

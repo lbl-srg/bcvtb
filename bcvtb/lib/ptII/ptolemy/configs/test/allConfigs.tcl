@@ -2,9 +2,9 @@
 #
 # @Author: Steve Neuendorffer, Contributor: Christopher Hylands
 #
-# $Id: allConfigs.tcl 62780 2012-01-12 17:20:09Z bldmastr $
+# $Id: allConfigs.tcl 64744 2012-10-01 22:51:43Z cxh $
 #
-# @Copyright (c) 2000-2011 The Regents of the University of California.
+# @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -72,10 +72,10 @@ proc _dropTest {toplevel namedObj cloneConfiguration stream printStream isAttrib
     set fullName [[java::cast ptolemy.kernel.util.NamedObj $namedObj] getName $cloneConfiguration]
 
     set className [[$namedObj getClass] getName]
-    if [regexp {\.gui\.} $className] {
-	puts "Skipping $className, it contains .gui., which causes problems in a headless environment"
-	return
-    }
+    #if [regexp {\.gui\.} $className] {
+    #	puts "Skipping $className, it contains .gui., which causes problems in a headless environment"
+    #	return
+    #}
     # Check for attributes that contain attributes that fail when
     # put into an unnamed top level.
     # ptolemy.cg.kernel.generic.GenericCodeGenerator
@@ -179,34 +179,38 @@ foreach i $configs {
     # Alphabetical please
     $inputFileNamesToSkip add "/apps/apps.xml"
     $inputFileNamesToSkip add "/apps/superb/superb.xml"
-    $inputFileNamesToSkip add "/attributes/decorative.xml"
+    #$inputFileNamesToSkip add "/attributes/decorative.xml"
     $inputFileNamesToSkip add "/chic/chic.xml"
     #$inputFileNamesToSkip add "/codegen.xml"
-    $inputFileNamesToSkip add "/configs/ellipse.xml"
-    $inputFileNamesToSkip add "/gr.xml"
+    #$inputFileNamesToSkip add "/configs/ellipse.xml"
+    #$inputFileNamesToSkip add "/gr.xml"
     $inputFileNamesToSkip add "/io/comm/comm.xml"
-    $inputFileNamesToSkip add "/image.xml"
+    #$inputFileNamesToSkip add "/image.xml"
     #$inputFileNamesToSkip add "/experimentalDirectors.xml"
-    $inputFileNamesToSkip add "/lib/interactive.xml"
-    $inputFileNamesToSkip add "/line.xml"
+    #$inputFileNamesToSkip add "/lib/interactive.xml"
+    #$inputFileNamesToSkip add "/line.xml"
     $inputFileNamesToSkip add "/jai/jai.xml"
     $inputFileNamesToSkip add "/jmf/jmf.xml"
     $inputFileNamesToSkip add "/joystick/jstick.xml"
     $inputFileNamesToSkip add "/jxta/jxta.xml"
     $inputFileNamesToSkip add "/ptinyos/lib/lib-composite.xml"
-    $inputFileNamesToSkip add "/rectangle.xml"
+    #$inputFileNamesToSkip add "/rectangle.xml"
     $inputFileNamesToSkip add "TOSIndex.xml"
     $inputFileNamesToSkip add "/quicktime.xml"
     $inputFileNamesToSkip add "/matlab.xml"
     #$inputFileNamesToSkip add "/x10/x10.xml"
-    $inputFileNamesToSkip add "utilityIDAttribute.xml"
+    #$inputFileNamesToSkip add "utilityIDAttribute.xml"
 
+    if {[java::call ptolemy.gui.PtGUIUtilities macOSLookAndFeel]} {
+	puts "Skipping backtrack.xml because Backtracking has problems on the Mac"
+	$inputFileNamesToSkip add "/backtrack.xml"
+    }
     # Tell the parser to skip inputting the above files
     java::field $parser inputFileNamesToSkip $inputFileNamesToSkip 
 
     # Filter out graphical classes while inside MoMLParser
     # See ptII/util/testsuite/removeGraphicalClasses.tcl
-    removeGraphicalClasses $parser
+    #removeGraphicalClasses $parser
 
     set loader [[$parser getClass] getClassLoader]
     
@@ -216,8 +220,8 @@ foreach i $configs {
     
     # The configuration has a removeGraphicalClasses parameter that
     # defaults to false so we set it to true.
-    set removeGraphicalClasses [java::field [java::cast ptolemy.actor.gui.Configuration $configuration] removeGraphicalClasses]
-    $removeGraphicalClasses setExpression "true"
+    #set removeGraphicalClasses [java::field [java::cast ptolemy.actor.gui.Configuration $configuration] removeGraphicalClasses]
+    #$removeGraphicalClasses setExpression "true"
 
 
     test "$i-1.1" "Test to see if $i contains any bad XML" {
@@ -230,7 +234,7 @@ foreach i $configs {
 	# then the name that is returned should be the same as the name
 	# of the field.
 	puts "-------> Before clone"
-	set cloneConfiguration [java::cast ptolemy.kernel.CompositeEntity [$configuration clone]]
+ 	set cloneConfiguration [java::cast ptolemy.kernel.CompositeEntity [$configuration clone [java::new ptolemy.kernel.util.Workspace {clonedWorkspace}]]]
 	puts "-------> after clone"
 	set entityList [$configuration allAtomicEntityList]
 	set results {}
@@ -308,6 +312,7 @@ foreach i $configs {
     test "$i-3.1" "Test to see if $i contains any actors whose type constraints don't clone" {
 	    set results [[java::cast ptolemy.actor.gui.Configuration $configuration] check]
 	    # FIXME: Need to call this twice to find problems with RecordAssembler.
+	    puts "---- Second call to Configuration.check"
 	    set results2 [[java::cast ptolemy.actor.gui.Configuration $configuration] check]
    	    # Don't call return as the last line of a test proc, since return
 	    # throws an exception.
@@ -414,6 +419,11 @@ foreach i $configs {
 			
 			set attribute [java::cast ptolemy.kernel.util.Attribute $attr]
 
+			if [java::instanceof $attribute ptolemy.domains.tm.kernel.SchedulePlotter] {
+			    puts "Skipping drop test of tm.kernel.SchedulePlotter because it must be dropped into a container that has a TMDirector"
+			    continue
+			}
+
 			set r [_dropTest $toplevel $attribute $cloneConfiguration $stream $printStream 1]
 			if {[llength $r] != 0} {
 			    lappend results $r
@@ -467,6 +477,38 @@ foreach i $configs {
 		    }
 	    }
 	}
+	list $results
+    } {{}}
+
+    test "$i-6.1" "Test that clone(Workspace) works on a new Actor.  Creating kars in Kepler does this." {
+	# In general, if we call getName on a public field in an actor,
+	# then the name that is returned should be the same as the name
+	# of the field.
+	puts "-------> Before clone"
+ 	set cloneConfiguration [java::cast ptolemy.kernel.CompositeEntity [$configuration clone [java::new ptolemy.kernel.util.Workspace {clonedWorkspace}]]]
+	puts "-------> after clone"
+	set workspace61 [java::new ptolemy.kernel.util.Workspace "workspace61"]
+	set compositeEntity61 [java::new ptolemy.kernel.CompositeEntity $workspace61]
+	set workspace61Clone [java::new ptolemy.kernel.util.Workspace "workspace61Clone"]
+	set entityList [$configuration allAtomicEntityList]
+	set results {}
+	for {set iterator [$entityList iterator]} \
+		{[$iterator hasNext] == 1} {} {
+	    set entity [$iterator next]
+	    if [java::instanceof $entity ptolemy.actor.TypedAtomicActor] {
+		set actor [java::cast ptolemy.actor.TypedAtomicActor $entity]
+		set className [$actor getClassName]
+		# Create a new actor
+		set newActor [java::new $className $compositeEntity61 [$compositeEntity61 uniqueName [split $className . ]]]
+		# Clone it.
+		if [catch {set clonedActor [$newActor clone $workspace61Clone]} errMsg] {
+		    lappend $results "Cloning $className failed:\n$errMsg:\n[jdkStackTrace]\n"
+		}
+		[java::cast ptolemy.kernel.ComponentEntity $clonedActor] setContainer [java::null]
+	    }
+	}
+	[java::cast ptolemy.kernel.CompositeEntity $compositeEntity61] setContainer [java::null]
+	$cloneConfiguration setContainer [java::null]
 	list $results
     } {{}}
 }

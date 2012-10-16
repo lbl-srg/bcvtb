@@ -2,7 +2,7 @@
 #
 # @Author: Christopher Brooks
 #
-# $Id: validDemos.tcl 62679 2011-12-31 00:37:42Z bldmastr $
+# $Id: validDemos.tcl 64620 2012-09-12 17:21:44Z hudson $
 #
 # @Copyright (c) 2009 The Regents of the University of California.
 # All rights reserved.
@@ -85,7 +85,15 @@ proc validateModels {models} {
 
 	test validDemos-$count "Validating parse of $modelPath after removing configure" {
 	    set errMsg {}
-	    catch {java::call ptolemy.configs.test.ValidatingXMLParser parse $filename} errMsg
+	    if [catch {java::call ptolemy.configs.test.ValidatingXMLParser parse $filename} errMsg] {
+		puts "Could not parse $modelPath, file $filename was"
+		# Print out the contents of the failed file.
+		# A common failure is a version control system conflict.
+		set fp [open $filename r]
+		puts [read $fp]
+		close $fp
+	    }
+
 	    list $errMsg
 	} {{}}
     }

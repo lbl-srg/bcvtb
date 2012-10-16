@@ -8,7 +8,7 @@
      to update the derived files and check them in to cvs. -->
 <html>
 <head>
-<!-- $Id: completeDemosPtinyKepler.htm 63234 2012-03-25 18:21:19Z cxh $ -->
+<!-- $Id: completeDemos.htm 64376 2012-08-16 23:01:21Z cxh $ -->
 <!--
 
 demosPtinyKepler.htm is derived from this file by including
@@ -60,15 +60,12 @@ Ptolemy II models that illustrate Model of Computation-oriented functionality.
 
 <li><a href="#continuous">Continuous (Continuous Time)</a>
 <!--/bcvtbDocs-->
-<li><a href="#ct">CT (Continuous Time)</a>
 <!--vergilDocs-->
 <li><a href="#ddf">DDF (Dynamic Dataflow)</a>
 <!--vergilDocs-->
 <li><a href="#de">DE (Discrete Events)</a>
 
 <!--vergilDocs-->
-
-<li><a href="#fsm">FSM (Finite State Machines)</a>
 
 <!--vergilDocs-->
 <!--ptinyKeplerDocs-->
@@ -130,27 +127,10 @@ An recent implementation of Continuous Time semantics, for use with the <a href=
 <li><a href="../../domains/continuous/demo/Switch/Switch.xml">Switch</a>
 <li><a href="../../domains/continuous/demo/Thermostat/Thermostat.xml">Thermostat</a>
 <li><a href="../../domains/continuous/demo/Transmission/Transmission.xml">Transmission</a>
+<li><a href="../../domains/continuous/demo/TwoMachineInfiniteBusControl/TwoMachineInfiniteBusControl.xml">Two Machine Infinite Bus Control</a> (New in Ptolemy II 9.0)
 <li><a href="../../domains/continuous/demo/V2V/V2V.xml">Vehicle 2 Vehicle</a>
 </ul>
 <!--/bcvtbDocs-->
-<h3><a name="ct">Continuous Time (CT)</a></h3>
-An earlier implementation of Continuous Time semantics, for use with the <a href="#fsm">Finite State Machine</a> domain.
-<ul>
-<!-- Please keep the demos alphabetical -->
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/Brownian/Brownian.xml">Brownian</a> 
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/Spontaneous/Poisson.xml">Poisson</a>
-<li><a href="../../domains/ct/demo/SampledClocks/SampledClocks.xml">Sampled Clocks</a>
-<li><a href="../../domains/ct/demo/Satellite/Satellite.xml">Satellite</a>
-
-<!--vergilDocs-->
-
-<li><a href="../../domains/ct/demo/SquareWave/SquareWave.xml">Square Wave Response</a>
-<!--vergilDocs-->
-</ul>
 
 <!--vergilDocs-->
 <h3><a name="ddf">Dynamic Dataflow (DDF)</a></h3>
@@ -175,6 +155,7 @@ An earlier implementation of Continuous Time semantics, for use with the <a href
 <h3><a name="de">Discrete Events (DE)</a></h3>
 <ul>
 <!--vergilDocs-->
+<li><a href="../../domains/de/demo/OpenQueueingNetwork/OpenQueueingNetwork.xml">Open Queueing Network</a>
 <li><a href="../../domains/de/demo/Inspection/Inspection.xml">Inspection Paradox</a>
 <li><a href="../../domains/de/demo/LongRuns/LongRuns.xml">Long Runs</a>
 <li><a href="../../domains/de/demo/ModalModel/ModalModel.xml">Modal Model</a> 
@@ -203,19 +184,6 @@ An earlier implementation of Continuous Time semantics, for use with the <a href
 
 <!--vergilDocs-->
 <!--/bcvtbDocs-->
-<h3><a name="fsm">Finite State Machine (FSM)</a></h3>
-An earlier implementation of Finite State Machine semantics, for use with the <a href="#ct">CT</a> domain.
-<ul>
-<li><a href="../../domains/fsm/demo/ABP/ABP.xml">Alternating&nbsp;Bit</a>
-<li><a href="../../domains/fsm/demo/ChainedTransitions/ChainedTransitions.xml">Chained Transitions</a>
-<li><a href="../../domains/fsm/demo/Blending/Blending.xml">Blending</a> (In the full version of Ptolemy: with codegen)
-<li><a href="../../domains/fsm/demo/ModalBSC/ModalBSC.xml">Modal&nbsp;Binary Symmetric Channel</a> (In the full version of Ptolemy: with codegen)
-<!-- FSM MultipleRuns has problems with dangling threads, so we -->
-<!-- comment it ../../domains/fsm/demo/MultipleRuns/MultipleRuns.xml Multiple&nbsp;Runs -->
---> 
-<li><a href="../../domains/fsm/demo/StateTracker/StateTracker.xml">State&nbsp;Tracker</a>
-<!-- systemLevelType-->
-</ul>
 
 <!--vergilDocs-->
 <!-- Kepler and BCVTB does not include hdf-->
@@ -250,6 +218,9 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 
 <ul>
 <li><a href="../../domains/pn/demo/BrockAckerman/BrockAckerman.xml">Brock-Ackerman Anomaly</a>
+<li><a href="../../domains/pn/demo/CounterMachine/CounterMachine.xml">Counter Machine</a> - 
+<a href="../../domains/pn/demo/CounterMachine/CounterMachineWithException.xml">Counter Machine With Exception</a> -
+<a href="../../domains/pn/demo/CounterMachine/CounterMachinePrelim.xml">Counter Machine Prelim</a> (New in Ptolemy II 9.0)</li>
 <li><a href="../../domains/pn/demo/NondeterministicMerge/NondeterministicMerge.xml">Nondeterministic Merge</a>
 <li><a href="../../domains/pn/demo/NondeterministicMergeWithFeedback/NondeterministicMergeWithFeedback.xml">Nondeterministic Merge with Feedback</a>   
 <li><a href="../../domains/pn/demo/OrderedMerge/OrderedMerge.xml">Ordered Merge</a>
@@ -362,7 +333,6 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 <li><a href="../../actor/lib/hoc/demo/MobileFunction/MobileFunction.xml">Mobile Function</a>
 <li><a href="../../actor/lib/hoc/demo/ModelReference/ModelReference.xml">Model Reference</a>
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/MulticoreExecution.xml">MulticoreExecution</a> 
-<li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
 <li><a href="../../actor/lib/hoc/demo/ThreadedComposite/ParallelExecution.xml">Parallel Execution</a> 
 
 <!--vergilDocs-->

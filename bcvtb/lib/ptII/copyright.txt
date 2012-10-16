@@ -1,7 +1,7 @@
 Below is the copyright agreement for the Ptolemy II system.
-Version: $Id: copyright.txt 57468 2010-03-10 22:04:38Z cxh $
+Version: $Id: copyright.txt 63502 2012-05-07 22:12:35Z cxh $
 
-Copyright (c) 1995-2010 The Regents of the University of California.
+Copyright (c) 1995-2012 The Regents of the University of California.
 All rights reserved.
 
 Permission is hereby granted, without written agreement and without

@@ -2,9 +2,9 @@
 #
 # @Authors: Steve Neuendorffer
 #
-# @Version: $Id: makefile 61820 2011-08-16 01:09:58Z cxh $
+# @Version: $Id: makefile 64744 2012-10-01 22:51:43Z cxh $
 #
-# @Copyright (c) 1997-2011 The Regents of the University of California.
+# @Copyright (c) 1997-2012 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -95,8 +95,8 @@ $(MODELS_TXT): ../doc/completeDemos.htm
 KERNEL_TESTDEFS = $(ROOT)/util/testsuite/testDefs.tcl
 
 # These tests consume quite a bit of memory, so we increase the maximum
-# stack size to 1000Mb
-JAVAFLAGS = -Xmx1000m
+# stack size to 4000Mb
+JAVAFLAGS = -Xmx4000m
 
 
 # These tests do not require a graphics terminal, but do use Jacl and Java
