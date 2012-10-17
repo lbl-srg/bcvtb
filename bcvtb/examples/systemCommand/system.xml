@@ -152,7 +152,7 @@ as arguments of a system command.</text></svg></configure>
             <property name="_location" class="ptolemy.kernel.util.Location" value="[25.0, 245.0]">
             </property>
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={703, 432, 733, 460}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={703, 260, 736, 640}, maximized=false}">
         </property>
         <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[520, 350]">
         </property>
@@ -218,7 +218,7 @@ Otherwise, it throws an error and stops the simulation.</text></svg></configure>
         <entity name="state library" class="ptolemy.kernel.CompositeEntity"><input source="ptolemy/configs/basicUtilities.xml"></input><entity name="state" class="ptolemy.domains.modal.kernel.State"><property name="_centerName" class="ptolemy.kernel.util.Attribute"></property><property name="_controllerFactory" class="ptolemy.vergil.modal.modal.HierarchicalStateControllerFactory"></property></entity></entity>
       </configure>
                 </property>
-                <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={313, 194, 813, 511}, maximized=false}">
+                <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={308, 129, 816, 641}, maximized=false}">
                 </property>
                 <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[600, 400]">
                 </property>
@@ -305,6 +305,11 @@ Otherwise, it throws an error and stops the simulation.</text></svg></configure>
                 <entity name="ExpressionToToken" class="ptolemy.actor.lib.conversions.ExpressionToToken">
                     <property name="_location" class="ptolemy.kernel.util.Location" value="[330.0, 145.0]">
                     </property>
+                    <port name="output" class="ptolemy.actor.TypedIOPort">
+                        <property name="output"/>
+                        <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                        </property>
+                    </port>
                 </entity>
                 <entity name="FileReader" class="ptolemy.actor.lib.io.FileReader">
                     <property name="fileOrURL" class="ptolemy.data.expr.FileParameter" value="$OutputFileName">
@@ -313,26 +318,18 @@ Otherwise, it throws an error and stops the simulation.</text></svg></configure>
                     <property name="_location" class="ptolemy.kernel.util.Location" value="[105.0, 145.0]">
                     </property>
                 </entity>
-                <entity name="AnythingToDouble" class="ptolemy.actor.lib.conversions.AnythingToDouble">
-                    <property name="_location" class="ptolemy.kernel.util.Location" value="[420.0, 180.0]">
-                    </property>
-                </entity>
                 <relation name="relation" class="ptolemy.actor.TypedIORelation">
                 </relation>
                 <relation name="relation3" class="ptolemy.actor.TypedIORelation">
                 </relation>
-                <relation name="relation5" class="ptolemy.actor.TypedIORelation">
-                </relation>
                 <relation name="relation2" class="ptolemy.actor.TypedIORelation">
                 </relation>
-                <link port="output" relation="relation5"/>
+                <link port="output" relation="relation2"/>
                 <link port="StringFunction.input" relation="relation3"/>
                 <link port="StringFunction.output" relation="relation"/>
                 <link port="ExpressionToToken.input" relation="relation"/>
                 <link port="ExpressionToToken.output" relation="relation2"/>
                 <link port="FileReader.output" relation="relation3"/>
-                <link port="AnythingToDouble.input" relation="relation2"/>
-                <link port="AnythingToDouble.output" relation="relation5"/>
             </entity>
             <entity name="errorState" class="ptolemy.domains.modal.modal.Refinement">
                 <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
