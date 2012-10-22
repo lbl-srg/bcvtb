@@ -1,105 +1,5 @@
 package Modelica "Modelica Standard Library (Version 3.2)"
 extends Modelica.Icons.Package;
-package Utilities
-    "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
-    extends Modelica.Icons.Package;
-
-    package Strings "Operations on strings"
-      extends Modelica.Icons.Package;
-
-      function compare "Compare two strings lexicographically"
-        //extends Modelica.Icons.Function;
-        input String string1;
-        input String string2;
-        input Boolean caseSensitive=true
-          "= false, if case of letters is ignored";
-        output Modelica.Utilities.Types.Compare result "Result of comparison";
-      external "C" result = ModelicaStrings_compare(string1, string2, caseSensitive);
-        annotation (Library="ModelicaExternalC", Documentation(info="<html>
-<h4>Syntax</h4>
-<blockquote><pre>
-result = Strings.<b>compare</b>(string1, string2);
-result = Strings.<b>compare</b>(string1, string2, caseSensitive=true);
-</pre></blockquote>
-<h4>Description</h4>
-<p>
-Compares two strings. If the optional argument caseSensitive=false,
-upper case letters are treated as if they would be lower case letters.
-The result of the comparison is returned as:
-</p>
-<pre>
-  result = Modelica.Utilities.Types.Compare.Less     // string1 &lt; string2
-         = Modelica.Utilities.Types.Compare.Equal    // string1 = string2
-         = Modelica.Utilities.Types.Compare.Greater  // string1 &gt; string2
-</pre>
-<p>
-Comparison is with regards to lexicographical order,
-e.g., \"a\" &lt; \"b\";
-</p>
-</html>"));
-      end compare;
-
-      function isEqual "Determine whether two strings are identical"
-        //extends Modelica.Icons.Function;
-        input String string1;
-        input String string2;
-        input Boolean caseSensitive=true
-          "= false, if lower and upper case are ignored for the comparison";
-        output Boolean identical "True, if string1 is identical to string2";
-      algorithm
-        identical :=compare(string1, string2, caseSensitive) == Types.Compare.Equal;
-        annotation (
-      Documentation(info="<html>
-<h4>Syntax</h4>
-<blockquote><pre>
-Strings.<b>isEqual</b>(string1, string2);
-Strings.<b>isEqual</b>(string1, string2, caseSensitive=true);
-</pre></blockquote>
-<h4>Description</h4>
-<p>
-Compare whether two strings are identical,
-optionally ignoring case.
-</p>
-</html>"));
-      end isEqual;
-    end Strings;
-
-    package System "Interaction with environment"
-      extends Modelica.Icons.Package;
-
-    function getEnvironmentVariable "Get content of environment variable"
-      //extends Modelica.Icons.Function;
-      input String name "Name of environment variable";
-      input Boolean convertToSlash =  false
-          "True, if native directory separators in 'result' shall be changed to '/'";
-      output String content
-          "Content of environment variable (empty, if not existent)";
-      output Boolean exist
-          "= true, if environment variable exists; = false, if it does not exist";
-      external "C" ModelicaInternal_getenv(name, convertToSlash, content, exist);
-        annotation (Library="ModelicaExternalC",Documentation(info="<html>
-
-</html>"));
-    end getEnvironmentVariable;
-    end System;
-
-    package Types "Type definitions used in package Modelica.Utilities"
-      extends Modelica.Icons.Package;
-
-      type Compare = enumeration(
-          Less "String 1 is lexicographically less than string 2",
-          Equal "String 1 is identical to string 2",
-          Greater "String 1 is lexicographically greater than string 2")
-        "Enumeration defining comparision of two strings";
-      annotation (Documentation(info="<html>
-<p>
-This package contains type definitions used in Modelica.Utilities.
-</p>
-
-</html>"));
-    end Types;
-end Utilities;
-
   package Blocks
   "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
   import SI = Modelica.SIunits;
@@ -12467,8 +12367,28 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Math;
 
   package Utilities
+
   "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
     extends Modelica.Icons.Package;
+
+ package System "Interaction with environment"
+      extends Modelica.Icons.Package;
+
+    function getEnvironmentVariable "Get content of environment variable"
+      //extends Modelica.Icons.Function;
+      input String name "Name of environment variable";
+      input Boolean convertToSlash =  false
+          "True, if native directory separators in 'result' shall be changed to '/'";
+      output String content
+          "Content of environment variable (empty, if not existent)";
+      output Boolean exist
+          "= true, if environment variable exists; = false, if it does not exist";
+      external "C" ModelicaInternal_getenv(name, convertToSlash, content, exist);
+        annotation (Library="ModelicaExternalC",Documentation(info="<html>
+
+</html>"));
+    end getEnvironmentVariable;
+    end System;
 
     package Streams "Read from files and write to files"
       extends Modelica.Icons.Package;
