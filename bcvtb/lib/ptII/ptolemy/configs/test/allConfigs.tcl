@@ -2,7 +2,7 @@
 #
 # @Author: Steve Neuendorffer, Contributor: Christopher Hylands
 #
-# $Id: allConfigs.tcl 64744 2012-10-01 22:51:43Z cxh $
+# $Id: allConfigs.tcl 64822 2012-10-19 04:40:11Z hudson $
 #
 # @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
@@ -151,6 +151,7 @@ proc _dropTest {toplevel namedObj cloneConfiguration stream printStream isAttrib
 cd ..
 set configs [glob */*configuration*.xml]
 #set configs full/configuration.xml
+#set configs hyvisual/configuration.xml
 cd test
 
 foreach i $configs {
@@ -201,7 +202,11 @@ foreach i $configs {
     #$inputFileNamesToSkip add "/x10/x10.xml"
     #$inputFileNamesToSkip add "utilityIDAttribute.xml"
 
-    if {[java::call ptolemy.gui.PtGUIUtilities macOSLookAndFeel]} {
+    set osName [java::call System getProperty {os.name}]
+
+    set osNameStartsWith [string range $osName 0 5]
+
+    if {$osNameStartsWith == "Mac OS"} {
 	puts "Skipping backtrack.xml because Backtracking has problems on the Mac"
 	$inputFileNamesToSkip add "/backtrack.xml"
     }
@@ -210,11 +215,14 @@ foreach i $configs {
 
     # Filter out graphical classes while inside MoMLParser
     # See ptII/util/testsuite/removeGraphicalClasses.tcl
-    #removeGraphicalClasses $parser
+    # removeGraphicalClasses $parser
 
     set loader [[$parser getClass] getClassLoader]
     
     set URL [$loader getResource ptolemy/configs/$i]
+    if {[java::isnull $URL]} {
+	error "Could not get the  ptolemy/configs/$i resources"
+    }
     set object [$parser {parse java.net.URL java.net.URL} $URL $URL]
     set configuration [java::cast ptolemy.kernel.CompositeEntity $object]
     

@@ -2,7 +2,7 @@
 #
 # @Authors: Steve Neuendorffer
 #
-# @Version: $Id: makefile 64744 2012-10-01 22:51:43Z cxh $
+# @Version: $Id: makefile 64823 2012-10-19 04:40:20Z hudson $
 #
 # @Copyright (c) 1997-2012 The Regents of the University of California.
 # All rights reserved.
@@ -99,9 +99,9 @@ KERNEL_TESTDEFS = $(ROOT)/util/testsuite/testDefs.tcl
 JAVAFLAGS = -Xmx4000m
 
 
-# These tests do not require a graphics terminal, but do use Jacl and Java
+# The allConfigs.tcl test now requires a graphical terminal
 test_jsimple: $(EXTRA_SRCS) jclass $(KERNEL_TESTDEFS) alljtests.tcl
-	DISPLAY=NotADisplay:0.0	$(JTCLSH) alljtests.tcl
+	$(JTCLSH) alljtests.tcl
 
 
 
