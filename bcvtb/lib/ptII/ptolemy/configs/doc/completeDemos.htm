@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: completeDemos.htm 64376 2012-08-16 23:01:21Z cxh $ -->
+<!-- $Id: completeDemos.htm 65493 2013-01-16 17:39:30Z derler $ -->
 <!--
 
 demosPtiny.htm is derived from this file by including
@@ -82,11 +82,13 @@ Ptolemy II models that illustrate Model of Computation-oriented functionality.
 <!--/ptinyKeplerDocs-->
 <!--/bcvtbDocs-->
 <li><a href="#hdf">HDF (Heterochronous Dataflow)</a>
+<li><a href="#metroII">Metropolis II</a>
 <!--bcvtbDocs-->
 <li><a href="#modal">Modal</a>
 <!--/bcvtbDocs-->
 <!--ptinyKeplerDocs-->
 <!--/vergilDocs-->
+<li><a href="#openmodelica">OpenModelica</a>
 <li><a href="#psdf">PSDF (Parameterized Synchronous Dataflow)</a>
 <li><a href="#petrinet">Petrinet</a>
 <!--vergilDocs-->
@@ -398,6 +400,14 @@ Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>
 <li><a href="../../domains/hdf/demo/Hysteresis/Hysteresis.xml">Hysteresis</a> 
 <li><a href="../../domains/hdf/demo/Merge/Merge.xml">Merge</a>
 </ul>
+
+<!--Ptiny does not include MetroII --> 
+<h3><a name="metroII">MetroII</a></h3>
+<!-- Please keep the demos alphabetical -->
+<ul>
+<li><i>No MetroII demos yet</i>
+</ul>
+
 <!--ptinyKeplerDocs-->
 <!--bcvtbDocs-->
 <h3><a name="modal">Modal</a></h3>
@@ -424,6 +434,12 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
 </ul>
 <!--/bcvtbDocs-->
 <!--/vergilDocs-->
+<!--Ptiny does not include OpenModelica --> 
+<h3><a name="openmodelica">OpenModelica</a></h3>
+<!-- Please keep the demos alphabetical -->
+<ul>
+<li><a href="../../domains/openmodelica/demo/OpenModelica/OpenModelica.xml">OpenModelica</a>
+</ul>
 
 <!--Ptiny does not include PSDF --> 
 <h3><a name="psdf">Parameterized Synchronous Dataflow (PSDF)</a></h3>
@@ -499,13 +515,16 @@ A newer implementation of Modal semantics, for use with the <a href="#continuous
      directory and the name of the model should match. -->
 
 <ul>
-<li><a href="../../demo/Brewery/Brewery.xml">Brewery (New in Ptolemy II 9.0)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicDistributedPowerPlant/PtidesBasicDistributedPowerPlant.xml">Distributed Power Plant (New in Ptolemy II 9.0)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicMixedSimulator/PtidesBasicMixedSimulator.xml">Mixed Simulator (New in Ptolemy II 9.0)</a>
-<li><a href="../../domains/ptides/demo/PtidesNetworkLatencyTest/PtidesNetworkLatencyTest.xml">Network Latency Test (New in Ptolemy II 9.0)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicPowerPlant/PtidesBasicPowerPlant.xml">Power Plant (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/ActuatorPattern/ActuatorPattern.xml">Actuator triggering in Ptides (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/Controller/Controller.xml">Two Controllers (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/CoSimulation/CoSimulation.xml">CoSimulation of Application and Architecture models (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/DistributedPowerPlant/DistributedPowerPlant.xml">Distributed Power Plant (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/MixedSimulator/MixedSimulator.xml">Mixed Simulator (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/MultiPlatformTDMA/MultiPlatformTDMA.xml">Multiple Platforms TDMA (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/MultipleCores/MultipleCores.xml">Scheduling actors on multiple cores (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PowerManagementUnitSamplingWithoutCurrentLocalTime/PowerManagementUnitSamplingWithoutCurrentLocalTime.xml">Power Management Unit Sampling without current local time (New in Ptolemy II 9.0)</a>
+<li><a href="../../domains/ptides/demo/PowerPlant/PowerPlant.xml">Power Plant (New in Ptolemy II 9.0)</a>
 <li><a href="../../domains/ptides/demo/PrintingPress/PrintingPress.xml">Printing Press (New in Ptolemy II 9.0)</a>
-<li><a href="../../domains/ptides/demo/PtidesBasicOnePlatform/PtidesBasicOnePlatform.xml">Single Platform (New in Ptolemy II 9.0)</a>
 <li><a href="../../domains/ptides/demo/PtidesSynchrophasor/PtidesSynchrophasor.xml">Synchrophasor (New in Ptolemy II 9.0)</a>
 </ul>
 
@@ -617,6 +636,14 @@ requires that JMF be installed:
 <a href="../../actor/lib/jmf/demo/VideoCapture/VideoCapture.xml">Video Capture</a> (Both demos use a USB video camera)
 
 <!--vergilDocs-->
+<li>Input/Output actors:
+<a href="../../actor/lib/io/demo/AppendToFile/AppendToFile.xml">Append To File</a>,
+<a href="../../actor/lib/io/demo/CopyFile/CopyFile.xml">Copy File</a>,
+<a href="../../actor/lib/io/demo/CopyOfCopyFile/CopyOfCopyFile.xml">Copy Of Copy File</a>,
+<a href="../../actor/lib/io/demo/FilePortParameter/FilePortParameter.xml">File Port Parameter</a>,
+<a href="../../actor/lib/io/demo/ReadExpressionsCommandLine/ReadExpressionsCommandLine.xml">Read Expressions Command Line</a>,
+<a href="../../actor/lib/io/demo/ReadStdIn/ReadStdIn.xml">Read Std In</a>,
+<a href="../../actor/lib/io/demo/StandardInput/StandardInput.xml">Standard Input</a>
 
 <li><a href="../../actor/lib/javasound/demo/KarplusStrong/KarplusStrong.xml">Karplus-Strong Sound Synthesis</a>
 <li><a href="../../domains/sdf/demo/LMSAdaptive/LMSAdaptive.xml">LMS Adaptive Filter</a> 
@@ -832,21 +859,6 @@ Newer Ptolemy code generation demos that use files  in <code>ptolemy/cg</code>.
 <li><a href="../../cg/lib/demo/Scale/ScaleJava.xml">Scale Java</a></li>
 </ul>
 
-<h4><a name="cgPtides"><code>ptolemy/cg</code> Ptides demos</a></h4>
-<ul>
-<!-- Please keep the demos alphabetical -->
-<li><a href="../../cg/adapter/generic/program/procedural/c/adapters/ptolemy/domains/ptides/demo/OnePlatform/OnePlatform.xml">OnePlatform</a></li>
-</ul>
-
-<h4><a name="cgPtidesLuminary"><code>ptolemy/cg</code> Ptides Luminary demos</a></h4>
-<ul>
-<!-- Please keep the demos alphabetical -->
-<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Accumulator/Accumulator.xml">Accumulator</a></li>
-<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/Speaker/Speaker.xml">Speaker</a></li>
-<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TimeTriggeredTunnelingBallDevice/TimeTriggeredTunnelingBallDevice.xml">TimeTriggeredTunnelingBallDevice</a></li>
-<li><a href="../../cg/adapter/generic/program/procedural/c/luminary/adapters/ptolemy/domains/ptides/demo/TunnelingBallDevice/TunnelingBallDevice.xml">TunnelingBallDevice</a></li>
-</ul>
-
 <h3><a name"codegen"><code>ptolemy/codegen</code></h3>
 Older Ptolemy code generation demos that use files  in <code>ptolemy/codegen</code>.
 
@@ -880,10 +892,6 @@ Older Ptolemy code generation demos that use files  in <code>ptolemy/codegen</co
 <li><a href="../../demo/FuelSystem/FuelSystem2Tanks.xml">2 Tank Model</a> (New in Ptolemy II 9.0)</li>
 <li><a href="../../demo/FuelSystem/FuelSystemQuantityManager.xml">2 Tank Model with Bus communication</a> (New in Ptolemy II 9.0)</li>
 <li><a href="../../demo/FuelSystem/FuelSystemOntology.xml">2 Tank Model with Ontological Information</a> (New in Ptolemy II 9.0)</li>
-</ul>
-<h4>Power Plant</h4>
-<ul>
-<li><a href="../../demo/PowerPlant/PowerPlant.xml">Power Plant Model</a> (New in Ptolemy II 9.0)</li>
 </ul>
 
 <!-- Ptiny does not include these somewhat esoteric models -->

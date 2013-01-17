@@ -1,6 +1,15 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE plot PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
+<!-- Only basic directors that are generally useful should be
+     added to this file.  This file is included by the
+     ptiny configuration and the actors included here should
+     avoid depending on third party packages and should
+     have only the UCB BSD Copyright.
+     
+     Non-basic directors should be added to 
+     experimentalDirectors.xml
+     -->
    <group>
       <doc>default director library</doc>
       <!-- Need to include the iterations parameter here, otherwise the AddMissingParameter
