@@ -170,7 +170,7 @@ Simulink controller, simple room model simulated by Ptolemy.
 Example that illustrates how to convert an array of strings into an array of doubles.
 </li>
 <li>
- <a href="../../../../../examples/TRNSYS-room/systemWindows.xml">TRNSYS-room</a>:
+ <a href="../../../../../examples/TRNSYS17-room/systemWindows.xml">TRNSYS17-room</a>:
 Room model simulated in TRNSYS, controls simulated by Ptolemy.
 </li>
 <li>
