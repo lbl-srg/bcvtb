@@ -24,6 +24,8 @@ rem EnergyPlus installation directory
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable ENERGYPLUS_DIR') do set ENERGYPLUS_DIR="%%i"
 rem Dymola executable
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_DYMOLA_BIN') do set BCVTB_DYMOLA_BIN="%%i"
+rem TRNSYS executable
+for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_TRNSYS_BIN') do set BCVTB_TRNSYS_BIN="%%i"
 rem Radiance directory
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_RADIANCE_DIR') do set BCVTB_RADIANCE_DIR="%%i"
 rem Batch file that sets environment variables for Visual Studio C compiler
@@ -201,6 +203,18 @@ if exist %BCVTB_DYMOLA_BIN% (
    echo  BCVTB_DYMOLA_BIN is set to 
    echo  %BCVTB_DYMOLA_BIN%.
    echo  If Dymola is installed, adjust BCVTB_DYMOLA_BIN
+   echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
+)
+
+rem --- Check for TRNSYS
+if exist %BCVTB_TRNSYS_BIN% (
+   echo haveTRNSYS=true >> build.properties
+) ELSE (
+   echo **************************************************************
+   echo *** Warning: Did not find TRNSYS.
+   echo  BCVTB_TRNSYS_BIN is set to 
+   echo  %BCVTB_TRNSYS_BIN%.
+   echo  If TRNSYS is installed, adjust BCVTB_TRNSYS_BIN
    echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
 )
 
