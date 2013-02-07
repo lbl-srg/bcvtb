@@ -70,6 +70,10 @@
       <equals arg1="${haveMatlab}" arg2="true" trim="true"/>
     </and>
   </condition>
+  
+    <condition property="have.TRNSYS" value="true">
+      <equals arg1="${haveTRNSYS}"  arg2="true" trim="true"/>
+  </condition>
 
   <!-- Set conditions that are used by different build files -->
   <condition property="mac" value="true">
