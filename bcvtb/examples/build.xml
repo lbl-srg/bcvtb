@@ -53,6 +53,7 @@
     <ant dir="espr-shading"                  target="clean"/>
     <ant dir="esprMatlab-hvac"               target="clean"/>
     <ant dir="multiRate-systemCommand"       target="clean"/>
+    <ant dir="TRNSYS17-room"                   target="clean"/>
     <delete dir=".">
       <include name="**/history.xml"/>
       <include name="**/dependencies.xml"/>
@@ -95,6 +96,7 @@
     <ant dir="multiRate-systemCommand"       target="unitTest"/>
     <ant dir="espr-shading"                  target="unitTest"/>
     <ant dir="esprMatlab-hvac"               target="unitTest"/>
+    <ant dir="TRNSYS17-room"                   target="unitTest"/>
   </target>
 
   <!-- Unit tests for EnergyPlus only -->
