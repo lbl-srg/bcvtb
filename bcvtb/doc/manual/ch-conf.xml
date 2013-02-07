@@ -1818,6 +1818,9 @@ quit;</screen>
   </section>
  </section>
 <!-- *** Simulink ************************************************ -->
+
+<!-- *** ESPr ******************************************* -->
+
  <section xml:id="tit-EsprCon">
   <title>ESP-r</title>
   <section>
@@ -1943,6 +1946,7 @@ ${BCVTBpath}/resfile.res
 n
 s
 y
+
 BCVTB1_heating_example
 y
 y
@@ -2057,9 +2061,371 @@ exit 0
         New applications shall be given a unique <code>BCVTBflag</code>. 
 </para>
 </section>
-
-
  </section>
+<!-- *** ESPr ******************************************* -->
+
+<!-- *** FMUImport ******************************************* -->
+ <section xml:id="tit-FMUCon">
+  <title>FMUImport</title>
+  <section>
+  <title>Introduction</title>
+    <para>
+    The FMU Import interface extends the capability of the BCVTB to import simulation programs which are packaged
+    as Functional Mock-up Units (FMU) for co-simulation. The interface complies with the Functional Mock-up Interface standard (FMI) (FIXME-citation), which is an open source standard
+    designed to enable links between disparate simulation programs. A FMU may contain models, model description,
+    source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.	
+    </para>
+  </section>
+    <note>
+      <para>
+        The FMU Import interface currently supports the FMI for Co-Simulation Application Programming Interface (API).
+      </para>
+      <para>
+        Using FMU Import interface in the BCVTB requires knowledge about the FMI standard. 
+      </para>
+    </note>
+    <section>
+      <title>Importing a FMU in the BCVTB</title>
+      <para>
+        To import a FMU in the BCVTB, the user needs to use File -> Import -> Import FMU from the menu tab, which will prompt for a .fmu file. 
+        After providing a valid path to a FMU, the BCVTB reads and unzipps the FMU, parses the file named modelDescription.xml that describes the ports and parameters,
+        and create an actor which exposes the inputs and outputs of the FMU to be connected to external simulation programs for co-simulation. At run time, method calls are made 
+       to C functions that are included in shared libraries included in the .fmu file.
+      </para>
+    </section>
+    <section>
+      <title>Example</title>
+      <section>
+        <title>Modelica room model in FMU</title>
+        <para>
+          This example is available in the directory <code>examples/fmu-roomPtolemy</code>.
+          This example is the same as the example in <code>examples/dymola-room</code> with 
+	  the only difference being that the simulator actor which calls the room model implemented in Modelica is replaced 
+          by a FMU which contains the Modelica room model with its solver. 
+	 <section>
+	   <title> Creating and exporting the Modelica model as a FMU</title>
+           <para>
+            The user needs to modify the Modelica room model by replacing the BCVTB and associated blocks with input and output signals. These signals  
+            will be the input and outputs of the FMU which are exposed to external simulation programs to interface and co-simulate with the FMU.
+            shows the new configuration of the system model with the two input and two output signals which will be ex
+           </para>
+         </section>
+          <xref linkend="tit-MatlabCon"></xref> for how to configure MATLAB.
+        </para>
+        <para>
+          The control logic represents a PID controller for two zones in the building. 
+          The room temperature is sensed, and sent from ESP-r to MATLAB. 
+          The control algorithm in MATLAB computes the required heating power, 
+          and sends this back to ESP-r.
+        </para>thank
+        <para>
+          To exchange sensor and actuator values with the BCVTB, first 
+          define the sensor and actuator locations as you would normally do in ESP-r. 
+          This results in a typical ESP-r control file, see the example control 
+          file <code>esp-r/ctl/bld_basic.ctl</code>. The next step is to 
+          configure the BCVTB coupling in the file <code>esp-r/ctl/bld_basic.ctl</code>. 
+          This is done under the 
+          <code>* BCVTB</code> heading in the control file of which a snippet is
+          shown in <xref linkend="fig-esprHVACCtl"></xref>.
+          The <code>BCVTBflag</code> indicates the specific BCVTB application 
+          (0 = no BCVTB coupling, 1 = basic ESP-r controller, 2 = advanced optics control). 
+          The three lines below this flag are used to control which sensor and actuators 
+          are coupled to the BCVTB (based on their ESP-r zone numbers) and to set 
+          the initial sensor values. Note that it is not necessary to couple 
+          all sensors and actuators. If an actuator is not coupled, then the ESP-r 
+          control logic as defined in the <code>.ctl</code> file will be used.
+        </para>
+        <figure xml:id="fig-esprHVACCtl">>
+
+          <title>Snippet of the ESP-r input file that shows the configuration of the BCVTB interface.</title>
+        </figure>
+      <para>
+        The BCVTB starts EPS-r in text-mode by running 
+        the shell script <code>esp-r/bcvtb/call_espr</code>. This file can be configured as follows:
+      </para>
+
+         <para>Lines 25-28 of the shell script controls the simulation start and stop days, 
+         number of startup days, and number of time-steps per hour. 
+         If you change these settings, you need to change the simulation control 
+         parameters in the BCVTB <code>system.xml</code> and the Matlab <code>.m</code> file accordingly.
+         </para>
+      </section>
+      <section>
+        <title>Solar shading control in Ptolemy II</title>
+        <para>
+          This example is available in the directory <code>examples/espr-shading</code>.
+          In this example, a shading controller is implemented in ESP-r. 
+          The solar shading is modeled by using ESP-r's <emphasis>advanced optics</emphasis> 
+          module. Three sets of bi-directional window data are included in the file 
+          <code>espr-shading/esp-r/bidata.txt</code>. Each set corresponds to a double glazing 
+          unit with interior Venetian blinds at slat angles of 0&#x00b0;, 45&#x00b0; and 90&#x00b0;. 
+          New types of complex glazing systems can be added with the help of 
+          <ulink url="http://windows.lbl.gov/software/window/window.html">WINDOW 6</ulink>.
+          The control logic in the present example is implemented in Ptolemy II. 
+          The controller output is an integer that refers to the selected set of window properties. 
+          In this example, the room temperature is the sensor variable.
+        </para>
+      </section>
+    </section> <!-- End of example -->
+ </section>
+<!-- *** FMUImport ******************************************* -->
+
+<!-- *** TRNSYS ******************************************* -->
+<section xml:id="tit-TRNSYSCon">
+
+  <title>TRNSYS</title>
+
+  <section>
+
+  <title>Introduction</title>
+
+    <para>
+    TRNSYS (pronounced: 'tran-sis') is a software package consisting of a graphical front-end (
+    TRNSYS Simulation Studio) to intuitively create a simulation, an interface for the detailed 
+    TRNSYS multi-zone building (TRNBuild/Type56), a Google SketchUp plugin for creating the multi-zone 
+    building envelope (TRNSYS3D), and a tool for manually editing the TRNSYS input files and creating stand-alone 
+    TRNSYS-based applications (TRNEdit/TRNSED). TRNSYS takes a modular, "black box" component approach to developing and 
+    solving simulations: the outputs of one component are sent to the inputs of another component (transient successive subsitution). 
+    </para>
+
+  </section>
+
+    <note>
+     <itemizedlist>
+    <listitem>
+    <para>
+        Using TRNSYS in the BCVTB requires advanced TRNSYS knowledge and skills. 
+        A BCVTB user that is new to TRNSYS should first learn to use TRNSYS 
+        before attempting to use TRNSYS in BCVTB. 
+    </para>
+    </listitem>
+
+    <listitem>
+     <para>
+     The TRNSYS interface and example has only been tested on Windows 32 bit.
+       </para>
+    </listitem>
+
+    <listitem>
+     <para>
+        It is required prior using TRNSYS with the BCVTB to adjust the path of the TRNSYS executable in <code>bcvtb/bin/systemVariables-windows.properties</code>
+	so that it can be read by the BCVTB at its start.
+        </para>
+    </listitem>
+   </itemizedlist>
+    </note>
+
+    <section>
+
+      <title>Example: HVAC control in Ptolemy II</title>
+
+        <para>
+          This example is available in the directory <code>examples/TRNSYS17-room</code>.
+          It demonstrates heating control of an TRNSYS building model with control logic implemented in Ptolemy II.
+        </para>
+
+        <para>
+          The control logic represents a PID controller for two zones in the building. 
+          The room temperature is sensed, and sent from TRNSYS to Ptolemy. 
+          The control algorithm in Ptolemy II computes the required heating power, 
+          and sends this back to TRNSYS.
+        </para>
+        <section>
+
+        <title>Create the TRNSYS input file</title>
+
+        <para>
+<xref linkend="fig-configurationTRNSYS"></xref> shows the system configuration of the TRNSYS model which contains the BCVTB type as well as the building model type. The BCVTB type can be found in <code>.Studio\Proformas\Utility\Calling External Programs\BCVTB\Type6666.tmf</code>.
+<xref linkend="fig-TRNSYSDck"></xref> shows a snippet of the corresponding input file.
+
+    <figure xml:id="fig-configurationTRNSYS">
+
+     <mediaobject>
+
+      <imageobject role="html">
+
+       <imagedata fileref="img/configurationTRNSYS.png" format="PNG"></imagedata>
+
+      </imageobject>
+
+      <imageobject role="dblatex">
+
+       <imagedata fileref="img/configurationTRNSYS.pdf" format="PDF" scalefit="1"></imagedata>
+
+      </imageobject>
+
+     </mediaobject>
+
+     <title>
+		TRNSYS system model with building model and BCVTB types.
+	      </title>
+    </figure>
+
+<figure xml:id="fig-TRNSYSDck">
+<programlisting language="">
+*******************************************************************************
+*** Control cards
+*******************************************************************************
+* START, STOP and STEP
+CONSTANTS 3
+START=0
+STOP=6
+STEP=Timestep
+* User defined CONSTANTS 
+Equations 1
+Timestep = 1/60
+SIMULATION 	 START	 STOP	 STEP	! Start time	End time	Time step
+TOLERANCES 0.001 0.001			! Integration	 Convergence
+LIMITS 30 500 50			! Max iterations	Max warnings	Trace limit
+DFQ 1					! TRNSYS numerical integration solver method
+WIDTH 80				! TRNSYS output file width, number of characters
+LIST 					! NOLIST statement
+					! MAP statement
+SOLVER 0 1 1				! Solver statement	Minimum relaxation factor	Maximum relaxation factor
+NAN_CHECK 0				! Nan DEBUG statement
+OVERWRITE_CHECK 0			! Overwrite DEBUG statement
+TIME_REPORT 0			        ! disable time report
+EQSOLVER 0				! EQUATION SOLVER statement
+
+* Model "BCVTB" (Type 6666)
+* 
+UNIT 2 TYPE 6666	 BCVTB
+*$UNIT_NAME BCVTB
+*$MODEL .\Utility\Calling External Programs\BCVTB\Type6666.tmf
+*$POSITION 244 148
+*$LAYER Main # 
+PARAMETERS 3
+2		! 1 Number to BCVTB
+2		! 2 Number from BCVTB
+1		! 3 Number of TImesteps
+INPUTS 2
+3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
+3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
+*** INITIAL INPUT VALUES
+0 0 
+*------------------------------------------------------------------------------
+
+* Model "Simple Zone Model" (Type 6667)
+* 
+UNIT 3 TYPE 6667	 Simple Zone Model
+*$UNIT_NAME Simple Zone Model
+*$MODEL .\Utility\Calling External Programs\BCVTB\Type6667.tmf
+*$POSITION 392 287
+*$LAYER Main # 
+INPUTS 2
+2,1 		! BCVTB:Variable from BCVTB-1 ->Control Signal for Zone 1
+2,2 		! BCVTB:Variable from BCVTB-2 ->Control Signal for Zone 2
+*** INITIAL INPUT VALUES
+0 0 
+</programlisting>
+          <title>Snippet of the TRNSYS input file that shows the configuration of the BCVTB interface.</title>
+        </figure>
+
+This file contains beside standard parameters such as start time and stop time, a unit called BCVTB which is the BCVTB type 
+used to interface with the BCVTB. This type is required to interface with the BCVTB. To configure this type, the user needs to specify the number of parameters that will be defined, 
+the number of variables to be send to the BCVTB, and the number of variables to be received
+from the BCVTB, and the simulation time step in hours as shown in <xref linkend="fig-TRNSYSDck-bcvtb"></xref>.
+
+In addition, the user needs to define the inputs of the BCVTB type, which in our example 
+are the <code>Simple Zone Model:Temperature of Zone 1</code> and <code>Simple Zone Model:Temperature of Zone 2</code>, as well as their initial values. 
+These quantities are obtained from the building model (Simple Zone Model type) and send to the BCVTB type.
+
+<figure xml:id="fig-TRNSYSDck-bcvtb">>
+<programlisting language="">
+
+* Model "BCVTB" (Type 6666)
+* 
+
+UNIT 2 TYPE 6666	 BCVTB
+*$UNIT_NAME BCVTB
+*$MODEL .\Utility\Calling External Programs\BCVTB\Type6666.tmf
+*$POSITION 244 148
+*$LAYER Main # 
+PARAMETERS 3
+2		! 1 Number to BCVTB
+2		! 2 Number from BCVTB
+1		! 3 Number of TImesteps
+INPUTS 2
+3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
+3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
+*** INITIAL INPUT VALUES
+0 0 
+</programlisting>
+          <title>Snippet of the BCVTB type.</title>
+        </figure>
+
+The user also needs to configure the type for the building model and configure its inputs to map to the outputs of the BCVTB type as shown in <xref linkend="fig-TRNSYSDck-room"></xref>. 
+In our examples the inputs of the building model type are labeled as <code>BCVTB:Variable from BCVTB-1</code> and <code>BCVTB:Variable from BCVTB-2</code>.
+<figure xml:id="fig-TRNSYSDck-room">>
+<programlisting language="">
+
+* Model "Simple Zone Model" (Type 6667)
+* 
+
+UNIT 3 TYPE 6667	 Simple Zone Model
+*$UNIT_NAME Simple Zone Model
+*$MODEL .\Utility\Calling External Programs\BCVTB\Type6667.tmf
+*$POSITION 392 287
+*$LAYER Main # 
+INPUTS 2
+2,1 		! BCVTB:Variable from BCVTB-1 ->Control Signal for Zone 1
+2,2 		! BCVTB:Variable from BCVTB-2 ->Control Signal for Zone 2
+*** INITIAL INPUT VALUES
+0 0 
+</programlisting>
+          <title>Snippet of the Simple Zone Model type.</title>
+        </figure>
+This complete the configuration of the TRNSYS model.
+<note>
+The configuration of the TRNSYS model can also be done graphicaly by double-clicking on the different types, 
+setting the required parameters and connecting inputs and outputs of the different types as shown on <xref linkend="fig-configurationTRNSYS"></xref>.
+</note>      
+</para>
+</section>
+        <section>
+        <title>Create a Ptolemy II model</title>
+        <para>
+To start TRNSYS from the BCVTB, you will need to create a Ptolemy II model.
+The model bcvtb/examples/c-room/system-windows.xml, which is part of the BCVTB
+installation and is shown in <xref linkend="confPtRoomC"></xref>, may be used as a starting point. 
+In this model, the Simulator will be set-up to call the actor that fires TRNSYS. <xref linkend="fig-configurationTRNSYSSDF"></xref> shows the configuration of the simulator actor.
+
+    <figure xml:id="fig-configurationTRNSYSSDF">
+
+     <mediaobject>
+
+      <imageobject role="html">
+
+       <imagedata fileref="img/configurationTRNSYSSDF.png" format="PNG"></imagedata>
+
+      </imageobject>
+
+      <imageobject role="dblatex">
+
+       <imagedata fileref="img/configurationTRNSYSSDF.pdf" format="PDF" scalefit="1"></imagedata>
+
+      </imageobject>
+
+     </mediaobject>
+
+     <title>
+		Configuration of the Simulator actor that starts TRNSYS.
+	      </title>
+
+    </figure>
+
+The actor call runTRNSYS.bat, with the argument <code>bld_hvac.dck</code>, which is the TRNSYS input file, to invoke TRNSYS. 
+The working directory is the current directory and the console output is written to the <code>simulation.log</code>.
+
+This complete the configuration of the Ptolemy II model.
+</para>
+</section> 
+</section> <!-- End of example -->
+     
+</section> 
+
+<!-- *** TRNSYS ******************************************* -->
+
 <!-- *** SystemCommand ******************************************* -->
  <section xml:id="tit-CustomExeCon">
   <title>Custom program using a system command</title>
@@ -2967,6 +3333,7 @@ bacrp 637502 1 3 191
         </row>
         <row>
          <entry>
+
 		  ApplicationTag
 		</entry>
          <entry>yes</entry>
