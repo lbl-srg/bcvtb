@@ -174,7 +174,7 @@ Example that illustrates how to convert an array of strings into an array of dou
 Room model simulated in TRNSYS, controls simulated by Ptolemy.
 </li>
 <li>
- <a href="../../../../../examples/fmu-room/system.xml">fmu-room</a>:
+ <a href="../../../../../examples/fmu-room/systemWindows.xml">fmu-room</a>:
 Room model simulated in FMU, controls simulated by Ptolemy.
 </li>
 <li>
