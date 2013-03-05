@@ -98,6 +98,7 @@
     <ant dir="espr-shading"                  target="unitTest"/>
     <ant dir="esprMatlab-hvac"               target="unitTest"/>
     <ant dir="TRNSYS17-room"                 target="unitTest"/>
+    <ant dir="fmu-room"                      target="unitTest"/>
   </target>
 
   <!-- Unit tests for EnergyPlus only -->
