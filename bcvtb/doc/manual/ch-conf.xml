@@ -1947,6 +1947,7 @@ n
 s
 y
 
+
 BCVTB1_heating_example
 y
 y
@@ -2064,110 +2065,107 @@ exit 0
  </section>
 <!-- *** ESPr ******************************************* -->
 
-<!-- *** FMUImport ******************************************* -->
+<!-- *** FMU for Co-Simulation Import ******************************************* -->
+
  <section xml:id="tit-FMUCon">
-  <title>FMUImport</title>
+
+  <title>Functional Mock-up Unit for Co-Simulation Import</title>
   <section>
+
   <title>Introduction</title>
     <para>
-    The FMU Import interface extends the capability of the BCVTB to import simulation programs which are packaged
-    as Functional Mock-up Units (FMU) for co-simulation. The interface complies with the Functional Mock-up Interface standard (FMI) (FIXME-citation), which is an open source standard
-    designed to enable links between disparate simulation programs. A FMU may contain models, model description,
-    source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.	
+    The Functional Mock-up Unit (FMU) for co-Simulation import interface extends the capability of the BCVTB to import simulation programs which are packaged
+    as FMUs. The interface complies with the Functional Mock-up Interface standard (FMI), which is an open source standard
+    designed to enable links between disparate simulation programs. An FMU may contain models, model description,
+    source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.  
+    For FMI and FMU related information, we recommend to read the <ulink url="https://www.fmi-standard.org/start">FMI specifications</ulink>
     </para>
   </section>
+
     <note>
       <para>
-        The FMU Import interface currently supports the FMI for Co-Simulation Application Programming Interface (API).
+        The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface (API) version <code>1.0</code>.
       </para>
       <para>
-        Using FMU Import interface in the BCVTB requires knowledge about the FMI standard. 
+        Using FMU for co-simulation import interface in the BCVTB requires knowledge about the <ulink url="https://www.fmi-standard.org/start">FMI standard</ulink>. 
       </para>
     </note>
+
     <section>
-      <title>Importing a FMU in the BCVTB</title>
+
+      <title>Importing an FMU in the BCVTB</title>
       <para>
-        To import a FMU in the BCVTB, the user needs to use File -> Import -> Import FMU from the menu tab, which will prompt for a .fmu file. 
-        After providing a valid path to a FMU, the BCVTB reads and unzipps the FMU, parses the file named modelDescription.xml that describes the ports and parameters,
-        and create an actor which exposes the inputs and outputs of the FMU to be connected to external simulation programs for co-simulation. At run time, method calls are made 
-       to C functions that are included in shared libraries included in the .fmu file.
+        To import an FMU in the BCVTB, the user needs to use <guimenuitem>File -> Import -> Import FMU</guimenuitem> from the menu tab, which will prompt for a <code>.fmu</code> file. 
+        After providing a valid path to an FMU, the BCVTB reads and unzips the FMU, parses the file named <code>modelDescription.xml</code> that describes the ports and parameters,
+        and create an actor which exposes the inputs and outputs of the FMU to be connected to external simulation programs for co-simulation. 
+       The user can then change the parameters of the FMU by double-clicking on the actor and setting the new parameters. At run-time, method calls are made 
+       to C functions that are included in shared libraries included in the <code>.fmu</code> file.
       </para>
     </section>
+
     <section>
-      <title>Example</title>
-      <section>
-        <title>Modelica room model in FMU</title>
+      <title>Example: Modelica room model in an FMU</title>
         <para>
-          This example is available in the directory <code>examples/fmu-roomPtolemy</code>.
+          This example is available in the directory <code>examples/fmu-room</code>.
           This example is the same as the example in <code>examples/dymola-room</code> with 
-	  the only difference being that the simulator actor which calls the room model implemented in Modelica is replaced 
-          by a FMU which contains the Modelica room model with its solver. 
+	  the only difference being that the <code>Simulator</code> actor which calls the room model implemented in Modelica is replaced 
+          by an FMU which contains the Modelica room model with its solver. 
+          </para>
+
 	 <section>
-	   <title> Creating and exporting the Modelica model as a FMU</title>
+	   <title> Creating and exporting the Modelica model as an FMU</title>
            <para>
-            The user needs to modify the Modelica room model by replacing the BCVTB and associated blocks with input and output signals. These signals  
-            will be the input and outputs of the FMU which are exposed to external simulation programs to interface and co-simulate with the FMU.
-            shows the new configuration of the system model with the two input and two output signals which will be ex
+            The user needs to modify the Modelica room model shown in <xref linkend="configuration-dymola-room-schematic"></xref> by replacing the BCVTB and associated blocks with input and output signals. These signals  will be the input and outputs of the FMU which are exposed to external simulation programs to interface and co-simulate with the FMU. <xref linkend="fig-configuration-fmu-modelica"></xref> shows the new configuration of the system model with the two input (<code>u_1</code>, <code>u_2</code>) and two output signals (<code>Troo_1</code>, <code>Troo_2</code>) that will be exchanged. The user then needs to export the Modelica model as an FMU. This step is tool specific and is commonly described in the user manual of the tool that support the export of FMU with FMI for Co-Simulation API.
            </para>
-         </section>
-          <xref linkend="tit-MatlabCon"></xref> for how to configure MATLAB.
-        </para>
-        <para>
-          The control logic represents a PID controller for two zones in the building. 
-          The room temperature is sensed, and sent from ESP-r to MATLAB. 
-          The control algorithm in MATLAB computes the required heating power, 
-          and sends this back to ESP-r.
-        </para>thank
-        <para>
-          To exchange sensor and actuator values with the BCVTB, first 
-          define the sensor and actuator locations as you would normally do in ESP-r. 
-          This results in a typical ESP-r control file, see the example control 
-          file <code>esp-r/ctl/bld_basic.ctl</code>. The next step is to 
-          configure the BCVTB coupling in the file <code>esp-r/ctl/bld_basic.ctl</code>. 
-          This is done under the 
-          <code>* BCVTB</code> heading in the control file of which a snippet is
-          shown in <xref linkend="fig-esprHVACCtl"></xref>.
-          The <code>BCVTBflag</code> indicates the specific BCVTB application 
-          (0 = no BCVTB coupling, 1 = basic ESP-r controller, 2 = advanced optics control). 
-          The three lines below this flag are used to control which sensor and actuators 
-          are coupled to the BCVTB (based on their ESP-r zone numbers) and to set 
-          the initial sensor values. Note that it is not necessary to couple 
-          all sensors and actuators. If an actuator is not coupled, then the ESP-r 
-          control logic as defined in the <code>.ctl</code> file will be used.
-        </para>
-        <figure xml:id="fig-esprHVACCtl">>
+          <para>
 
-          <title>Snippet of the ESP-r input file that shows the configuration of the BCVTB interface.</title>
-        </figure>
-      <para>
-        The BCVTB starts EPS-r in text-mode by running 
-        the shell script <code>esp-r/bcvtb/call_espr</code>. This file can be configured as follows:
-      </para>
-
-         <para>Lines 25-28 of the shell script controls the simulation start and stop days, 
-         number of startup days, and number of time-steps per hour. 
-         If you change these settings, you need to change the simulation control 
-         parameters in the BCVTB <code>system.xml</code> and the Matlab <code>.m</code> file accordingly.
-         </para>
-      </section>
-      <section>
-        <title>Solar shading control in Ptolemy II</title>
-        <para>
-          This example is available in the directory <code>examples/espr-shading</code>.
-          In this example, a shading controller is implemented in ESP-r. 
-          The solar shading is modeled by using ESP-r's <emphasis>advanced optics</emphasis> 
-          module. Three sets of bi-directional window data are included in the file 
-          <code>espr-shading/esp-r/bidata.txt</code>. Each set corresponds to a double glazing 
-          unit with interior Venetian blinds at slat angles of 0&#x00b0;, 45&#x00b0; and 90&#x00b0;. 
-          New types of complex glazing systems can be added with the help of 
-          <ulink url="http://windows.lbl.gov/software/window/window.html">WINDOW 6</ulink>.
-          The control logic in the present example is implemented in Ptolemy II. 
-          The controller output is an integer that refers to the selected set of window properties. 
-          In this example, the room temperature is the sensor variable.
-        </para>
-      </section>
-    </section> <!-- End of example -->
+    	<figure xml:id="fig-configuration-fmu-modelica">
+     	<mediaobject>
+      	<imageobject role="html">
+       	<imagedata fileref="img/configurationFMUModelica.png" format="PNG"></imagedata>
+      	</imageobject>
+      	<imageobject role="dblatex">
+       	<imagedata fileref="img/configurationFMUModelica.pdf" format="PDF" scalefit="1"></imagedata>
+      	</imageobject>
+     	</mediaobject>
+     	<title>
+	     Graphical view of the Modelica model that is exported as an FMU for co-simulation.
+	      </title>
+    	</figure>
+   	</para>
  </section>
+	 <section>
+	   <title> Creating a Ptolemy II system model</title>
+           <para>
+            The user needs to create a Ptolemy II system model. The model <code>BCVTB/examples/dymola-room/system-windows.xml</code> shown in
+            <xref linkend="fig-configuration-dymola-room-system"></xref> may be used as a starting point. The user just needs a) to replace the <code>Simulator</code> actor with the imported FMU, and b) to connect the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
+    <note>
+      <para>
+       The user should use one of the FMUs provided in <code>BCVTB/examples/fmu-room/fmus</code> when prompted by the BCVTB to provide a path to an <code>.fmu</code> file.
+      </para>
+    </note>
+           </para>
+          <para>
+
+    	<figure xml:id="fig-configuration-fmu-ptolemy">
+     	<mediaobject>
+      	<imageobject role="html">
+       	<imagedata fileref="img/configurationFMUPtolemy.png" format="PNG"></imagedata>
+      	</imageobject>
+      	<imageobject role="dblatex">
+       	<imagedata fileref="img/configurationFMUPtolemy.pdf" format="PDF" scalefit="1"></imagedata>
+      	</imageobject>
+     	</mediaobject>
+     	<title>
+	     Ptolemy II system model that links a model of a controller with the FMU for co-simulation.
+	      </title>
+    	</figure>
+   	</para>
+         </section>
+    </section> <!-- End of example -->
+
+ </section>
+
 <!-- *** FMUImport ******************************************* -->
 
 <!-- *** TRNSYS ******************************************* -->
@@ -2218,7 +2216,6 @@ exit 0
     <section>
 
       <title>Example: HVAC control in Ptolemy II</title>
-
         <para>
           This example is available in the directory <code>examples/TRNSYS17-room</code>.
           It demonstrates heating control of an TRNSYS building model with control logic implemented in Ptolemy II.
