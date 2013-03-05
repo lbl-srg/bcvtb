@@ -174,6 +174,9 @@ Example that illustrates how to convert an array of strings into an array of dou
 Room model simulated in TRNSYS, controls simulated by Ptolemy.
 </li>
 <li>
+ <a href="../../../../../examples/fmu-room/system.xml">fmu-room</a>:
+Room model simulated in FMU, controls simulated by Ptolemy.
+</li>
 <li>
  <a href="../../../../../examples/c-room/system.xml">c-room</a>:
 Room model simulated in C, controls simulated by Ptolemy.
@@ -264,6 +267,10 @@ Room model with icon color changing based on room temperature, simulated by Ptol
 <li>
  <a href="../../../../../examples/ptolemy-dataTypeConversion/system.xml">ptolemy-dataTypeConversion</a>:
 Example that illustrates how to convert an array of strings into an array of doubles.
+</li>
+<li>
+ <a href="../../../../../examples/fmu-room/system.xml">fmu-room</a>:
+Room model simulated in FMU, controls simulated by Ptolemy.
 </li>
 <li>
  <a href="../../../../../examples/radiance40/system.xml">radiance40</a>:
