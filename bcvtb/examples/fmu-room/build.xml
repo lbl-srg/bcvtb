@@ -15,5 +15,4 @@
       <arg line="${ptExecutableFlags} ${ptUnitTestFile}"/>
     </exec>
   </target>
-  
 </project>
