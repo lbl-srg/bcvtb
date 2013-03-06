@@ -136,7 +136,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[-380.0, 250.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={-4, -4, 1928, 1174}, maximized=true}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={0, 0, 1928, 1174}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1708, 1057]">
     </property>
@@ -436,8 +436,8 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_hideName" class="ptolemy.data.expr.SingletonParameter" value="true">
         </property>
     </entity>
-    <entity name="TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
-        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="Z:\vmWareLinux\proj\bcvtb\models\ptolemy\svn\bcvtb\trunk\bcvtb\examples\fmu-room\fmus\windows\32\TwoRooms.fmu">
+    <entity name="FMU-0TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
+        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="$CLASSPATH/../../examples/fmu-room/fmus/linux/32/Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRooms.fmu">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[45.0, 145.0]">
         </property>
@@ -895,8 +895,8 @@ This is for illustration purposes only and not needed by the above model.</text>
     <link port="VecDis.input" relation="relation3"/>
     <link port="VecDis.output" relation="relation12"/>
     <link port="VecDis.output" relation="relation13"/>
-    <link port="TwoRooms.u_1" relation="relation12"/>
-    <link port="TwoRooms.u_2" relation="relation13"/>
-    <link port="TwoRooms.Troo_1" relation="relation14"/>
-    <link port="TwoRooms.Troo_2" relation="relation15"/>
+    <link port="FMU-0TwoRooms.u_1" relation="relation12"/>
+    <link port="FMU-0TwoRooms.u_2" relation="relation13"/>
+    <link port="FMU-0TwoRooms.Troo_1" relation="relation14"/>
+    <link port="FMU-0TwoRooms.Troo_2" relation="relation15"/>
 </entity>
