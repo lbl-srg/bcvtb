@@ -1948,6 +1948,7 @@ s
 y
 
 
+
 BCVTB1_heating_example
 y
 y
@@ -2089,6 +2090,9 @@ exit 0
       <para>
         Using FMU for co-simulation import interface in the BCVTB requires knowledge about the <ulink url="https://www.fmi-standard.org/start">FMI standard</ulink>. 
       </para>
+      <para>
+        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it could only be tested for Windows and Linux because of the limited support of tools capable to export FMU for co-simulation on Mac OS X.</ulink>. 
+      </para>
     </note>
 
     <section>
@@ -2132,6 +2136,11 @@ exit 0
 	     Graphical view of the Modelica model that is exported as an FMU for co-simulation.
 	      </title>
     	</figure>
+    <note>
+      <para>
+       The Modelica model used to generate the FMU is provided in <code>BCVTB/examples/fmu-room/modelica</code>.
+      </para>
+    </note>
    	</para>
  </section>
 	 <section>
@@ -2139,11 +2148,7 @@ exit 0
            <para>
             The user needs to create a Ptolemy II system model. The model <code>BCVTB/examples/dymola-room/system-windows.xml</code> shown in
             <xref linkend="fig-configuration-dymola-room-system"></xref> may be used as a starting point. The user just needs a) to replace the <code>Simulator</code> actor with the imported FMU, and b) to connect the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
-    <note>
-      <para>
-       The user should use one of the FMUs provided in <code>BCVTB/examples/fmu-room/fmus</code> when prompted by the BCVTB to provide a path to an <code>.fmu</code> file.
-      </para>
-    </note>
+
            </para>
           <para>
 
