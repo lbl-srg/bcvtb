@@ -2091,7 +2091,7 @@ exit 0
         Using the FMU for co-simulation import interface in the BCVTB requires knowledge about the <ulink url="https://www.fmi-standard.org/start">FMI standard</ulink>. 
       </para>
       <para>
-        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it could only be tested on Windows and Linux because of the limited support of tools capable of exporting FMU for co-simulation on Mac OS X. 
+        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it could only be tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
       </para>
     </note>
 
@@ -2103,7 +2103,7 @@ exit 0
         After providing a valid path to an FMU, the BCVTB reads and unzips the FMU, parses the file named <code>modelDescription.xml</code> that describes the ports and parameters,
         and create an actor which exposes the inputs and outputs of the FMU to be connected to external simulation programs for co-simulation. 
        The user can then change the parameters of the FMU by double-clicking on the actor and setting the new parameters. At run-time, method calls are made 
-       to C functions that are included in shared libraries included in the <code>.fmu</code> file.
+       to C-functions that are included in shared libraries included in the <code>.fmu</code> file.
       </para>
     </section>
 
