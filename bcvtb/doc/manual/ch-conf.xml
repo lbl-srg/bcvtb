@@ -2140,6 +2140,9 @@ exit 0
       <para>
        The Modelica model used to generate the FMU is provided in <code>BCVTB/examples/fmu-room/modelica</code>.
       </para>
+      <para>
+       The FMU used in the example is provided in <code>BCVTB/examples/fmu-room/fmus</code>.
+      </para>
     </note>
    	</para>
  </section>
