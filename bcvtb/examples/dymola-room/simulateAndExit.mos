@@ -5,7 +5,7 @@ openModel("TwoRoomsTotal.mo");
 (val, fla) = Modelica.Utilities.System.getEnvironmentVariable("BCVTB_32bit");
 if (fla == true) then
   if (Modelica.Utilities.Strings.isEqual(val, "false")) then
-    Hidden.CompileWith64 = 2;
+    Advanced.CompileWith64 = 2;
   end if;
 end if;
 simulateModel("Buildings_Utilities_IO_BCVTB_Examples_TwoRooms", startTime=0, stopTime=21600);
