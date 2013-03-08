@@ -49,8 +49,8 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 64746 2012-10-01 23:55:52Z cxh $
- @since Ptolemy II 8.1
+ @version $Id: ValidatingXMLParser.java 65764 2013-03-07 02:38:11Z cxh $
+ @since Ptolemy II 9.0
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
  */
