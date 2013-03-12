@@ -437,7 +437,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="FMU-TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
-        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="$PTII\..\..\examples\fmu-room\fmus\windows\32\Buildings_Utilities_IO_BCVTB_Examples_TwoRooms.fmu">
+        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="$PTII\..\..\examples\fmu-room\fmus\windows\32\Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRooms.fmu">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[50.0, 145.0]">
         </property>
