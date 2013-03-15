@@ -15,7 +15,7 @@
     <exec executable="${ptUnitTestExecutable}" 
     failonerror="true"
     vmlauncher="false"> <!-- vmlauncher="false" is needed for Windows -->
-      <arg line="${ptExecutableFlags} systemWindows.xml"/>
+      <arg line="${ptExecutableFlags} system-windows.xml"/>
     </exec>
   </target>
 

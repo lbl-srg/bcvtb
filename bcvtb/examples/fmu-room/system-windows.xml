@@ -75,9 +75,8 @@
         <property name="_iconDescription" class="ptolemy.kernel.util.SingletonConfigurableAttribute">
             <configure><svg><text x="20" y="20" style="font-size:14; font-family:SansSerif; fill:blue">This model illustrates the implementation of a simulation
 program developed in the Dymola modeling environment for Modelica. 
-The Modelica Model has been exported as a Functional Mock-up Unit (FMU)
-for co-simulation. The FMU communicates with Ptolemy II through BSD sockets.
-The FMU computes the temperature change in  two rooms with different capacity. 
+The Modelica model has been exported as a Functional Mock-up Unit (FMU)
+for co-simulation. The FMU computes the temperature change in  two rooms with different capacity. 
 Input to the FMU are the control signal u_k. Output of the FMU are the new room 
 temperatures T_{k+1}. The control action is computed in Ptolemy II.</text></svg></configure>
         </property>
@@ -136,9 +135,9 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[-380.0, 250.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={0, 0, 1928, 1174}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={81, 148, 1259, 764}, maximized=false}">
     </property>
-    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1708, 1057]">
+    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1039, 647]">
     </property>
     <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0">
     </property>

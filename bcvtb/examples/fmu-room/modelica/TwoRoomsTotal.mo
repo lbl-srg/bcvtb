@@ -1,13 +1,14 @@
+within ;
 package Modelica "Modelica Standard Library (Version 3.2)"
 extends Modelica.Icons.Package;
 
   package Blocks
-  "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
+    "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
   import SI = Modelica.SIunits;
   extends Modelica.Icons.Package;
 
     package Interfaces
-    "Library of connectors and partial models for input/output blocks"
+      "Library of connectors and partial models for input/output blocks"
       import Modelica.SIunits;
         extends Modelica.Icons.InterfacesPackage;
 
@@ -120,7 +121,7 @@ partial models for continuous and discrete blocks.
     end Interfaces;
 
     package Math
-    "Library of Real mathematical functions as input/output blocks"
+      "Library of Real mathematical functions as input/output blocks"
       import Modelica.SIunits;
       import Modelica.Blocks.Interfaces;
       extends Modelica.Icons.Package;
@@ -128,8 +129,8 @@ partial models for continuous and discrete blocks.
           block Gain "Output the product of a gain value with the input signal"
 
             parameter Real k(start=1, unit="1")
-        "Gain value multiplied with input signal";
-    public
+          "Gain value multiplied with input signal";
+      public
             Interfaces.RealInput u "Input signal connector"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}},
                 rotation=0)));
@@ -288,11 +289,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Blocks;
 
   package Thermal
-  "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
+    "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
     extends Modelica.Icons.Package;
 
     package HeatTransfer
-    "Library of 1-dimensional heat transfer with lumped elements"
+      "Library of 1-dimensional heat transfer with lumped elements"
       import Modelica.SIunits.Conversions.*;
       extends Modelica.Icons.Package;
 
@@ -301,11 +302,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 
         model HeatCapacitor "Lumped thermal element storing heat"
           parameter Modelica.SIunits.HeatCapacity C
-          "Heat capacity of element (= cp*m)";
+            "Heat capacity of element (= cp*m)";
           Modelica.SIunits.Temperature T(start=293.15, displayUnit="degC")
-          "Temperature of element";
+            "Temperature of element";
           Modelica.SIunits.TemperatureSlope der_T(start=0)
-          "Time derivative of temperature (= der(T))";
+            "Time derivative of temperature (= der(T))";
           Interfaces.HeatPort_a port annotation (Placement(transformation(
                 origin={0,-100},
                 extent={{-10,-10},{10,10}},
@@ -433,10 +434,10 @@ compute C:
         end HeatCapacitor;
 
         model ThermalConductor
-        "Lumped thermal element transporting heat without storing it"
+          "Lumped thermal element transporting heat without storing it"
           extends Interfaces.Element1D;
           parameter Modelica.SIunits.ThermalConductance G
-          "Constant thermal conductance of material";
+            "Constant thermal conductance of material";
 
         equation
           Q_flow = G*dT;
@@ -671,14 +672,14 @@ sensor model.
         partial connector HeatPort "Thermal port for 1-dim. heat transfer"
           Modelica.SIunits.Temperature T "Port temperature";
           flow Modelica.SIunits.HeatFlowRate Q_flow
-          "Heat flow rate (positive if flowing from outside into the component)";
+            "Heat flow rate (positive if flowing from outside into the component)";
           annotation (Documentation(info="<html>
 
 </html>"));
         end HeatPort;
 
         connector HeatPort_a
-        "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
+          "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
 
           extends HeatPort;
 
@@ -715,7 +716,7 @@ class.</p>
         end HeatPort_a;
 
         connector HeatPort_b
-        "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
+          "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
 
           extends HeatPort;
 
@@ -752,12 +753,12 @@ class.</p>
         end HeatPort_b;
 
         partial model Element1D
-        "Partial heat transfer element with two HeatPort connectors that does not store energy"
+          "Partial heat transfer element with two HeatPort connectors that does not store energy"
 
           Modelica.SIunits.HeatFlowRate Q_flow
-          "Heat flow rate from port_a -> port_b";
+            "Heat flow rate from port_a -> port_b";
           Modelica.SIunits.TemperatureDifference dT "port_a.T - port_b.T";
-      public
+        public
           HeatPort_a port_a annotation (Placement(transformation(extent={{-110,-10},
                     {-90,10}}, rotation=0)));
           HeatPort_b port_b annotation (Placement(transformation(extent={{90,-10},{
@@ -957,13 +958,13 @@ and fluid heat flow.
   end Thermal;
 
   package Constants
-  "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
+    "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
     import SI = Modelica.SIunits;
     import NonSI = Modelica.SIunits.Conversions.NonSIunits;
     extends Modelica.Icons.Package;
 
     final constant NonSI.Temperature_degC T_zero=-273.15
-    "Absolute zero temperature";
+      "Absolute zero temperature";
     annotation (
       Documentation(info="<html>
 <p>
@@ -1074,7 +1075,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
     extends Icons.Package;
 
     partial package ExamplesPackage
-    "Icon for packages containing runnable examples"
+      "Icon for packages containing runnable examples"
     //extends Modelica.Icons.Package;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics={Rectangle(
@@ -1277,11 +1278,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Icons;
 
   package SIunits
-  "Library of type and unit definitions based on SI units according to ISO 31-1992"
+    "Library of type and unit definitions based on SI units according to ISO 31-1992"
     extends Modelica.Icons.Package;
 
     package Conversions
-    "Conversion functions to/from non SI units and type definitions of non SI units"
+      "Conversion functions to/from non SI units and type definitions of non SI units"
       extends Modelica.Icons.Package;
 
       package NonSIunits "Type definitions of non SI units"
@@ -1289,7 +1290,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 
         type Temperature_degC = Real (final quantity="ThermodynamicTemperature",
               final unit="degC")
-        "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
+          "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
                                                                                                             annotation(__Dymola_absoluteValue=true);
         annotation (Documentation(info="<HTML>
 <p>
@@ -1384,7 +1385,7 @@ argument):</p>
         min = 0,
         start = 288.15,
         displayUnit="degC")
-    "Absolute temperature (use type TemperatureDifference for relative temperatures)"
+      "Absolute temperature (use type TemperatureDifference for relative temperatures)"
                                                                                                         annotation(__Dymola_absoluteValue=true);
 
     type Temperature = ThermodynamicTemperature;
@@ -1553,6 +1554,7 @@ TU Hamburg-Harburg, Politecnico di Milano.
 </HTML>
 "));
 end Modelica;
+
 
 package Buildings "Library with models for building energy and control systems"
 
@@ -1755,7 +1757,7 @@ This package contains models for heat transfer elements.
       extends Modelica.Icons.VariantsPackage;
 
       package BCVTB
-      "Package with functions to communicate with the Building Controls Virtual Test Bed"
+        "Package with functions to communicate with the Building Controls Virtual Test Bed"
         extends Modelica.Icons.VariantsPackage;
 
         block To_degC "Converts Kelvin to Celsius"
@@ -1763,12 +1765,12 @@ This package contains models for heat transfer elements.
 
           Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="Temperature",
                                                       final unit = "K", displayUnit = "degC", min=0)
-          "Temperature in Kelvin"
+            "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
                 iconTransformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="Temperature",
                                                         final unit = "degC", displayUnit = "degC", min=-273.15)
-          "Temperature in Celsius"
+            "Temperature in Celsius"
             annotation (Placement(transformation(extent={{100,-10},{120,10}}),
                 iconTransformation(extent={{100,-10},{120,10}})));
         equation
@@ -1810,55 +1812,55 @@ First implementation.
         end To_degC;
 
         package Examples
-        "Collection of models that illustrate model use and test models"
+          "Collection of models that illustrate model use and test models"
           extends Modelica.Icons.ExamplesPackage;
 
           model TwoRooms
-          "Thermal model of two rooms that will be linked to the BCVTB which models the controls"
+            "Thermal model of two rooms that will be linked to the BCVTB which models the controls"
             import Buildings;
             extends Modelica.Icons.Example;
             parameter Modelica.SIunits.Time tau = 2*3600 "Room time constant";
             parameter Modelica.SIunits.HeatFlowRate Q_flow_nom = 100
-            "Nominal heat flow";
+              "Nominal heat flow";
             parameter Modelica.SIunits.ThermalConductance UA = Q_flow_nom / 20
-            "Thermal conductance of room";
+              "Thermal conductance of room";
             parameter Modelica.SIunits.Temperature TStart = 283.15
-            "Start temperature";
+              "Start temperature";
             Modelica.Thermal.HeatTransfer.Components.HeatCapacitor C1(C=tau*UA, T(start=
                     TStart, fixed=true)) "Heat capacity of room"
               annotation (Placement(transformation(extent={{70,70},{90,90}})));
             Modelica.Thermal.HeatTransfer.Components.ThermalConductor UA1(G=UA)
-            "Heat transmission of room"
+              "Heat transmission of room"
               annotation (Placement(transformation(extent={{40,60},{60,80}})));
             Buildings.HeatTransfer.Sources.FixedTemperature TOut1(T=278.15)
-            "Outside air temperature"
+              "Outside air temperature"
               annotation (Placement(transformation(extent={{0,60},{20,80}})));
             Buildings.HeatTransfer.Sources.PrescribedHeatFlow Q_flow_1
-            "Heat input into the room"
+              "Heat input into the room"
               annotation (Placement(transformation(extent={{42,20},{62,40}})));
             Modelica.Blocks.Math.Gain GaiQ_flow_nom1(k=Q_flow_nom)
-            "Gain for nominal heat load"
+              "Gain for nominal heat load"
               annotation (Placement(transformation(extent={{0,20},{20,40}})));
             Modelica.Thermal.HeatTransfer.Components.ThermalConductor UA2(G=UA)
-            "Heat transmission of room"
+              "Heat transmission of room"
               annotation (Placement(transformation(extent={{40,-40},{60,-20}})));
             Modelica.Thermal.HeatTransfer.Components.HeatCapacitor C2(C=2*tau*UA, T(start=
                     TStart, fixed=true)) "Heat capacity of room"
               annotation (Placement(transformation(extent={{70,-28},{90,-8}})));
             Buildings.HeatTransfer.Sources.FixedTemperature TOut2(T=278.15)
-            "Outside air temperature"
+              "Outside air temperature"
               annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
             Buildings.HeatTransfer.Sources.PrescribedHeatFlow Q_flow_2
-            "Heat input into the room"
+              "Heat input into the room"
               annotation (Placement(transformation(extent={{44,-80},{64,-60}})));
             Modelica.Blocks.Math.Gain GaiQ_flow_nom2(k=Q_flow_nom)
-            "Gain for nominal heat load"
+              "Gain for nominal heat load"
               annotation (Placement(transformation(extent={{2,-80},{22,-60}})));
             Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRoo1
-            "Room temperature"
+              "Room temperature"
               annotation (Placement(transformation(extent={{92,60},{112,80}})));
             Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRoo2
-            "Room temperature"
+              "Room temperature"
               annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
             Buildings.Utilities.IO.BCVTB.To_degC to_degC1
               annotation (Placement(transformation(extent={{140,60},{160,80}})));
@@ -1868,9 +1870,9 @@ First implementation.
             annotation (Placement(transformation(extent={{-112,10},{-72,50}})));
           Modelica.Blocks.Interfaces.RealInput u_2 annotation (Placement(
                 transformation(extent={{-110,-90},{-70,-50}})));
-          Modelica.Blocks.Interfaces.RealOutput Troo_1
+          Modelica.Blocks.Interfaces.RealOutput TRoo_1
             annotation (Placement(transformation(extent={{210,56},{238,84}})));
-          Modelica.Blocks.Interfaces.RealOutput Troo_2 annotation (Placement(
+          Modelica.Blocks.Interfaces.RealOutput TRoo_2 annotation (Placement(
                 transformation(extent={{212,-44},{240,-16}})));
           equation
             connect(TOut1.port, UA1.port_a) annotation (Line(
@@ -1929,16 +1931,16 @@ First implementation.
               points={{-92,30},{-2,30}},
               color={0,0,127},
               smooth=Smooth.None));
-          connect(to_degC1.Celsius, Troo_1) annotation (Line(
+          connect(to_degC1.Celsius,TRoo_1)  annotation (Line(
               points={{161,70},{224,70}},
               color={0,0,127},
               smooth=Smooth.None));
-          connect(to_degC2.Celsius, Troo_2) annotation (Line(
+          connect(to_degC2.Celsius,TRoo_2)  annotation (Line(
               points={{161,-30},{226,-30}},
               color={0,0,127},
               smooth=Smooth.None));
             annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,
-                    -100},{240,100}}),   graphics),
+                      -100},{240,100}}), graphics),
               experiment(StopTime=21600),
               Documentation(info="<html>
 This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.
@@ -2037,7 +2039,10 @@ to solve specific problems.
 </p>
 </html>"));
 end Buildings;
+
 model Buildings_Utilities_IO_BCVTB_Examples_TwoRooms
  extends Buildings.Utilities.IO.BCVTB.Examples.TwoRooms;
-  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")));
+  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            240,100}}), graphics));
 end Buildings_Utilities_IO_BCVTB_Examples_TwoRooms;

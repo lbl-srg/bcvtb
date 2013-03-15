@@ -1949,6 +1949,7 @@ y
 
 
 
+
 BCVTB1_heating_example
 y
 y
@@ -2075,7 +2076,7 @@ exit 0
 
   <title>Introduction</title>
     <para>
-    The Functional Mock-up Unit (FMU) for co-Simulation import interface extends the capability of the BCVTB to import simulation programs that are packaged
+    The Functional Mock-up Unit (FMU) for co-Simulation import interface allows the BCVTB to import simulation programs that are packaged
     as FMUs. The interface complies with the Functional Mock-up Interface standard (FMI), which is an open source standard
     designed to enable links between disparate simulation programs. An FMU may contain models, model description,
     source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.  
@@ -2088,10 +2089,7 @@ exit 0
         The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface (API) version <code>1.0</code>.
       </para>
       <para>
-        Using the FMU for co-simulation import interface in the BCVTB requires knowledge about the <ulink url="https://www.fmi-standard.org/start">FMI standard</ulink>. 
-      </para>
-      <para>
-        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it could only be tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
+        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it was only tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
       </para>
     </note>
 
@@ -2099,11 +2097,9 @@ exit 0
 
       <title>Import an FMU in the BCVTB</title>
       <para>
-        To import an FMU in the BCVTB, the user needs to use <guimenuitem>File -> Import -> Import FMU</guimenuitem> from the menu tab, which will prompt for a <code>.fmu</code> file. 
+        To import an FMU in the BCVTB, use <guimenuitem>File -> Import -> Import FMU</guimenuitem> from the menu tab, which will prompt for a <code>.fmu</code> file. 
         After providing a valid path to an FMU, the BCVTB reads and unzips the FMU, parses the file named <code>modelDescription.xml</code> that describes the ports and parameters,
-        and create an actor which exposes the inputs and outputs of the FMU to be connected to external simulation programs for co-simulation. 
-       The user can then change the parameters of the FMU by double-clicking on the actor and setting the new parameters. At run-time, method calls are made 
-       to C-functions that are included in shared libraries included in the <code>.fmu</code> file.
+        and creates an actor which exposes the inputs and outputs of the FMU. To change the parameters of the FMU, double-click on the actor and set the new parameters.
       </para>
     </section>
 
@@ -2111,15 +2107,14 @@ exit 0
       <title>Example: Modelica room model in an FMU</title>
         <para>
           This example is available in the directory <code>examples/fmu-room</code>.
-          This example is the same as the example in <code>examples/dymola-room</code> with 
-	  the only difference being that the <code>Simulator</code> actor which calls the room model implemented in Modelica is replaced 
-          by an FMU which contains the Modelica room model with its solver. 
+          This example is the same as the example in <code>examples/dymola-room</code> except 
+	  that an FMU is used instead of Dymola to simulate the room model. 
           </para>
 
 	 <section>
 	   <title> Create and export the Modelica model as an FMU</title>
            <para>
-            The user needs to modify the Modelica room model shown in <xref linkend="configuration-dymola-room-schematic"></xref> by replacing the BCVTB and associated blocks with input and output signals. These signals  will be the inputs and outputs of the FMU which are exposed to external simulation programs for co-simulation. <xref linkend="fig-configuration-fmu-modelica"></xref> shows the new configuration of the system model with the two input (<code>u_1</code>, <code>u_2</code>) and two output signals (<code>Troo_1</code>, <code>Troo_2</code>) that will be exchanged. The user then needs to export the Modelica model as an FMU. This step is tool specific and is commonly described in the user manual of the tool which supports the export of FMU with FMI for Co-Simulation API.
+            As a starting point for this example, we used the Modelica room model shown in <xref linkend="configuration-dymola-room-schematic"></xref>. We added connectors for input and output signals. These signals  will be the inputs and outputs of the FMU which will be exposed in the Ptolemy II actor. <xref linkend="fig-configuration-fmu-modelica"></xref> shows the new configuration of the system model with the two inputs (<code>u_1</code>, <code>u_2</code>) and two outputs signals (<code>TRoo_1</code>, <code>TRoo_2</code>). Next, we exported the Modelica model as an FMU. This step is tool specific and is typically described in the user manual of the tool which is used to export the FMU for co-simulation.
            </para>
           <para>
 
@@ -2149,8 +2144,8 @@ exit 0
 	 <section>
 	   <title> Create a Ptolemy II system model</title>
            <para>
-            The user needs to create a Ptolemy II system model. The model <code>BCVTB/examples/dymola-room/system-windows.xml</code> shown in
-            <xref linkend="fig-configuration-dymola-room-system"></xref> may be used as a starting point. The user just needs a) to replace the <code>Simulator</code> actor with the imported FMU, and b) to connect the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
+            To simulate the FMU, a Ptolemy II system model needs to be created. We used the model <code>BCVTB/examples/dymola-room/system-windows.xml</code>, shown in
+            <xref linkend="fig-configuration-dymola-room-system"></xref> as a starting point. We replaced the <code>Simulator</code> actor with the imported FMU, and connected the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
 
            </para>
           <para>
@@ -2186,12 +2181,12 @@ exit 0
   <title>Introduction</title>
 
     <para>
-    TRNSYS (pronounced: 'tran-sis') is a software package consisting of a graphical front-end (
-    TRNSYS Simulation Studio) to intuitively create a simulation, an interface for the detailed 
+    TRNSYS is a software package consisting of a graphical front-end (
+    TRNSYS Simulation Studio) to graphically create a simulation, an interface for the  
     TRNSYS multi-zone building (TRNBuild/Type56), a Google SketchUp plugin for creating the multi-zone 
     building envelope (TRNSYS3D), and a tool for manually editing the TRNSYS input files and creating stand-alone 
-    TRNSYS-based applications (TRNEdit/TRNSED). TRNSYS takes a modular, "black box" component approach to developing and 
-    solving simulations: the outputs of one component are sent to the inputs of another component (transient successive subsitution). 
+    TRNSYS-based applications (TRNEdit/TRNSED). TRNSYS takes a modular, black box component approach to developing and 
+    solving simulations: the outputs of one component are sent to the inputs of another component. 
     </para>
 
   </section>
@@ -2214,8 +2209,8 @@ exit 0
 
     <listitem>
      <para>
-        It is required prior using TRNSYS with the BCVTB to adjust the path of the TRNSYS executable in <code>bcvtb/bin/systemVariables-windows.properties</code>
-	so that it can be read by the BCVTB at its start.
+        Prior to using TRNSYS with the BCVTB, adjust the path of the TRNSYS executable in <code>bcvtb/bin/systemVariables-windows.properties</code>, and 
+	restart the BCVTB.
         </para>
     </listitem>
    </itemizedlist>
@@ -2226,22 +2221,19 @@ exit 0
       <title>Example: HVAC control in Ptolemy II</title>
         <para>
           This example is available in the directory <code>examples/TRNSYS17-room</code>.
-          It demonstrates heating control of an TRNSYS building model with control logic implemented in Ptolemy II.
+          The application is a heating control for two rooms.
         </para>
 
         <para>
-          The control logic represents a PID controller for two zones in the building. 
-          The room temperature is sensed, and sent from TRNSYS to Ptolemy. 
-          The control algorithm in Ptolemy II computes the required heating power, 
-          and sends this back to TRNSYS.
+          In Ptolemy II, a PID controller is implemented. For a given control action, TRNSYS computes the room temperature and sends it to the BCVTB.
         </para>
         <section>
 
         <title>Create the TRNSYS input file</title>
 
         <para>
-<xref linkend="fig-configurationTRNSYS"></xref> shows the system configuration of the TRNSYS model which contains the BCVTB type as well as the building model type. The BCVTB type can be found in <code>.Studio\Proformas\Utility\Calling External Programs\BCVTB\Type6666.tmf</code>.
-<xref linkend="fig-TRNSYSDck"></xref> shows a snippet of the corresponding input file.
+<xref linkend="fig-configurationTRNSYS"></xref> shows the system configuration of the TRNSYS model which contains the BCVTB type as well as the building model type. The BCVTB type can be found in <code>Studio\Proformas\Utility\Calling External Programs\BCVTB\Type6666.tmf</code>.
+<xref linkend="fig-TRNSYSDck"></xref> shows a snippet of the corresponding TRNSYS input file.
 
     <figure xml:id="fig-configurationTRNSYS">
 
@@ -2279,18 +2271,18 @@ STEP=Timestep
 * User defined CONSTANTS 
 Equations 1
 Timestep = 1/60
-SIMULATION 	 START	 STOP	 STEP	! Start time	End time	Time step
-TOLERANCES 0.001 0.001			! Integration	 Convergence
-LIMITS 30 500 50			! Max iterations	Max warnings	Trace limit
-DFQ 1					! TRNSYS numerical integration solver method
-WIDTH 80				! TRNSYS output file width, number of characters
-LIST 					! NOLIST statement
-					! MAP statement
-SOLVER 0 1 1				! Solver statement	Minimum relaxation factor	Maximum relaxation factor
-NAN_CHECK 0				! Nan DEBUG statement
-OVERWRITE_CHECK 0			! Overwrite DEBUG statement
-TIME_REPORT 0			        ! disable time report
-EQSOLVER 0				! EQUATION SOLVER statement
+SIMULATION 	 START	 STOP	 STEP ! Start time	End time	Time step
+TOLERANCES 0.001 0.001    ! Integration	 Convergence
+LIMITS 30 500 50          ! Max iterations	Max warnings	Trace limit
+DFQ 1                     ! TRNSYS numerical integration solver method
+WIDTH 80                  ! TRNSYS output file width, number of characters
+LIST                      ! NOLIST statement
+                          ! MAP statement
+SOLVER 0 1 1              ! Solver statement Min. relax. factor Max. relax. factor
+NAN_CHECK 0               ! Nan DEBUG statement
+OVERWRITE_CHECK 0         ! Overwrite DEBUG statement
+TIME_REPORT               ! disable time report
+EQSOLVER 0                ! EQUATION SOLVER statement
 
 * Model "BCVTB" (Type 6666)
 * 
@@ -2302,12 +2294,12 @@ UNIT 2 TYPE 6666	 BCVTB
 PARAMETERS 3
 2		! 1 Number to BCVTB
 2		! 2 Number from BCVTB
-1		! 3 Number of TImesteps
+1		! 3 Number of Timesteps
 INPUTS 2
 3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
 3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
 *** INITIAL INPUT VALUES
-0 0 
+20  
 *------------------------------------------------------------------------------
 
 * Model "Simple Zone Model" (Type 6667)
@@ -2327,7 +2319,7 @@ INPUTS 2
         </figure>
 
 This file contains beside standard parameters such as start time and stop time, a unit called BCVTB which is the BCVTB type 
-used to interface with the BCVTB. This type is required to interface with the BCVTB. To configure this type, the user needs to specify the number of parameters that will be defined, 
+required to interface with the BCVTB. To configure this type, the user needs to specify the number of parameters that will be defined, 
 the number of variables to be send to the BCVTB, and the number of variables to be received
 from the BCVTB, and the simulation time step in hours as shown in <xref linkend="fig-TRNSYSDck-bcvtb"></xref>.
 
@@ -2349,18 +2341,18 @@ UNIT 2 TYPE 6666	 BCVTB
 PARAMETERS 3
 2		! 1 Number to BCVTB
 2		! 2 Number from BCVTB
-1		! 3 Number of TImesteps
+1		! 3 Number of Timesteps
 INPUTS 2
 3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
 3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
 *** INITIAL INPUT VALUES
-0 0 
+20 20 
 </programlisting>
           <title>Snippet of the BCVTB type.</title>
         </figure>
 
 The user also needs to configure the type for the building model and configure its inputs to map to the outputs of the BCVTB type as shown in <xref linkend="fig-TRNSYSDck-room"></xref>. 
-In our examples the inputs of the building model type are labeled as <code>BCVTB:Variable from BCVTB-1</code> and <code>BCVTB:Variable from BCVTB-2</code>.
+In our example the inputs of the building model type are labeled as <code>BCVTB:Variable from BCVTB-1</code> and <code>BCVTB:Variable from BCVTB-2</code>.
 <figure xml:id="fig-TRNSYSDck-room">>
 <programlisting language="">
 
@@ -2382,7 +2374,7 @@ INPUTS 2
         </figure>
 This complete the configuration of the TRNSYS model.
 <note>
-The configuration of the TRNSYS model can also be done graphicaly by double-clicking on the different types, 
+The configuration of the TRNSYS model can also be done graphically by double-clicking on the different types, 
 setting the required parameters and connecting inputs and outputs of the different types as shown on <xref linkend="fig-configurationTRNSYS"></xref>.
 </note>      
 </para>
@@ -2391,9 +2383,9 @@ setting the required parameters and connecting inputs and outputs of the differe
         <title>Create a Ptolemy II model</title>
         <para>
 To start TRNSYS from the BCVTB, you will need to create a Ptolemy II model.
-The model bcvtb/examples/c-room/system-windows.xml, which is part of the BCVTB
+The model <code>bcvtb/examples/c-room/system-windows.xml</code>, which is part of the BCVTB
 installation and is shown in <xref linkend="confPtRoomC"></xref>, may be used as a starting point. 
-In this model, the Simulator will be set-up to call the actor that fires TRNSYS. <xref linkend="fig-configurationTRNSYSSDF"></xref> shows the configuration of the simulator actor.
+In this model, the <code>Simulator</code> actor will be set-up to call the actor that fires TRNSYS. <xref linkend="fig-configurationTRNSYSSDF"></xref> shows the configuration of the <code>Simulator</code> actor.
 
     <figure xml:id="fig-configurationTRNSYSSDF">
 
@@ -2414,15 +2406,13 @@ In this model, the Simulator will be set-up to call the actor that fires TRNSYS.
      </mediaobject>
 
      <title>
-		Configuration of the Simulator actor that starts TRNSYS.
+		Configuration of the <code>Simulator</code> actor that starts TRNSYS.
 	      </title>
 
     </figure>
 
-The actor call runTRNSYS.bat, with the argument <code>bld_hvac.dck</code>, which is the TRNSYS input file, to invoke TRNSYS. 
-The working directory is the current directory and the console output is written to the <code>simulation.log</code>.
-
-This complete the configuration of the Ptolemy II model.
+The actor calls <code>runTRNSYS.bat</code>, with the argument <code>bld_hvac.dck</code>, which is the TRNSYS input file, to invoke TRNSYS. 
+The working directory is the current directory and the console output is written to the file <code>simulation.log</code>. This completes the configuration of the Ptolemy II model.
 </para>
 </section> 
 </section> <!-- End of example -->

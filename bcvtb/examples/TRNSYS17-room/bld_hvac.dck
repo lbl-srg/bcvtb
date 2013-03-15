@@ -57,7 +57,7 @@ INPUTS 2
 3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
 3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
 *** INITIAL INPUT VALUES
-0 0 
+20 20 
 *------------------------------------------------------------------------------
 
 * Model "Simple Zone Model" (Type 6667)
