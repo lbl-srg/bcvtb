@@ -1950,6 +1950,7 @@ y
 
 
 
+
 BCVTB1_heating_example
 y
 y
@@ -2232,151 +2233,58 @@ exit 0
         <title>Create the TRNSYS input file</title>
 
         <para>
-<xref linkend="fig-configurationTRNSYS"></xref> shows the system configuration of the TRNSYS model which contains the BCVTB type as well as the building model type. The BCVTB type can be found in <code>Studio\Proformas\Utility\Calling External Programs\BCVTB\Type6666.tmf</code>.
-<xref linkend="fig-TRNSYSDck"></xref> shows a snippet of the corresponding TRNSYS input file.
+Start the TRNSYS Simulation Studio and open the bld_hvac example project (see <xref linkend="fig-configurationTRNSYS"></xref>)
+This simple project contains two components: the BCVTB component which controls the communication between TRNSYS and BCVTB and a simple building component which takes control signals as inputs and calculates the resultant zone temperatures.
 
     <figure xml:id="fig-configurationTRNSYS">
-
      <mediaobject>
-
       <imageobject role="html">
-
        <imagedata fileref="img/configurationTRNSYS.png" format="PNG"></imagedata>
-
       </imageobject>
-
       <imageobject role="dblatex">
-
        <imagedata fileref="img/configurationTRNSYS.pdf" format="PDF" scalefit="1"></imagedata>
-
       </imageobject>
-
      </mediaobject>
-
      <title>
-		TRNSYS system model with building model and BCVTB types.
+		TRNSYS Studio Project for the bld_hvac example.
 	      </title>
     </figure>
 
-<figure xml:id="fig-TRNSYSDck">
-<programlisting language="">
-*******************************************************************************
-*** Control cards
-*******************************************************************************
-* START, STOP and STEP
-CONSTANTS 3
-START=0
-STOP=6
-STEP=Timestep
-* User defined CONSTANTS 
-Equations 1
-Timestep = 1/60
-SIMULATION 	 START	 STOP	 STEP ! Start time	End time	Time step
-TOLERANCES 0.001 0.001    ! Integration	 Convergence
-LIMITS 30 500 50          ! Max iterations	Max warnings	Trace limit
-DFQ 1                     ! TRNSYS numerical integration solver method
-WIDTH 80                  ! TRNSYS output file width, number of characters
-LIST                      ! NOLIST statement
-                          ! MAP statement
-SOLVER 0 1 1              ! Solver statement Min. relax. factor Max. relax. factor
-NAN_CHECK 0               ! Nan DEBUG statement
-OVERWRITE_CHECK 0         ! Overwrite DEBUG statement
-TIME_REPORT               ! disable time report
-EQSOLVER 0                ! EQUATION SOLVER statement
+The BCVTB component (Type 6666) controls how the variables are communicated between TRNSYS and the BCVTB.  There are 3 parameters: the number of variables passed to the BCVTB, the number of variables received from the BCVTB, and the number of TRNSYS timesteps per data exchange with the BCVTB.  By double clicking the icon for the BCVTB component the window for setting these parameters is displayed (see <xref linkend="fig-parameterTRNSYS"></xref>). In this example there are 2 variables passed to BCVTB (the zone temperatures), 2 variables passed back to TRNSYS (the control signals) and the data exchange occurs at every timestep.
 
-* Model "BCVTB" (Type 6666)
-* 
-UNIT 2 TYPE 6666	 BCVTB
-*$UNIT_NAME BCVTB
-*$MODEL .\Utility\Calling External Programs\BCVTB\Type6666.tmf
-*$POSITION 244 148
-*$LAYER Main # 
-PARAMETERS 3
-2		! 1 Number to BCVTB
-2		! 2 Number from BCVTB
-1		! 3 Number of Timesteps
-INPUTS 2
-3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
-3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
-*** INITIAL INPUT VALUES
-10 10 
-*------------------------------------------------------------------------------
+<figure xml:id="fig-parameterTRNSYS">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/parameterTRNSYS.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/parameterTRNSYS.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
 
-* Model "Simple Zone Model" (Type 6667)
-* 
-UNIT 3 TYPE 6667	 Simple Zone Model
-*$UNIT_NAME Simple Zone Model
-*$MODEL .\Utility\Calling External Programs\BCVTB\Type6667.tmf
-*$POSITION 392 287
-*$LAYER Main # 
-INPUTS 2
-2,1 		! BCVTB:Variable from BCVTB-1 ->Control Signal for Zone 1
-2,2 		! BCVTB:Variable from BCVTB-2 ->Control Signal for Zone 2
-*** INITIAL INPUT VALUES
-0 0 
-</programlisting>
-          <title>Snippet of the TRNSYS input file that shows the configuration of the BCVTB interface.</title>
-        </figure>
+     <title>
+		Parameters for the BCVTB component in TRNSYS.
+	      </title>
+    </figure>
 
-This file contains beside standard parameters such as start time and stop time, a unit called BCVTB which is the BCVTB type 
-required to interface with the BCVTB. To configure this type, the user needs to specify the number of parameters that will be defined, 
-the number of variables to be send to the BCVTB, and the number of variables to be received
-from the BCVTB, and the simulation time step in hours as shown in <xref linkend="fig-TRNSYSDck-bcvtb"></xref>.
+The outputs from the BCVTB component are connected to the inputs simple building component and vice versa using the usual TRNSYS linking process (see <xref linkend="fig-linkTRNSYS"></xref> for an example).
+<figure xml:id="fig-linkTRNSYS">
+     <mediaobject>
+      <imageobject role="html">
+       <imagedata fileref="img/linkTRNSYS.png" format="PNG"></imagedata>
+      </imageobject>
+      <imageobject role="dblatex">
+       <imagedata fileref="img/linkTRNSYS.pdf" format="PDF" scalefit="1"></imagedata>
+      </imageobject>
+     </mediaobject>
 
-In addition, the user needs to define the inputs of the BCVTB type, which in our example 
-are the <code>Simple Zone Model:Temperature of Zone 1</code> and <code>Simple Zone Model:Temperature of Zone 2</code>, as well as their initial values. 
-These quantities are obtained from the building model (Simple Zone Model type) and send to the BCVTB type.
+     <title>
+		Link window between BCVTB component and the simple building component.
+	      </title>
+    </figure>
 
-<figure xml:id="fig-TRNSYSDck-bcvtb">>
-<programlisting language="">
-
-* Model "BCVTB" (Type 6666)
-* 
-
-UNIT 2 TYPE 6666	 BCVTB
-*$UNIT_NAME BCVTB
-*$MODEL .\Utility\Calling External Programs\BCVTB\Type6666.tmf
-*$POSITION 244 148
-*$LAYER Main # 
-PARAMETERS 3
-2		! 1 Number to BCVTB
-2		! 2 Number from BCVTB
-1		! 3 Number of Timesteps
-INPUTS 2
-3,1 		! Simple Zone Model:Temperature of Zone 1 ->Variable to BCVTB-1
-3,2 		! Simple Zone Model:Temperature of Zone 2 ->Variable to BCVTB-2
-*** INITIAL INPUT VALUES
-10 10 
-</programlisting>
-          <title>Snippet of the BCVTB type.</title>
-        </figure>
-
-The user also needs to configure the type for the building model and configure its inputs to map to the outputs of the BCVTB type as shown in <xref linkend="fig-TRNSYSDck-room"></xref>. 
-In our example the inputs of the building model type are labeled as <code>BCVTB:Variable from BCVTB-1</code> and <code>BCVTB:Variable from BCVTB-2</code>.
-<figure xml:id="fig-TRNSYSDck-room">>
-<programlisting language="">
-
-* Model "Simple Zone Model" (Type 6667)
-* 
-
-UNIT 3 TYPE 6667	 Simple Zone Model
-*$UNIT_NAME Simple Zone Model
-*$MODEL .\Utility\Calling External Programs\BCVTB\Type6667.tmf
-*$POSITION 392 287
-*$LAYER Main # 
-INPUTS 2
-2,1 		! BCVTB:Variable from BCVTB-1 ->Control Signal for Zone 1
-2,2 		! BCVTB:Variable from BCVTB-2 ->Control Signal for Zone 2
-*** INITIAL INPUT VALUES
-0 0 
-</programlisting>
-          <title>Snippet of the Simple Zone Model type.</title>
-        </figure>
-This complete the configuration of the TRNSYS model.
-<note>
-The configuration of the TRNSYS model can also be done graphically by double-clicking on the different types, 
-setting the required parameters and connecting inputs and outputs of the different types as shown on <xref linkend="fig-configurationTRNSYS"></xref>.
-</note>      
+Once the project is completed in the Simulation Studio, the dck file for the project must be created. (The BCVTB uses the dck file directly to run the TRNSYS simulation and not the Studio project file (tpf file).)  The dck file is written by the pen icon on the left side of the Simulation Studio window.
+     
 </para>
 </section>
         <section>
@@ -3146,6 +3054,7 @@ BACnet protocol stack
         local date from the device.
        </para>
       </callout>
+
       <callout arearefs="bnr-objTyp11 bnr-objTyp12">
        <para>
         These lines declare BACnet object types that are
