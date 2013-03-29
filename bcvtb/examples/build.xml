@@ -50,6 +50,12 @@
     <ant dir="ePlus72-schedule"              target="clean"/>
     <ant dir="ePlus72Simulink-simple"        target="clean"/>
     <ant dir="ePlus72Ptolemy-vav"            target="clean"/>
+    <ant dir="dymolaEPlus80-singleZone"      target="clean"/>
+    <ant dir="ePlus80-actuator"              target="clean"/>
+    <ant dir="ePlus80-variable"              target="clean"/>
+    <ant dir="ePlus80-schedule"              target="clean"/>
+    <ant dir="ePlus80Simulink-simple"        target="clean"/>
+    <ant dir="ePlus80Ptolemy-vav"            target="clean"/>
     <ant dir="espr-shading"                  target="clean"/>
     <ant dir="esprMatlab-hvac"               target="clean"/>
     <ant dir="multiRate-systemCommand"       target="clean"/>
@@ -103,12 +109,12 @@
 
   <!-- Unit tests for EnergyPlus only -->
   <target name="unitTestEnergyPlus" description="Runs unit tests that contain EnergyPlus models">
-    <ant dir="dymolaEPlus72-singleZone"      target="unitTest"/>
-    <ant dir="ePlus72-actuator"              target="unitTest"/>
-    <ant dir="ePlus72-variable"              target="unitTest"/>
-    <ant dir="ePlus72-schedule"              target="unitTest"/>
-    <ant dir="ePlus72Simulink-simple"        target="unitTest"/>
-    <ant dir="ePlus72Ptolemy-vav"            target="unitTest"/>
+    <ant dir="dymolaEPlus80-singleZone"      target="unitTest"/>
+    <ant dir="ePlus80-actuator"              target="unitTest"/>
+    <ant dir="ePlus80-variable"              target="unitTest"/>
+    <ant dir="ePlus80-schedule"              target="unitTest"/>
+    <ant dir="ePlus80Simulink-simple"        target="unitTest"/>
+    <ant dir="ePlus80Ptolemy-vav"            target="unitTest"/>
   </target>
   
 </project>
