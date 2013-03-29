@@ -26,6 +26,7 @@ $CLASSPATH/ptolemy/actor/gt/demo/ModelGeneration/ModelGeneration.xml
 $CLASSPATH/ptolemy/actor/gt/demo/ModelGeneration/ModelGenerationDE.xml
 $CLASSPATH/ptolemy/actor/gt/demo/PublisherTest/PublisherTest.xml
 $CLASSPATH/ptolemy/actor/gt/demo/RegressionTest/RegressionTest.xml
+$CLASSPATH/ptolemy/actor/gt/demo/SinewaveOptimization/Sinewave.xml
 $CLASSPATH/ptolemy/actor/gt/demo/SinewaveOptimization/SinewaveOptimization.xml
 $CLASSPATH/ptolemy/actor/lib/colt/demo/ColtRandom/ColtRandom.xml
 $CLASSPATH/ptolemy/actor/lib/comm/demo/ConvolutionalCoder/ConvolutionalCoder.xml
@@ -95,6 +96,15 @@ $CLASSPATH/ptolemy/data/ontologies/demo/MonotonicityAnalysis/MonotonicityAnalysi
 $CLASSPATH/ptolemy/data/type/demo/Objects/Objects.xml
 $CLASSPATH/ptolemy/data/type/demo/Router/Router.xml
 $CLASSPATH/ptolemy/data/unit/demo/StaticUnits/StaticUnits.xml
+$CLASSPATH/ptolemy/data/unit/demo/Units/Units.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/ContactorTester.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/ElectricPowerSystem.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorContactorLoad.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorRegulator.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorRegulatorFMUProtector.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorRegulatorProtector.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorRegulatorProtectorWithBus.xml
+$CLASSPATH/ptolemy/demo/ElectricPowerSystem/GeneratorTester.xml
 $CLASSPATH/ptolemy/demo/ExecDemos/Demos/BouncingBall.xml
 $CLASSPATH/ptolemy/demo/ExecDemos/Demos/Collisions.xml
 $CLASSPATH/ptolemy/demo/ExecDemos/Demos/Controllers.xml
@@ -350,6 +360,9 @@ $CLASSPATH/ptolemy/domains/wireless/demo/Zigbee/Zigbee.xml
 $CLASSPATH/ptolemy/matlab/demo/MatlabContinuous/MatlabContinuous.xml
 $CLASSPATH/ptolemy/matlab/demo/MatlabExpression/MatlabExpression.xml
 $CLASSPATH/ptolemy/moml/demo/Networked/Networked.xml
+$CLASSPATH/ptolemy/vergil/basic/imprt/g4ltl/demo/Arbitor/Arbitor.xml
+$CLASSPATH/ptolemy/vergil/basic/imprt/g4ltl/demo/Numerical/Numerical.xml
+$CLASSPATH/ptolemy/vergil/basic/imprt/g4ltl/demo/PriorityArbitor/PriorityArbitor.xml
 $CLASSPATH/ptolemy/vergil/kernel/attributes/demo/AnimateVergil/AnimateVergil.xml
 $CLASSPATH/ptolemy/verification/demo/iRobotHillClimbing/iRobotCreateVerification.xml
 $CLASSPATH/ptolemy/verification/demo/RailroadControl/RailroadControl.xml

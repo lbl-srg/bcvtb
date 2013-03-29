@@ -2,9 +2,9 @@
 #
 # @Authors: Steve Neuendorffer
 #
-# @Version: $Id: makefile 64823 2012-10-19 04:40:20Z hudson $
+# @Version: $Id: makefile 65963 2013-03-26 17:22:48Z hudson $
 #
-# @Copyright (c) 1997-2012 The Regents of the University of California.
+# @Copyright (c) 1997-2013 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -58,6 +58,7 @@ JSRCS = \
 JSIMPLE_TESTS = \
 	allConfigs.tcl \
 	allDemos.tcl \
+	missingDemos.tcl \
 	validDemos.tcl
 
 # Graphical Java tests that use Tcl.

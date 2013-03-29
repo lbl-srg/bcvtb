@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 64988 2012-11-14 19:54:05Z cxh $
+# @Version: $Id: makefile 65966 2013-03-26 17:38:12Z hudson $
 #
 # @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
@@ -156,6 +156,21 @@ models.txt: $(ROOT)/ptolemy/actor/gui/HTMLAbout.class completeDemos.htm
 	ls -1 $(PTII)/ptolemy/demo/ExecDemos/Demos/*.xml | sed "s@$(PTII)@\$$CLASSPATH@" >> models.txt
 	LC_ALL=C sort -f models.txt | uniq > /tmp/models.txt
 	mv /tmp/models.txt models.txt
+
+demosModels.txt: $(ROOT)/ptolemy/actor/gui/HTMLAbout.class demos.htm models.txt
+	"$(JAVA)" "-Dptolemy.ptII.dir=$(PTII)" \
+		-classpath "$(CLASSPATH)$(CLASSPATHSEPARATOR)$(AUXCLASSPATH)" \
+		ptolemy.actor.gui.HTMLAbout demos.htm demosModels.txt
+	# Include the models in the ExecDemos directory.
+	ls -1 $(PTII)/ptolemy/demo/ExecDemos/Demos/*.xml | sed "s@$(PTII)@\$$CLASSPATH@" >> demosModels.txt
+	LC_ALL=C sort -f demosModels.txt | uniq > /tmp/demosModels.txt
+	mv /tmp/demosModels.txt demosModels.txt
+
+# Check for models in demos.htm that are not in completeDemos.htm
+missingDemos: demosModels.txt models.txt
+	@sort demosModels.txt > /tmp/demosModels.txt
+	@sort models.txt > /tmp/models.txt
+	@comm -13 /tmp/models.txt /tmp/demosModels.txt
 
 update: $(DERIVED_FILES)
 	svn commit -m "Master files changed" $(DERIVED_FILES)
