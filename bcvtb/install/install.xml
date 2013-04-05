@@ -15,12 +15,12 @@
     -->
     <info>
         <appname>Building Controls Virtual Test Bed</appname>
-        <appversion>1.2.0</appversion>
+        <appversion>1.3.0</appversion>
 	<appsubpath>bcvtb</appsubpath>
 	<javaversion>1.6</javaversion>
         <authors>
             <author name="Michael Wetter" email="MWetter@lbl.gov"/>
-            <author name="Thierry Stephane Nouidui" email="tsnouidui@lbl.gov"/>
+            <author name="Thierry Stephane Nouidui" email="TSNouidui@lbl.gov"/>
             <author name="Philip Haves"   email="PHaves@lbl.gov"/>
             <author name="Rui Zhang"      email="ruiz@cmu.edu"/>
             <author name="Zhengwei Li"    email="zli8@gatech.edu"/>
