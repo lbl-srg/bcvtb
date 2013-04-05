@@ -7,7 +7,7 @@
     <!-- nothing to do here -->
   </target>
   <!-- Unit test -->
-  <target name="unitTest" description="Runs unit tests" unless="mac">
+  <target name="unitTest" description="Runs unit tests" unless="macOr64bit">
     <echo message="Starting unit test in ${basedir}"/>
     <exec executable="${ptUnitTestExecutable}" 
 	  failonerror="true"
