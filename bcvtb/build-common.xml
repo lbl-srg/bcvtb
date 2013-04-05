@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="bcvtb-settings"> 
- <property name="VERSION"    value="1.2.0"/>
+ <property name="VERSION"    value="1.3.0"/>
 
   <!-- Version information -->
   <filterset id="build.filters">
@@ -79,6 +79,15 @@
   <condition property="mac" value="true">
     <os name="Mac OS X"/>
   </condition>
+  
+    <!-- Set conditions that are used by different build files -->
+  <condition property="macOr64bit" value="true">
+     <or>
+       <os arch="AMD64"/>
+       <os name="Mac OS X"/>
+    </or>
+  </condition>
+  
   <condition property="linux" value="true">
     <os name="Linux"/>
   </condition>
@@ -93,9 +102,6 @@
       <equals arg1="${env.BCVTB_32bit}"     arg2="false" trim="true"/>
     </and>
   </condition>
-
-
-
 
   <!-- Set the path to the Microsoft SDK, which is needed by bacnet-stack -->
   <property name="BCVTB_SDKLib_DIR" value="${env.BCVTB_SDKLib_DIR}"/>
