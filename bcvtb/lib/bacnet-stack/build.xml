@@ -279,8 +279,8 @@
             <linkerarg value="-lgcc" if="Linux"/>
             <linkerarg value="-lm" if="Linux"/>
             <libset dir="lib" libs="bacnet"/>
-	    <!--<libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> -->
-	    <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/>
+	    <libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> 
+	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/> -->
 	</cpptasks:cc>
 
         <cpptasks:cc outtype="executable" subsystem="console" outfile="${bindir}/bacrp${extension}">
@@ -292,8 +292,8 @@
 	    <linkerarg value="-lgcc" if="Linux"/>
             <linkerarg value="-lm" if="Linux"/>
             <libset dir="lib" libs="bacnet"/>
-	   <!--<libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> -->
-	    <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/>
+	    <libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> 
+	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/> -->
         </cpptasks:cc>
         <cpptasks:cc outtype="executable" subsystem="console" outfile="${bindir}/bacwp${extension}">
 	  <cpptasks:linker name="${cc}"/>
@@ -304,8 +304,8 @@
 	    <linkerarg value="-lgcc" if="Linux"/>
             <linkerarg value="-lm" if="Linux"/>
             <libset dir="lib" libs="bacnet"/>
-	  <!--<libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> -->
-	 <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/>
+	    <libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/> 
+       <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/> -->
         </cpptasks:cc>
     </target>
     <!--Build-->
