@@ -2077,7 +2077,7 @@ exit 0
 
   <title>Introduction</title>
     <para>
-    The Functional Mock-up Unit (FMU) for co-Simulation import interface allows the BCVTB to import simulation programs that are packaged
+    The Functional Mock-up Unit (FMU) for co-simulation import interface allows the BCVTB to import simulation programs that are packaged
     as FMUs. The interface complies with the Functional Mock-up Interface standard (FMI), which is an open source standard
     designed to enable links between disparate simulation programs. An FMU may contain models, model description,
     source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.  
@@ -2087,7 +2087,7 @@ exit 0
 
     <note>
       <para>
-        The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface (API) version <code>1.0</code>.
+        The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface version <code>1.0</code>.
       </para>
       <para>
         The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it was only tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
