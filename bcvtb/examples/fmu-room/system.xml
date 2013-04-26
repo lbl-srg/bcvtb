@@ -75,7 +75,7 @@
         <property name="_iconDescription" class="ptolemy.kernel.util.SingletonConfigurableAttribute">
             <configure><svg><text x="20" y="20" style="font-size:14; font-family:SansSerif; fill:blue">This model illustrates the implementation of a simulation
 program developed in the Dymola modeling environment for Modelica. 
-The Modelica Model has been exported as a Functional Mock-up Unit (FMU)
+The Modelica model has been exported as a Functional Mock-up Unit (FMU)
 for co-simulation. The FMU computes the temperature change in  two rooms with different capacity. 
 Input to the FMU are the control signal u_k. Output of the FMU are the new room 
 temperatures T_{k+1}. The control action is computed in Ptolemy II.</text></svg></configure>
@@ -135,13 +135,13 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[-380.0, 250.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={0, 0, 1452, 912}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={83, 52, 1255, 771}, maximized=false}">
     </property>
-    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1232, 795]">
+    <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1039, 647]">
     </property>
-    <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0">
+    <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0091838502859123">
     </property>
-    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{407.3037845477387, 352.7198492462312}">
+    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{114.73978365384619, 152.30468750000003}">
     </property>
     <entity name="Plotter" class="ptolemy.actor.lib.gui.TimedPlotter">
         <property name="fillOnWrapup" class="ptolemy.data.expr.Parameter" value="false">
@@ -385,7 +385,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="RunTime" class="ptolemy.actor.lib.gui.MonitorValue">
-        <property name="value" class="ptolemy.data.expr.Parameter" value="0.86">
+        <property name="value" class="ptolemy.data.expr.Parameter" value="20.64">
         </property>
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
@@ -435,10 +435,10 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_hideName" class="ptolemy.data.expr.SingletonParameter" value="true">
         </property>
     </entity>
-    <entity name="FMU-0TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
+    <entity name="FMU-TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
         <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="PTII/../../fmu-room/fmus/linux/32/Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRooms.fmu">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[35.0, 145.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[50.0, 145.0]">
         </property>
         <property name="tau" class="ptolemy.data.expr.Parameter" value="7200.0">
         </property>
@@ -810,9 +810,13 @@ This is for illustration purposes only and not needed by the above model.</text>
     <relation name="relation" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation2" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
         </property>
     </relation>
     <relation name="relation3" class="ptolemy.actor.TypedIORelation">
@@ -820,9 +824,13 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <vertex name="vertex1" value="[-70.0, 115.0]">
         </vertex>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation4" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
         </property>
     </relation>
     <relation name="relation5" class="ptolemy.actor.TypedIORelation">
@@ -830,25 +838,37 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <vertex name="vertex1" value="[160.0, 200.0]">
         </vertex>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation6" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
         </property>
     </relation>
     <relation name="relation7" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation8" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
         </property>
     </relation>
     <relation name="relation9" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation10" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
         </property>
     </relation>
     <relation name="relation11" class="ptolemy.actor.TypedIORelation">
@@ -856,14 +876,24 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <vertex name="vertex1" value="[-265.0, 335.0]">
         </vertex>
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation12" class="ptolemy.actor.TypedIORelation">
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation13" class="ptolemy.actor.TypedIORelation">
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation14" class="ptolemy.actor.TypedIORelation">
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <relation name="relation15" class="ptolemy.actor.TypedIORelation">
+        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
+        </property>
     </relation>
     <link port="Plotter.input" relation="relation6"/>
     <link port="Plotter.input" relation="relation7"/>
@@ -894,8 +924,8 @@ This is for illustration purposes only and not needed by the above model.</text>
     <link port="VecDis.input" relation="relation3"/>
     <link port="VecDis.output" relation="relation12"/>
     <link port="VecDis.output" relation="relation13"/>
-    <link port="FMU-0TwoRooms.u_1" relation="relation12"/>
-    <link port="FMU-0TwoRooms.u_2" relation="relation13"/>
-    <link port="FMU-0TwoRooms.Troo_1" relation="relation14"/>
-    <link port="FMU-0TwoRooms.Troo_2" relation="relation15"/>
+    <link port="FMU-TwoRooms.u_1" relation="relation12"/>
+    <link port="FMU-TwoRooms.u_2" relation="relation13"/>
+    <link port="FMU-TwoRooms.Troo_1" relation="relation14"/>
+    <link port="FMU-TwoRooms.Troo_2" relation="relation15"/>
 </entity>
