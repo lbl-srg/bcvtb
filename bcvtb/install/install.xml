@@ -129,7 +129,7 @@
 	    <executable targetfile="$INSTALL_PATH/bin/bcvtb"                           stage="never" os="unix"/>
 	    <executable targetfile="$INSTALL_PATH/bin/runDymola.sh"                    stage="never" os="unix"/>
 	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/ant"              stage="never" os="unix"/>
-			stage="never" os="unix"/>
+			
 	    <!-- BACnet is only distributed on Linux (and Windows) -->
 	    <executable targetfile="$INSTALL_PATH/lib/bacnet-stack/bin-linux/bacrp"    stage="never" 
 			condition="izpack.linuxinstall"/>
@@ -154,6 +154,8 @@
 	    <executable targetfile="$INSTALL_PATH/examples/multiRate-systemCommand/writeToConsole" stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/systemCommand/pcontroller"              stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/radiance40/scripts/radiance.csh"        stage="never" os="unix"/> 
+            <executable targetfile="$INSTALL_PATH/examples/esprMatlab-hvac/esp-r/bcvtb/call_espr"  stage="never" os="unix"/> 
+            <executable targetfile="$INSTALL_PATH/examples/espr-shading/esp-r/bcvtb/call_espr"     stage="never" os="unix"/> 
         </pack>
     </packs>
 
