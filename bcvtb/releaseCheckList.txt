@@ -1,5 +1,8 @@
 Checklist of BCVTB release
 **************************
+Update the copyright notices to ....-20xx. in 
+bcvtb/legal.html
+doc/manual/latex-title/titlepage.tex
 
 Update release notes in
 doc/manual/ch-rele.xml
