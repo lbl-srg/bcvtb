@@ -118,7 +118,7 @@
    <para>
     The Java Development Kit is required. This may be
     obtained from
-    <ulink url="http://http://www.oracle.com/technetwork/java/javase/downloads/index.html"/>
+    <ulink url="http://http://www.oracle.com"/>
     . Tested versions are version 5.0, update 14 and version
     6, update 7. In the Windows Environment Variables
     setting, you may want to set the <code>Path</code>
@@ -132,8 +132,8 @@
    </para>
    <para>
     To compile C code or MATLAB/Simulink programs,
-    <ulink url="http://www.microsoft.com/express/vc/">Microsoft Visual C++ Express 2008 and higher</ulink>
-    is required on Windows 32 bit whereas <ulink url="http://www.microsoft.com/visualstudio/en-gb/products/2010-editions/professional">Microsoft Visual Studio Professional 2010 and higher </ulink> is required on Windows 64 bit.
+    <ulink url="http://www.microsoft.com/express/vc/">Microsoft Visual C++ Express 2008</ulink> and higher
+    is required on Windows 32 bit, whereas <ulink url="http://www.microsoft.com/visualstudio/en-gb/products/2010-editions/professional">Microsoft Visual Studio Professional 2010</ulink> and higher is required on Windows 64 bit.
    </para>
    <para>
     The Intel Fortran compiler can be used to compile and
