@@ -118,7 +118,7 @@
    <para>
     The Java Development Kit is required. This may be
     obtained from
-    <ulink url="http://http://www.oracle.com"/>
+    <ulink url="http://www.oracle.com"/>
     . Tested versions are version 5.0, update 14 and version
     6, update 7. In the Windows Environment Variables
     setting, you may want to set the <code>Path</code>
