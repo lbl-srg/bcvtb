@@ -133,7 +133,7 @@
    <para>
     To compile C code or MATLAB/Simulink programs,
     <ulink url="http://www.microsoft.com/express/vc/">Microsoft Visual C++ Express 2008</ulink>
-    is required.
+    is required on Windows 32 bit whereas <ulink url="http://www.microsoft.com/visualstudio/eng/products/visual-studio-professional-2012">Microsoft Visual Studio Professional </ulink> is required on Windows 64 bit.
    </para>
    <para>
     The Intel Fortran compiler can be used to compile and

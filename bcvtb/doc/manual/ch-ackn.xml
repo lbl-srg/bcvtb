@@ -10,11 +10,16 @@
   Special thanks go to Prof. Edward A. Lee and Christopher
   Brooks from the University of California at Berkeley for
   their support in integrating the BCVTB functionality into
-  the Ptolemy II software. 
+  the Ptolemy II software, and implementing a Functional 
+  Mock-up Unit for co-simulation import interface in the BCVTB. 
  </para>
  <para>
    We thank:
    <itemizedlist mark="none" spacing="compact">
+     <listitem><para>
+	 Timothy P. McDowell from Thermal Energy System Specialists (TESS) 
+         for the implementation of the TRNSYS interface.
+     </para></listitem>
      <listitem><para>
 	 Pieter-Jan Hoes and Roel Loonen from the Technical University of Eindhoven
          for the implementation of the ESP-r interface.
