@@ -2009,7 +2009,7 @@ Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>.
                 fillPattern=FillPattern.Solid)}));
       end PrescribedHeatFlow;
       annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
-                -100},{100,100}}), graphics),   Documentation(info="<html>
+                -100},{100,100}})),   Documentation(info="<html>
 This package is identical to
 <a href=\"modelica:Modelica.Thermal.HeatTransfer.Sources\">
 Modelica.Thermal.HeatTransfer.Sources</a>, except that
@@ -2022,7 +2022,7 @@ Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>
  as these can cause division by zero in some fluid flow models.
 </html>"));
     end Sources;
-  annotation (preferedView="info", Documentation(info="<html>
+  annotation (preferredView="info", Documentation(info="<html>
 This package contains models for heat transfer elements.
 </html>"));
   end HeatTransfer;
@@ -2031,7 +2031,7 @@ This package contains models for heat transfer elements.
     extends Modelica.Icons.Package;
 
     package IO "Package with I/O functions"
-      extends Modelica.Icons.Package;
+      extends Modelica.Icons.VariantsPackage;
 
       package BCVTB
       "Package with functions to communicate with the Building Controls Virtual Test Bed"
@@ -2518,11 +2518,11 @@ First implementation.
             "Room temperature"
               annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
             Buildings.Utilities.IO.BCVTB.BCVTB bcvtb(
-              nDblWri=2,
-              nDblRea=2,
               xmlFileName="socket.cfg",
               uStart={TStart - 273.15,TStart - 273.15},
-              timeStep=60)
+              timeStep=60,
+              final nDblWri=2,
+              final nDblRea=2)
               annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
             Modelica.Blocks.Routing.Multiplex2 multiplex2_1
               annotation (Placement(transformation(extent={{200,-10},{220,10}})));
@@ -2574,9 +2574,8 @@ First implementation.
                 color={0,0,127},
                 smooth=Smooth.None));
             connect(bcvtb.yR, deMultiplex2_1.u) annotation (Line(
-                points={{-59,6.10623e-16},{-54.75,6.10623e-16},{-54.75,
-                  1.27676e-15},{-50.5,1.27676e-15},{-50.5,6.66134e-16},{-42,
-                  6.66134e-16}},
+                points={{-59,6.10623e-16},{-54.75,6.10623e-16},{-54.75,1.27676e-15},{
+                    -50.5,1.27676e-15},{-50.5,6.66134e-16},{-42,6.66134e-16}},
                 color={0,0,127},
                 smooth=Smooth.None));
             connect(deMultiplex2_1.y1[1], GaiQ_flow_nom1.u) annotation (Line(
@@ -2588,8 +2587,8 @@ First implementation.
                 color={0,0,127},
                 smooth=Smooth.None));
             connect(multiplex2_1.y, bcvtb.uR) annotation (Line(
-                points={{221,6.10623e-16},{230,6.10623e-16},{230,-92},{-90,-92},
-                  {-90,6.66134e-16},{-82,6.66134e-16}},
+                points={{221,6.10623e-16},{230,6.10623e-16},{230,-92},{-90,-92},{-90,
+                    6.66134e-16},{-82,6.66134e-16}},
                 color={0,0,127},
                 smooth=Smooth.None));
             connect(TRoo1.T, to_degC1.Kelvin) annotation (Line(
@@ -2609,7 +2608,7 @@ First implementation.
                 color={0,0,127},
                 smooth=Smooth.None));
             annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,
-                      -100},{240,100}}), graphics),
+                      -100},{240,100}})),
               experiment(StopTime=21600),
               Documentation(info="<html>
 This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.
@@ -2633,7 +2632,7 @@ First implementation.
 </ul>
 </html>"));
           end TwoRooms;
-        annotation (preferedView="info", Documentation(info="<html>
+        annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains examples for the use of models that can be found in
 <a href=\"modelica://Buildings.Utilities.IO.BCVTB\">
@@ -2740,7 +2739,7 @@ First implementation.
 </ul>
 </html>"));
           end closeClientSocket;
-        annotation (preferedView="info", Documentation(info="<html>
+        annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains base classes that are used to construct the models in
 <a href=\"modelica://Buildings.Utilities.IO.BCVTB\">Buildings.Utilities.IO.BCVTB</a>.
@@ -2748,7 +2747,7 @@ This package contains base classes that are used to construct the models in
 </html>"));
         end BaseClasses;
       end BCVTB;
-    annotation (preferedView="info", Documentation(info="<html>
+    annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains components models for input and output.
 Its package
@@ -2760,26 +2759,30 @@ Building Controls Virtual Test Bed</a>.
 </p>
 </html>"));
     end IO;
-  annotation (preferedView="info", Documentation(info="<html>
+  annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains utility models such as for thermal comfort calculation, input/output, co-simulation, psychrometric calculations and various functions that are used throughout the library.
 </p>
 </html>"));
   end Utilities;
 annotation (
-version="1.2",
+preferredView="info",
+version="1.4",
 versionBuild=0,
-versionDate="2012-02-29",
-dateModified = "$Date: 2012-07-18 15:42:54 -0700 (Wed, 18 Jul 2012) $",
+versionDate="2013-04-04",
+dateModified = "2013-04-04",
 uses(Modelica(version="3.2")),
+uses(Modelica_StateGraph2(version="2.0.1")),
 conversion(
+ noneFromVersion="1.3",
+ noneFromVersion="1.2",
  from(version="1.1",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.1_to_1.2.mos"),
  from(version="1.0",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.0_to_1.1.mos"),
  from(version="0.12",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_0.12_to_1.0.mos")),
-revisionId="$Id: package.mo 4258 2012-07-18 22:42:54Z mwetter $",
+revisionId="$Id$",
 preferredView="info",
 Documentation(info="<html>
 <p>
@@ -2814,5 +2817,5 @@ to solve specific problems.
 end Buildings;
 model Buildings_Utilities_IO_BCVTB_Examples_TwoRooms
  extends Buildings.Utilities.IO.BCVTB.Examples.TwoRooms;
-  annotation(experiment(StopTime=21600),uses(Buildings(version="1.2")));
+  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")));
 end Buildings_Utilities_IO_BCVTB_Examples_TwoRooms;

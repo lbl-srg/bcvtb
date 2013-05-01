@@ -1,14 +1,112 @@
-within ;
 package Modelica "Modelica Standard Library (Version 3.2)"
 extends Modelica.Icons.Package;
+package Utilities
+    "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
+    extends Modelica.Icons.Package;
+
+    package Strings "Operations on strings"
+      extends Modelica.Icons.Package;
+
+      function compare "Compare two strings lexicographically"
+        //extends Modelica.Icons.Function;
+        input String string1;
+        input String string2;
+        input Boolean caseSensitive=true
+          "= false, if case of letters is ignored";
+        output Modelica.Utilities.Types.Compare result "Result of comparison";
+      external "C" result = ModelicaStrings_compare(string1, string2, caseSensitive);
+        annotation (Library="ModelicaExternalC", Documentation(info="<html>
+<h4>Syntax</h4>
+<blockquote><pre>
+result = Strings.<b>compare</b>(string1, string2);
+result = Strings.<b>compare</b>(string1, string2, caseSensitive=true);
+</pre></blockquote>
+<h4>Description</h4>
+<p>
+Compares two strings. If the optional argument caseSensitive=false,
+upper case letters are treated as if they would be lower case letters.
+The result of the comparison is returned as:
+</p>
+<pre>
+  result = Modelica.Utilities.Types.Compare.Less     // string1 &lt; string2
+         = Modelica.Utilities.Types.Compare.Equal    // string1 = string2
+         = Modelica.Utilities.Types.Compare.Greater  // string1 &gt; string2
+</pre>
+<p>
+Comparison is with regards to lexicographical order,
+e.g., \"a\" &lt; \"b\";
+</p>
+</html>"));
+      end compare;
+
+      function isEqual "Determine whether two strings are identical"
+        //extends Modelica.Icons.Function;
+        input String string1;
+        input String string2;
+        input Boolean caseSensitive=true
+          "= false, if lower and upper case are ignored for the comparison";
+        output Boolean identical "True, if string1 is identical to string2";
+      algorithm
+        identical :=compare(string1, string2, caseSensitive) == Types.Compare.Equal;
+        annotation (
+      Documentation(info="<html>
+<h4>Syntax</h4>
+<blockquote><pre>
+Strings.<b>isEqual</b>(string1, string2);
+Strings.<b>isEqual</b>(string1, string2, caseSensitive=true);
+</pre></blockquote>
+<h4>Description</h4>
+<p>
+Compare whether two strings are identical,
+optionally ignoring case.
+</p>
+</html>"));
+      end isEqual;
+    end Strings;
+
+    package System "Interaction with environment"
+      extends Modelica.Icons.Package;
+
+    function getEnvironmentVariable "Get content of environment variable"
+      //extends Modelica.Icons.Function;
+      input String name "Name of environment variable";
+      input Boolean convertToSlash =  false
+          "True, if native directory separators in 'result' shall be changed to '/'";
+      output String content
+          "Content of environment variable (empty, if not existent)";
+      output Boolean exist
+          "= true, if environment variable exists; = false, if it does not exist";
+      external "C" ModelicaInternal_getenv(name, convertToSlash, content, exist);
+        annotation (Library="ModelicaExternalC",Documentation(info="<html>
+
+</html>"));
+    end getEnvironmentVariable;
+    end System;
+
+    package Types "Type definitions used in package Modelica.Utilities"
+      extends Modelica.Icons.Package;
+
+      type Compare = enumeration(
+          Less "String 1 is lexicographically less than string 2",
+          Equal "String 1 is identical to string 2",
+          Greater "String 1 is lexicographically greater than string 2")
+        "Enumeration defining comparision of two strings";
+      annotation (Documentation(info="<html>
+<p>
+This package contains type definitions used in Modelica.Utilities.
+</p>
+
+</html>"));
+    end Types;
+end Utilities;
 
   package Blocks
-    "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
+  "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
   import SI = Modelica.SIunits;
   extends Modelica.Icons.Package;
 
     package Interfaces
-      "Library of connectors and partial models for input/output blocks"
+    "Library of connectors and partial models for input/output blocks"
       import Modelica.SIunits;
         extends Modelica.Icons.InterfacesPackage;
 
@@ -86,6 +184,50 @@ from this block.
 </html>"));
 
         end BlockIcon;
+
+        partial block DiscreteBlockIcon
+      "Graphical layout of discrete block component icon"
+
+          annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
+                  -100},{100,100}}), graphics={Rectangle(
+                extent={{-100,-100},{100,100}},
+                lineColor={0,0,127},
+                fillColor={223,223,159},
+                fillPattern=FillPattern.Solid), Text(
+                extent={{-150,150},{150,110}},
+                textString="%name",
+                lineColor={0,0,255})}),
+                               Documentation(info="<html>
+<p>
+Block that has only the basic icon for an input/output,
+discrete block (no declarations, no equations), e.g.,
+from Blocks.Discrete.
+</p>
+</html>"));
+        end DiscreteBlockIcon;
+
+        partial block DiscreteBlock "Base class of discrete control blocks"
+          extends DiscreteBlockIcon;
+
+          parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start = 0.1)
+        "Sample period of component";
+          parameter SI.Time startTime=0 "First sample time instant";
+    protected
+          output Boolean sampleTrigger "True, if sample time instant";
+          output Boolean firstTrigger
+        "Rising edge signals first sample instant";
+        equation
+          sampleTrigger = sample(startTime, samplePeriod);
+          when sampleTrigger then
+            firstTrigger = time <= startTime + samplePeriod/2;
+          end when;
+        annotation (Documentation(info="<html>
+<p>
+Basic definitions of a discrete block of library
+Blocks.Discrete.
+</p>
+</html>"));
+        end DiscreteBlock;
         annotation (
           Documentation(info="<HTML>
 <p>
@@ -121,7 +263,7 @@ partial models for continuous and discrete blocks.
     end Interfaces;
 
     package Math
-      "Library of Real mathematical functions as input/output blocks"
+    "Library of Real mathematical functions as input/output blocks"
       import Modelica.SIunits;
       import Modelica.Blocks.Interfaces;
       extends Modelica.Icons.Package;
@@ -129,8 +271,8 @@ partial models for continuous and discrete blocks.
           block Gain "Output the product of a gain value with the input signal"
 
             parameter Real k(start=1, unit="1")
-          "Gain value multiplied with input signal";
-      public
+        "Gain value multiplied with input signal";
+    public
             Interfaces.RealInput u "Input signal connector"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}},
                 rotation=0)));
@@ -207,6 +349,115 @@ connected with continuous blocks or with sampled-data blocks.
 </ul>
 </html>"));
     end Math;
+
+    package Routing "Library of blocks to combine and extract signals"
+      extends Modelica.Icons.Package;
+
+      block Multiplex2 "Multiplexer block for two input connectors"
+        extends Modelica.Blocks.Interfaces.BlockIcon;
+        parameter Integer n1=1 "dimension of input signal connector 1";
+        parameter Integer n2=1 "dimension of input signal connector 2";
+        Modelica.Blocks.Interfaces.RealInput u1[n1]
+        "Connector of Real input signals 1"   annotation (Placement(transformation(
+                extent={{-140,40},{-100,80}}, rotation=0)));
+        Modelica.Blocks.Interfaces.RealInput u2[n2]
+        "Connector of Real input signals 2"   annotation (Placement(transformation(
+                extent={{-140,-80},{-100,-40}}, rotation=0)));
+        Modelica.Blocks.Interfaces.RealOutput y[n1 + n2]
+        "Connector of Real output signals"   annotation (Placement(transformation(
+                extent={{100,-10},{120,10}}, rotation=0)));
+
+      equation
+        [y] = [u1; u2];
+        annotation (
+          Documentation(info="<HTML>
+<p>
+The output connector is the <b>concatenation</b> of the two input connectors.
+Note, that the dimensions of the input connector signals have to be
+explicitly defined via parameters n1 and n2.
+</p>
+</HTML>
+"),       Icon(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Line(points={{8,0},{102,0}}, color={0,0,127}),
+              Ellipse(
+                extent={{-14,16},{16,-14}},
+                fillColor={0,0,127},
+                fillPattern=FillPattern.Solid,
+                lineColor={0,0,127}),
+              Line(points={{-98,60},{-60,60},{-4,6}}, color={0,0,127}),
+              Line(points={{-98,-60},{-60,-60},{-4,-4}}, color={0,0,127})}),
+          Diagram(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Line(points={{-98,60},{-60,60},{-4,6}}, color={0,0,255}),
+              Line(points={{-98,-60},{-60,-60},{-4,-4}}, color={0,0,255}),
+              Line(points={{8,0},{102,0}}, color={0,0,255}),
+              Ellipse(
+                extent={{-14,16},{16,-14}},
+                fillColor={0,0,255},
+                fillPattern=FillPattern.Solid,
+                lineColor={0,0,255})}));
+      end Multiplex2;
+
+      block DeMultiplex2 "DeMultiplexer block for two output connectors"
+        extends Modelica.Blocks.Interfaces.BlockIcon;
+        parameter Integer n1=1 "dimension of output signal connector 1";
+        parameter Integer n2=1 "dimension of output signal connector 2";
+        Modelica.Blocks.Interfaces.RealInput u[n1 + n2]
+        "Connector of Real input signals"   annotation (Placement(transformation(
+                extent={{-140,-20},{-100,20}}, rotation=0)));
+        Modelica.Blocks.Interfaces.RealOutput y1[n1]
+        "Connector of Real output signals 1"   annotation (Placement(transformation(
+                extent={{100,50},{120,70}}, rotation=0)));
+        Modelica.Blocks.Interfaces.RealOutput y2[n2]
+        "Connector of Real output signals 2"   annotation (Placement(transformation(
+                extent={{100,-70},{120,-50}}, rotation=0)));
+
+      equation
+        [u] = [y1; y2];
+        annotation (
+          Documentation(info="<HTML>
+<p>
+The input connector is <b>splitted</b> up into two output connectors.
+Note, that the dimensions of the output connector signals have to be
+explicitly defined via parameters n1 and n2.
+</p>
+</HTML>
+"),       Icon(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Line(points={{100,60},{60,60},{10,8}}, color={0,0,127}),
+              Ellipse(
+                extent={{-14,16},{16,-14}},
+                fillColor={0,0,127},
+                fillPattern=FillPattern.Solid,
+                lineColor={0,0,127}),
+              Line(points={{100,-60},{60,-60},{8,-8}}, color={0,0,127}),
+              Line(points={{-100,0},{-6,0}}, color={0,0,127})}),
+          Diagram(coordinateSystem(
+              preserveAspectRatio=true,
+              extent={{-100,-100},{100,100}},
+              grid={2,2}), graphics={
+              Line(points={{100,60},{60,60},{10,8}}, color={0,0,255}),
+              Line(points={{100,-60},{60,-60},{8,-8}}, color={0,0,255}),
+              Line(points={{-100,0},{-6,0}}, color={0,0,255}),
+              Ellipse(
+                extent={{-14,16},{16,-14}},
+                fillColor={0,0,255},
+                fillPattern=FillPattern.Solid,
+                lineColor={0,0,255})}));
+      end DeMultiplex2;
+      annotation (Documentation(info="<html>
+<p>
+This package contains blocks to combine and extract signals.
+</p>
+</html>"));
+    end Routing;
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}),
         graphics={
@@ -289,11 +540,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Blocks;
 
   package Thermal
-    "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
+  "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
     extends Modelica.Icons.Package;
 
     package HeatTransfer
-      "Library of 1-dimensional heat transfer with lumped elements"
+    "Library of 1-dimensional heat transfer with lumped elements"
       import Modelica.SIunits.Conversions.*;
       extends Modelica.Icons.Package;
 
@@ -302,11 +553,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 
         model HeatCapacitor "Lumped thermal element storing heat"
           parameter Modelica.SIunits.HeatCapacity C
-            "Heat capacity of element (= cp*m)";
+          "Heat capacity of element (= cp*m)";
           Modelica.SIunits.Temperature T(start=293.15, displayUnit="degC")
-            "Temperature of element";
+          "Temperature of element";
           Modelica.SIunits.TemperatureSlope der_T(start=0)
-            "Time derivative of temperature (= der(T))";
+          "Time derivative of temperature (= der(T))";
           Interfaces.HeatPort_a port annotation (Placement(transformation(
                 origin={0,-100},
                 extent={{-10,-10},{10,10}},
@@ -434,10 +685,10 @@ compute C:
         end HeatCapacitor;
 
         model ThermalConductor
-          "Lumped thermal element transporting heat without storing it"
+        "Lumped thermal element transporting heat without storing it"
           extends Interfaces.Element1D;
           parameter Modelica.SIunits.ThermalConductance G
-            "Constant thermal conductance of material";
+          "Constant thermal conductance of material";
 
         equation
           Q_flow = G*dT;
@@ -672,14 +923,14 @@ sensor model.
         partial connector HeatPort "Thermal port for 1-dim. heat transfer"
           Modelica.SIunits.Temperature T "Port temperature";
           flow Modelica.SIunits.HeatFlowRate Q_flow
-            "Heat flow rate (positive if flowing from outside into the component)";
+          "Heat flow rate (positive if flowing from outside into the component)";
           annotation (Documentation(info="<html>
 
 </html>"));
         end HeatPort;
 
         connector HeatPort_a
-          "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
+        "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
 
           extends HeatPort;
 
@@ -716,7 +967,7 @@ class.</p>
         end HeatPort_a;
 
         connector HeatPort_b
-          "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
+        "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
 
           extends HeatPort;
 
@@ -753,12 +1004,12 @@ class.</p>
         end HeatPort_b;
 
         partial model Element1D
-          "Partial heat transfer element with two HeatPort connectors that does not store energy"
+        "Partial heat transfer element with two HeatPort connectors that does not store energy"
 
           Modelica.SIunits.HeatFlowRate Q_flow
-            "Heat flow rate from port_a -> port_b";
+          "Heat flow rate from port_a -> port_b";
           Modelica.SIunits.TemperatureDifference dT "port_a.T - port_b.T";
-        public
+      public
           HeatPort_a port_a annotation (Placement(transformation(extent={{-110,-10},
                     {-90,10}}, rotation=0)));
           HeatPort_b port_b annotation (Placement(transformation(extent={{90,-10},{
@@ -958,13 +1209,18 @@ and fluid heat flow.
   end Thermal;
 
   package Constants
-    "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
+  "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
     import SI = Modelica.SIunits;
     import NonSI = Modelica.SIunits.Conversions.NonSIunits;
     extends Modelica.Icons.Package;
 
+    final constant Real eps=1.e-15 "Biggest number such that 1.0 + eps = 1.0";
+
+    final constant Real inf=1.e+60
+    "Biggest Real number such that inf and -inf are representable on the machine";
+
     final constant NonSI.Temperature_degC T_zero=-273.15
-      "Absolute zero temperature";
+    "Absolute zero temperature";
     annotation (
       Documentation(info="<html>
 <p>
@@ -1075,7 +1331,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
     extends Icons.Package;
 
     partial package ExamplesPackage
-      "Icon for packages containing runnable examples"
+    "Icon for packages containing runnable examples"
     //extends Modelica.Icons.Package;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics={Rectangle(
@@ -1130,6 +1386,28 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 <p>Standard package icon.</p>
 </html>"));
     end Package;
+
+    partial package BasesPackage "Icon for packages containing base classes"
+    //extends Modelica.Icons.Package;
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                -100},{100,100}}), graphics={Rectangle(
+              extent={{-80,100},{100,-80}},
+              lineColor={0,0,0},
+              fillColor={215,230,240},
+              fillPattern=FillPattern.Solid), Rectangle(
+              extent={{-100,80},{80,-100}},
+              lineColor={0,0,0},
+              fillColor={240,240,240},
+              fillPattern=FillPattern.Solid),
+            Ellipse(
+              extent={{-30,10},{10,-30}},
+              lineColor={0,0,0},
+              fillColor={255,255,255},
+              fillPattern=FillPattern.Solid)}),
+                                Documentation(info="<html>
+<p>This icon shall be used for a package/library that contains base models and classes, respectively.</p>
+</html>"));
+    end BasesPackage;
 
     partial package VariantsPackage "Icon for package containing variants"
     //extends Modelica.Icons.Package;
@@ -1278,11 +1556,11 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Icons;
 
   package SIunits
-    "Library of type and unit definitions based on SI units according to ISO 31-1992"
+  "Library of type and unit definitions based on SI units according to ISO 31-1992"
     extends Modelica.Icons.Package;
 
     package Conversions
-      "Conversion functions to/from non SI units and type definitions of non SI units"
+    "Conversion functions to/from non SI units and type definitions of non SI units"
       extends Modelica.Icons.Package;
 
       package NonSIunits "Type definitions of non SI units"
@@ -1290,7 +1568,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
 
         type Temperature_degC = Real (final quantity="ThermodynamicTemperature",
               final unit="degC")
-          "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
+        "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
                                                                                                             annotation(__Dymola_absoluteValue=true);
         annotation (Documentation(info="<HTML>
 <p>
@@ -1385,7 +1663,7 @@ argument):</p>
         min = 0,
         start = 288.15,
         displayUnit="degC")
-      "Absolute temperature (use type TemperatureDifference for relative temperatures)"
+    "Absolute temperature (use type TemperatureDifference for relative temperatures)"
                                                                                                         annotation(__Dymola_absoluteValue=true);
 
     type Temperature = ThermodynamicTemperature;
@@ -1554,7 +1832,6 @@ TU Hamburg-Harburg, Politecnico di Milano.
 </HTML>
 "));
 end Modelica;
-
 
 package Buildings "Library with models for building energy and control systems"
 
@@ -1732,7 +2009,7 @@ Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>.
                 fillPattern=FillPattern.Solid)}));
       end PrescribedHeatFlow;
       annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
-                -100},{100,100}}), graphics),   Documentation(info="<html>
+                -100},{100,100}})),   Documentation(info="<html>
 This package is identical to
 <a href=\"modelica:Modelica.Thermal.HeatTransfer.Sources\">
 Modelica.Thermal.HeatTransfer.Sources</a>, except that
@@ -1745,7 +2022,7 @@ Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>
  as these can cause division by zero in some fluid flow models.
 </html>"));
     end Sources;
-  annotation (preferedView="info", Documentation(info="<html>
+  annotation (preferredView="info", Documentation(info="<html>
 This package contains models for heat transfer elements.
 </html>"));
   end HeatTransfer;
@@ -1757,20 +2034,398 @@ This package contains models for heat transfer elements.
       extends Modelica.Icons.VariantsPackage;
 
       package BCVTB
-        "Package with functions to communicate with the Building Controls Virtual Test Bed"
+      "Package with functions to communicate with the Building Controls Virtual Test Bed"
         extends Modelica.Icons.VariantsPackage;
+
+        model BCVTB
+        "Block that exchanges data with the Building Controls Virtual Test Bed"
+          extends Modelica.Blocks.Interfaces.DiscreteBlock(final startTime=0,
+          final samplePeriod = if activateInterface then timeStep else Modelica.Constants.inf);
+          parameter Boolean activateInterface = true
+          "Set to false to deactivate interface and use instead yFixed as output"
+            annotation(Evaluate = true);
+          parameter Modelica.SIunits.Time timeStep
+          "Time step used for the synchronization"
+            annotation(Dialog(enable = activateInterface));
+          parameter String xmlFileName = "socket.cfg"
+          "Name of the file that is generated by the BCVTB and that contains the socket information";
+          parameter Integer nDblWri(min=0)
+          "Number of double values to write to the BCVTB";
+          parameter Integer nDblRea(min=0)
+          "Number of double values to be read from the BCVTB";
+          parameter Integer flaDblWri[nDblWri] = zeros(nDblWri)
+          "Flag for double values (0: use current value, 1: use average over interval, 2: use integral over interval)";
+          parameter Real uStart[nDblWri]
+          "Initial input signal, used during first data transfer with BCVTB";
+          parameter Real yRFixed[nDblRea] = zeros(nDblRea)
+          "Fixed output, used if activateInterface=false"
+            annotation(Evaluate = true,
+                        Dialog(enable = not activateInterface));
+
+          Modelica.Blocks.Interfaces.RealInput uR[nDblWri]
+          "Real inputs to be sent to the BCVTB"
+            annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+          Modelica.Blocks.Interfaces.RealOutput yR[nDblRea]
+          "Real outputs received from the BCVTB"
+            annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+
+         Integer flaRea "Flag received from BCVTB";
+         Modelica.SIunits.Time simTimRea
+          "Current simulation time received from the BCVTB";
+         Integer retVal "Return value from the BSD socket data exchange";
+      protected
+          parameter Integer socketFD(fixed=false)
+          "Socket file descripter, or a negative value if an error occured";
+          parameter Real _uStart[nDblWri](fixed=false)
+          "Initial input signal, used during first data transfer with BCVTB";
+          constant Integer flaWri=0;
+          Real uRInt[nDblWri] "Value of integral";
+          Real uRIntPre[nDblWri]
+          "Value of integral at previous sampling instance";
+      public
+          Real uRWri[nDblWri] "Value to be sent to the interface";
+        initial algorithm
+          socketFD :=if activateInterface then
+              Buildings.Utilities.IO.BCVTB.BaseClasses.establishClientSocket(xmlFileName=xmlFileName) else
+              0;
+            // check for valid socketFD
+             assert(socketFD >= 0, "Socket file descripter for BCVTB must be positive.\n" +
+                                 "   A negative value indicates that no connection\n" +
+                                 "   could be established. Check file 'utilSocket.log'.\n" +
+                                 "   Received: socketFD = " + String(socketFD));
+           flaRea   := 0;
+           uRInt    := zeros(nDblWri);
+           uRIntPre := zeros(nDblWri);
+           for i in 1:nDblWri loop
+             assert(flaDblWri[i]>=0 and flaDblWri[i]<=2,
+                "Parameter flaDblWri out of range for " + String(i) + "-th component.");
+             if (flaDblWri[i] == 0) then
+                _uStart[i] := uStart[i];               // Current value.
+             elseif (flaDblWri[i] == 1) then
+                _uStart[i] := uStart[i];                // Average over interval
+             else
+                _uStart[i] := uStart[i]*samplePeriod;  // Integral over the sampling interval
+                                                       // This is multiplied with samplePeriod because if
+                                                       // u is power, then uRWri needs to be energy.
+
+             end if;
+           end for;
+           // Exchange initial values
+            if activateInterface then
+              (flaRea, simTimRea, yR, retVal) :=
+                Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals(
+                socketFD=socketFD,
+                flaWri=flaWri,
+                simTimWri=time,
+                dblValWri=_uStart,
+                nDblWri=size(uRWri, 1),
+                nDblRea=size(yR, 1));
+            else
+              flaRea := 0;
+              simTimRea := time;
+              yR := yRFixed;
+              retVal := 0;
+              end if;
+
+        equation
+           for i in 1:nDblWri loop
+              der(uRInt[i]) = if (flaDblWri[i] > 0) then uR[i] else 0;
+           end for;
+        algorithm
+          when {sampleTrigger} then
+            assert(flaRea == 0, "BCVTB interface attempts to exchange data after Ptolemy reached its final time.\n" +
+                                "   Aborting simulation. Check final time in Modelica and in Ptolemy.\n" +
+                                "   Received: flaRea = " + String(flaRea));
+             // Compute value that will be sent to the BCVTB interface
+             for i in 1:nDblWri loop
+               if (flaDblWri[i] == 0) then
+                 uRWri[i] :=pre(uR[i]);  // Send the current value.
+                                         // Without the pre(), Dymola 7.2 crashes during translation of Examples.MoistAir
+               else
+                 uRWri[i] :=uRInt[i] - uRIntPre[i]; // Integral over the sampling interval
+                 if (flaDblWri[i] == 1) then
+                    uRWri[i] := uRWri[i]/samplePeriod;   // Average value over the sampling interval
+                 end if;
+               end if;
+              end for;
+
+            // Exchange data
+            if activateInterface then
+              (flaRea, simTimRea, yR, retVal) :=
+                Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals(
+                socketFD=socketFD,
+                flaWri=flaWri,
+                simTimWri=time,
+                dblValWri=uRWri,
+                nDblWri=size(uRWri, 1),
+                nDblRea=size(yR, 1));
+            else
+              flaRea := 0;
+              simTimRea := time;
+              yR := yRFixed;
+              retVal := 0;
+              end if;
+            // Check for valid return flags
+            assert(flaRea >= 0, "BCVTB sent a negative flag to Modelica during data transfer.\n" +
+                                "   Aborting simulation. Check file 'utilSocket.log'.\n" +
+                                "   Received: flaRea = " + String(flaRea));
+            assert(retVal >= 0, "Obtained negative return value during data transfer with BCVTB.\n" +
+                                "   Aborting simulation. Check file 'utilSocket.log'.\n" +
+                                "   Received: retVal = " + String(retVal));
+
+            // Store current value of integral
+          uRIntPre:=uRInt;
+          end when;
+           // Close socket connnection
+           when terminal() then
+             if activateInterface then
+                Buildings.Utilities.IO.BCVTB.BaseClasses.closeClientSocket(
+                                                                  socketFD);
+             end if;
+           end when;
+
+          annotation (defaultComponentName="cliBCVTB",
+           Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
+                    100}}),            graphics), Icon(coordinateSystem(
+                  preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+                Rectangle(
+                  visible=not activateInterface,
+                  extent={{-100,-100},{100,100}},
+                  lineColor={0,0,127},
+                  fillColor={255,0,0},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  visible=activateInterface,
+                  extent={{-100,-100},{100,100}},
+                  lineColor={0,0,127},
+                  fillColor={223,223,159},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{0,28},{80,-100}},
+                  lineColor={0,0,0},
+                  fillColor={95,95,95},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,14},{26,4}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,14},{48,4}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,14},{70,4}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-2},{70,-12}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-2},{48,-12}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-2},{26,-12}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-18},{70,-28}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-18},{48,-28}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-18},{26,-28}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-34},{70,-44}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-34},{48,-44}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-34},{26,-44}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-50},{70,-60}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-50},{48,-60}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-50},{26,-60}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-66},{70,-76}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-66},{48,-76}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-66},{26,-76}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{54,-82},{70,-92}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{32,-82},{48,-92}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Rectangle(
+                  extent={{10,-82},{26,-92}},
+                  lineColor={0,0,0},
+                  fillColor={255,255,255},
+                  fillPattern=FillPattern.Solid),
+                Polygon(
+                  points={{38,46},{-16,28},{92,28},{38,46}},
+                  lineColor={0,0,0},
+                  smooth=Smooth.None,
+                  fillColor={0,0,0},
+                  fillPattern=FillPattern.Solid),
+                Text(
+                  extent={{-82,108},{30,40}},
+                  lineColor={0,0,0},
+                  fillColor={95,95,95},
+                  fillPattern=FillPattern.Solid,
+                  textString="tS=%samplePeriod%")}),
+            Documentation(info="<html>
+Block that exchanges data with the 
+<a href=\"http://simulationresearch.lbl.gov/bcvtb\">Building Controls Virtual Test Bed</a> (BCVTB).
+<p>
+At the start of the simulation, this block establishes a socket connection
+using the Berkeley Software Distribution socket (BSD socket).
+At each sampling interval, data are exchanged between Modelica
+and the BCVTB.
+When Dymola terminates, a signal is sent to the BCVTB
+so that it can terminate gracefully.
+</p>
+<p>
+For each element in the input vector <code>uR[nDblWri]</code>, 
+the value of the flag <code>flaDblWri[nDblWri]</code> determines whether
+the current value, the average over the sampling interval or the integral
+over the sampling interval is sent to the BCVTB. The following three options are allowed:
+<table border=\"1\">
+<tr>
+<td>
+flaDblWri[i]
+</td>
+<td>
+Value sent to the BCVTB
+</td>
+</tr>
+<tr>
+<td>
+0
+</td>
+<td>
+Current value of uR[i]
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+Average value of uR[i] over the sampling interval
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+Integral of uR[i] over the sampling interval
+</td>
+</tr>
+</table>
+</p>
+<p>
+For the first call to the BCVTB interface, the value of the parameter <code>uStart[nDblWri]</code>
+will be used instead of <code>uR[nDblWri]</code>. This avoids an algebraic loop when determining
+the initial conditions. If <code>uR[nDblWri]</code> were to be used, then computing the initial conditions
+may require an iterative solution in which the function <code>exchangeWithSocket</code> may be called
+multiple times.
+Unfortunately, it does not seem possible to use a parameter that would give a user the option to either
+select <code>uR[i]</code> or <code>uStart[i]</code> in the first data exchange. The reason is that the symbolic solver does not evaluate
+the test that picks <code>uR[i]</code> or <code>uStart[i]</code>, and hence there would be an algebraic loop.
+</p>
+<p>
+If the parameter <code>activateInterface</code> is set to false, then no data is exchanged with the BCVTB.
+The output of this block is then equal to the value of the parameter <code>yRFixed[nDblRea]</code>.
+This option can be helpful during debugging. Since during model translation, the functions are 
+still linked to the C library, the header files and libraries need to be present in the current working 
+directory even if <code>activateInterface=false</code>.
+</p>
+</html>",         revisions="<html>
+<ul>
+<li>
+July 19, 2012, by Michael Wetter:<br>
+Added a call to <code>Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals</code>
+in the <code>initial algorithm</code> section.
+This is needed to propagate the initial condition to the server.
+It also leads to one more data exchange, which is correct and avoids the
+warning message in Ptolemy that says that the simulation reached its stop time
+one time step prior to the final time.
+</li>
+<li>
+January 19, 2010, by Michael Wetter:<br>
+Introduced parameter to set initial value to be sent to the BCVTB.
+In the prior implementation, if a variable was in an algebraic loop, then zero was
+sent for this variable.
+</li>
+<li>
+May 14, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+        end BCVTB;
 
         block To_degC "Converts Kelvin to Celsius"
           extends Modelica.Blocks.Interfaces.BlockIcon;
 
           Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="Temperature",
                                                       final unit = "K", displayUnit = "degC", min=0)
-            "Temperature in Kelvin"
+          "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
                 iconTransformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="Temperature",
                                                         final unit = "degC", displayUnit = "degC", min=-273.15)
-            "Temperature in Celsius"
+          "Temperature in Celsius"
             annotation (Placement(transformation(extent={{100,-10},{120,10}}),
                 iconTransformation(extent={{100,-10},{120,10}})));
         equation
@@ -1812,68 +2467,71 @@ First implementation.
         end To_degC;
 
         package Examples
-          "Collection of models that illustrate model use and test models"
+        "Collection of models that illustrate model use and test models"
           extends Modelica.Icons.ExamplesPackage;
 
           model TwoRooms
-            "Thermal model of two rooms that will be linked to the BCVTB which models the controls"
+          "Thermal model of two rooms that will be linked to the BCVTB which models the controls"
             import Buildings;
             extends Modelica.Icons.Example;
             parameter Modelica.SIunits.Time tau = 2*3600 "Room time constant";
             parameter Modelica.SIunits.HeatFlowRate Q_flow_nom = 100
-              "Nominal heat flow";
+            "Nominal heat flow";
             parameter Modelica.SIunits.ThermalConductance UA = Q_flow_nom / 20
-              "Thermal conductance of room";
+            "Thermal conductance of room";
             parameter Modelica.SIunits.Temperature TStart = 283.15
-              "Start temperature";
+            "Start temperature";
             Modelica.Thermal.HeatTransfer.Components.HeatCapacitor C1(C=tau*UA, T(start=
                     TStart, fixed=true)) "Heat capacity of room"
               annotation (Placement(transformation(extent={{70,70},{90,90}})));
             Modelica.Thermal.HeatTransfer.Components.ThermalConductor UA1(G=UA)
-              "Heat transmission of room"
+            "Heat transmission of room"
               annotation (Placement(transformation(extent={{40,60},{60,80}})));
             Buildings.HeatTransfer.Sources.FixedTemperature TOut1(T=278.15)
-              "Outside air temperature"
+            "Outside air temperature"
               annotation (Placement(transformation(extent={{0,60},{20,80}})));
             Buildings.HeatTransfer.Sources.PrescribedHeatFlow Q_flow_1
-              "Heat input into the room"
+            "Heat input into the room"
               annotation (Placement(transformation(extent={{42,20},{62,40}})));
             Modelica.Blocks.Math.Gain GaiQ_flow_nom1(k=Q_flow_nom)
-              "Gain for nominal heat load"
+            "Gain for nominal heat load"
               annotation (Placement(transformation(extent={{0,20},{20,40}})));
             Modelica.Thermal.HeatTransfer.Components.ThermalConductor UA2(G=UA)
-              "Heat transmission of room"
+            "Heat transmission of room"
               annotation (Placement(transformation(extent={{40,-40},{60,-20}})));
             Modelica.Thermal.HeatTransfer.Components.HeatCapacitor C2(C=2*tau*UA, T(start=
                     TStart, fixed=true)) "Heat capacity of room"
               annotation (Placement(transformation(extent={{70,-28},{90,-8}})));
             Buildings.HeatTransfer.Sources.FixedTemperature TOut2(T=278.15)
-              "Outside air temperature"
+            "Outside air temperature"
               annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
             Buildings.HeatTransfer.Sources.PrescribedHeatFlow Q_flow_2
-              "Heat input into the room"
+            "Heat input into the room"
               annotation (Placement(transformation(extent={{44,-80},{64,-60}})));
             Modelica.Blocks.Math.Gain GaiQ_flow_nom2(k=Q_flow_nom)
-              "Gain for nominal heat load"
+            "Gain for nominal heat load"
               annotation (Placement(transformation(extent={{2,-80},{22,-60}})));
             Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRoo1
-              "Room temperature"
+            "Room temperature"
               annotation (Placement(transformation(extent={{92,60},{112,80}})));
             Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRoo2
-              "Room temperature"
+            "Room temperature"
               annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
+            Buildings.Utilities.IO.BCVTB.BCVTB bcvtb(
+              xmlFileName="socket.cfg",
+              uStart={TStart - 273.15,TStart - 273.15},
+              timeStep=60,
+              final nDblWri=2,
+              final nDblRea=2)
+              annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+            Modelica.Blocks.Routing.Multiplex2 multiplex2_1
+              annotation (Placement(transformation(extent={{200,-10},{220,10}})));
+            Modelica.Blocks.Routing.DeMultiplex2 deMultiplex2_1
+              annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
             Buildings.Utilities.IO.BCVTB.To_degC to_degC1
               annotation (Placement(transformation(extent={{140,60},{160,80}})));
             Buildings.Utilities.IO.BCVTB.To_degC to_degC2
               annotation (Placement(transformation(extent={{140,-40},{160,-20}})));
-          Modelica.Blocks.Interfaces.RealInput u_1
-            annotation (Placement(transformation(extent={{-112,10},{-72,50}})));
-          Modelica.Blocks.Interfaces.RealInput u_2 annotation (Placement(
-                transformation(extent={{-110,-90},{-70,-50}})));
-          Modelica.Blocks.Interfaces.RealOutput TRoo_1
-            annotation (Placement(transformation(extent={{210,56},{238,84}})));
-          Modelica.Blocks.Interfaces.RealOutput TRoo_2 annotation (Placement(
-                transformation(extent={{212,-44},{240,-16}})));
           equation
             connect(TOut1.port, UA1.port_a) annotation (Line(
                 points={{20,70},{40,70}},
@@ -1915,6 +2573,24 @@ First implementation.
                 points={{23,-70},{44,-70}},
                 color={0,0,127},
                 smooth=Smooth.None));
+            connect(bcvtb.yR, deMultiplex2_1.u) annotation (Line(
+                points={{-59,6.10623e-16},{-54.75,6.10623e-16},{-54.75,1.27676e-15},{
+                    -50.5,1.27676e-15},{-50.5,6.66134e-16},{-42,6.66134e-16}},
+                color={0,0,127},
+                smooth=Smooth.None));
+            connect(deMultiplex2_1.y1[1], GaiQ_flow_nom1.u) annotation (Line(
+                points={{-19,6},{-11.5,6},{-11.5,30},{-2,30}},
+                color={0,0,127},
+                smooth=Smooth.None));
+            connect(deMultiplex2_1.y2[1], GaiQ_flow_nom2.u) annotation (Line(
+                points={{-19,-6},{-10,-6},{-10,-70},{-6.66134e-16,-70}},
+                color={0,0,127},
+                smooth=Smooth.None));
+            connect(multiplex2_1.y, bcvtb.uR) annotation (Line(
+                points={{221,6.10623e-16},{230,6.10623e-16},{230,-92},{-90,-92},{-90,
+                    6.66134e-16},{-82,6.66134e-16}},
+                color={0,0,127},
+                smooth=Smooth.None));
             connect(TRoo1.T, to_degC1.Kelvin) annotation (Line(
                 points={{112,70},{138,70}},
                 color={0,0,127},
@@ -1923,24 +2599,16 @@ First implementation.
                 points={{110,-30},{138,-30}},
                 color={0,0,127},
                 smooth=Smooth.None));
-          connect(u_2, GaiQ_flow_nom2.u) annotation (Line(
-              points={{-90,-70},{0,-70}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(u_1, GaiQ_flow_nom1.u) annotation (Line(
-              points={{-92,30},{-2,30}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(to_degC1.Celsius,TRoo_1)  annotation (Line(
-              points={{161,70},{224,70}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(to_degC2.Celsius,TRoo_2)  annotation (Line(
-              points={{161,-30},{226,-30}},
-              color={0,0,127},
-              smooth=Smooth.None));
-            annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,
-                      -100},{240,100}}), graphics),
+            connect(to_degC2.Celsius, multiplex2_1.u2[1]) annotation (Line(
+                points={{161,-30},{180,-30},{180,-6},{198,-6}},
+                color={0,0,127},
+                smooth=Smooth.None));
+            connect(to_degC1.Celsius, multiplex2_1.u1[1]) annotation (Line(
+                points={{161,70},{180,70},{180,6},{198,6}},
+                color={0,0,127},
+                smooth=Smooth.None));
+            annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,
+                      -100},{240,100}})),
               experiment(StopTime=21600),
               Documentation(info="<html>
 This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.
@@ -1964,7 +2632,7 @@ First implementation.
 </ul>
 </html>"));
           end TwoRooms;
-        annotation (preferedView="info", Documentation(info="<html>
+        annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains examples for the use of models that can be found in
 <a href=\"modelica://Buildings.Utilities.IO.BCVTB\">
@@ -1972,8 +2640,114 @@ Buildings.Utilities.IO.BCVTB</a>.
 </p>
 </html>"));
         end Examples;
+
+        package BaseClasses
+        "Package with base classes for Buildings.Utilities.IO.BCVTB"
+          extends Modelica.Icons.BasesPackage;
+
+          function establishClientSocket
+          "Establishes the client socket connection"
+
+            input String xmlFileName = "socket.cfg"
+            "Name of xml file that contains the socket information";
+            output Integer socketFD
+            "Socket file descripter, or a negative value if an error occured";
+            external "C"
+               socketFD =
+                        establishModelicaClient(xmlFileName)
+                 annotation(Library="bcvtb_modelica",
+                            Include="#include \"bcvtb.h\"");
+          annotation(Documentation(info="<html>
+Function that establishes a socket connection to the BCVTB.
+<p>
+For the xml file name, on Windows use two backslashes to separate directories, i.e., use
+<pre>
+  xmlFileName=\"C:\\\\examples\\\\dymola-room\\\\socket.cfg\"
+</pre>
+</html>", revisions="<html>
+<ul>
+<li>
+May 5, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+          end establishClientSocket;
+
+          function exchangeReals
+          "Exchanges values of type Real with the socket"
+
+            input Integer socketFD(min=1) "Socket file descripter";
+            input Integer flaWri
+            "Communication flag to write to the socket stream";
+            input Modelica.SIunits.Time simTimWri
+            "Current simulation time in seconds to write";
+            input Real[nDblWri] dblValWri "Double values to write";
+            input Integer nDblWri "Number of double values to write";
+            input Integer nDblRea "Number of double values to read";
+            output Integer flaRea
+            "Communication flag read from the socket stream";
+            output Modelica.SIunits.Time simTimRea
+            "Current simulation time in seconds read from socket";
+            output Real[nDblRea] dblValRea "Double values read from socket";
+            output Integer retVal
+            "The exit value, which is negative if an error occured";
+            external "C"
+               retVal =
+                      exchangeModelicaClient(socketFD,
+                 flaWri, flaRea,
+                 simTimWri,
+                 dblValWri, nDblWri,
+                 simTimRea,
+                 dblValRea, nDblRea)
+              annotation(Library="bcvtb_modelica",
+                  Include="#include \"bcvtb.h\"");
+          annotation(Documentation(info="<html>
+Function to exchange data of type <code>Real</code> with the socket.
+This function must only be called once in each 
+communication interval.
+</html>", revisions="<html>
+<ul>
+<li>
+May 5, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+          end exchangeReals;
+
+          function closeClientSocket
+          "Closes the socket for the inter process communication"
+
+            input Integer socketFD
+            "Socket file descripter, or a negative value if an error occured";
+            output Integer retVal
+            "Return value of the function that closes the socket connection";
+            external "C"
+               retVal =
+                      closeModelicaClient(socketFD)
+                 annotation(Library="bcvtb_modelica",
+                            Include="#include \"bcvtb.h\"");
+          annotation(Documentation(info="<html>
+Function that closes the inter-process communication.
+</html>", revisions="<html>
+<ul>
+<li>
+May 5, 2009, by Michael Wetter:<br>
+First implementation.
+</li>
+</ul>
+</html>"));
+          end closeClientSocket;
+        annotation (preferredView="info", Documentation(info="<html>
+<p>
+This package contains base classes that are used to construct the models in
+<a href=\"modelica://Buildings.Utilities.IO.BCVTB\">Buildings.Utilities.IO.BCVTB</a>.
+</p>
+</html>"));
+        end BaseClasses;
       end BCVTB;
-    annotation (preferedView="info", Documentation(info="<html>
+    annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains components models for input and output.
 Its package
@@ -1985,18 +2759,20 @@ Building Controls Virtual Test Bed</a>.
 </p>
 </html>"));
     end IO;
-  annotation (preferedView="info", Documentation(info="<html>
+  annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains utility models such as for thermal comfort calculation, input/output, co-simulation, psychrometric calculations and various functions that are used throughout the library.
 </p>
 </html>"));
   end Utilities;
 annotation (
+preferredView="info",
 version="1.4",
 versionBuild=0,
-versionDate="2013-01-08",
-dateModified = "$Date: 2013-02-13 13:20:57 -0800 (Wed, 13 Feb 2013) $",
+versionDate="2013-04-04",
+dateModified = "2013-04-04",
 uses(Modelica(version="3.2")),
+uses(Modelica_StateGraph2(version="2.0.1")),
 conversion(
  noneFromVersion="1.3",
  noneFromVersion="1.2",
@@ -2006,7 +2782,7 @@ conversion(
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.0_to_1.1.mos"),
  from(version="0.12",
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_0.12_to_1.0.mos")),
-revisionId="$Id: package.mo 4999 2013-02-13 21:20:57Z mwetter $",
+revisionId="$Id$",
 preferredView="info",
 Documentation(info="<html>
 <p>
@@ -2039,10 +2815,7 @@ to solve specific problems.
 </p>
 </html>"));
 end Buildings;
-
 model Buildings_Utilities_IO_BCVTB_Examples_TwoRooms
  extends Buildings.Utilities.IO.BCVTB.Examples.TwoRooms;
-  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            240,100}}), graphics));
+  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")));
 end Buildings_Utilities_IO_BCVTB_Examples_TwoRooms;
