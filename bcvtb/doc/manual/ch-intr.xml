@@ -76,6 +76,16 @@
     <citetitle>ESP-r,</citetitle>
    </ulink>
   </listitem>
+    <listitem>
+     <ulink url="http://www.trnsys.com/">
+    <citetitle>TRNSYS,</citetitle>
+   </ulink>
+  </listitem>
+    <listitem>
+   <ulink url="https://www.fmi-standard.org/start">
+    <citetitle>Functional Mock-up Units (FMU) for co-simulation,</citetitle>
+   </ulink>
+  </listitem>
   <listitem>
 	the
           <ulink url="http://bacnet.sourceforge.net/">

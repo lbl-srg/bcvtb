@@ -255,15 +255,27 @@
           EnergyPlus,
         </listitem>
    <listitem>
+          Dymola,
+        </listitem>
+   <listitem>
           MATLAB,
         </listitem>
    <listitem>
           Simulink,
         </listitem>
    <listitem>
-          Dymola,
+          Radiance,
         </listitem>
    <listitem>
+          ESP-r,
+   </listitem>
+   <listitem>
+          TRNSYS,
+        </listitem>
+   <listitem>
+          Functional Mock-up Unit (FMU) for co-simulation,
+        </listitem>
+<listitem>
           a simulation program implemented in C,
         </listitem>
    <listitem>

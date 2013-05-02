@@ -38,6 +38,15 @@
       <xref linkend="tit-SimulinkCon"></xref>,
           </listitem>
      <listitem>
+     <xref linkend="tit-EsprCon"></xref>,
+          </listitem>
+     <listitem>
+     <xref linkend="tit-TRNSYSCon"></xref>,
+          </listitem>
+     <listitem>
+     <xref linkend="tit-FMUCon"></xref>,
+          </listitem>
+     <listitem>
       <xref linkend="tit-CustomExeCon"></xref>,
           </listitem>
      <listitem>
@@ -2068,110 +2077,6 @@ exit 0
  </section>
 <!-- *** ESPr ******************************************* -->
 
-<!-- *** FMU for Co-Simulation Import ******************************************* -->
-
- <section xml:id="tit-FMUCon">
-
-  <title>Functional Mock-up Unit for Co-Simulation Import</title>
-  <section>
-
-  <title>Introduction</title>
-    <para>
-    The Functional Mock-up Unit (FMU) for co-simulation import interface allows the BCVTB to import simulation programs that are packaged
-    as FMUs. The interface complies with the Functional Mock-up Interface standard (FMI), which is an open source standard
-    designed to enable links between disparate simulation programs. An FMU may contain models, model description,
-    source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.  
-    For FMI and FMU related information, we recommend to read the <ulink url="https://www.fmi-standard.org/start">FMI specifications</ulink>
-    </para>
-  </section>
-
-    <note>
-      <para>
-        The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface version <code>1.0</code>.
-      </para>
-      <para>
-        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it was only tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
-      </para>
-    </note>
-
-    <section>
-
-      <title>Import an FMU in the BCVTB</title>
-      <para>
-        To import an FMU in the BCVTB, use <guimenuitem>File -> Import -> Import FMU</guimenuitem> from the menu tab, which will prompt for a <code>.fmu</code> file. 
-        After providing a valid path to an FMU, the BCVTB reads and unzips the FMU, parses the file named <code>modelDescription.xml</code> that describes the ports and parameters,
-        and creates an actor which exposes the inputs and outputs of the FMU. To change the parameters of the FMU, double-click on the actor and set the new parameters.
-      </para>
-    </section>
-
-    <section>
-      <title>Example: Modelica room model in an FMU</title>
-        <para>
-          This example is available in the directory <code>examples/fmu-room</code>.
-          This example is the same as the example in <code>examples/dymola-room</code> except 
-	  that an FMU is used instead of Dymola to simulate the room model. 
-          </para>
-
-	 <section>
-	   <title> Create and export the Modelica model as an FMU</title>
-           <para>
-            As a starting point for this example, we used the Modelica room model shown in <xref linkend="configuration-dymola-room-schematic"></xref>. We added connectors for input and output signals. These signals  will be the inputs and outputs of the FMU which will be exposed in the Ptolemy II actor. <xref linkend="fig-configuration-fmu-modelica"></xref> shows the new configuration of the system model with the two inputs (<code>u_1</code>, <code>u_2</code>) and two outputs signals (<code>TRoo_1</code>, <code>TRoo_2</code>). Next, we exported the Modelica model as an FMU. This step is tool specific and is typically described in the user manual of the tool which is used to export the FMU for co-simulation.
-           </para>
-          <para>
-
-    	<figure xml:id="fig-configuration-fmu-modelica">
-     	<mediaobject>
-      	<imageobject role="html">
-       	<imagedata fileref="img/configurationFMUModelica.png" format="PNG"></imagedata>
-      	</imageobject>
-      	<imageobject role="dblatex">
-       	<imagedata fileref="img/configurationFMUModelica.pdf" format="PDF" scalefit="1"></imagedata>
-      	</imageobject>
-     	</mediaobject>
-     	<title>
-	     Graphical view of the Modelica model that is exported as an FMU for co-simulation.
-	      </title>
-    	</figure>
-    <note>
-      <para>
-       The Modelica model used to generate the FMU is provided in <code>BCVTB/examples/fmu-room/modelica</code>.
-      </para>
-      <para>
-       The FMU used in the example is provided in <code>BCVTB/examples/fmu-room/fmus</code>.
-      </para>
-    </note>
-   	</para>
- </section>
-	 <section>
-	   <title> Create a Ptolemy II system model</title>
-           <para>
-            To simulate the FMU, a Ptolemy II system model needs to be created. We used the model <code>BCVTB/examples/dymola-room/system-windows.xml</code>, shown in
-            <xref linkend="fig-configuration-dymola-room-system"></xref> as a starting point. We replaced the <code>Simulator</code> actor with the imported FMU, and connected the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
-
-           </para>
-          <para>
-
-    	<figure xml:id="fig-configuration-fmu-ptolemy">
-     	<mediaobject>
-      	<imageobject role="html">
-       	<imagedata fileref="img/configurationFMUPtolemy.png" format="PNG"></imagedata>
-      	</imageobject>
-      	<imageobject role="dblatex">
-       	<imagedata fileref="img/configurationFMUPtolemy.pdf" format="PDF" scalefit="1"></imagedata>
-      	</imageobject>
-     	</mediaobject>
-     	<title>
-	     Ptolemy II system model that links a model of a controller with the FMU for co-simulation.
-	      </title>
-    	</figure>
-   	</para>
-         </section>
-    </section> <!-- End of example -->
-
- </section>
-
-<!-- *** FMUImport ******************************************* -->
-
 <!-- *** TRNSYS ******************************************* -->
 <section xml:id="tit-TRNSYSCon">
 
@@ -2328,6 +2233,110 @@ The working directory is the current directory and the console output is written
 </section> 
 
 <!-- *** TRNSYS ******************************************* -->
+
+<!-- *** FMU for Co-Simulation Import ******************************************* -->
+
+ <section xml:id="tit-FMUCon">
+
+  <title>Functional Mock-up Unit for Co-Simulation Import</title>
+  <section>
+
+  <title>Introduction</title>
+    <para>
+    The Functional Mock-up Unit (FMU) for co-simulation import interface allows the BCVTB to import simulation programs that are packaged
+    as FMUs. The interface complies with the Functional Mock-up Interface standard (FMI), which is an open source standard
+    designed to enable links between disparate simulation programs. An FMU may contain models, model description,
+    source code, and shared libraries for multiple platforms. The FMI standard consists of three parts which are FMI for Model-Exchange, FMI for Co-Simulation, and FMI for Product Lifecycle Management.  
+    For FMI and FMU related information, we recommend to read the <ulink url="https://www.fmi-standard.org/start">FMI specifications</ulink>
+    </para>
+  </section>
+
+    <note>
+      <para>
+        The FMU for co-simulation import interface supports the FMI for Co-Simulation Application Programming Interface version <code>1.0</code>.
+      </para>
+      <para>
+        The FMU for co-simulation interface is supported on Windows, Linux, and Mac OS X. However it was only tested on Windows 32 bit and Linux 32 bit because of the limited support of tools capable of exporting FMU for co-simulation on Windows 64 bit, Linux 64 bit, and Mac OS X. 
+      </para>
+    </note>
+
+    <section>
+
+      <title>Import an FMU in the BCVTB</title>
+      <para>
+        To import an FMU in the BCVTB, use <guimenuitem>File -> Import -> Import FMU</guimenuitem> from the menu tab, which will prompt for a <code>.fmu</code> file. 
+        After providing a valid path to an FMU, the BCVTB reads and unzips the FMU, parses the file named <code>modelDescription.xml</code> that describes the ports and parameters,
+        and creates an actor which exposes the inputs and outputs of the FMU. To change the parameters of the FMU, double-click on the actor and set the new parameters.
+      </para>
+    </section>
+
+    <section>
+      <title>Example: Modelica room model in an FMU</title>
+        <para>
+          This example is available in the directory <code>examples/fmu-room</code>.
+          This example is the same as the example in <code>examples/dymola-room</code> except 
+	  that an FMU is used instead of Dymola to simulate the room model. 
+          </para>
+
+	 <section>
+	   <title> Create and export the Modelica model as an FMU</title>
+           <para>
+            As a starting point for this example, we used the Modelica room model shown in <xref linkend="configuration-dymola-room-schematic"></xref>. We added connectors for input and output signals. These signals  will be the inputs and outputs of the FMU which will be exposed in the Ptolemy II actor. <xref linkend="fig-configuration-fmu-modelica"></xref> shows the new configuration of the system model with the two inputs (<code>u_1</code>, <code>u_2</code>) and two outputs signals (<code>TRoo_1</code>, <code>TRoo_2</code>). Next, we exported the Modelica model as an FMU. This step is tool specific and is typically described in the user manual of the tool which is used to export the FMU for co-simulation.
+           </para>
+          <para>
+
+    	<figure xml:id="fig-configuration-fmu-modelica">
+     	<mediaobject>
+      	<imageobject role="html">
+       	<imagedata fileref="img/configurationFMUModelica.png" format="PNG"></imagedata>
+      	</imageobject>
+      	<imageobject role="dblatex">
+       	<imagedata fileref="img/configurationFMUModelica.pdf" format="PDF" scalefit="1"></imagedata>
+      	</imageobject>
+     	</mediaobject>
+     	<title>
+	     Graphical view of the Modelica model that is exported as an FMU for co-simulation.
+	      </title>
+    	</figure>
+    <note>
+      <para>
+       The Modelica model used to generate the FMU is provided in <code>BCVTB/examples/fmu-room/modelica</code>.
+      </para>
+      <para>
+       The FMU used in the example is provided in <code>BCVTB/examples/fmu-room/fmus</code>.
+      </para>
+    </note>
+   	</para>
+ </section>
+	 <section>
+	   <title> Create a Ptolemy II system model</title>
+           <para>
+            To simulate the FMU, a Ptolemy II system model needs to be created. We used the model <code>BCVTB/examples/dymola-room/system-windows.xml</code>, shown in
+            <xref linkend="fig-configuration-dymola-room-system"></xref> as a starting point. We replaced the <code>Simulator</code> actor with the imported FMU, and connected the input and output signals of the FMU with the corresponding variables in Ptolemy II. <xref linkend="fig-configuration-fmu-ptolemy"></xref> shows the configuration of the system model.
+
+           </para>
+          <para>
+
+    	<figure xml:id="fig-configuration-fmu-ptolemy">
+     	<mediaobject>
+      	<imageobject role="html">
+       	<imagedata fileref="img/configurationFMUPtolemy.png" format="PNG"></imagedata>
+      	</imageobject>
+      	<imageobject role="dblatex">
+       	<imagedata fileref="img/configurationFMUPtolemy.pdf" format="PDF" scalefit="1"></imagedata>
+      	</imageobject>
+     	</mediaobject>
+     	<title>
+	     Ptolemy II system model that links a model of a controller with the FMU for co-simulation.
+	      </title>
+    	</figure>
+   	</para>
+         </section>
+    </section> <!-- End of example -->
+
+ </section>
+
+<!-- *** FMUImport ******************************************* -->
 
 <!-- *** SystemCommand ******************************************* -->
  <section xml:id="tit-CustomExeCon">
