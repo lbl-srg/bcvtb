@@ -142,7 +142,7 @@ rem --------------------------------------------------
 rem ------------- C++ compiler -----------------------
 rem --------------------------------------------------
 rem The next command checks if the directory pointed to by BCVTB_SDKLib_DIR exists
-if exist "%BCVTB_SDKLib_DIR%" (
+if exist %BCVTB_SDKLib_DIR% (
   goto SETVARS2
 )
 echo **************************************************************
@@ -171,7 +171,7 @@ if exist %BCVTB_IFORT_BAT% echo haveIfort=true >> build.properties
 
 rem --- Check for MATLAB
 java -jar  "%BCVTB_HOME%\lib\config\getPath\build\jar\GetPath.jar" > setenv.temp
-find /c /i "matlab" setenv.temp > NUL
+rem --find /c /i "matlab" setenv.temp > NUL
 IF %ERRORLEVEL%==0 (
    echo haveMatlab=true >> build.properties
 ) ELSE (
