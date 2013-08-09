@@ -135,7 +135,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[-380.0, 250.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={83, 52, 1255, 771}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={83, 52, 1259, 764}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1039, 647]">
     </property>
@@ -385,7 +385,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="RunTime" class="ptolemy.actor.lib.gui.MonitorValue">
-        <property name="value" class="ptolemy.data.expr.Parameter" value="20.64">
+        <property name="value" class="ptolemy.data.expr.Parameter" value="0.484">
         </property>
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
@@ -438,7 +438,7 @@ This is for illustration purposes only and not needed by the above model.</text>
     <entity name="FMU-TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
         <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="$PTII\..\..\examples\fmu-room\fmus\windows\32\Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRooms.fmu">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[50.0, 145.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[55.0, 145.0]">
         </property>
         <property name="tau" class="ptolemy.data.expr.Parameter" value="7200.0">
         </property>
@@ -796,12 +796,12 @@ This is for illustration purposes only and not needed by the above model.</text>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
             </property>
         </port>
-        <port name="Troo_1" class="ptolemy.actor.TypedIOPort">
+        <port name="TRoo_1" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
             </property>
         </port>
-        <port name="Troo_2" class="ptolemy.actor.TypedIOPort">
+        <port name="TRoo_2" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
             </property>
@@ -926,6 +926,6 @@ This is for illustration purposes only and not needed by the above model.</text>
     <link port="VecDis.output" relation="relation13"/>
     <link port="FMU-TwoRooms.u_1" relation="relation12"/>
     <link port="FMU-TwoRooms.u_2" relation="relation13"/>
-    <link port="FMU-TwoRooms.Troo_1" relation="relation14"/>
-    <link port="FMU-TwoRooms.Troo_2" relation="relation15"/>
+    <link port="FMU-TwoRooms.TRoo_1" relation="relation14"/>
+    <link port="FMU-TwoRooms.TRoo_2" relation="relation15"/>
 </entity>
