@@ -171,7 +171,7 @@ if exist %BCVTB_IFORT_BAT% echo haveIfort=true >> build.properties
 
 rem --- Check for MATLAB
 java -jar  "%BCVTB_HOME%\lib\config\getPath\build\jar\GetPath.jar" > setenv.temp
-rem --find /c /i "matlab" setenv.temp > NUL
+find /c /i "matlab" setenv.temp > NUL
 IF %ERRORLEVEL%==0 (
    echo haveMatlab=true >> build.properties
 ) ELSE (
