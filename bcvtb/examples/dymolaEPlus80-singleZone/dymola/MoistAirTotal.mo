@@ -12370,25 +12370,6 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
     extends Modelica.Icons.Package;
 
-package System "Interaction with environment"
-      extends Modelica.Icons.Package;
-
-    function getEnvironmentVariable "Get content of environment variable"
-      //extends Modelica.Icons.Function;
-      input String name "Name of environment variable";
-      input Boolean convertToSlash =  false
-          "True, if native directory separators in 'result' shall be changed to '/'";
-      output String content
-          "Content of environment variable (empty, if not existent)";
-      output Boolean exist
-          "= true, if environment variable exists; = false, if it does not exist";
-      external "C" ModelicaInternal_getenv(name, convertToSlash, content, exist);
-        annotation (Library="ModelicaExternalC",Documentation(info="<html>
-
-</html>"));
-    end getEnvironmentVariable;
-    end System;
-
     package Streams "Read from files and write to files"
       extends Modelica.Icons.Package;
 
@@ -13595,6 +13576,7 @@ TU Hamburg-Harburg, Politecnico di Milano.
 end Modelica;
 
 package Buildings "Library with models for building energy and control systems"
+  extends Modelica.Icons.Package;
 
   package Controls "Package with models for controls"
     extends Modelica.Icons.Package;
@@ -13618,16 +13600,18 @@ package Buildings "Library with models for building energy and control systems"
         annotation (
       defaultComponentName="conPID",
       Documentation(info="<html>
+<p>
 This model is identical to 
 <a href=\"Modelica:Modelica.Blocks.Continuous.LimPID\">
 Modelica.Blocks.Continuous.LimPID</a> except
 that it can be configured to have a reverse action.
-</P>
+</p>
 <p>
 If the parameter <code>reverseAction=false</code> (the default),
 then <code>u_m &lt; u_s</code> increases the controller output, 
 otherwise the controller output is decreased.
 Thus, 
+</p>
 <ul>
 <li>
 for a heating coil with a two-way valve, set <code>reverseAction = false</code>,
@@ -13640,7 +13624,7 @@ for a cooling coils with a two-way valve, set <code>reverseAction = true</code>.
       revisions="<html>
 <ul>
 <li>
-February 24, 2010, by Michael Wetter:<br>
+February 24, 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -13878,9 +13862,11 @@ half an hour before occupancy starts in order to ventilate the room.
 </p>
 <p>
 The occupancy is defined by a time schedule of the form
+</p>
 <pre>
   occupancy = 3600*{7, 12, 14, 19}
 </pre>
+<p>
 This indicates that the occupancy is from <i>7:00</i> until <i>12:00</i>
 and from <i>14:00</i> to <i>19:00</i>. This will be repeated periodically.
 The parameter <code>periodicity</code> defines the periodicity.
@@ -13889,16 +13875,16 @@ The period always starts at <i>t=0</i> seconds.
 </html>",       revisions="<html>
 <ul>
 <li>
-September 11, 2012, by Michael Wetter:<br>
+September 11, 2012, by Michael Wetter:<br/>
 Added <code>pre</code> operator in <code>when</code> clause and relaxed
 tolerance in <code>assert</code> statement.
 </li>
 <li>
-July 26, 2012, by Michael Wetter:<br>
+July 26, 2012, by Michael Wetter:<br/>
 Fixed a bug that caused an error in the schedule if the simulation start time was negative or equal to the first entry in the schedule.
 </li>
 <li>
-February 16, 2012, by Michael Wetter:<br>
+February 16, 2012, by Michael Wetter:<br/>
 Removed parameter <code>startTime</code>. It was removed because <code>startTime=0</code>
 would imply that the schedule should not start for one day if the the simulation were
 to be started at <i>t=-8760</i> seconds.
@@ -13907,7 +13893,7 @@ is higher than <code>endTime</code>.
 Renamed parameter <code>endTime</code> to <code>period</code>.
 </li>
 <li>
-April 2, 2009, by Michael Wetter:<br>
+April 2, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -13973,18 +13959,18 @@ The heat flux connector is optional, it need not be connnected.
       revisions="<html>
 <ul>
 <li>
-September 24, 2008, by Michael Wetter:<br>
+September 24, 2008, by Michael Wetter:<br/>
 Changed base class from <code>Modelica.Fluid</code> to <code>Buildings</code> library.
 This was done to track the auxiliary species flow <code>mC_flow</code>.
 </li>
 <li>
-September 4, 2008, by Michael Wetter:<br>
+September 4, 2008, by Michael Wetter:<br/>
 Fixed bug in assignment of parameter <code>sta0</code>. 
 The earlier implementation
 required temperature to be a state, which is not always the case.
 </li>
 <li>
-March 17, 2008, by Michael Wetter:<br>
+March 17, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -14095,10 +14081,12 @@ Buildings.Fluid.FixedResistances.Pipe</a>.
 <p>
 This is a model of a resistance with a fixed flow coefficient.
 The mass flow rate is computed as
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
 m&#775; = k  
 &radic;<span style=\"text-decoration:overline;\">&Delta;P</span>,
 </p>
+<p>
 where 
 <i>k</i> is a constant and 
 <i>&Delta;P</i> is the pressure drop.
@@ -14113,7 +14101,6 @@ with finite slope.
 The value of <code>m_flow_turbulent</code> is
 computed as follows:
 </p>
-<p>
 <ul>
 <li>
 If the parameter <code>use_dh</code> is <code>false</code>
@@ -14134,7 +14121,6 @@ the medium model. The parameter
 can be set by the user.
 </li>
 </ul>
-</p>
 <p>
 The figure below shows the pressure drop for the parameters
 <code>m_flow_nominal=5</code> kg/s,
@@ -14142,7 +14128,7 @@ The figure below shows the pressure drop for the parameters
 <code>deltaM=0.3</code>.
 </p>
 <p align=\"center\">
-<img src=\"modelica://Buildings/Resources/Images/Fluid/FixedResistances/FixedResistanceDpM.png\"/>
+<img alt=\"image\" src=\"modelica://Buildings/Resources/Images/Fluid/FixedResistances/FixedResistanceDpM.png\"/>
 </p>
 <p>
 If the parameters 
@@ -14172,7 +14158,6 @@ This can be difficult to guarantee, as pressure imbalance after
 the initialization, or due to medium expansion and contraction,
 can lead to reverse flow.
 </p>
-<p>
 <h4>Notes</h4>
 <p>
 For more detailed models that compute the actual flow friction, 
@@ -14188,6 +14173,7 @@ The pressure drop is computed by calling a function in the package
 <a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels\">
 Buildings.Fluid.BaseClasses.FlowModels</a>,
 This package contains regularized implementations of the equation
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
 </p>
@@ -14203,11 +14189,11 @@ This leads to simpler equations.
 </html>",       revisions="<html>
 <ul>
 <li>
-December 14, 2012 by Michael Wetter:<br>
+December 14, 2012 by Michael Wetter:<br/>
 Renamed protected parameters for consistency with the naming conventions.
 </li>
 <li>
-January 16, 2012 by Michael Wetter:<br>
+January 16, 2012 by Michael Wetter:<br/>
 To simplify object inheritance tree, revised base classes
 <code>Buildings.Fluid.BaseClasses.PartialResistance</code>,
 <code>Buildings.Fluid.Actuators.BaseClasses.PartialTwoWayValve</code>,
@@ -14217,11 +14203,11 @@ and model
 <code>Buildings.Fluid.FixedResistances.FixedResistanceDpM</code>.
 </li>
 <li>
-May 30, 2008 by Michael Wetter:<br>
+May 30, 2008 by Michael Wetter:<br/>
 Added parameters <code>use_dh</code> and <code>deltaM</code> for easier parameterization.
 </li>
 <li>
-July 20, 2007 by Michael Wetter:<br>
+July 20, 2007 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -14346,16 +14332,16 @@ can be positive or negative.
       revisions="<html>
 <ul>
 <li>
-July 11, 2011, by Michael Wetter:<br>
+July 11, 2011, by Michael Wetter:<br/>
 Redeclared fluid volume as final. This prevents the fluid volume model
 to appear in the dialog window.
 </li>
 <li>
-May 24, 2011, by Michael Wetter:<br>
+May 24, 2011, by Michael Wetter:<br/>
 Changed base class to allow using the model as a dynamic or a steady-state model.
 </li>
 <li>
-April 17, 2008, by Michael Wetter:<br>
+April 17, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -14516,15 +14502,20 @@ in the species vector.
       revisions="<html>
 <ul>
 <li>
-May 24, 2011, by Michael Wetter:<br>
+July 30, 2013 by Michael Wetter:<br/>
+Updated model to use new variable <code>mWat_flow</code>
+in the base class.
+</li>
+<li>
+May 24, 2011, by Michael Wetter:<br/>
 Changed base class to allow using the model as a dynamic or a steady-state model.
 </li>
 <li>
-April 14, 2010, by Michael Wetter:<br>
+April 14, 2010, by Michael Wetter:<br/>
 Converted temperature input to a conditional connector.
 </li>
 <li>
-April 17, 2008, by Michael Wetter:<br>
+April 17, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -14545,8 +14536,8 @@ Buildings.Fluid.HeatExchangers</a>.
       "Mixing volume with inlet and outlet ports (flow reversal is allowed)"
         extends Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolume;
     protected
-        Modelica.Blocks.Sources.Constant       masExc[Medium.nXi](k=zeros(Medium.nXi)) if
-             Medium.nXi > 0 "Block to set mass exchange in volume"
+        Modelica.Blocks.Sources.Constant masExc(k=0)
+        "Block to set mass exchange in volume"
           annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
         Modelica.Blocks.Sources.RealExpression heaInp(y=heatPort.Q_flow)
         "Block to set heat input into volume"
@@ -14560,17 +14551,18 @@ Buildings.Fluid.HeatExchangers</a>.
             points={{-59,90},{28,90},{28,16},{38,16}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(masExc.y, steBal.mXi_flow) annotation (Line(
-            points={{-59,70},{-42,70},{-42,14},{-22,14}},
+        connect(masExc.y, dynBal.mWat_flow) annotation (Line(
+            points={{-59,70},{20,70},{20,12},{38,12}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(masExc.y, dynBal.mXi_flow) annotation (Line(
-            points={{-59,70},{20,70},{20,12},{38,12}},
+        connect(masExc.y, steBal.mWat_flow) annotation (Line(
+            points={{-59,70},{-40,70},{-40,14},{-22,14}},
             color={0,0,127},
             smooth=Smooth.None));
         annotation (
       defaultComponentName="vol",
       Documentation(info="<html>
+<p>
 This model represents an instantaneously mixed volume. 
 Potential and kinetic energy at the port are neglected,
 and there is no pressure drop at the ports.
@@ -14578,14 +14570,14 @@ The volume can exchange heat through its <code>heatPort</code>.
 </p>
 <p>
 The volume can be parameterized as a steady-state model or as
-dynamic model.
-</p>
+dynamic model.</p>
 <p>
 To increase the numerical robustness of the model, the parameter
 <code>prescribedHeatFlowRate</code> can be set by the user. 
 This parameter only has an effect if the model has exactly two fluid ports connected,
 and if it is used as a steady-state model.
 Use the following settings:
+</p>
 <ul>
 <li>Set <code>prescribedHeatFlowRate=true</code> if there is a model connected to <code>heatPort</code>
 that computes the heat flow rate <i>not</i> as a function of the temperature difference
@@ -14597,7 +14589,7 @@ is computed as <i>K * (T-heatPort.T)</i>, for some temperature <i>T</i> and some
 which may itself be a function of temperature or mass flow rate.
 </li>
 </ul>
-</p>
+
 <h4>Implementation</h4>
 <p>
 If the model is operated in steady-state and has two fluid ports connected,
@@ -14609,6 +14601,7 @@ is not used for the properties at the port.
 The implementation of these balance equations is done in the instances
 <code>dynBal</code> for the dynamic balance and <code>steBal</code>
 for the steady-state balance. Both models use the same input variables:
+</p>
 <ul>
 <li>
 The variable <code>Q_flow</code> is used to add sensible <i>and</i> latent heat to the fluid.
@@ -14621,7 +14614,7 @@ where <code>m_flowInv</code> approximates the expression <code>1/m_flow</code>.
 The variable <code>mXi_flow</code> is used to add a species mass flow rate to the fluid.
 </li>
 </ul>
-</p>
+
 <p>
 For simple models that uses this model, see
 <a href=\"modelica://Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed\">
@@ -14629,20 +14622,21 @@ Buildings.Fluid.HeatExchangers.HeaterCoolerPrescribed</a> and
 <a href=\"modelica://Buildings.Fluid.MassExchangers.HumidifierPrescribed\">
 Buildings.Fluid.MassExchangers.HumidifierPrescribed</a>.
 </p>
+
 </html>",       revisions="<html>
 <ul>
 <li>
-February 7, 2012 by Michael Wetter:<br>
+February 7, 2012 by Michael Wetter:<br/>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
 </li>
 <li>
-September 17, 2011 by Michael Wetter:<br>
+September 17, 2011 by Michael Wetter:<br/>
 Removed instance <code>medium</code> as this is already used in <code>dynBal</code>.
 Removing the base properties led to 30% faster computing time for a solar thermal system
 that contains many fluid volumes. 
 </li>
 <li>
-September 13, 2011 by Michael Wetter:<br>
+September 13, 2011 by Michael Wetter:<br/>
 Changed in declaration of <code>medium</code> the parameter assignment
 <code>preferredMediumStates=true</code> to
 <code>preferredMediumStates= not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)</code>.
@@ -14650,18 +14644,18 @@ Otherwise, for a steady-state model, Dymola 2012 may differentiate the model to 
 as a state. See ticket Dynasim #13596.
 </li>
 <li>
-July 26, 2011 by Michael Wetter:<br>
+July 26, 2011 by Michael Wetter:<br/>
 Revised model to use new declarations from
 <a href=\"Buildings.Fluid.Interfaces.LumpedVolumeDeclarations\">
 Buildings.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
 </li>
 <li>
-July 14, 2011 by Michael Wetter:<br>
+July 14, 2011 by Michael Wetter:<br/>
 Added start values for mass and internal energy of dynamic balance
 model.
 </li>
 <li>
-May 25, 2011 by Michael Wetter:<br>
+May 25, 2011 by Michael Wetter:<br/>
 <ul>
 <li>
 Changed implementation of balance equation. The new implementation uses a different model if 
@@ -14683,20 +14677,20 @@ no noticable overhead in always having the <code>heatPort</code> connector prese
 </ul>
 </li>
 <li>
-July 30, 2010 by Michael Wetter:<br>
+July 30, 2010 by Michael Wetter:<br/>
 Added nominal value for <code>mC</code> to avoid wrong trajectory 
 when concentration is around 1E-7.
 See also <a href=\"https://trac.modelica.org/Modelica/ticket/393\">
 https://trac.modelica.org/Modelica/ticket/393</a>.
 </li>
 <li>
-February 7, 2010 by Michael Wetter:<br>
+February 7, 2010 by Michael Wetter:<br/>
 Simplified model and its base classes by removing the port data
 and the vessel area.
 Eliminated the base class <code>PartialLumpedVessel</code>.
 </li>
 <li>
-October 12, 2009 by Michael Wetter:<br>
+October 12, 2009 by Michael Wetter:<br/>
 Changed base class to
 <a href=\"modelica://Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume\">
 Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
@@ -14713,7 +14707,9 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
                 textString="V=%V"),         Text(
                 extent={{-152,100},{148,140}},
                 textString="%name",
-                lineColor={0,0,255})}));
+                lineColor={0,0,255})}),
+          Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+                  100}}),     graphics));
       end MixingVolume;
 
       model MixingVolumeMoistAir
@@ -14727,19 +14723,16 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
           Modelica.Media.Interfaces.PartialCondensingGases
             annotation (choicesAllMatching = true);
 
+        Modelica.SIunits.HeatFlowRate HWat_flow = mWat_flow * Medium.enthalpyOfLiquid(TWat)
+        "Enthalpy flow rate of extracted water";
     protected
         parameter Integer i_w(min=1, fixed=false) "Index for water substance";
-        parameter Real s[Medium.nXi](fixed=false)
+        parameter Real s[Medium.nXi](each fixed=false)
         "Vector with zero everywhere except where species is";
 
-    protected
-        Modelica.Blocks.Sources.RealExpression
-          masExc[Medium.nXi](y=mXi_flow) if
-             Medium.nXi > 0 "Block to set mass exchange in volume"
-          annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
-        Modelica.Blocks.Sources.RealExpression heaInp(y=heatPort.Q_flow + HWat_flow)
-        "Block to set heat input into volume"
-          annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+        Modelica.Blocks.Sources.RealExpression heaInp(final y=
+           heatPort.Q_flow + HWat_flow) "Block to set heat input into volume"
+          annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
       initial algorithm
         i_w:= -1;
         for i in 1:Medium.nXi loop
@@ -14757,32 +14750,28 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
                + "Check medium model.");
 
       equation
-        HWat_flow = mWat_flow * Medium.enthalpyOfLiquid(TWat);
-        // We obtain the substance concentration with a vector multiplication
-        // because Dymola 7.4 cannot find the derivative in the model
-        // Buildings.Fluid.HeatExchangers.Examples.WetCoilDiscretizedPControl
-        // if we set mXi_flow[i] = if ( i == i_w) then mWat_flow else 0;
-          mXi_flow = mWat_flow * s;
       // Medium species concentration
         X_w = s * Xi;
 
         connect(heaInp.y, steBal.Q_flow) annotation (Line(
-            points={{-59,80},{-32,80},{-32,18},{-22,18}},
-            color={0,0,127},
-            smooth=Smooth.None));
-        connect(masExc.y, steBal.mXi_flow) annotation (Line(
-            points={{-59,60},{-40,60},{-40,14},{-22,14}},
+            points={{-59,50},{-32,50},{-32,18},{-22,18}},
             color={0,0,127},
             smooth=Smooth.None));
         connect(heaInp.y, dynBal.Q_flow) annotation (Line(
-            points={{-59,80},{26,80},{26,16},{38,16}},
+            points={{-59,50},{26,50},{26,16},{38,16}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(masExc.y, dynBal.mXi_flow) annotation (Line(
-            points={{-59,60},{20,60},{20,12},{38,12}},
+        connect(mWat_flow, steBal.mWat_flow) annotation (Line(
+            points={{-120,80},{-40,80},{-40,14},{-22,14}},
             color={0,0,127},
             smooth=Smooth.None));
-        annotation (Diagram(graphics),
+        connect(mWat_flow, dynBal.mWat_flow) annotation (Line(
+            points={{-120,80},{20,80},{20,12},{38,12}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                  -100},{100,100}}),
+                            graphics),
                              Icon(graphics),
       defaultComponentName="vol",
       Documentation(info="<html>
@@ -14813,27 +14802,38 @@ Buildings.Fluid.MixingVolumes.MixingVolumeDryAir</a>.
 </html>",       revisions="<html>
 <ul>
 <li>
-April 18, 2013 by Michael Wetter:<br>
+July 30, 2013 by Michael Wetter:<br/>
+Changed connector <code>mXi_flow[Medium.nXi]</code>
+to a scalar input connector <code>mWat_flow</code>
+in the conservation equation model.
+The reason is that <code>mXi_flow</code> does not allow
+to compute the other components in <code>mX_flow</code> and
+therefore leads to an ambiguous use of the model.
+By only requesting <code>mWat_flow</code>, the mass balance
+and species balance can be implemented correctly.
+</li>
+<li>
+April 18, 2013 by Michael Wetter:<br/>
 Removed the use of the deprecated
 <code>cardinality</code> function.
 Therefore, all input signals must be connected.
 </li>
 <li>
-February 7, 2012 by Michael Wetter:<br>
+February 7, 2012 by Michael Wetter:<br/>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
 </li>
 <li>
-February 22, by Michael Wetter:<br>
+February 22, by Michael Wetter:<br/>
 Improved the code that searches for the index of 'water' in the medium model.
 </li>
 <li>
-May 29, 2010 by Michael Wetter:<br>
+May 29, 2010 by Michael Wetter:<br/>
 Rewrote computation of index of water substance.
 For the old formulation, Dymola 7.4 failed to differentiate the 
 model when trying to reduce the index of the DAE.
 </li>
 <li>
-August 7, 2008 by Michael Wetter:<br>
+August 7, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -14854,7 +14854,7 @@ First implementation.
           // Port definitions
           parameter Integer nPorts=0 "Number of ports"
             annotation(Evaluate=true, Dialog(connectorSizing=true, tab="General",group="Ports"));
-          parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
+          parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
           "Small mass flow rate for regularization of zero flow"
             annotation(Dialog(tab = "Advanced"));
           parameter Boolean homotopyInitialization = true
@@ -14936,9 +14936,9 @@ First implementation.
           // Outputs that are needed to assign the medium properties
           Modelica.Blocks.Interfaces.RealOutput hOut_internal(unit="J/kg")
           "Internal connector for leaving temperature of the component";
-          Modelica.Blocks.Interfaces.RealOutput XiOut_internal[Medium.nXi](unit="1")
+          Modelica.Blocks.Interfaces.RealOutput XiOut_internal[Medium.nXi](each unit="1")
           "Internal connector for leaving species concentration of the component";
-          Modelica.Blocks.Interfaces.RealOutput COut_internal[Medium.nC](unit="1")
+          Modelica.Blocks.Interfaces.RealOutput COut_internal[Medium.nC](each unit="1")
           "Internal connector for leaving trace substances of the component";
 
         equation
@@ -14991,12 +14991,13 @@ First implementation.
           annotation (
         defaultComponentName="vol",
         Documentation(info="<html>
+<p>
 This is a partial model of an instantaneously mixed volume.
 It is used as the base class for all fluid volumes of the package
 <a href=\"modelica://Buildings.Fluid.MixingVolumes\">
 Buildings.Fluid.MixingVolumes</a>.
 </p>
-</p>
+
 <h4>Implementation</h4>
 <p>
 If the model is operated in steady-state and has two fluid ports connected,
@@ -15012,23 +15013,23 @@ Buildings.Fluid.MixingVolumes</a>.
 </html>",         revisions="<html>
 <ul>
 <li>
-April 18, 2013 by Michael Wetter:<br>
+April 18, 2013 by Michael Wetter:<br/>
 Removed the check of multiple connections to the same element
 of a fluid port, as this check required the use of the deprecated
 <code>cardinality</code> function.
 </li>
 <li>
-February 7, 2012 by Michael Wetter:<br>
+February 7, 2012 by Michael Wetter:<br/>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
 </li>
 <li>
-September 17, 2011 by Michael Wetter:<br>
+September 17, 2011 by Michael Wetter:<br/>
 Removed instance <code>medium</code> as this is already used in <code>dynBal</code>.
 Removing the base properties led to 30% faster computing time for a solar thermal system
 that contains many fluid volumes. 
 </li>
 <li>
-September 13, 2011 by Michael Wetter:<br>
+September 13, 2011 by Michael Wetter:<br/>
 Changed in declaration of <code>medium</code> the parameter assignment
 <code>preferredMediumStates=true</code> to
 <code>preferredMediumStates= not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)</code>.
@@ -15036,18 +15037,18 @@ Otherwise, for a steady-state model, Dymola 2012 may differentiate the model to 
 as a state. See ticket Dynasim #13596.
 </li>
 <li>
-July 26, 2011 by Michael Wetter:<br>
+July 26, 2011 by Michael Wetter:<br/>
 Revised model to use new declarations from
 <a href=\"Buildings.Fluid.Interfaces.LumpedVolumeDeclarations\">
 Buildings.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
 </li>
 <li>
-July 14, 2011 by Michael Wetter:<br>
+July 14, 2011 by Michael Wetter:<br/>
 Added start values for mass and internal energy of dynamic balance
 model.
 </li>
 <li>
-May 25, 2011 by Michael Wetter:<br>
+May 25, 2011 by Michael Wetter:<br/>
 <ul>
 <li>
 Changed implementation of balance equation. The new implementation uses a different model if 
@@ -15069,20 +15070,20 @@ no noticable overhead in always having the <code>heatPort</code> connector prese
 </ul>
 </li>
 <li>
-July 30, 2010 by Michael Wetter:<br>
+July 30, 2010 by Michael Wetter:<br/>
 Added nominal value for <code>mC</code> to avoid wrong trajectory 
 when concentration is around 1E-7.
 See also <a href=\"https://trac.modelica.org/Modelica/ticket/393\">
 https://trac.modelica.org/Modelica/ticket/393</a>.
 </li>
 <li>
-February 7, 2010 by Michael Wetter:<br>
+February 7, 2010 by Michael Wetter:<br/>
 Simplified model and its base classes by removing the port data
 and the vessel area.
 Eliminated the base class <code>PartialLumpedVessel</code>.
 </li>
 <li>
-October 12, 2009 by Michael Wetter:<br>
+October 12, 2009 by Michael Wetter:<br/>
 Changed base class to
 <a href=\"modelica://Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume\">
 Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
@@ -15112,7 +15113,7 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
           "Water flow rate added into the medium"
             annotation (Placement(transformation(extent={{-140,60},{-100,100}},rotation=
                    0)));
-          Modelica.Blocks.Interfaces.RealInput TWat(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealInput TWat(final quantity="ThermodynamicTemperature",
                                                     final unit = "K", displayUnit = "degC", min=260)
           "Temperature of liquid that is drained from or injected into volume"
             annotation (Placement(transformation(extent={{-140,28},{-100,68}},
@@ -15121,10 +15122,6 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
           "Species composition of medium"
             annotation (Placement(transformation(extent={{100,-60},{140,-20}}, rotation=
                    0)));
-          Medium.MassFlowRate mXi_flow[Medium.nXi]
-          "Mass flow rates of independent substances added to the medium";
-          Modelica.SIunits.HeatFlowRate HWat_flow
-          "Enthalpy flow rate of extracted water";
 
           annotation (
             Documentation(info="<html>
@@ -15133,7 +15130,7 @@ It is used as the base class for all fluid volumes of the package
 <a href=\"modelica://Buildings.Fluid.MixingVolumes\">
 Buildings.Fluid.MixingVolumes</a>
 that add or remove humidity from the volume.
-</p>
+<br/>
 <h4>Implementation</h4>
 <p>
 The model is partial in order to allow a submodel that can be used with media
@@ -15146,33 +15143,44 @@ is used that does not implement this function.
 </html>",         revisions="<html>
 <ul>
 <li>
-February 7, 2012 by Michael Wetter:<br>
+July 30, 2013 by Michael Wetter:<br/>
+Changed connector <code>mXi_flow[Medium.nXi]</code>
+to a scalar input connector <code>mWat_flow</code>
+in the conservation equation model.
+The reason is that <code>mXi_flow</code> does not allow
+to compute the other components in <code>mX_flow</code> and
+therefore leads to an ambiguous use of the model.
+By only requesting <code>mWat_flow</code>, the mass balance
+and species balance can be implemented correctly.
+</li>
+<li>
+February 7, 2012 by Michael Wetter:<br/>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
 </li>
 <li>
-January 10, 2011 by Michael Wetter:<br>
+January 10, 2011 by Michael Wetter:<br/>
 Removed <code>ports_p_static</code> and used instead <code>medium.p</code> since
 <code>ports_p_static</code> is not available in 
 <a href=\"modelica://Buildings.Fluid.MixingVolumes.MixingVolume\">
 Buildings.Fluid.MixingVolumes.MixingVolume</a> which is sometimes used to replace this model.
 </li>
 <li>
-July 30, 2010 by Michael Wetter:<br>
+July 30, 2010 by Michael Wetter:<br/>
 Added nominal value for <code>mC</code> to avoid wrong trajectory 
 when concentration is around 1E-7.
 See also <a href=\"https://trac.modelica.org/Modelica/ticket/393\">
 https://trac.modelica.org/Modelica/ticket/393</a>.
 </li>
 <li>
-March 24, 2010 by Michael Wetter:<br>
+March 24, 2010 by Michael Wetter:<br/>
 Changed base class from <code>Modelica.Fluid</code> to <code>Buildings.Fluid</code>.
 <li>
-August 12, 2008 by Michael Wetter:<br>
+August 12, 2008 by Michael Wetter:<br/>
 Introduced option to compute model in steady state. This allows the heat exchanger model
 to switch from a dynamic model for the medium to a steady state model.
 </li>
 <li>
-August 13, 2008 by Michael Wetter:<br>
+August 13, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15306,25 +15314,25 @@ User's Guide</a> for more information.
 </html>",   revisions="<html>
 <ul>
 <li>
-February 14, 2012, by Michael Wetter:<br>
+February 14, 2012, by Michael Wetter:<br/>
 Added filter for start-up and shut-down transient.
 </li>
 <li>
-May 25, 2011, by Michael Wetter:<br>
+May 25, 2011, by Michael Wetter:<br/>
 Revised implementation of energy balance to avoid having to use conditionally removed models.
 </li>
 <li>
-July 27, 2010, by Michael Wetter:<br>
+July 27, 2010, by Michael Wetter:<br/>
 Redesigned model to fix bug in medium balance.
 </li>
-<li>March 24, 2010, by Michael Wetter:<br>
+<li>March 24, 2010, by Michael Wetter:<br/>
 Revised implementation to allow zero flow rate.
 </li>
 <li>October 1, 2009,
-    by Michael Wetter:<br>
+    by Michael Wetter:<br/>
        Model added to the Buildings library. Changed control signal from rpm to normalized value between 0 and 1</li>
 <li><i>31 Oct 2005</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
+    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br/>
        Model added to the Fluid library</li>
 </ul>
 </html>"));
@@ -15355,7 +15363,7 @@ must have the same size.
 </html>", revisions="<html>
 <ul>
 <li>
-September 28, 2011, by Michael Wetter:<br>
+September 28, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15393,7 +15401,7 @@ in the <code>initial algorithm</code> section, which is not supported.
 </html>", revisions="<html>
 <ul>
 <li>
-March 22, 2013, by Michael Wetter:<br>
+March 22, 2013, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15419,7 +15427,7 @@ must have the same size.
 </html>", revisions="<html>
 <ul>
 <li>
-September 28, 2011, by Michael Wetter:<br>
+September 28, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15445,12 +15453,12 @@ must have the same size.
 </html>", revisions="<html>
 <ul>
 <li>
-October 10, 2012, by Michael Wetter:<br>
+October 10, 2012, by Michael Wetter:<br/>
 Fixed wrong <code>displayUnit</code> and 
 <code>max</code> attribute for power.
 </li>
 <li>
-September 28, 2011, by Michael Wetter:<br>
+September 28, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15591,7 +15599,7 @@ in all input variables.
 </html>",         revisions="<html>
 <ul>
 <li>
-August 25, 2011, by Michael Wetter:<br>
+August 25, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15623,7 +15631,7 @@ approaches zero.
 </html>",         revisions="<html>
 <ul>
 <li>
-August 25, 2011, by Michael Wetter:<br>
+August 25, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15696,7 +15704,7 @@ If the data <i>d</i> define a monotone decreasing sequence, then
 </html>",         revisions="<html>
 <ul>
 <li>
-September 28, 2011, by Michael Wetter:<br>
+September 28, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15763,7 +15771,7 @@ If the data <i>d</i> define a monotone decreasing sequence, then
 </html>",         revisions="<html>
 <ul>
 <li>
-September 28, 2011, by Michael Wetter:<br>
+September 28, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15775,9 +15783,9 @@ This package implements performance curves for fans and pumps,
 and records for parameter that can be used with these performance
 curves.
 </p>
-<p>
-The following performance curves are implemented:
-<table border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+
+The following performance curves are implemented:<br/>
+<table summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
 <tr>
 <th>Independent variable</th>
 <th>Dependent variable</th>
@@ -15809,12 +15817,11 @@ powerParameters</a></td>
 power</a></td>
 </tr>
 </table>
-</p>
 </html>",
         revisions="<html>
 <ul>
 <li>
-September 29, 2011, by Michael Wetter:<br>
+September 29, 2011, by Michael Wetter:<br/>
 New implementation due to changes from polynomial to cubic hermite splines.
 </li>
 </ul>
@@ -15867,14 +15874,14 @@ or the normalized pump speed <code>y=Nrpm/N_nominal</code>.
 </html>",     revisions="<html>
 <ul>
 <li>
-May 25, 2011, by Michael Wetter:<br>
+May 25, 2011, by Michael Wetter:<br/>
 Revised implementation of energy balance to avoid having to use conditionally removed models.
 </li>
 <li>
-July 27, 2010, by Michael Wetter:<br>
+July 27, 2010, by Michael Wetter:<br/>
 Redesigned model to fix bug in medium balance.
 </li>
-<li>March 24 2010, by Michael Wetter:<br>
+<li>March 24 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -15923,6 +15930,7 @@ First implementation.
 
           // Models
           Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+          "Heat dissipation to environment"
             annotation (Placement(transformation(extent={{-70,-90},{-50,-70}}),
                 iconTransformation(extent={{-10,-78},{10,-58}})));
 
@@ -16049,18 +16057,18 @@ and more robust simulation, in particular if the mass flow is equal to zero.
 </html>",     revisions="<html>
 <ul>
 <li>
-May 25, 2011, by Michael Wetter:<br>
+May 25, 2011, by Michael Wetter:<br/>
 Revised implementation of energy balance to avoid having to use conditionally removed models.
 </li>
 <li>
-July 29, 2010, by Michael Wetter:<br>
+July 29, 2010, by Michael Wetter:<br/>
 Reduced fan time constant from 10 to 1 second.
 </li>
 <li>
-July 27, 2010, by Michael Wetter:<br>
+July 27, 2010, by Michael Wetter:<br/>
 Redesigned model to fix bug in medium balance.
 </li>
-<li>March 24 2010, by Michael Wetter:<br>
+<li>March 24 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -16155,20 +16163,20 @@ adding heat to the volume, and flow work to this model.
         revisions="<html>
 <ul>
 <li>
-May 25, 2011 by Michael Wetter:<br>
+May 25, 2011 by Michael Wetter:<br/>
 Removed the option to add power to the medium, as this is dealt with in the volume
 that is used in the mover model.
 </li>
 <li>
-July 27, 2010 by Michael Wetter:<br>
+July 27, 2010 by Michael Wetter:<br/>
 Redesigned model to fix bug in medium balance.
 </li>
 <li>
-April 13, 2010 by Michael Wetter:<br>
+April 13, 2010 by Michael Wetter:<br/>
 Made heat connector optional.
 </li>
 <li>
-March 23, 2010 by Michael Wetter:<br>
+March 23, 2010 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -16211,7 +16219,11 @@ First implementation.
           parameter Modelica.SIunits.Density rho_default
           "Fluid density at medium default state";
 
-          Modelica.SIunits.Power PEle "Electrical power input";
+          Modelica.Blocks.Interfaces.RealOutput P(quantity="Modelica.SIunits.Power",
+           unit="W") "Electrical power consumed"
+          annotation (Placement(transformation(extent={{100,70},{120,90}},
+                rotation=0)));
+
           Modelica.SIunits.Power WHyd
           "Hydraulic power input (converted to flow work and heat)";
           Modelica.SIunits.Power WFlo "Flow work";
@@ -16250,7 +16262,9 @@ First implementation.
            else
               Buildings.Utilities.Math.Functions.splineDerivatives(
               x=motorEfficiency.r_V,
-              y=motorEfficiency.eta);
+              y=motorEfficiency.eta,
+              ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=motorEfficiency.eta,
+                                                                                strict=false));
           hydDer :=
              if use_powerCharacteristic then
                zeros(size(hydraulicEfficiency.r_V, 1))
@@ -16262,13 +16276,13 @@ First implementation.
                            y=hydraulicEfficiency.eta);
         equation
           eta = etaHyd * etaMot;
-        //  WFlo = eta * PEle;
+        //  WFlo = eta * P;
           // Flow work
           WFlo = dpMachine*VMachine_flow;
           // Hydraulic power (transmitted by shaft), etaHyd = WFlo/WHyd
           etaHyd * WHyd   = WFlo;
           // Heat input into medium
-          QThe_flow +  WFlo = if motorCooledByFluid then PEle else WHyd;
+          QThe_flow +  WFlo = if motorCooledByFluid then P else WHyd;
           // At m_flow = 0, the solver may still obtain positive values for QThe_flow.
           // The next statement sets the heat input into the medium to zero for very small flow rates.
           if homotopyInitialization then
@@ -16281,7 +16295,9 @@ First implementation.
           end if;
           annotation (
             Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
-                    100}})),
+                    100}}), graphics={
+                Text(extent={{64,86},{114,72}},   textString="P",
+                  lineColor={0,0,127})}),
             Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
                     100,100}}),
                     graphics),
@@ -16294,25 +16310,25 @@ Buildings.Fluid.Movers.BaseClasses.FlowMachineInterface</a>.
 <h4>Implementation</h4>
 <p>
 Models that extend this model need to provide an implementation of
-<code>WFlo = eta * PEle</code>.
+<code>WFlo = eta * P</code>.
 This equation is not implemented in this model to allow other models
 to properly guard against division by zero.
 </p>
 </html>",     revisions="<html>
 <ul>
 <li>
-December 14, 2012 by Michael Wetter:<br>
+December 14, 2012 by Michael Wetter:<br/>
 Renamed protected parameters for consistency with the naming conventions.
 </li>
-<li><i>October 11, 2012</i> by Michael Wetter:<br>
-    Removed <code>WFlo = eta * PEle</code> so that classes that use this partial model
+<li><i>October 11, 2012</i> by Michael Wetter:<br/>
+    Removed <code>WFlo = eta * P</code> so that classes that use this partial model
     can properly implement the equation so it guards against division by zero.
 </li>
 <li><i>March 1, 2010</i>
-    by Michael Wetter:<br>
+    by Michael Wetter:<br/>
     Revised implementation to allow <code>N=0</code>.
 <li><i>October 1, 2009</i>
-    by Michael Wetter:<br>
+    by Michael Wetter:<br/>
     Changed model so that it is based on total pressure in Pascals instead of the pump head in meters.
     This change is needed if the device is used with air as a medium. The original formulation in Modelica.Fluid
     converts head to pressure using the density medium.d. Therefore, for fans, head would be converted to pressure
@@ -16321,7 +16337,7 @@ Renamed protected parameters for consistency with the naming conventions.
     the model has been changed to use total pressure in Pascals instead of head in meters.
 </li>
 <li><i>31 Oct 2005</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
+    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br/>
        Model added to the Fluid library</li>
 </ul>
 </html>"));
@@ -16444,7 +16460,9 @@ Renamed protected parameters for consistency with the naming conventions.
            if use_powerCharacteristic then
              Buildings.Utilities.Math.Functions.splineDerivatives(
                            x=power.V_flow,
-                           y=power.P)
+                           y=power.P,
+                           ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=power.P,
+                                                                                             strict=false))
            else
              zeros(size(power.V_flow,1))
           "Coefficients for polynomial of pressure vs. flow rate";
@@ -16771,21 +16789,21 @@ the simulation stops.");
           end if;
           // Power consumption
           if use_powerCharacteristic then
-            // For the homotopy, we want PEle/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
+            // For the homotopy, we want P/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
             // temperature near zero flow.
             if homotopyInitialization then
-              PEle = homotopy(actual=cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer),
+              P = homotopy(actual=cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer),
                               simplified=VMachine_flow/V_flow_nominal*
                                     cha.power(data=power, V_flow=V_flow_nominal, r_N=1, d=powDer));
             else
-              PEle = (rho/rho_default)*cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer);
+              P = (rho/rho_default)*cha.power(data=power, V_flow=VMachine_flow, r_N=r_N, d=powDer);
             end if;
             // To compute the efficiency, we set a lower bound on the electricity consumption.
-            // This is needed because WFlo can be close to zero when PEle is zero, thereby
+            // This is needed because WFlo can be close to zero when P is zero, thereby
             // causing a division by zero.
-            // Earlier versions of the model computed WFlo = eta * PEle, but this caused
+            // Earlier versions of the model computed WFlo = eta * P, but this caused
             // a division by zero.
-            eta = WFlo / Buildings.Utilities.Math.Functions.smoothMax(x1=PEle, x2=1E-5, deltaX=1E-6);
+            eta = WFlo / Buildings.Utilities.Math.Functions.smoothMax(x1=P, x2=1E-5, deltaX=1E-6);
             // In this configuration, we only now the total power consumption.
             // Because nothing is known about etaMot versus etaHyd, we set etaHyd=1. This will
             // cause etaMot=eta, because eta=etaHyd*etaMot.
@@ -16804,12 +16822,12 @@ the simulation stops.");
             end if;
             // To compute the electrical power, we set a lower bound for eta to avoid
             // a division by zero.
-            PEle = WFlo / Buildings.Utilities.Math.Functions.smoothMax(x1=eta, x2=1E-5, deltaX=1E-6);
+            P = WFlo / Buildings.Utilities.Math.Functions.smoothMax(x1=eta, x2=1E-5, deltaX=1E-6);
 
           end if;
 
           annotation (
-            Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
+            Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
                     100}}), graphics={
                 Line(
                   points={{0,70},{40,70}},
@@ -16830,7 +16848,7 @@ A cubic hermite spline with linear extrapolation is used to compute the performa
 operating points.
 </p>
 <p>The fan or pump energy balance can be specified in two alternative ways: </p>
-<p>
+
 <ul>
 <li>
 If <code>use_powerCharacteristic = false</code>, then the data points for
@@ -16844,7 +16862,7 @@ is used to determine the power consumption, and then the efficiency
 is computed based on the actual power consumption and the flow work. 
 </li>
 </ul>
-</p>
+
 <h4>Implementation</h4>
 <p>
 For numerical reasons, the user-provided data points for volume flow rate 
@@ -16868,39 +16886,38 @@ to be used during the simulation.
         revisions="<html>
 <ul>
 <li>
-March 20, 2013, by Michael Wetter:<br>
+March 20, 2013, by Michael Wetter:<br/>
 Removed assignment in declaration of <code>pCur?.V_flow</code> as
 these parameters have the attribute <code>fixed=false</code> set.
 </li>
 <li>
-October 11, 2012, by Michael Wetter:<br>
-Added implementation of <code>WFlo = eta * PEle</code> with
+October 11, 2012, by Michael Wetter:<br/>
+Added implementation of <code>WFlo = eta * P</code> with
 guard against division by zero.
 Changed implementation of <code>etaMot=sqrt(eta)</code> to 
 <code>etaHyd = 1</code> to avoid infinite derivative as <code>eta</code>
 converges to zero.
 </li>
-</li>
 <li>
-February 20, 2012, by Michael Wetter:<br>
+February 20, 2012, by Michael Wetter:<br/>
 Assigned value to nominal attribute of <code>VMachine_flow</code>.
 </li>
 <li>
-February 14, 2012, by Michael Wetter:<br>
+February 14, 2012, by Michael Wetter:<br/>
 Added filter for start-up and shut-down transient.
 </li>
 <li>
-October 4 2011, by Michael Wetter:<br>
+October 4 2011, by Michael Wetter:<br/>
 Revised the implementation of the pressure drop computation as a function
 of speed and volume flow rate.
 The new implementation avoids a singularity near zero volume flow rate and zero speed.
 </li>
 <li>
-March 28 2011, by Michael Wetter:<br>
+March 28 2011, by Michael Wetter:<br/>
 Added <code>homotopy</code> operator.
 </li>
 <li>
-March 23 2010, by Michael Wetter:<br>
+March 23 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -16924,24 +16941,20 @@ This package contains components models for fans and pumps.
       model EnthalpyFlowRate "Ideal enthalphy flow rate sensor"
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Modelica.Icons.RotationalSensor;
-
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
         "Enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{-10,-10},{10,10}},
               rotation=90)));
-
         parameter Modelica.SIunits.SpecificEnthalpy h_out_start=
           Medium.specificEnthalpy_pTX(Medium.p_default, Medium.T_default, Medium.X_default)
         "Initial or guess value of measured specific enthalpy"
           annotation (Dialog(group="Initialization"));
-
         Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
         "Medium enthalpy to which the sensor is exposed";
         Modelica.SIunits.SpecificEnthalpy h_out(start=h_out_start)
         "Medium enthalpy that is used to compute the enthalpy flow rate";
-
       initial equation
         if dynamic then
           if initType == Modelica.Blocks.Types.Init.SteadyState then
@@ -16951,7 +16964,6 @@ This package contains components models for fans and pumps.
             h_out = h_out_start;
           end if;
         end if;
-
       equation
         if allowFlowReversal then
           hMed_out = Modelica.Fluid.Utilities.regStep(port_a.m_flow,
@@ -16968,7 +16980,6 @@ This package contains components models for fans and pumps.
         end if;
         // Sensor output signal
         H_flow = port_a.m_flow * h_out;
-
       annotation (defaultComponentName="senEntFlo",
         Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}})),
@@ -17001,17 +17012,15 @@ Buildings.Fluid.Sensors.LatentEnthalpyFlowRate</a>.
 </p>
 </html>
 ",       revisions="<html>
-<html>
-<p>
 <ul>
 <li>
-June 3, 2011 by Michael Wetter:<br>
+June 3, 2011 by Michael Wetter:<br/>
 Revised implementation to add dynamics in such a way that 
 the time constant increases as the mass flow rate tends to zero.
 This can improve the numerics.
 </li>
 <li>
-April 9, 2008 by Michael Wetter:<br>
+April 9, 2008 by Michael Wetter:<br/>
 First implementation.
 Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
 </li>
@@ -17024,7 +17033,6 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Buildings.Fluid.BaseClasses.IndexWater;
         extends Modelica.Icons.RotationalSensor;
-
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
         "Sensible enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
@@ -17035,7 +17043,7 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
           Medium.enthalpyOfNonCondensingGas(
             Medium.temperature(Medium.setState_phX(
               Medium.p_default, Medium.T_default, Medium.X_default)))
-        "<html>Initial or guess value of measured specific <b>sensible</b> enthalpy</html>"
+        "Initial or guess value of measured specific sensible enthalpy"
           annotation (Dialog(group="Initialization"));
         Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
         "Medium sensible enthalpy to which the sensor is exposed";
@@ -17117,13 +17125,16 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
 <p>
 This component monitors the <i>sensible</i> enthalphy flow rate of the medium in the flow
 between fluid ports. In particular, if the total enthalpy flow rate is
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   H&#775;<sub>tot</sub> = H&#775;<sub>sen</sub> + H&#775;<sub>lat</sub>,
 </p>
+<p>
 where 
 <i>H&#775;<sub>sen</sub> = m&#775; (1-X<sub>w</sub>) c<sub>p,air</sub></i>, 
 then this sensor outputs <i>H&#775; = H&#775;<sub>sen</sub></i>. 
 </p>
+
 <p>
 If the parameter <code>tau</code> is non-zero, then the measured
 specific sensible enthalpy <i>h<sub>out</sub></i> that is used to 
@@ -17133,25 +17144,27 @@ is computed using a first order differential equation.
 See <a href=\"modelica://Buildings.Fluid.Sensors.UsersGuide\">
 Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
+
 <p>
 For a sensor that measures 
 <i>H&#775;<sub>tot</sub></i>, use
 <a href=\"modelica://Buildings.Fluid.Sensors.EnthalpyFlowRate\">
-Buildings.Fluid.Sensors.EnthalpyFlowRate</a>.<br>
+Buildings.Fluid.Sensors.EnthalpyFlowRate</a>.<br/>
 For a sensor that measures 
 <i>H&#775;<sub>lat</sub></i>, use
 <a href=\"modelica://Buildings.Fluid.Sensors.LatentEnthalpyFlowRate\">
 Buildings.Fluid.Sensors.LatentEnthalpyFlowRate</a>.
+</p>
+
 <p>
 The sensor is ideal, i.e., it does not influence the fluid.
 The sensor can only be used with medium models that implement the function
-<code>enthalpyOfNonCondensingGas(state)</code>.
-</p>
-</html>
-",       revisions="<html>
+<code>enthalpyOfNonCondensingGas(state)</code>.</p>
+
+</html>",      revisions="<html>
 <ul>
 <li>
-December 18, 2012, by Michael Wetter:<br>
+December 18, 2012, by Michael Wetter:<br/>
 Moved computation of <code>i_w</code> to new base class
 <a href=\"modelica://Buildings.Fluid.BaseClasses.IndexWater\">
 Buildings.Fluid.BaseClasses.IndexWater</a>.
@@ -17159,29 +17172,29 @@ The value of this parameter is now assigned dynamically and does not require to 
 by the user.
 </li>
 <li>
-November 3, 2011, by Michael Wetter:<br>
+November 3, 2011, by Michael Wetter:<br/>
 Moved <code>der(h_out) := 0;</code> from the initial algorithm section to 
 the initial equation section
 as this assignment does not conform to the Modelica specification.
 </li>
 <li>
-August 10, 2011 by Michael Wetter:<br>
+August 10, 2011 by Michael Wetter:<br/>
 Added parameter <code>i_w</code> and an assert statement to
 make sure it is set correctly. Without this change, Dymola
 cannot differentiate the model when reducing the index of the DAE.
 </li>
 <li>
-June 3, 2011 by Michael Wetter:<br>
+June 3, 2011 by Michael Wetter:<br/>
 Revised implementation to add dynamics in such a way that 
 the time constant increases as the mass flow rate tends to zero.
 This can improve the numerics.
 </li>
 <li>
-February 22, by Michael Wetter:<br>
+February 22, by Michael Wetter:<br/>
 Improved code that searches for index of 'water' in the medium model.
 </li>
 <li>
-September 9, 2009 by Michael Wetter:<br>
+September 9, 2009 by Michael Wetter:<br/>
 First implementation.
 Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
 </li>
@@ -17193,7 +17206,6 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor;
         extends Modelica.Icons.RotationalSensor;
         parameter String substanceName = "water" "Name of species substance";
-
         Modelica.Blocks.Interfaces.RealOutput X(min=0, max=1, start=X_start)
         "Mass fraction of the passing fluid"
           annotation (Placement(transformation(
@@ -17211,7 +17223,6 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         Medium.MassFraction XiVec[Medium.nXi](
             quantity=Medium.extraPropertiesNames)
         "Trace substances vector, needed because indexed argument for the operator inStream is not supported";
-
       initial algorithm
         // Compute the index of the element in the substance vector
         ind:= -1;
@@ -17235,7 +17246,6 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
             X = X_start;
           end if;
         end if;
-
       equation
         if allowFlowReversal then
           XiVec = Modelica.Fluid.Utilities.regStep(port_a.m_flow,
@@ -17250,7 +17260,6 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         else
           X = XMed;
         end if;
-
       annotation (defaultComponentName="senMasFra",
         Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{
                   100,100}},
@@ -17277,27 +17286,25 @@ Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
 </html>
 ",       revisions="<html>
-<html>
-<p>
 <ul>
 <li>
-November 3, 2011, by Michael Wetter:<br>
+November 3, 2011, by Michael Wetter:<br/>
 Moved <code>der(X) := 0;</code> from the initial algorithm section to 
 the initial equation section
 as this assignment does not conform to the Modelica specification.
 </li>
 <li>
-June 3, 2011 by Michael Wetter:<br>
+June 3, 2011 by Michael Wetter:<br/>
 Revised implementation to add dynamics in such a way that 
 the time constant increases as the mass flow rate tends to zero.
 This significantly improves the numerics.
 </li>
 <li>
-February 22, by Michael Wetter:<br>
+February 22, by Michael Wetter:<br/>
 Improved code that searches for index of the substance name in the medium model.
 </li>
 <li>
-Feb. 8, 2011 by Michael Wetter:<br>
+Feb. 8, 2011 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -17306,8 +17313,7 @@ First implementation.
 
       model TemperatureTwoPort "Ideal two port temperature sensor"
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor;
-
-        Modelica.Blocks.Interfaces.RealOutput T(final quantity="Temperature",
+        Modelica.Blocks.Interfaces.RealOutput T(final quantity="ThermodynamicTemperature",
                                                 final unit="K",
                                                 displayUnit = "degC",
                                                 min = 0,
@@ -17317,7 +17323,6 @@ First implementation.
               origin={0,110},
               extent={{10,-10},{-10,10}},
               rotation=270)));
-
         parameter Modelica.SIunits.Temperature T_start=Medium.T_default
         "Initial or guess value of output (= state)"
           annotation (Dialog(group="Initialization"));
@@ -17353,7 +17358,6 @@ First implementation.
         else
           T = TMed;
         end if;
-
       annotation (defaultComponentName="senTem",
         Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
                   100}}),
@@ -17404,17 +17408,15 @@ Buildings.Fluid.Sensors.UsersGuide</a> for an explanation.
 </p>
 </html>
 ",       revisions="<html>
-<html>
-<p>
 <ul>
 <li>
-June 3, 2011 by Michael Wetter:<br>
+June 3, 2011 by Michael Wetter:<br/>
 Revised implementation to add dynamics in such a way that 
 the time constant increases as the mass flow rate tends to zero.
 This significantly improves the numerics.
 </li>
 <li>
-February 26, 2010 by Michael Wetter:<br>
+February 26, 2010 by Michael Wetter:<br/>
 Set start attribute for temperature output. Prior to this change,
 the output was 0 at initial time, which caused the plot of the output to 
 use 0 Kelvin as the lower value of the ordinate.
@@ -17424,7 +17426,7 @@ use 0 Kelvin as the lower value of the ordinate.
       revisions="<html>
 <ul>
 <li>
-September 10, 2008, by Michael Wetter:<br>
+September 10, 2008, by Michael Wetter:<br/>
 First implementation.
 Implementation is based on 
 <a href=\"modelica://Buildings.Fluid.Sensors.Temperature\">Buildings.Fluid.Sensors.Temperature</a>.
@@ -17479,7 +17481,7 @@ improving the numerical efficiency.
 </html>",         revisions="<html>
 <ul>
 <li>
-March 29, 2013, by Michael Wetter:<br>
+March 29, 2013, by Michael Wetter:<br/>
 Changed the parameter <code>initType</code> to
 <code>Modelica.Blocks.Types.Init.InitialState</code>.
 This allows a pedantic model check in Dymola 2014 of models that instanciate sensors
@@ -17487,7 +17489,7 @@ but do not set this parameter. It also ensures that different Modelica simulator
 the same initialization problem.
 </li>
 <li>
-July 7, 2011, by Michael Wetter:<br>
+July 7, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -17497,10 +17499,10 @@ First implementation.
         partial model PartialFlowSensor
         "Partial component to model sensors that measure flow properties"
           extends Modelica.Fluid.Interfaces.PartialTwoPort;
-          parameter Medium.MassFlowRate m_flow_nominal(min=0)
+          parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
           "Nominal mass flow rate, used for regularization near zero flow"
             annotation(Dialog(group = "Nominal condition"));
-          parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
+          parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
           "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
             annotation(Dialog(group="Advanced"));
         equation
@@ -17525,7 +17527,7 @@ species or substance balance, and it has no flow friction.
         revisions="<html>
 <ul>
 <li>
-February 12, 2011, by Michael Wetter:<br>
+February 12, 2011, by Michael Wetter:<br/>
 First implementation.
 Implementation is based on <code>Modelica.Fluid</code>.
 </li>
@@ -17568,10 +17570,10 @@ model the time constant of the sensor).
     <li>adapted documentation to stream connectors, i.e. less need for two port sensors</li>
     </ul>
 <li><i>4 Dec 2008</i>
-    by Michael Wetter<br>
+    by Michael Wetter<br/>
        included sensors for trace substance</li>
 <li><i>31 Oct 2007</i>
-    by Carsten Heinrich<br>
+    by Carsten Heinrich<br/>
        updated sensor models, included one and two port sensors for thermodynamic state variables</li>
 </ul>
 </html>"));
@@ -17743,7 +17745,7 @@ with exception of boundary pressure, do not have an effect.
       revisions="<html>
 <ul>
 <li>
-September 29, 2009, by Michael Wetter:<br>
+September 29, 2009, by Michael Wetter:<br/>
 First implementation.
 Implementation is based on <code>Modelica.Fluid</code>.
 </li>
@@ -17769,7 +17771,7 @@ Implementation is based on <code>Modelica.Fluid</code>.
         parameter Boolean use_C_in = false
         "Get the trace substances from the input connector"
           annotation(Evaluate=true, HideResult=true);
-        parameter Medium.MassFlowRate m_flow = 0
+        parameter Modelica.SIunits.MassFlowRate m_flow = 0
         "Fixed mass flow rate going out of the fluid port"
           annotation (Evaluate = true,
                       Dialog(enable = not use_m_flow_in));
@@ -17936,7 +17938,7 @@ with exception of boundary flow rate, do not have an effect.
       revisions="<html>
 <ul>
 <li>
-September 29, 2009, by Michael Wetter:<br>
+September 29, 2009, by Michael Wetter:<br/>
 First implementation. 
 </li>
 </ul>
@@ -17994,25 +17996,29 @@ to define fixed or prescribed ambient conditions.
         Documentation(info="<html>
 <p>
 Function that computes the pressure drop of flow elements as
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
 </p>
+<p>
 with regularization near the origin.
 Therefore, the flow coefficient is
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   k = m &frasl; &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span> 
 </p>
+<p>
 The input <code>m_flow_turbulent</code> determines the location of the regularization.
 </p>
 </html>",         revisions="<html>
 <ul>
 <li>
-August 10, 2011, by Michael Wetter:<br>
+August 10, 2011, by Michael Wetter:<br/>
 Removed <code>if-then</code> optimization that set <code>m_flow=0</code> if <code>dp=0</code>,
 as this causes the derivative to be discontinuous at <code>dp=0</code>.
 </li>
 <li>
-August 4, 2011, by Michael Wetter:<br>
+August 4, 2011, by Michael Wetter:<br/>
 Implemented linearized model in this model instead of 
 in the functions
 <a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp\">
@@ -18025,7 +18031,7 @@ the symbolic processor may not rearrange the equations, which can lead
 to coupled equations instead of an explicit solution.
 </li>
 <li>
-March 29, 2010 by Michael Wetter:<br>
+March 29, 2010 by Michael Wetter:<br/>
 Changed implementation to allow <code>k=0</code>, which is
 the case for a closed valve with no leakage
 </li>
@@ -18034,14 +18040,14 @@ the case for a closed valve with no leakage
         revisions="<html>
 <ul>
 <li>
-August 4, 2011, by Michael Wetter:<br>
+August 4, 2011, by Michael Wetter:<br/>
 Removed option to use a linear function. The linear implementation is now done
 in models that call this function. With the previous implementation, 
 the symbolic processor may not rearrange the equations, which can lead 
 to coupled equations instead of an explicit solution.
 </li>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18081,33 +18087,37 @@ First implementation.
         Documentation(info="<html>
 <p>
 Function that computes the pressure drop of flow elements as
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   &Delta;p = sign(m) (m &frasl; k)<sup>2</sup> 
 </p>
+<p>
 with regularization near the origin.
 Therefore, the flow coefficient is
+</p>
 <p align=\"center\" style=\"font-style:italic;\">
   k = m &frasl; &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span> 
 </p>
+<p>
 The input <code>m_flow_turbulent</code> determines the location of the regularization.
 </p>
 </html>"),
         revisions="<html>
 <ul>
 <li>
-August 10, 2011, by Michael Wetter:<br>
+August 10, 2011, by Michael Wetter:<br/>
 Removed <code>if-then</code> optimization that set <code>dp=0</code> if <code>m_flow=0</code>,
 as this causes the derivative to be discontinuous at <code>m_flow=0</code>.
 </li>
 <li>
-August 4, 2011, by Michael Wetter:<br>
+August 4, 2011, by Michael Wetter:<br/>
 Removed option to use a linear function. The linear implementation is now done
 in models that call this function. With the previous implementation, 
 the symbolic processor may not rearrange the equations, which can lead 
 to coupled equations instead of an explicit solution.
 </li>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18131,7 +18141,7 @@ then a user can use models from the
 </html>",       revisions="<html>
 <ul>
 <li>
-April 10, 2009 by Michael Wetter:<br>
+April 10, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18167,7 +18177,7 @@ and terminates the simulation.
 </html>",       revisions="<html>
 <ul>
 <li>
-December 18, 2012, by Michael Wetter:<br>
+December 18, 2012, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18259,20 +18269,20 @@ this base class.
 </html>",       revisions="<html>
 <ul>
 <li>
-December 14, 2012 by Michael Wetter:<br>
+December 14, 2012 by Michael Wetter:<br/>
 Renamed protected parameters for consistency with the naming conventions.
 </li>
 <li>
-February 12, 2012, by Michael Wetter:<br>
+February 12, 2012, by Michael Wetter:<br/>
 Removed duplicate declaration of <code>m_flow_nominal</code>.
 </li>
 <li>
-February 3, 2012, by Michael Wetter:<br>
+February 3, 2012, by Michael Wetter:<br/>
 Made assignment of <code>m_flow_small</code> <code>final</code> as it is no
 longer used in the base class.
 </li>
 <li>
-January 16, 2012, by Michael Wetter:<br>
+January 16, 2012, by Michael Wetter:<br/>
 To simplify object inheritance tree, revised base classes
 <code>Buildings.Fluid.BaseClasses.PartialResistance</code>,
 <code>Buildings.Fluid.Actuators.BaseClasses.PartialTwoWayValve</code>,
@@ -18282,35 +18292,35 @@ and model
 <code>Buildings.Fluid.FixedResistances.FixedResistanceDpM</code>.
 </li>
 <li>
-August 5, 2011, by Michael Wetter:<br>
+August 5, 2011, by Michael Wetter:<br/>
 Moved linearized pressure drop equation from the function body to the equation
 section. With the previous implementation, 
 the symbolic processor may not rearrange the equations, which can lead 
 to coupled equations instead of an explicit solution.
 </li>
 <li>
-June 20, 2011, by Michael Wetter:<br>
+June 20, 2011, by Michael Wetter:<br/>
 Set start values for <code>m_flow</code> and <code>dp</code> to zero, since
 most HVAC systems start at zero flow. With this change, the start values
 appear in the GUI and can be set by the user.
 </li>
 <li>
-April 2, 2011 by Michael Wetter:<br>
+April 2, 2011 by Michael Wetter:<br/>
 Added <code>m_flow_nominal_pos</code> and <code>dp_nominal_pos</code> to allow
 providing negative nominal values which will be used, for example, to set start
 values of flow splitters which may have negative flow rates and pressure drop
 at the initial condition.
 </li>
 <li>
-March 23, 2011 by Michael Wetter:<br>
+March 23, 2011 by Michael Wetter:<br/>
 Added homotopy operator.
 </li>
 <li>
-March 30, 2010 by Michael Wetter:<br>
+March 30, 2010 by Michael Wetter:<br/>
 Changed base classes to allow easier initialization.
 </li>
 <li>
-July 20, 2007 by Michael Wetter:<br>
+July 20, 2007 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18318,23 +18328,23 @@ First implementation.
       revisions="<html>
 <ul>
 <li>
-March 27, 2011, by Michael Wetter:<br>
+March 27, 2011, by Michael Wetter:<br/>
 Added <code>homotopy</code> operator.
 </li>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 Extracted pressure drop computation and implemented it in the
 new model
 <a href=\"modelica://Buildings.Fluid.BaseClasses.FlowModels.BasicFlowModel\">
 Buildings.Fluid.BaseClasses.FlowModels.BasicFlowModel</a>.
 </li>
 <li>
-September 18, 2008, by Michael Wetter:<br>
+September 18, 2008, by Michael Wetter:<br/>
 Added equations for the mass balance of extra species flow,
 i.e., <code>C</code> and <code>mC_flow</code>.
 </li>
 <li>
-July 20, 2007 by Michael Wetter:<br>
+July 20, 2007 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18478,7 +18488,7 @@ the base class
 <a href=\"modelica://Buildings.Fluid.Interfaces.PartialTwoPortInterface\">
 Buildings.Fluid.Interfaces.PartialTwoPortInterface</a>.
 </p>
-<p>
+
 For models that extend this model, see for example
 <ul>
 <li>
@@ -18497,7 +18507,7 @@ the boiler
 Buildings.Fluid.Boilers.BoilerPolynomial</a>.
 </li>
 </ul>
-</p>
+
 <h4>Implementation</h4>
 <p>
 The variable names follow the conventions used in 
@@ -18508,59 +18518,59 @@ Modelica.Fluid.Examples.HeatExchanger.BaseClasses.BasicHX
 </html>",       revisions="<html>
 <ul>
 <li>
-December 14, 2012 by Michael Wetter:<br>
+December 14, 2012 by Michael Wetter:<br/>
 Renamed protected parameters for consistency with the naming conventions.
 </li>
 <li>
-October 17, 2012, by Michael Wetter:<br>
+October 17, 2012, by Michael Wetter:<br/>
 Fixed broken link in documentation.
 </li>
 <li>
-February 3, 2012, by Michael Wetter:<br>
+February 3, 2012, by Michael Wetter:<br/>
 Removed assignment of <code>m_flow_small</code> as it is no
 longer used in the pressure drop model.
 </li>
 <li>
-January 15, 2011, by Michael Wetter:<br>
+January 15, 2011, by Michael Wetter:<br/>
 Fixed wrong class reference in information section.
 </li>
 <li>
-September 13, 2011, by Michael Wetter:<br>
+September 13, 2011, by Michael Wetter:<br/>
 Changed assignment of <code>vol(mass/energyDynamics=...)</code> as the
 previous assignment caused a non-literal start value that was ignored.
 </li>
 <li>
-July 29, 2011, by Michael Wetter:<br>
+July 29, 2011, by Michael Wetter:<br/>
 Added start value for outflowing enthalpy.
 </li>
 <li>
-July 11, 2011, by Michael Wetter:<br>
+July 11, 2011, by Michael Wetter:<br/>
 Changed parameterization of fluid volume so that steady-state balance is
 used when <code>tau = 0</code>.
 </li>
 <li>
-May 25, 2011, by Michael Wetter:<br>
+May 25, 2011, by Michael Wetter:<br/>
 Removed temperature sensor and changed implementation of fluid volume
 to allow use of this model for the steady-state and dynamic humidifier
 <a href=\"modelica://Buildings.Fluid.MassExchangers.HumidifierPrescribed\">
 Buildings.Fluid.MassExchangers.HumidifierPrescribed</a>.
 </li>
 <li>
-March 25, 2011, by Michael Wetter:<br>
+March 25, 2011, by Michael Wetter:<br/>
 Added homotopy operator.
 </li>
 <li>
-March 21, 2010 by Michael Wetter:<br>
+March 21, 2010 by Michael Wetter:<br/>
 Changed pressure start value from <code>system.p_start</code>
 to <code>Medium.p_default</code> since HVAC models may have water and 
 air, which are typically at different pressures.
 </li>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 Added model to compute flow friction.
 </li>
 <li>
-January 29, 2009 by Michael Wetter:<br>
+January 29, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18597,9 +18607,10 @@ First implementation.
           port_b(p(start=Medium.p_default,
                  nominal=Medium.p_default)));
 
-        parameter Medium.MassFlowRate m_flow_nominal "Nominal mass flow rate"
+        parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+        "Nominal mass flow rate"
           annotation(Dialog(group = "Nominal condition"));
-        parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
+        parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
         "Small mass flow rate for regularization of zero flow"
           annotation(Dialog(tab = "Advanced"));
         parameter Boolean homotopyInitialization = true
@@ -18618,7 +18629,7 @@ First implementation.
             m_flow/Medium.density(sta_a) if show_V_flow
         "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
 
-        Medium.MassFlowRate m_flow(start=0) = port_a.m_flow
+        Modelica.SIunits.MassFlowRate m_flow(start=0) = port_a.m_flow
         "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
         Modelica.SIunits.Pressure dp(start=0, displayUnit="Pa")
         "Pressure difference between port_a and port_b";
@@ -18660,10 +18671,12 @@ This component defines the interface for models that
 transports a fluid between two ports. It is similar to 
 <a href=\"Modelica://Modelica.Fluid.Interfaces.PartialTwoPortTransport\">
 Modelica.Fluid.Interfaces.PartialTwoPortTransport</a>, but it does not 
-include the species balance 
+include the species balance
+</p> 
 <pre>
   port_b.Xi_outflow = inStream(port_a.Xi_outflow);
 </pre>
+<p>
 Thus, it can be used as a base class for a heat <i>and</i> mass transfer component
 </p>
 <p>
@@ -18675,11 +18688,11 @@ Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>.
 </html>",       revisions="<html>
 <ul>
 <li>
-April 26, 2013 by Marco Bonvini:<br>
+April 26, 2013 by Marco Bonvini:<br/>
 Moved the definition of <code>dp</code> because it causes some problem with PyFMI.
 </li>
 <li>
-March 27, 2012 by Michael Wetter:<br>
+March 27, 2012 by Michael Wetter:<br/>
 Changed condition to remove <code>sta_a</code> to also
 compute the state at the inlet port if <code>show_V_flow=true</code>. 
 The previous implementation resulted in a translation error
@@ -18687,22 +18700,22 @@ if <code>show_V_flow=true</code>, but worked correctly otherwise
 because the erroneous function call is removed if  <code>show_V_flow=false</code>.
 </li>
 <li>
-March 27, 2011 by Michael Wetter:<br>
+March 27, 2011 by Michael Wetter:<br/>
 Added <code>homotopy</code> operator.
 </li>
 <li>
-March 21, 2010 by Michael Wetter:<br>
+March 21, 2010 by Michael Wetter:<br/>
 Changed pressure start value from <code>system.p_start</code>
 to <code>Medium.p_default</code> since HVAC models may have water and 
 air, which are typically at different pressures.
 </li>
 <li>
-September 19, 2008 by Michael Wetter:<br>
+September 19, 2008 by Michael Wetter:<br/>
 Added equations for the mass balance of extra species flow,
 i.e., <code>C</code> and <code>mC_flow</code>.
 </li>
 <li>
-March 11, 2008, by Michael Wetter:<br>
+March 11, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -18735,7 +18748,7 @@ First implementation.
                            then StateSelect.prefer else StateSelect.default),
           Xi(start=X_start[1:Medium.nXi],
              nominal=Medium.X_default[1:Medium.nXi],
-             stateSelect=if (not (substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState))
+             each stateSelect=if (not (substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState))
                            then StateSelect.prefer else StateSelect.default),
           d(start=rho_nominal)) "Medium properties";
 
@@ -18747,7 +18760,7 @@ First implementation.
         "Masses of trace substances in the fluid";
         // C need to be added here because unlike for Xi, which has medium.Xi,
         // there is no variable medium.C
-        Medium.ExtraProperty C[Medium.nC](nominal=C_nominal)
+        Medium.ExtraProperty C[Medium.nC](each nominal=C_nominal)
         "Trace substance mixture content";
 
         Modelica.SIunits.MassFlowRate mb_flow "Mass flows across boundaries";
@@ -18764,8 +18777,8 @@ First implementation.
         Modelica.Blocks.Interfaces.RealInput Q_flow(unit="W")
         "Heat transfered into the medium"
           annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-        Modelica.Blocks.Interfaces.RealInput mXi_flow[Medium.nXi](unit="kg/s")
-        "Mass flow rates of independent substances added to the medium"
+        Modelica.Blocks.Interfaces.RealInput mWat_flow(unit="kg/s")
+        "Moisture mass flow rate added to the medium"
           annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
 
         // Outputs that are needed in models that extend this model
@@ -18791,7 +18804,7 @@ First implementation.
         "= true to set up initial equations for pressure";
 
         Medium.EnthalpyFlowRate ports_H_flow[nPorts];
-        Medium.MassFlowRate ports_mXi_flow[nPorts,Medium.nXi];
+        Modelica.SIunits.MassFlowRate ports_mXi_flow[nPorts,Medium.nXi];
         Medium.ExtraPropertyFlowRate ports_mC_flow[nPorts,Medium.nC];
 
         parameter Modelica.SIunits.Density rho_nominal=Medium.density(
@@ -18800,6 +18813,14 @@ First implementation.
            p=p_start,
            X=X_start[1:Medium.nXi])) "Density, used to compute fluid mass"
         annotation (Evaluate=true);
+
+        // Parameters that are used to construct the vector mXi_flow
+        parameter Integer i_w(min=1, fixed=false) "Index for water substance";
+        final parameter Real s[Medium.nXi] = {if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
+                                                  string2="Water",
+                                                  caseSensitive=false)
+                                                  then 1 else 0 for i in 1:Medium.nXi}
+        "Vector with zero everywhere except where species is";
       equation
         // Total quantities
         m = fluidVolume*medium.d;
@@ -18839,15 +18860,15 @@ First implementation.
         end if;
 
         if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
-          0 = mb_flow + sum(mXi_flow);
+          0 = mb_flow + mWat_flow;
         else
-          der(m) = mb_flow + sum(mXi_flow);
+          der(m) = mb_flow + mWat_flow;
         end if;
 
         if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
-          zeros(Medium.nXi) = mbXi_flow + mXi_flow;
+          zeros(Medium.nXi) = mbXi_flow + mWat_flow * s;
         else
-          der(mXi) = mbXi_flow + mXi_flow;
+          der(mXi) = mbXi_flow + mWat_flow * s;
         end if;
 
         if traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
@@ -18863,6 +18884,21 @@ First implementation.
             ports[i].Xi_outflow = medium.Xi;
             ports[i].C_outflow  = C;
         end for;
+
+      initial algorithm
+        i_w:= -1;
+        for i in 1:Medium.nXi loop
+            if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
+                                                  string2="Water",
+                                                  caseSensitive=false) then
+            i_w := i;
+            end if;
+         end for;
+          assert(Medium.nXi == 0 or abs(sum(s)-1) < 1e-5,
+            "If Medium.nXi > 1, then substance 'water' must be present for one component.'"
+               + Medium.mediumName + "'.\n"
+               + "Check medium model.");
+
       initial equation
         // Make sure that if energyDynamics is SteadyState, then
         // massDynamics is also SteadyState.
@@ -18927,17 +18963,15 @@ needs to be assigned.
 For most components, this can be set to a parameter. However, for components such as 
 expansion vessels, the fluid volume can change in time.
 </p>
-<p>
 Input connectors of the model are
 <ul>
 <li>
 <code>Q_flow</code>, which is the sensible plus latent heat flow rate added to the medium, and
 </li>
 <li>
-<code>mXi_flow</code>, which is the species mass flow rate added to the medium.
+<code>mWat_flow</code>, which is the moisture mass flow rate added to the medium.
 </li>
 </ul>
-</p>
 <p>
 The model can be used as a dynamic model or as a steady-state model.
 However, for a steady-state model with exactly two fluid ports connected, 
@@ -18956,18 +18990,28 @@ Buildings.Fluid.Storage.ExpansionVessel</a>.
 </html>",       revisions="<html>
 <ul>
 <li>
-March 27, 2013 by Michael Wetter:<br>
+July 30, 2013 by Michael Wetter:<br/>
+Changed connector <code>mXi_flow[Medium.nXi]</code>
+to a scalar input connector <code>mWat_flow</code>.
+The reason is that <code>mXi_flow</code> does not allow
+to compute the other components in <code>mX_flow</code> and
+therefore leads to an ambiguous use of the model.
+By only requesting <code>mWat_flow</code>, the mass balance
+and species balance can be implemented correctly.
+</li>
+<li>
+March 27, 2013 by Michael Wetter:<br/>
 Removed wrong unit attribute of <code>COut</code>,
 and added min and max attributes for <code>XiOut</code>.
 </li>
 <li>
-July 31, 2011 by Michael Wetter:<br>
+July 31, 2011 by Michael Wetter:<br/>
 Added test to stop model translation if the setting for
 <code>energyBalance</code> and <code>massBalance</code>
 can lead to inconsistent equations.
 </li>
 <li>
-July 26, 2011 by Michael Wetter:<br>
+July 26, 2011 by Michael Wetter:<br/>
 Removed the option to use <code>h_start</code>, as this
 is not needed for building simulation. 
 Also removed the reference to <code>Modelica.Fluid.System</code>.
@@ -18975,40 +19019,40 @@ Moved parameters and medium to
 <a href=\"Buildings.Fluid.Interfaces.LumpedVolumeDeclarations\">
 Buildings.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
 <li>
-July 14, 2011 by Michael Wetter:<br>
+July 14, 2011 by Michael Wetter:<br/>
 Added start value for medium density.
 </li>
 <li>
-March 29, 2011 by Michael Wetter:<br>
+March 29, 2011 by Michael Wetter:<br/>
 Changed default value for <code>substanceDynamics</code> and
 <code>traceDynamics</code> from <code>energyDynamics</code>
 to <code>massDynamics</code>.
 </li>
 <li>
-September 28, 2010 by Michael Wetter:<br>
+September 28, 2010 by Michael Wetter:<br/>
 Changed array index for nominal value of <code>Xi</code>.
 <li>
-September 13, 2010 by Michael Wetter:<br>
+September 13, 2010 by Michael Wetter:<br/>
 Set nominal attributes for medium based on default medium values.
 </li>
 <li>
-July 30, 2010 by Michael Wetter:<br>
+July 30, 2010 by Michael Wetter:<br/>
 Added parameter <code>C_nominal</code> which is used as the nominal attribute for <code>C</code>.
 Without this value, the ODE solver gives wrong results for concentrations around 1E-7.
 </li>
 <li>
-March 21, 2010 by Michael Wetter:<br>
+March 21, 2010 by Michael Wetter:<br/>
 Changed pressure start value from <code>system.p_start</code>
 to <code>Medium.p_default</code> since HVAC models may have water and 
 air, which are typically at different pressures.
 </li>
-<li><i>February 6, 2010</i> by Michael Wetter:<br>
+<li><i>February 6, 2010</i> by Michael Wetter:<br/>
 Added to <code>Medium.BaseProperties</code> the initialization 
 <code>X(start=X_start[1:Medium.nX])</code>. Previously, the initialization
 was only done for <code>Xi</code> but not for <code>X</code>, which caused the
 medium to be initialized to <code>reference_X</code>, ignoring the value of <code>X_start</code>.
 </li>
-<li><i>October 12, 2009</i> by Michael Wetter:<br>
+<li><i>October 12, 2009</i> by Michael Wetter:<br/>
 Implemented first version in <code>Buildings</code> library, based on model from
 <code>Modelica.Fluid 1.0</code>.
 </li>
@@ -19024,7 +19068,7 @@ Implemented first version in <code>Buildings</code> library, based on model from
               Text(
                 extent={{-89,17},{-54,34}},
                 lineColor={0,0,127},
-                textString="mXi_flow"),
+                textString="mWat_flow"),
               Text(
                 extent={{-89,52},{-54,69}},
                 lineColor={0,0,127},
@@ -19055,12 +19099,12 @@ Implemented first version in <code>Buildings</code> library, based on model from
       "Partial model for static energy and mass conservation equations"
         extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
         showDesignFlowDirection = false);
-      //  import Modelica.Constants;
+
         Modelica.Blocks.Interfaces.RealInput Q_flow(unit="W")
         "Heat transfered into the medium"
           annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-        Modelica.Blocks.Interfaces.RealInput mXi_flow[Medium.nXi](unit="kg/s")
-        "Mass flow rates of independent substances added to the medium"
+        Modelica.Blocks.Interfaces.RealInput mWat_flow(unit="kg/s")
+        "Moisture mass flow rate added to the medium"
           annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
         constant Boolean sensibleOnly "Set to true if sensible exchange only";
         // Outputs that are needed in models that extend this model
@@ -19090,7 +19134,34 @@ Implemented first version in <code>Buildings</code> library, based on model from
         "Set to true to improve numerical robustness";
     protected
         Real m_flowInv(unit="s/kg") "Regularization of 1/m_flow";
+
+        Modelica.SIunits.MassFlowRate mXi_flow[Medium.nXi]
+        "Mass flow rates of independent substances added to the medium";
+
+        // Parameters that are used to construct the vector mXi_flow
+        parameter Integer i_w(min=1, fixed=false) "Index for water substance";
+        final parameter Real s[Medium.nXi] = {if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
+                                                  string2="Water",
+                                                  caseSensitive=false)
+                                                  then 1 else 0 for i in 1:Medium.nXi}
+        "Vector with zero everywhere except where species is";
+      initial algorithm
+        i_w:= -1;
+        for i in 1:Medium.nXi loop
+            if Modelica.Utilities.Strings.isEqual(string1=Medium.substanceNames[i],
+                                                  string2="Water",
+                                                  caseSensitive=false) then
+            i_w := i;
+            end if;
+         end for;
+          assert(Medium.nXi == 0 or abs(sum(s)-1) < 1e-5,
+            "If Medium.nXi > 1, then substance 'water' must be present for one component.'"
+               + Medium.mediumName + "'.\n"
+               + "Check medium model.");
+
       equation
+       // Species flow rate from connector mWat_flow
+       mXi_flow = mWat_flow * s;
         // Regularization of m_flow around the origin to avoid a division by zero
        if use_safeDivision then
           m_flowInv = Buildings.Utilities.Math.Functions.inverseXRegularized(x=port_a.m_flow, delta=m_flow_small/1E3);
@@ -19136,32 +19207,27 @@ Implemented first version in <code>Buildings</code> library, based on model from
           port_b.C_outflow = inStream(port_a.C_outflow);
         else
           // Mass balance (no storage)
-          port_a.m_flow + port_b.m_flow = -sum(mXi_flow);
+          port_a.m_flow + port_b.m_flow = -mWat_flow;
           // Energy balance.
           // This equation is approximate since m_flow = port_a.m_flow is used for the mass flow rate
-          // at both ports. Since mXi_flow << m_flow, the error is small.
+          // at both ports. Since mWat_flow << m_flow, the error is small.
           if use_safeDivision then
             port_b.h_outflow = inStream(port_a.h_outflow) + Q_flow * m_flowInv;
             port_a.h_outflow = inStream(port_b.h_outflow) - Q_flow * m_flowInv;
             // Transport of species
-            for i in 1:Medium.nXi loop
-              port_b.Xi_outflow[i] = inStream(port_a.Xi_outflow[i]) + mXi_flow[i] * m_flowInv;
-              port_a.Xi_outflow[i] = inStream(port_b.Xi_outflow[i]) - mXi_flow[i] * m_flowInv;
-            end for;
+            port_b.Xi_outflow = inStream(port_a.Xi_outflow) + mXi_flow * m_flowInv;
+            port_a.Xi_outflow = inStream(port_b.Xi_outflow) - mXi_flow * m_flowInv;
            else
             port_a.m_flow * (port_b.h_outflow - inStream(port_a.h_outflow)) = Q_flow;
             port_a.m_flow * (port_a.h_outflow - inStream(port_b.h_outflow)) = -Q_flow;
             // Transport of species
-            for i in 1:Medium.nXi loop
-              port_a.m_flow * (port_b.Xi_outflow[i] - inStream(port_a.Xi_outflow[i])) = mXi_flow[i];
-              port_a.m_flow * (port_a.Xi_outflow[i] - inStream(port_b.Xi_outflow[i])) =- mXi_flow[i];
-            end for;
+            port_a.m_flow * (port_b.Xi_outflow - inStream(port_a.Xi_outflow)) = mXi_flow;
+            port_a.m_flow * (port_a.Xi_outflow - inStream(port_b.Xi_outflow)) =- mXi_flow;
            end if;
           // Transport of trace substances
-          for i in 1:Medium.nC loop
-            port_a.m_flow*port_a.C_outflow[i] = -port_b.m_flow*inStream(port_b.C_outflow[i]);
-            port_b.m_flow*port_b.C_outflow[i] = -port_a.m_flow*inStream(port_a.C_outflow[i]);
-          end for;
+         port_a.m_flow*port_a.C_outflow = -port_b.m_flow*inStream(port_b.C_outflow);
+         port_b.m_flow*port_b.C_outflow = -port_a.m_flow*inStream(port_a.C_outflow);
+
         end if; // sensibleOnly
         //////////////////////////////////////////////////////////////////////////////////////////
         // No pressure drop in this model
@@ -19179,17 +19245,16 @@ It implements a steady-state conservation equation for energy and mass fractions
 The model has zero pressure drop between its ports.
 </p>
 <h4>Implementation</h4>
-<p>
 Input connectors of the model are
 <ul>
 <li>
 <code>Q_flow</code>, which is the sensible plus latent heat flow rate added to the medium, and
 </li>
 <li>
-<code>mXi_flow</code>, which is the species mass flow rate added to the medium.
+<code>mWat_flow</code>, which is the moisture mass flow rate added to the medium.
 </li>
 </ul>
-</p>
+
 <p>
 The model can only be used as a steady-state model with two fluid ports.
 For a model with a dynamic balance, and more fluid ports, use
@@ -19198,28 +19263,34 @@ Buildings.Fluid.Interfaces.ConservationEquation</a>.
 </p>
 <p>
 Set the constant <code>sensibleOnly=true</code> if the model that extends
-or instantiates this model sets <code>mXi_flow = zeros(Medium.nXi)</code>.
+or instantiates this model sets <code>mWat_flow = 0</code>.
 </p>
 </html>",
       revisions="<html>
 <ul>
 <li>
-March 27, 2013 by Michael Wetter:<br>
+May 7, 2013 by Michael Wetter:<br/>
+Removed <code>for</code> loops for species balance and trace substance balance, 
+as they cause the error <code>Error: Operand port_a.Xi_outflow[1] to operator inStream is not a stream variable.</code>
+in OpenModelica.
+</li>
+<li>
+March 27, 2013 by Michael Wetter:<br/>
 Removed wrong unit attribute of <code>COut</code>,
 and added min and max attributes for <code>XiOut</code>.
 </li>
 <li>
-June 22, 2012 by Michael Wetter:<br>
+June 22, 2012 by Michael Wetter:<br/>
 Reformulated implementation with <code>m_flowInv</code> to use <code>port_a.m_flow * ...</code>
 if <code>use_safeDivision=false</code>. This avoids a division by zero if 
 <code>port_a.m_flow=0</code>.
 </li>
 <li>
-February 7, 2012 by Michael Wetter:<br>
+February 7, 2012 by Michael Wetter:<br/>
 Revised base classes for conservation equations in <code>Buildings.Fluid.Interfaces</code>.
 </li>
 <li>
-December 14, 2011 by Michael Wetter:<br>
+December 14, 2011 by Michael Wetter:<br/>
 Changed assignment of <code>hOut</code>, <code>XiOut</code> and
 <code>COut</code> to no longer declare that it is continuous. 
 The declaration of continuity, i.e, the 
@@ -19228,27 +19299,27 @@ was required for Dymola 2012 to simulate, but it is no longer needed
 for Dymola 2012 FD01.
 </li>
 <li>
-August 19, 2011, by Michael Wetter:<br>
+August 19, 2011, by Michael Wetter:<br/>
 Changed assignment of <code>hOut</code>, <code>XiOut</code> and
 <code>COut</code> to declare that it is not differentiable.
 </li>
 <li>
-August 4, 2011, by Michael Wetter:<br>
+August 4, 2011, by Michael Wetter:<br/>
 Moved linearized pressure drop equation from the function body to the equation
 section. With the previous implementation, 
 the symbolic processor may not rearrange the equations, which can lead 
 to coupled equations instead of an explicit solution.
 </li>
 <li>
-March 29, 2011, by Michael Wetter:<br>
+March 29, 2011, by Michael Wetter:<br/>
 Changed energy and mass balance to avoid a division by zero if <code>m_flow=0</code>.
 </li>
 <li>
-March 27, 2011, by Michael Wetter:<br>
+March 27, 2011, by Michael Wetter:<br/>
 Added <code>homotopy</code> operator.
 </li>
 <li>
-August 19, 2010, by Michael Wetter:<br>
+August 19, 2010, by Michael Wetter:<br/>
 Fixed bug in energy and moisture balance that affected results if a component
 adds or removes moisture to the air stream. 
 In the old implementation, the enthalpy and species
@@ -19260,20 +19331,20 @@ Also, the results for forward flow and reverse flow differed by this amount.
 With the new implementation, the energy and moisture balance is exact.
 </li>
 <li>
-March 22, 2010, by Michael Wetter:<br>
+March 22, 2010, by Michael Wetter:<br/>
 Added constant <code>sensibleOnly</code> to 
 simplify species balance equation.
 </li>
 <li>
-April 10, 2009, by Michael Wetter:<br>
+April 10, 2009, by Michael Wetter:<br/>
 Added model to compute flow friction.
 </li>
 <li>
-April 22, 2008, by Michael Wetter:<br>
+April 22, 2008, by Michael Wetter:<br/>
 Revised to add mass balance.
 </li>
 <li>
-March 17, 2008, by Michael Wetter:<br>
+March 17, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -19292,7 +19363,7 @@ First implementation.
               Text(
                 extent={{-93,37},{-58,54}},
                 lineColor={0,0,127},
-                textString="mXi_flow"),
+                textString="mWat_flow"),
               Text(
                 extent={{-41,103},{-10,117}},
                 lineColor={0,0,127},
@@ -19356,7 +19427,7 @@ already declares it.
       revisions="<html>
 <ul>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -19429,25 +19500,25 @@ Buildings.Rooms.BaseClasses.MixedAir</a>.
       revisions="<html>
 <ul>
 <li>
-August 2, 2011, by Michael Wetter:<br>
+August 2, 2011, by Michael Wetter:<br/>
 Set <code>substanceDynamics</code> and <code>traceDynamics</code> to final
 and equal to <code>energyDynamics</code>, 
 as there is no need to make them different from <code>energyDynamics</code>.
 </li>
 <li>
-August 1, 2011, by Michael Wetter:<br>
+August 1, 2011, by Michael Wetter:<br/>
 Changed default value for <code>energyDynamics</code> to
 <code>Modelica.Fluid.Types.Dynamics.DynamicFreeInitial</code> because
 <code>Modelica.Fluid.Types.Dynamics.SteadyStateInitial</code> leads
 to high order DAE that Dymola cannot reduce.
 </li>
 <li>
-July 31, 2011, by Michael Wetter:<br>
+July 31, 2011, by Michael Wetter:<br/>
 Changed default value for <code>energyDynamics</code> to
 <code>Modelica.Fluid.Types.Dynamics.SteadyStateInitial</code>.
 </li>
 <li>
-April 13, 2009, by Michael Wetter:<br>
+April 13, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -19541,7 +19612,7 @@ been deleted as these can cause division by zero in some fluid flow models.
 ",    revisions="<html>
 <ul>
 <li>
-March 29 2011, by Michael Wetter:<br>
+March 29 2011, by Michael Wetter:<br/>
 First implementation based on <a href=\"modelica:Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow\">
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>.
 </li>
@@ -20066,54 +20137,52 @@ because it allows to invert the function <code>T_phX</code> analytically.
 </html>",       revisions="<html>
 <ul>
 <li>
-March 29, 2013, by Michael Wetter:<br>
+March 29, 2013, by Michael Wetter:<br/>
 Added <code>final standardOrderComponents=true</code> in the
 <code>BaseProperties</code> declaration. This avoids an error
 when models are checked in Dymola 2014 in the pedenatic mode.
 </li>
 <li>
-April 12, 2012, by Michael Wetter:<br>
+April 12, 2012, by Michael Wetter:<br/>
 Added keyword <code>each</code> to <code>Xi(stateSelect=...</code>.
 </li>
 <li>
-April 4, 2012, by Michael Wetter:<br>
+April 4, 2012, by Michael Wetter:<br/>
 Added redeclaration of <code>ThermodynamicState</code> to avoid a warning
 during model check and translation.
 </li>
 <li>
-August 3, 2011, by Michael Wetter:<br>
+August 3, 2011, by Michael Wetter:<br/>
 Fixed bug in <code>u=h-R*T</code>, which is only valid for ideal gases. 
 For this medium, the function is <code>u=h-pStd/dStp</code>.
 </li>
 <li>
-January 27, 2010, by Michael Wetter:<br>
+January 27, 2010, by Michael Wetter:<br/>
 Fixed bug in <code>else</code> branch of function <code>setState_phX</code>
 that lead to a run-time error when the constructor of this function was called.
 </li>
 <li>
-January 22, 2010, by Michael Wetter:<br>
+January 22, 2010, by Michael Wetter:<br/>
 Added implementation of function
 <a href=\"modelica://Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.enthalpyOfNonCondensingGas\">
 enthalpyOfNonCondensingGas</a> and its derivative.
 <li>
-January 13, 2010, by Michael Wetter:<br>
+January 13, 2010, by Michael Wetter:<br/>
 Fixed implementation of derivative functions.
 </li>
 <li>
-August 28, 2008, by Michael Wetter:<br>
+August 28, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
 </html>"));
       end MoistAirUnsaturated;
     annotation (preferredView="info", Documentation(info="<html>
-<p>
 Medium models in this package use the gas law
 <i>d/d<sub>stp</sub> = p/p<sub>stp</sub></i> where 
 <i>p<sub>std</sub></i> and <i>d<sub>stp</sub></i> are constants for a reference
 temperature and density instead of the ideal gas law
 <i>&rho; = p &frasl;(R T)</i>.
-</p>
 <p>
 This new formulation often leads to smaller systems of nonlinear equations 
 because pressure and temperature are decoupled, at the expense of accuracy.
@@ -20137,11 +20206,10 @@ from which follows that
   u = h - p v = h - p &frasl; &rho; = h - p<sub>stp</sub> &frasl; &rho;<sub>std</sub>,
 </p>
 because <i>p &frasl; &rho; = p<sub>stp</sub> &frasl; &rho;<sub>stp</sub></i> in this medium model.
-</p>
 </html>",     revisions="<html>
 <ul>
 <li>
-March 19, 2008, by Michael Wetter:<br>
+March 19, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -20586,22 +20654,22 @@ it has a constant specific heat capacity.
 </html>",       revisions="<html>
 <ul>
 <li>
-March 29, 2013, by Michael Wetter:<br>
+March 29, 2013, by Michael Wetter:<br/>
 Added <code>final standardOrderComponents=true</code> in the
 <code>BaseProperties</code> declaration. This avoids an error
 when models are checked in Dymola 2014 in the pedenatic mode.
 </li>
 <li>
-April 12, 2012, by Michael Wetter:<br>
+April 12, 2012, by Michael Wetter:<br/>
 Added keyword <code>each</code> to <code>Xi(stateSelect=...</code>.
 </li>
 <li>
-April 4, 2012, by Michael Wetter:<br>
+April 4, 2012, by Michael Wetter:<br/>
 Added redeclaration of <code>ThermodynamicState</code> to avoid a warning
 during model check and translation.
 </li>
 <li>
-February 22, 2010, by Michael Wetter:<br>
+February 22, 2010, by Michael Wetter:<br/>
 Changed <code>T_phX</code> to first compute <code>T</code> 
 in closed form assuming no saturation. Then, a check is done to determine
 whether the state is in the fog region. If the state is in the fog region,
@@ -20610,29 +20678,29 @@ can lead to significantly shorter computing
 time in models that frequently call <code>T_phX</code>.
 </li>
 <li>
-January 27, 2010, by Michael Wetter:<br>
+January 27, 2010, by Michael Wetter:<br/>
 Fixed bug that lead to run-time error in <code>T_phX</code>.
 </li>
 <li>
-January 13, 2010, by Michael Wetter:<br>
+January 13, 2010, by Michael Wetter:<br/>
 Added function <code>enthalpyOfNonCondensingGas</code> and its derivative.
 </li>
 <li>
-January 13, 2010, by Michael Wetter:<br>
+January 13, 2010, by Michael Wetter:<br/>
 Fixed implementation of derivative functions.
 </li>
 <li>
-October 12, 2009, by Michael Wetter:<br>
+October 12, 2009, by Michael Wetter:<br/>
 Added annotation for analytic derivative for functions
 <code>saturationPressureLiquid</code> and <code>sublimationPressureIce</code>.
 <li>
-August 28, 2008, by Michael Wetter:<br>
+August 28, 2008, by Michael Wetter:<br/>
 Referenced <code>spliceFunction</code> from package 
 <a href=\"modelica://Buildings.Utilities.Math\">Buildings.Utilities.Math</a>
 to avoid duplicate code.
 </li>
 <li>
-May 8, 2008, by Michael Wetter:<br>
+May 8, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21085,30 +21153,30 @@ thermo-fluid systems.
 </html>",       revisions="<html>
 <ul>
 <li>
-March 29, 2013, by Michael Wetter:<br>
+March 29, 2013, by Michael Wetter:<br/>
 Added <code>final standardOrderComponents=true</code> in the
 <code>BaseProperties</code> declaration. This avoids an error
 when models are checked in Dymola 2014 in the pedenatic mode.
 </li>
 <li>
-April 12, 2012, by Michael Wetter:<br>
+April 12, 2012, by Michael Wetter:<br/>
 Added keyword <code>each</code> to <code>Xi(stateSelect=...</code>.
 </li>
 <li>
-April 4, 2012, by Michael Wetter:<br>
+April 4, 2012, by Michael Wetter:<br/>
 Added redeclaration of <code>ThermodynamicState</code> to avoid a warning
 during model check and translation.
 </li>
 <li>
-January 27, 2010, by Michael Wetter:<br>
+January 27, 2010, by Michael Wetter:<br/>
 Added function <code>enthalpyOfNonCondensingGas</code> and its derivative.
 </li>
 <li>
-January 27, 2010, by Michael Wetter:<br>
+January 27, 2010, by Michael Wetter:<br/>
 Fixed bug with temperature offset in <code>T_phX</code>.
 </li>
 <li>
-August 18, 2008, by Michael Wetter:<br>
+August 18, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21139,7 +21207,7 @@ This data record contains the coefficients for perfect gases.
                 "<html>
 <ul>
 <li>
-May 12, 2008 by Michael Wetter:<br>
+May 12, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21167,7 +21235,7 @@ This package contains the coefficients for perfect gases.
 </html>"),         revisions="<html>
 <ul>
 <li>
-May 12, 2008 by Michael Wetter:<br>
+May 12, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21212,6 +21280,7 @@ space dimension</i>. CRC Press. 1998.
 </html>"));
     end PerfectGases;
     annotation (preferredView="info", Documentation(info="<html>
+<p>
 This package contains different implementations for
 various media.
 The media models in this package are
@@ -21225,7 +21294,8 @@ Due to the simplifications, the media model of this package
 are generally accurate for a smaller temperature range than the 
 models in <a href=\"Modelica:Modelica.Media\">
 Modelica.Media</a>, but the smaller temperature range may often be 
-sufficient for building HVAC applications. 
+sufficient for building HVAC applications.
+</p>
 </html>"));
   end Media;
 
@@ -21261,10 +21331,8 @@ sufficient for building HVAC applications.
           Modelica.Blocks.Interfaces.RealInput phi "Medium relative humidity"
             annotation (Placement(transformation(extent={{-140,-80},{-100,-40}},
                   rotation=0)));
-          Buildings.Utilities.Psychrometrics.X_pTphi masFra(
-                                                   use_p_in=false, redeclare
-            package Medium =
-                       Medium) "Mass fraction"
+          Buildings.Utilities.Psychrometrics.X_pTphi masFra(use_p_in=false)
+          "Mass fraction"
             annotation (Placement(transformation(extent={{-60,-64},{-40,-44}})));
         equation
           for i in 1:nPorts loop
@@ -21329,7 +21397,7 @@ This model allows interfacing to the
 <a href=\"http://simulationresearch.lbl.gov/bcvtb\">Building Controls Virtual Test Bed</a>
 an air-conditioning system
 that uses a medium model with water vapor concentration.
-</p>
+<br/>
 <p>
 The model takes as input signals the temperature and water vapor
 concentration and, optionally, a bulk mass flow rate into or
@@ -21357,11 +21425,17 @@ Buildings.Utilities.Psychrometrics.ToTotalAir</a>.
 </html>",         revisions="<html>
 <ul>
 <li>
-April 5, 2011, by Michael Wetter:<br>
+May 1, 2013, by Michael Wetter:<br/>
+Removed the medium declaration in the instance 
+of the model <code>Buildings.Utilities.Psychrometrics.X_pTphi</code> as
+this model no longer allows to replace the medium.
+</li>
+<li>
+April 5, 2011, by Michael Wetter:<br/>
 Added nominal values that are needed by the sensor.
 </li>
 <li>
-September 10, 2009, by Michael Wetter:<br>
+September 10, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21669,7 +21743,7 @@ For each element in the input vector <code>uR[nDblWri]</code>,
 the value of the flag <code>flaDblWri[nDblWri]</code> determines whether
 the current value, the average over the sampling interval or the integral
 over the sampling interval is sent to the BCVTB. The following three options are allowed:
-<table border=\"1\">
+<table summary=\"summary\" border=\"1\">
 <tr>
 <td>
 flaDblWri[i]
@@ -21703,7 +21777,7 @@ Integral of uR[i] over the sampling interval
 </td>
 </tr>
 </table>
-</p>
+<br/>
 <p>
 For the first call to the BCVTB interface, the value of the parameter <code>uStart[nDblWri]</code>
 will be used instead of <code>uR[nDblWri]</code>. This avoids an algebraic loop when determining
@@ -21724,7 +21798,7 @@ directory even if <code>activateInterface=false</code>.
 </html>",         revisions="<html>
 <ul>
 <li>
-July 19, 2012, by Michael Wetter:<br>
+July 19, 2012, by Michael Wetter:<br/>
 Added a call to <code>Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals</code>
 in the <code>initial algorithm</code> section.
 This is needed to propagate the initial condition to the server.
@@ -21733,13 +21807,13 @@ warning message in Ptolemy that says that the simulation reached its stop time
 one time step prior to the final time.
 </li>
 <li>
-January 19, 2010, by Michael Wetter:<br>
+January 19, 2010, by Michael Wetter:<br/>
 Introduced parameter to set initial value to be sent to the BCVTB.
 In the prior implementation, if a variable was in an algebraic loop, then zero was
 sent for this variable.
 </li>
 <li>
-May 14, 2009, by Michael Wetter:<br>
+May 14, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21749,12 +21823,12 @@ First implementation.
         block To_degC "Converts Kelvin to Celsius"
           extends Modelica.Blocks.Interfaces.BlockIcon;
 
-          Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="ThermodynamicTemperature",
                                                       final unit = "K", displayUnit = "degC", min=0)
           "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
                 iconTransformation(extent={{-140,-20},{-100,20}})));
-          Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="ThermodynamicTemperature",
                                                         final unit = "degC", displayUnit = "degC", min=-273.15)
           "Temperature in Celsius"
             annotation (Placement(transformation(extent={{100,-10},{120,10}}),
@@ -21775,7 +21849,7 @@ as the unit for temperature.
         revisions="<html>
 <ul>
 <li>
-April 14, 2010, by Michael Wetter:<br>
+April 14, 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21800,12 +21874,12 @@ First implementation.
         block From_degC "Converts Celsius to Kelvin"
           extends Modelica.Blocks.Interfaces.BlockIcon;
 
-          Modelica.Blocks.Interfaces.RealInput Celsius(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealInput Celsius(final quantity="ThermodynamicTemperature",
                                                        final unit = "degC", displayUnit = "degC", min=-273.15)
           "Temperature in Celsius"
             annotation (Placement(transformation(extent={{-140,-24},{-100,16}}),
                 iconTransformation(extent={{-140,-24},{-100,16}})));
-          Modelica.Blocks.Interfaces.RealOutput Kelvin(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealOutput Kelvin(final quantity="ThermodynamicTemperature",
                                                        final unit = "K", displayUnit = "degC", min=0)
           "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{100,-12},{120,8}}),
@@ -21826,7 +21900,7 @@ as the unit for temperature.
         revisions="<html>
 <ul>
 <li>
-April 14, 2010, by Michael Wetter:<br>
+April 14, 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -21978,10 +22052,8 @@ First implementation.
                                                k=0.01)
             "Converts 0...100 to 0...1"
               annotation (Placement(transformation(extent={{0,50},{20,70}})));
-            Buildings.Utilities.Psychrometrics.X_pTphi masFra(
-                                                     use_p_in=false, redeclare
-              package Medium =
-                         Medium) "Mass fraction"
+            Buildings.Utilities.Psychrometrics.X_pTphi masFra(use_p_in=false)
+            "Mass fraction"
               annotation (Placement(transformation(extent={{50,56},{70,76}})));
             Buildings.Controls.SetPoints.OccupancySchedule occSch
             "Occupancy schedule"
@@ -22168,8 +22240,7 @@ First implementation.
             annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,
                       -100},{460,200}})),
               Documentation(info="<html>
-This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.
-</p>
+This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.<br/>
 <p>
 The model represents an air-based heating system with an ideal heater and an ideal humidifier
 in the supply duct. The heater and humidifier are controlled with a feedback loop that 
@@ -22184,21 +22255,27 @@ where <code>XY</code> denotes the EnergyPlus version number.
 </html>",           revisions="<html>
 <ul>
 <li>
-January 13, 2012, by Michael Wetter:<br>
+May 1, 2013, by Michael Wetter:<br/>
+Removed the medium declaration in the instance 
+of the model <code>Buildings.Utilities.Psychrometrics.X_pTphi</code> as
+this model no longer allows to replace the medium.
+</li>
+<li>
+January 13, 2012, by Michael Wetter:<br/>
 Updated fan parameters, which were still for version 0.12 of the 
 Buildings library and hence caused a translation error with version 1.0 or higher.
 </li>
 <li>
-April 5, 2011, by Michael Wetter:<br>
+April 5, 2011, by Michael Wetter:<br/>
 Changed sensor models from one-port sensors to two port sensors.
 </li>
 <li>
-January 21, 2010 by Michael Wetter:<br>
+January 21, 2010 by Michael Wetter:<br/>
 Changed model to include fan instead of having flow driven by two reservoirs at 
 different pressure.
 </li>
 <li>
-September 11, 2009, by Michael Wetter:<br>
+September 11, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22240,15 +22317,15 @@ Buildings.Utilities.IO.BCVTB</a>.
              parameter Boolean use_m_flow_in = false
             "Get the mass flow rate from the input connector"
               annotation(Evaluate=true, HideResult=true);
-            parameter Medium.MassFlowRate m_flow = 0
+            parameter Modelica.SIunits.MassFlowRate m_flow = 0
             "Fixed mass flow rate going out of the fluid port"
               annotation (Evaluate = true,
                           Dialog(enable = not use_m_flow_in));
 
-            parameter Medium.MassFlowRate m_flow_nominal(min=0)
+            parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
             "Nominal mass flow rate, used for regularization near zero flow"
               annotation(Dialog(group = "Nominal condition"));
-            parameter Medium.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
+            parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
             "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
               annotation(Dialog(group="Advanced"));
 
@@ -22351,11 +22428,11 @@ interfacing fluid flow systems with the BCVTB interface.
 </html>", revisions="<html>
 <ul>
 <li>
-April 5, 2011, by Michael Wetter:<br>
+April 5, 2011, by Michael Wetter:<br/>
 Added nominal values that are needed by the sensor.
 </li>
 <li>
-September 11, 2009, by Michael Wetter:<br>
+September 11, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22384,7 +22461,7 @@ For the xml file name, on Windows use two backslashes to separate directories, i
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22426,7 +22503,7 @@ communication interval.
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22450,7 +22527,7 @@ Function that closes the inter-process communication.
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22525,7 +22602,7 @@ Buildings.Utilities.Math.Functions.Examples.CubicHermite</a>.
         revisions="<html>
 <ul>
 <li>
-September 27, 2011 by Michael Wetter:<br>
+September 27, 2011 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22550,7 +22627,7 @@ Once continuously differentiable approximation to the <code>max(.,.)</code> func
         revisions="<html>
 <ul>
 <li>
-August 15, 2008, by Michael Wetter:<br>
+August 15, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22564,20 +22641,20 @@ First implementation.
             input Real deltax "Half width of transition interval";
             output Real out "Smoothed value";
       protected
-            Real scaledX;
             Real scaledX1;
             Real y;
+            constant Real asin1 = Modelica.Math.asin(1);
         algorithm
             scaledX1 := x/deltax;
-            scaledX := scaledX1*Modelica.Math.asin(1);
             if scaledX1 <= -0.999999999 then
-              y := 0;
+              out := neg;
             elseif scaledX1 >= 0.999999999 then
-              y := 1;
+              out := pos;
             else
-              y := (Modelica.Math.tanh(Modelica.Math.tan(scaledX)) + 1)/2;
+              y := (Modelica.Math.tanh(Modelica.Math.tan(scaledX1*asin1)) + 1)/2;
+              out := pos*y + (1 - y)*neg;
             end if;
-            out := pos*y + (1 - y)*neg;
+
             annotation (
         smoothOrder=1,
         derivative=BaseClasses.der_spliceFunction,
@@ -22593,11 +22670,15 @@ for easier accessability to model developers.
 </html>",         revisions="<html>
 <ul>
 <li>
-May 11, 2010, by Michael Wetter:<br>
+May 10, 2013, by Michael Wetter:<br/>
+Reformulated implementation to avoid unrequired computations.
+</li>
+<li>
+May 11, 2010, by Michael Wetter:<br/>
 Removed default value for transition interval as this is problem dependent.
 </li>
 <li>
-May 20, 2008, by Michael Wetter:<br>
+May 20, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22701,11 +22782,11 @@ F.N. Fritsch and R.E. Carlson, <a href=\"http://dx.doi.org/10.1137/0717021\">Mon
 </html>",         revisions="<html>
 <ul>
 <li>
-September 29, 2011 by Michael Wetter:<br>
+September 29, 2011 by Michael Wetter:<br/>
 Added special case for one data point and two data points.
 </li>
 <li>
-September 27, 2011 by Michael Wetter:<br>
+September 27, 2011 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22714,7 +22795,6 @@ First implementation.
 
         function inverseXRegularized
         "Function that approximates 1/x by a twice continuously differentiable function"
-
          input Real x "Abscissa value";
          input Real delta(min=0)
           "Abscissa value below which approximation occurs";
@@ -22723,10 +22803,14 @@ First implementation.
          Real delta2 "Delta^2";
          Real x2_d2 "=x^2/delta^2";
         algorithm
-          delta2 :=delta*delta;
-          x2_d2  := x*x/delta2;
-          y :=smooth(2, if (abs(x) > delta) then 1/x else
-            x/delta2 + x*abs(x/delta2/delta*(2 - x2_d2*(3 - x2_d2))));
+          if (abs(x) > delta) then
+            y := 1/x;
+          else
+            delta2 :=delta*delta;
+            x2_d2  := x*x/delta2;
+            y      := x/delta2 + x*abs(x/delta2/delta*(2 - x2_d2*(3 - x2_d2)));
+          end if;
+
           annotation (
             Documentation(info="<html>
 <p>
@@ -22740,7 +22824,11 @@ See the package <code>Examples</code> for the graph.
 </html>",         revisions="<html>
 <ul>
 <li>
-April 18, 2011, by Michael Wetter:<br>
+May 10, 2013, by Michael Wetter:<br/>
+Reformulated implementation to avoid unrequired computations.
+</li>
+<li>
+April 18, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22805,7 +22893,7 @@ otherwise weak monotonicity is tested.
 </html>",         revisions="<html>
 <ul>
 <li>
-September 28, 2011 by Michael Wetter:<br>
+September 28, 2011 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22831,23 +22919,23 @@ First implementation.
               Real scaledX1;
               Real dscaledX1;
               Real y;
+              constant Real asin1 = Modelica.Math.asin(1);
           algorithm
               scaledX1 := x/deltax;
-              scaledX := scaledX1*Modelica.Math.asin(1);
-              dscaledX1 := (dx - scaledX1*ddeltax)/deltax;
               if scaledX1 <= -0.99999999999 then
-                y := 0;
+                out := dneg;
               elseif scaledX1 >= 0.9999999999 then
-                y := 1;
+                out := dpos;
               else
+                scaledX := scaledX1*asin1;
+                dscaledX1 := (dx - scaledX1*ddeltax)/deltax;
                 y := (Modelica.Math.tanh(Modelica.Math.tan(scaledX)) + 1)/2;
-              end if;
-              out := dpos*y + (1 - y)*dneg;
-              if (abs(scaledX1) < 1) then
-                out := out + (pos - neg)*dscaledX1*Modelica.Math.asin(1)/2/(
+                out := dpos*y + (1 - y)*dneg;
+                out := out + (pos - neg)*dscaledX1*asin1/2/(
                   Modelica.Math.cosh(Modelica.Math.tan(scaledX))*Modelica.Math.cos(
                   scaledX))^2;
               end if;
+
           annotation (
           Documentation(
           info="<html>
@@ -22859,7 +22947,11 @@ Buildings.Utilities.Math.Functions.spliceFunction</a>.
 </html>", revisions="<html>
 <ul>
 <li>
-April 7, 2009, by Michael Wetter:<br>
+May 10, 2013, by Michael Wetter:<br/>
+Reformulated implementation to avoid unrequired computations.
+</li>
+<li>
+April 7, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -22911,7 +23003,7 @@ Modelica.Blocks</a>.
         Modelica.Blocks.Interfaces.RealInput phi(min = 0, max=1)
         "Relative humidity (0...1)"
           annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-        Modelica.Blocks.Interfaces.RealOutput X[Medium.nX](min = 0, max=1)
+        Modelica.Blocks.Interfaces.RealOutput X[Medium.nX](each min=0, each max=1)
         "Steam mass fraction"
           annotation (Placement(transformation(extent={{100,-10},{120,10}})));
     protected
@@ -22953,23 +23045,23 @@ and the value provided by the input connector is used instead.
 </p>
 </html>",       revisions="<html>
 <ul>
-<li>April 26, 2013 by Michael Wetter:<br>
+<li>April 26, 2013 by Michael Wetter:<br/>
 Set the medium model to <code>Buildings.Media.PerfectGases.MoistAirUnsaturated</code>.
 This was required to allow a pedantic model check in Dymola 2014.
 </li>
-<li>August 21, 2012 by Michael Wetter:<br>
+<li>August 21, 2012 by Michael Wetter:<br/>
 Added function call to compute water vapor content.
 </li>
 <li>
-February 22, 2010 by Michael Wetter:<br>
+February 22, 2010 by Michael Wetter:<br/>
 Improved the code that searches for the index of 'water' in the medium model.
 </li>
 <li>
-February 17, 2010 by Michael Wetter:<br>
+February 17, 2010 by Michael Wetter:<br/>
 Renamed block from <code>MassFraction_pTphi</code> to <code>X_pTphi</code>
 </li>
 <li>
-February 4, 2009 by Michael Wetter:<br>
+February 4, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -23018,16 +23110,17 @@ saturation pressure, absolute pressure and relative humidity.
 </html>",         revisions="<html>
 <ul>
 <li>
-August 21, 2012 by Michael Wetter:<br>
+August 21, 2012 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
 </html>"));
         end X_pSatpphi;
         annotation (preferredView="info", Documentation(info="<html>
+<p>
 This package contains functions for psychrometric calculations.
 </p>
-<p>
+
 The nomenclature used in this package is described at
 <a href=\"modelica://Buildings.UsersGuide.Conventions\">
 Buildings.UsersGuide.Conventions</a>.
@@ -23081,7 +23174,7 @@ and the value provided by the input connector is used instead.
 </html>",         revisions="<html>
 <ul>
 <li>
-April 14, 2009 by Michael Wetter:<br>
+April 14, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -23112,9 +23205,10 @@ This package contains base classes that are used to construct the models in
 </html>"));
       end BaseClasses;
     annotation (preferredView="info", Documentation(info="<html>
+<p>
 This package contains blocks and functions for psychrometric calculations.
 </p>
-<p>
+
 The nomenclature used in this package is described at
 <a href=\"modelica://Buildings.UsersGuide.Conventions\">
 Buildings.UsersGuide.Conventions</a>.
@@ -23146,7 +23240,7 @@ Basic class that provides a label with the component name above the icon.
     revisions="<html>
 <ul>
 <li>
-April 28, 2008, by Michael Wetter:<br>
+April 28, 2008, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -23161,13 +23255,15 @@ This package contains base classes that are used to construct the models in
   end BaseClasses;
 annotation (
 preferredView="info",
-version="1.4",
+version="1.5",
 versionBuild=0,
-versionDate="2013-04-04",
-dateModified = "2013-04-04",
+versionDate="2013-05-15",
+dateModified = "2013-05-15",
 uses(Modelica(version="3.2")),
 uses(Modelica_StateGraph2(version="2.0.1")),
 conversion(
+ from(version="1.4",
+      script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.4_to_1.5.mos"),
  noneFromVersion="1.3",
  noneFromVersion="1.2",
  from(version="1.1",
@@ -23195,13 +23291,14 @@ In the lower part of the figure, there is a dynamic model of a boiler, a pump an
 The heat distribution is done using a hydronic heating system with a three way valve and a pump with variable revolutions. The upper right hand corner shows a room model that is connected to a radiator whose flow is controlled by a thermostatic valve.
 </p>
 <p align=\"center\">
-<img src=\"modelica://Buildings/Resources/Images/UsersGuide/HydronicHeating.png\" border=\"1\">
+<img alt=\"image\" src=\"modelica://Buildings/Resources/Images/UsersGuide/HydronicHeating.png\" border=\"1\"/>
 </p>
 <p>
 The web page for this library is
-<a href=\"http://simulationresearch.lbl.gov/modelica\">http://simulationresearch.lbl.gov/modelica</a>. 
-Contributions from different users to further advance this library are
-welcomed.
+<a href=\"http://simulationresearch.lbl.gov/modelica\">http://simulationresearch.lbl.gov/modelica</a>,
+and the development page is
+<a href=\"https://github.com/lbl-srg/modelica-buildings\">https://github.com/lbl-srg/modelica-buildings</a>.
+Contributions to further advance the library are welcomed.
 Contributions may not only be in the form of model development, but also
 through model use, model testing,
 requirements definition or providing feedback regarding the model applicability
@@ -23215,5 +23312,5 @@ model Buildings_Utilities_IO_BCVTB_Examples_MoistAir
     StopTime=1,
     __Dymola_NumberOfIntervals=500,
     Tolerance=0.0001,
-    __Dymola_Algorithm="dassl"),uses(Buildings(version="1.4")));
+    __Dymola_Algorithm="dassl"),uses(Buildings(version="1.5")));
 end Buildings_Utilities_IO_BCVTB_Examples_MoistAir;

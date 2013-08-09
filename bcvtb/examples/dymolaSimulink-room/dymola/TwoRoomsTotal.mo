@@ -1834,6 +1834,7 @@ TU Hamburg-Harburg, Politecnico di Milano.
 end Modelica;
 
 package Buildings "Library with models for building energy and control systems"
+  extends Modelica.Icons.Package;
 
   package HeatTransfer "Package with heat transfer models"
     extends Modelica.Icons.Package;
@@ -1974,7 +1975,7 @@ been deleted as these can cause division by zero in some fluid flow models.
 ",    revisions="<html>
 <ul>
 <li>
-March 29 2011, by Michael Wetter:<br>
+March 29 2011, by Michael Wetter:<br/>
 First implementation based on <a href=\"modelica:Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow\">
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow</a>.
 </li>
@@ -2338,7 +2339,7 @@ For each element in the input vector <code>uR[nDblWri]</code>,
 the value of the flag <code>flaDblWri[nDblWri]</code> determines whether
 the current value, the average over the sampling interval or the integral
 over the sampling interval is sent to the BCVTB. The following three options are allowed:
-<table border=\"1\">
+<table summary=\"summary\" border=\"1\">
 <tr>
 <td>
 flaDblWri[i]
@@ -2372,7 +2373,7 @@ Integral of uR[i] over the sampling interval
 </td>
 </tr>
 </table>
-</p>
+<br/>
 <p>
 For the first call to the BCVTB interface, the value of the parameter <code>uStart[nDblWri]</code>
 will be used instead of <code>uR[nDblWri]</code>. This avoids an algebraic loop when determining
@@ -2393,7 +2394,7 @@ directory even if <code>activateInterface=false</code>.
 </html>",         revisions="<html>
 <ul>
 <li>
-July 19, 2012, by Michael Wetter:<br>
+July 19, 2012, by Michael Wetter:<br/>
 Added a call to <code>Buildings.Utilities.IO.BCVTB.BaseClasses.exchangeReals</code>
 in the <code>initial algorithm</code> section.
 This is needed to propagate the initial condition to the server.
@@ -2402,13 +2403,13 @@ warning message in Ptolemy that says that the simulation reached its stop time
 one time step prior to the final time.
 </li>
 <li>
-January 19, 2010, by Michael Wetter:<br>
+January 19, 2010, by Michael Wetter:<br/>
 Introduced parameter to set initial value to be sent to the BCVTB.
 In the prior implementation, if a variable was in an algebraic loop, then zero was
 sent for this variable.
 </li>
 <li>
-May 14, 2009, by Michael Wetter:<br>
+May 14, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2418,12 +2419,12 @@ First implementation.
         block To_degC "Converts Kelvin to Celsius"
           extends Modelica.Blocks.Interfaces.BlockIcon;
 
-          Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="ThermodynamicTemperature",
                                                       final unit = "K", displayUnit = "degC", min=0)
           "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
                 iconTransformation(extent={{-140,-20},{-100,20}})));
-          Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="Temperature",
+          Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="ThermodynamicTemperature",
                                                         final unit = "degC", displayUnit = "degC", min=-273.15)
           "Temperature in Celsius"
             annotation (Placement(transformation(extent={{100,-10},{120,10}}),
@@ -2444,7 +2445,7 @@ as the unit for temperature.
         revisions="<html>
 <ul>
 <li>
-April 14, 2010, by Michael Wetter:<br>
+April 14, 2010, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2611,8 +2612,7 @@ First implementation.
                       -100},{240,100}})),
               experiment(StopTime=21600),
               Documentation(info="<html>
-This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.
-</p>
+This example illustrates the use of Modelica with the Building Controls Virtual Test Bed.<br/>
 <p>
 Given a control signal for two heat flow rates, Modelica simulates the thermal response 
 of two first order systems. The two systems may represent a first order approximation of a room.
@@ -2626,7 +2626,7 @@ This model is implemented in <code>bcvtb\\examples\\dymola-room</code>.
 </html>",           revisions="<html>
 <ul>
 <li>
-May 15, 2009, by Michael Wetter:<br>
+May 15, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2667,7 +2667,7 @@ For the xml file name, on Windows use two backslashes to separate directories, i
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2709,7 +2709,7 @@ communication interval.
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2733,7 +2733,7 @@ Function that closes the inter-process communication.
 </html>", revisions="<html>
 <ul>
 <li>
-May 5, 2009, by Michael Wetter:<br>
+May 5, 2009, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
@@ -2767,13 +2767,15 @@ This package contains utility models such as for thermal comfort calculation, in
   end Utilities;
 annotation (
 preferredView="info",
-version="1.4",
+version="1.5",
 versionBuild=0,
-versionDate="2013-04-04",
-dateModified = "2013-04-04",
+versionDate="2013-05-15",
+dateModified = "2013-05-15",
 uses(Modelica(version="3.2")),
 uses(Modelica_StateGraph2(version="2.0.1")),
 conversion(
+ from(version="1.4",
+      script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_1.4_to_1.5.mos"),
  noneFromVersion="1.3",
  noneFromVersion="1.2",
  from(version="1.1",
@@ -2801,13 +2803,14 @@ In the lower part of the figure, there is a dynamic model of a boiler, a pump an
 The heat distribution is done using a hydronic heating system with a three way valve and a pump with variable revolutions. The upper right hand corner shows a room model that is connected to a radiator whose flow is controlled by a thermostatic valve.
 </p>
 <p align=\"center\">
-<img src=\"modelica://Buildings/Resources/Images/UsersGuide/HydronicHeating.png\" border=\"1\">
+<img alt=\"image\" src=\"modelica://Buildings/Resources/Images/UsersGuide/HydronicHeating.png\" border=\"1\"/>
 </p>
 <p>
 The web page for this library is
-<a href=\"http://simulationresearch.lbl.gov/modelica\">http://simulationresearch.lbl.gov/modelica</a>. 
-Contributions from different users to further advance this library are
-welcomed.
+<a href=\"http://simulationresearch.lbl.gov/modelica\">http://simulationresearch.lbl.gov/modelica</a>,
+and the development page is
+<a href=\"https://github.com/lbl-srg/modelica-buildings\">https://github.com/lbl-srg/modelica-buildings</a>.
+Contributions to further advance the library are welcomed.
 Contributions may not only be in the form of model development, but also
 through model use, model testing,
 requirements definition or providing feedback regarding the model applicability
@@ -2817,5 +2820,5 @@ to solve specific problems.
 end Buildings;
 model Buildings_Utilities_IO_BCVTB_Examples_TwoRooms
  extends Buildings.Utilities.IO.BCVTB.Examples.TwoRooms;
-  annotation(experiment(StopTime=21600),uses(Buildings(version="1.4")));
+  annotation(experiment(StopTime=21600),uses(Buildings(version="1.5")));
 end Buildings_Utilities_IO_BCVTB_Examples_TwoRooms;
