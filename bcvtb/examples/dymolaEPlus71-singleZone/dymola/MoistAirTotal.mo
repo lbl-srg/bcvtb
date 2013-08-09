@@ -1,13 +1,14 @@
+within ;
 package Modelica "Modelica Standard Library (Version 3.2)"
 extends Modelica.Icons.Package;
 
   package Blocks
-  "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
+    "Library of basic input/output control blocks (continuous, discrete, logical, table blocks)"
   import SI = Modelica.SIunits;
   extends Modelica.Icons.Package;
 
     package Continuous
-    "Library of continuous control blocks with internal states"
+      "Library of continuous control blocks with internal states"
       import Modelica.Blocks.Interfaces;
       import Modelica.SIunits;
       extends Modelica.Icons.Package;
@@ -20,7 +21,7 @@ extends Modelica.Icons.Package;
      and therefore this setting is backward compatible
   */
         parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.InitialState
-        "Type of initialization (1: no init, 2: steady state, 3,4: initial output)"
+          "Type of initialization (1: no init, 2: steady state, 3,4: initial output)"
                                                                                           annotation(Evaluate=true,
             Dialog(group="Initialization"));
         parameter Real y_start=0 "Initial or guess value of output (= state)"
@@ -103,9 +104,9 @@ This is discussed in the description of package
         import Modelica.Blocks.Types.Init;
         parameter Real k(unit="1")=1 "Gains";
         parameter SIunits.Time T(min=Modelica.Constants.small) = 0.01
-        "Time constants (T>0 required; T=0 is ideal derivative block)";
+          "Time constants (T>0 required; T=0 is ideal derivative block)";
         parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.NoInit
-        "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
+          "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
                                                                                           annotation(Evaluate=true,
             Dialog(group="Initialization"));
         parameter Real x_start=0 "Initial or guess value of state"
@@ -117,7 +118,7 @@ This is discussed in the description of package
 
         output Real x(start=x_start) "State of block";
 
-    protected
+      protected
         parameter Boolean zeroGain = abs(k) < Modelica.Constants.eps;
       initial equation
         if initType == Init.SteadyState then
@@ -206,56 +207,56 @@ If k=0, the block reduces to y=0.
       end Derivative;
 
       block LimPID
-      "P, PI, PD, and PID controller with limited output, anti-windup compensation and setpoint weighting"
+        "P, PI, PD, and PID controller with limited output, anti-windup compensation and setpoint weighting"
         import Modelica.Blocks.Types.InitPID;
         import Modelica.Blocks.Types.SimpleController;
         extends Interfaces.SVcontrol;
         output Real controlError = u_s - u_m
-        "Control error (set point - measurement)";
+          "Control error (set point - measurement)";
 
         parameter Modelica.Blocks.Types.SimpleController controllerType=
                Modelica.Blocks.Types.SimpleController.PID "Type of controller";
         parameter Real k(min=0, unit="1") = 1 "Gain of controller";
         parameter SIunits.Time Ti(min=Modelica.Constants.small, start=0.5)
-        "Time constant of Integrator block"
+          "Time constant of Integrator block"
            annotation(Dialog(enable=controllerType==SimpleController.PI or
                                     controllerType==SimpleController.PID));
         parameter SIunits.Time Td(min=0, start= 0.1)
-        "Time constant of Derivative block"
+          "Time constant of Derivative block"
              annotation(Dialog(enable=controllerType==SimpleController.PD or
                                       controllerType==SimpleController.PID));
         parameter Real yMax(start=1) "Upper limit of output";
         parameter Real yMin=-yMax "Lower limit of output";
         parameter Real wp(min=0) = 1
-        "Set-point weight for Proportional block (0..1)";
+          "Set-point weight for Proportional block (0..1)";
         parameter Real wd(min=0) = 0
-        "Set-point weight for Derivative block (0..1)"
+          "Set-point weight for Derivative block (0..1)"
              annotation(Dialog(enable=controllerType==SimpleController.PD or
                                       controllerType==SimpleController.PID));
         parameter Real Ni(min=100*Modelica.Constants.eps) = 0.9
-        "Ni*Ti is time constant of anti-windup compensation"
+          "Ni*Ti is time constant of anti-windup compensation"
            annotation(Dialog(enable=controllerType==SimpleController.PI or
                                     controllerType==SimpleController.PID));
         parameter Real Nd(min=100*Modelica.Constants.eps) = 10
-        "The higher Nd, the more ideal the derivative block"
+          "The higher Nd, the more ideal the derivative block"
              annotation(Dialog(enable=controllerType==SimpleController.PD or
                                       controllerType==SimpleController.PID));
         parameter Modelica.Blocks.Types.InitPID initType= Modelica.Blocks.Types.InitPID.DoNotUse_InitialIntegratorState
-        "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
+          "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
                                            annotation(Evaluate=true,
             Dialog(group="Initialization"));
         parameter Boolean limitsAtInit = true
-        "= false, if limits are ignored during initializiation"
+          "= false, if limits are ignored during initializiation"
           annotation(Evaluate=true, Dialog(group="Initialization",
                              enable=controllerType==SimpleController.PI or
                                     controllerType==SimpleController.PID));
         parameter Real xi_start=0
-        "Initial or guess value value for integrator output (= integrator state)"
+          "Initial or guess value value for integrator output (= integrator state)"
           annotation (Dialog(group="Initialization",
                       enable=controllerType==SimpleController.PI or
                              controllerType==SimpleController.PID));
         parameter Real xd_start=0
-        "Initial or guess value for state of derivative block"
+          "Initial or guess value for state of derivative block"
           annotation (Dialog(group="Initialization",
                                enable=controllerType==SimpleController.PD or
                                       controllerType==SimpleController.PID));
@@ -305,12 +306,12 @@ If k=0, the block reduces to y=0.
         Blocks.Nonlinear.Limiter limiter(uMax=yMax, uMin=yMin, limitsAtInit=limitsAtInit)
           annotation (Placement(transformation(extent={{70,-10},{90,10}}, rotation=
                   0)));
-    protected
+      protected
         parameter Boolean with_I = controllerType==SimpleController.PI or
                                    controllerType==SimpleController.PID annotation(Evaluate=true, HideResult=true);
         parameter Boolean with_D = controllerType==SimpleController.PD or
                                    controllerType==SimpleController.PID annotation(Evaluate=true, HideResult=true);
-    public
+      public
         Sources.Constant Dzero(k=0) if not with_D
           annotation (Placement(transformation(extent={{-30,20},{-20,30}}, rotation=
                  0)));
@@ -565,45 +566,45 @@ to use <b>limitAtInit</b> = <b>false</b>.
       end LimPID;
 
       block Filter
-      "Continuous low pass, high pass, band pass or band stop IIR-filter of type CriticalDamping, Bessel, Butterworth or ChebyshevI"
+        "Continuous low pass, high pass, band pass or band stop IIR-filter of type CriticalDamping, Bessel, Butterworth or ChebyshevI"
         import Modelica.Blocks.Continuous.Internal;
 
         extends Modelica.Blocks.Interfaces.SISO;
 
         parameter Modelica.Blocks.Types.AnalogFilter analogFilter=Modelica.Blocks.Types.AnalogFilter.CriticalDamping
-        "Analog filter characteristics (CriticalDamping/Bessel/Butterworth/ChebyshevI)";
+          "Analog filter characteristics (CriticalDamping/Bessel/Butterworth/ChebyshevI)";
         parameter Modelica.Blocks.Types.FilterType filterType=Modelica.Blocks.Types.FilterType.LowPass
-        "Type of filter (LowPass/HighPass/BandPass/BandStop)";
+          "Type of filter (LowPass/HighPass/BandPass/BandStop)";
         parameter Integer order(min=1) = 2 "Order of filter";
         parameter Modelica.SIunits.Frequency f_cut "Cut-off frequency";
         parameter Real gain=1.0
-        "Gain (= amplitude of frequency response at zero frequency)";
+          "Gain (= amplitude of frequency response at zero frequency)";
         parameter Real A_ripple(unit="dB") = 0.5
-        "Pass band ripple for Chebyshev filter (otherwise not used); > 0 required"
+          "Pass band ripple for Chebyshev filter (otherwise not used); > 0 required"
           annotation(Dialog(enable=analogFilter==Modelica.Blocks.Types.AnalogFilter.ChebyshevI));
         parameter Modelica.SIunits.Frequency f_min=0
-        "Band of band pass/stop filter is f_min (A=-3db*gain) .. f_cut (A=-3db*gain)"
+          "Band of band pass/stop filter is f_min (A=-3db*gain) .. f_cut (A=-3db*gain)"
           annotation(Dialog(enable=filterType == Modelica.Blocks.Types.FilterType.BandPass or
                                    filterType == Modelica.Blocks.Types.FilterType.BandStop));
         parameter Boolean normalized=true
-        "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
+          "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
         parameter Modelica.Blocks.Types.Init init=Modelica.Blocks.Types.Init.SteadyState
-        "Type of initialization (no init/steady state/initial state/initial output)"
+          "Type of initialization (no init/steady state/initial state/initial output)"
           annotation(Evaluate=true, Dialog(tab="Advanced"));
         final parameter Integer nx = if filterType == Modelica.Blocks.Types.FilterType.LowPass or
                                         filterType == Modelica.Blocks.Types.FilterType.HighPass then
                                         order else 2*order;
         parameter Real x_start[nx] = zeros(nx)
-        "Initial or guess values of states"
+          "Initial or guess values of states"
           annotation(Dialog(tab="Advanced"));
         parameter Real y_start = 0 "Initial value of output"
           annotation(Dialog(tab="Advanced"));
         parameter Real u_nominal = 1.0
-        "Nominal value of input (used for scaling the states)"
+          "Nominal value of input (used for scaling the states)"
         annotation(Dialog(tab="Advanced"));
         Modelica.Blocks.Interfaces.RealOutput x[nx] "Filter states";
 
-    protected
+      protected
         parameter Integer ncr = if analogFilter == Modelica.Blocks.Types.AnalogFilter.CriticalDamping then
                                    order else mod(order,2);
         parameter Integer nc0 = if analogFilter == Modelica.Blocks.Types.AnalogFilter.CriticalDamping then
@@ -935,32 +936,32 @@ The development of this block was partially funded by BMBF within the
       end Filter;
 
       package Internal
-      "Internal utility functions and blocks that should not be directly utilized by the user"
+        "Internal utility functions and blocks that should not be directly utilized by the user"
           extends Modelica.Icons.Package;
 
         package Filter
-        "Internal utility functions for filters that should not be directly used"
+          "Internal utility functions for filters that should not be directly used"
             extends Modelica.Icons.Package;
 
           package base
-          "Prototype low pass filters with cut-off frequency of 1 rad/s (other filters are derived by transformation from these base filters)"
+            "Prototype low pass filters with cut-off frequency of 1 rad/s (other filters are derived by transformation from these base filters)"
               extends Modelica.Icons.Package;
 
           function CriticalDamping
-            "Return base filter coefficients of CriticalDamping filter (= low pass filter with w_cut = 1 rad/s)"
+              "Return base filter coefficients of CriticalDamping filter (= low pass filter with w_cut = 1 rad/s)"
 
             input Integer order(min=1) "Order of filter";
             input Boolean normalized=true
-              "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
+                "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
 
             output Real cr[order] "Coefficients of real poles";
-          protected
+            protected
             Real alpha=1.0 "Frequency correction factor";
             Real alpha2 "= alpha*alpha";
             Real den1[order]
-              "[p] coefficients of denominator first order polynomials (a*p + 1)";
+                "[p] coefficients of denominator first order polynomials (a*p + 1)";
             Real den2[0,2]
-              "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
+                "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
             Real c0[0] "Coefficients of s^0 term if conjugate complex pole";
             Real c1[0] "Coefficients of s^1 term if conjugate complex pole";
           algorithm
@@ -986,25 +987,25 @@ The development of this block was partially funded by BMBF within the
           end CriticalDamping;
 
           function Bessel
-            "Return base filter coefficients of Bessel filter (= low pass filter with w_cut = 1 rad/s)"
+              "Return base filter coefficients of Bessel filter (= low pass filter with w_cut = 1 rad/s)"
 
             input Integer order(min=1) "Order of filter";
             input Boolean normalized=true
-              "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
+                "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
 
             output Real cr[mod(order, 2)] "Coefficient of real pole";
             output Real c0[integer(order/2)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[integer(order/2)]
-              "Coefficients of s^1 term if conjugate complex pole";
-          protected
+                "Coefficients of s^1 term if conjugate complex pole";
+            protected
             Integer n_den2=size(c0, 1);
             Real alpha=1.0 "Frequency correction factor";
             Real alpha2 "= alpha*alpha";
             Real den1[size(cr,1)]
-              "[p] coefficients of denominator first order polynomials (a*p + 1)";
+                "[p] coefficients of denominator first order polynomials (a*p + 1)";
             Real den2[n_den2,2]
-              "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
+                "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
           algorithm
               (den1,den2,alpha) :=
                 Modelica.Blocks.Continuous.Internal.Filter.Utilities.BesselBaseCoefficients(
@@ -1031,25 +1032,25 @@ The development of this block was partially funded by BMBF within the
           end Bessel;
 
           function Butterworth
-            "Return base filter coefficients of Butterwort filter (= low pass filter with w_cut = 1 rad/s)"
+              "Return base filter coefficients of Butterwort filter (= low pass filter with w_cut = 1 rad/s)"
 
             input Integer order(min=1) "Order of filter";
             input Boolean normalized=true
-              "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
+                "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
 
             output Real cr[mod(order, 2)] "Coefficient of real pole";
             output Real c0[integer(order/2)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[integer(order/2)]
-              "Coefficients of s^1 term if conjugate complex pole";
-          protected
+                "Coefficients of s^1 term if conjugate complex pole";
+            protected
             Integer n_den2=size(c0, 1);
             Real alpha=1.0 "Frequency correction factor";
             Real alpha2 "= alpha*alpha";
             Real den1[size(cr,1)]
-              "[p] coefficients of denominator first order polynomials (a*p + 1)";
+                "[p] coefficients of denominator first order polynomials (a*p + 1)";
             Real den2[n_den2,2]
-              "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
+                "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
             constant Real pi=Modelica.Constants.pi;
           algorithm
             for i in 1:n_den2 loop
@@ -1089,29 +1090,29 @@ The development of this block was partially funded by BMBF within the
           end Butterworth;
 
           function ChebyshevI
-            "Return base filter coefficients of Chebyshev I filter (= low pass filter with w_cut = 1 rad/s)"
+              "Return base filter coefficients of Chebyshev I filter (= low pass filter with w_cut = 1 rad/s)"
               import Modelica.Math.*;
 
             input Integer order(min=1) "Order of filter";
             input Real A_ripple = 0.5 "Pass band ripple in [dB]";
             input Boolean normalized=true
-              "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
+                "= true, if amplitude at f_cut = -3db, otherwise unmodified filter";
 
             output Real cr[mod(order, 2)] "Coefficient of real pole";
             output Real c0[integer(order/2)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[integer(order/2)]
-              "Coefficients of s^1 term if conjugate complex pole";
-          protected
+                "Coefficients of s^1 term if conjugate complex pole";
+            protected
             Real epsilon;
             Real fac;
             Integer n_den2=size(c0, 1);
             Real alpha=1.0 "Frequency correction factor";
             Real alpha2 "= alpha*alpha";
             Real den1[size(cr,1)]
-              "[p] coefficients of denominator first order polynomials (a*p + 1)";
+                "[p] coefficients of denominator first order polynomials (a*p + 1)";
             Real den2[n_den2,2]
-              "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
+                "[p^2, p] coefficients of denominator second order polynomials (b*p^2 + a*p + 1)";
             constant Real pi=Modelica.Constants.pi;
           algorithm
               epsilon := sqrt(10^(A_ripple/10) - 1);
@@ -1163,25 +1164,25 @@ The development of this block was partially funded by BMBF within the
               extends Modelica.Icons.Package;
 
           function lowPass
-            "Return low pass filter coefficients at given cut-off frequency"
+              "Return low pass filter coefficients at given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles";
             input Real c0_in[:]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
             input Modelica.SIunits.Frequency f_cut "Cut-off frequency";
 
             output Real cr[size(cr_in,1)] "Coefficient of real pole";
             output Real c0[size(c0_in,1)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
 
-          protected
+            protected
             constant Real pi=Modelica.Constants.pi;
             Modelica.SIunits.AngularVelocity w_cut=2*pi*f_cut
-              "Cut-off angular frequency";
+                "Cut-off angular frequency";
             Real w_cut2=w_cut*w_cut;
 
           algorithm
@@ -1201,25 +1202,25 @@ The development of this block was partially funded by BMBF within the
           end lowPass;
 
           function highPass
-            "Return high pass filter coefficients at given cut-off frequency"
+              "Return high pass filter coefficients at given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles";
             input Real c0_in[:]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
             input Modelica.SIunits.Frequency f_cut "Cut-off frequency";
 
             output Real cr[size(cr_in,1)] "Coefficient of real pole";
             output Real c0[size(c0_in,1)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
 
-          protected
+            protected
             constant Real pi=Modelica.Constants.pi;
             Modelica.SIunits.AngularVelocity w_cut=2*pi*f_cut
-              "Cut-off angular frequency";
+                "Cut-off angular frequency";
             Real w_cut2=w_cut*w_cut;
 
           algorithm
@@ -1253,28 +1254,28 @@ The development of this block was partially funded by BMBF within the
           end highPass;
 
           function bandPass
-            "Return band pass filter coefficients at given cut-off frequency"
+              "Return band pass filter coefficients at given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles";
             input Real c0_in[:]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
             input Modelica.SIunits.Frequency f_min
-              "Band of band pass filter is f_min (A=-3db) .. f_max (A=-3db)";
+                "Band of band pass filter is f_min (A=-3db) .. f_max (A=-3db)";
             input Modelica.SIunits.Frequency f_max "Upper band frequency";
 
             output Real cr[0] "Coefficient of real pole";
             output Real c0[size(cr_in,1) + 2*size(c0_in,1)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[size(cr_in,1) + 2*size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
             output Real cn "Numerator coefficient of the PT2 terms";
-          protected
+            protected
             constant Real pi=Modelica.Constants.pi;
             Modelica.SIunits.Frequency f0 = sqrt(f_min*f_max);
             Modelica.SIunits.AngularVelocity w_cut=2*pi*f0
-              "Cut-off angular frequency";
+                "Cut-off angular frequency";
             Modelica.SIunits.AngularVelocity w_band = (f_max - f_min) / f0;
             Real w_cut2=w_cut*w_cut;
             Real c;
@@ -1345,27 +1346,27 @@ The development of this block was partially funded by BMBF within the
           end bandPass;
 
           function bandStop
-            "Return band stop filter coefficients at given cut-off frequency"
+              "Return band stop filter coefficients at given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles";
             input Real c0_in[:]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
+                "Coefficients of s^1 term if conjugate complex pole";
             input Modelica.SIunits.Frequency f_min
-              "Band of band stop filter is f_min (A=-3db) .. f_max (A=-3db)";
+                "Band of band stop filter is f_min (A=-3db) .. f_max (A=-3db)";
             input Modelica.SIunits.Frequency f_max "Upper band frequency";
 
             output Real cr[0] "Coefficient of real pole";
             output Real c0[size(cr_in,1) + 2*size(c0_in,1)]
-              "Coefficients of s^0 term if conjugate complex pole";
+                "Coefficients of s^0 term if conjugate complex pole";
             output Real c1[size(cr_in,1) + 2*size(c0_in,1)]
-              "Coefficients of s^1 term if conjugate complex pole";
-          protected
+                "Coefficients of s^1 term if conjugate complex pole";
+            protected
             constant Real pi=Modelica.Constants.pi;
             Modelica.SIunits.Frequency f0 = sqrt(f_min*f_max);
             Modelica.SIunits.AngularVelocity w_cut=2*pi*f0
-              "Cut-off angular frequency";
+                "Cut-off angular frequency";
             Modelica.SIunits.AngularVelocity w_band = (f_max - f_min) / f0;
             Real w_cut2=w_cut*w_cut;
             Real c;
@@ -1459,26 +1460,26 @@ The development of this block was partially funded by BMBF within the
           end coefficients;
 
           package roots
-          "Filter roots and gain as needed for block implementations"
+            "Filter roots and gain as needed for block implementations"
               extends Modelica.Icons.Package;
 
           function lowPass
-            "Return low pass filter roots as needed for block for given cut-off frequency"
+              "Return low pass filter roots as needed for block for given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles of base filter";
             input Real c0_in[:]
-              "Coefficients of s^0 term of base filter if conjugate complex pole";
+                "Coefficients of s^0 term of base filter if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term of base filter if conjugate complex pole";
+                "Coefficients of s^1 term of base filter if conjugate complex pole";
             input Modelica.SIunits.Frequency f_cut "Cut-off frequency";
 
             output Real r[size(cr_in,1)] "Real eigenvalues";
             output Real a[size(c0_in,1)]
-              "Real parts of complex conjugate eigenvalues";
+                "Real parts of complex conjugate eigenvalues";
             output Real b[size(c0_in,1)]
-              "Imaginary parts of complex conjugate eigenvalues";
+                "Imaginary parts of complex conjugate eigenvalues";
             output Real ku[size(c0_in,1)] "Input gain";
-          protected
+            protected
             Real c0[size(c0_in,1)];
             Real c1[size(c0_in,1)];
             Real cr[size(cr_in,1)];
@@ -1564,24 +1565,24 @@ This representation has the following transfer function:
           end lowPass;
 
           function highPass
-            "Return high pass filter roots as needed for block for given cut-off frequency"
+              "Return high pass filter roots as needed for block for given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles of base filter";
             input Real c0_in[:]
-              "Coefficients of s^0 term of base filter if conjugate complex pole";
+                "Coefficients of s^0 term of base filter if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term of base filter if conjugate complex pole";
+                "Coefficients of s^1 term of base filter if conjugate complex pole";
             input Modelica.SIunits.Frequency f_cut "Cut-off frequency";
 
             output Real r[size(cr_in,1)] "Real eigenvalues";
             output Real a[size(c0_in,1)]
-              "Real parts of complex conjugate eigenvalues";
+                "Real parts of complex conjugate eigenvalues";
             output Real b[size(c0_in,1)]
-              "Imaginary parts of complex conjugate eigenvalues";
+                "Imaginary parts of complex conjugate eigenvalues";
             output Real ku[size(c0_in,1)] "Gains of input terms";
             output Real k1[size(c0_in,1)] "Gains of y = k1*x1 + k2*x + u";
             output Real k2[size(c0_in,1)] "Gains of y = k1*x1 + k2*x + u";
-          protected
+            protected
             Real c0[size(c0_in,1)];
             Real c1[size(c0_in,1)];
             Real cr[size(cr_in,1)];
@@ -1678,27 +1679,27 @@ This representation has the following transfer function:
           end highPass;
 
           function bandPass
-            "Return band pass filter roots as needed for block for given cut-off frequency"
+              "Return band pass filter roots as needed for block for given cut-off frequency"
             input Real cr_in[:] "Coefficients of real poles of base filter";
             input Real c0_in[:]
-              "Coefficients of s^0 term of base filter if conjugate complex pole";
+                "Coefficients of s^0 term of base filter if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term of base filter if conjugate complex pole";
+                "Coefficients of s^1 term of base filter if conjugate complex pole";
             input Modelica.SIunits.Frequency f_min
-              "Band of band pass filter is f_min (A=-3db) .. f_max (A=-3db)";
+                "Band of band pass filter is f_min (A=-3db) .. f_max (A=-3db)";
             input Modelica.SIunits.Frequency f_max "Upper band frequency";
 
             output Real a[size(cr_in,1) + 2*size(c0_in,1)]
-              "Real parts of complex conjugate eigenvalues";
+                "Real parts of complex conjugate eigenvalues";
             output Real b[size(cr_in,1) + 2*size(c0_in,1)]
-              "Imaginary parts of complex conjugate eigenvalues";
+                "Imaginary parts of complex conjugate eigenvalues";
             output Real ku[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of input terms";
+                "Gains of input terms";
             output Real k1[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of y = k1*x1 + k2*x";
+                "Gains of y = k1*x1 + k2*x";
             output Real k2[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of y = k1*x1 + k2*x";
-          protected
+                "Gains of y = k1*x1 + k2*x";
+            protected
             Real cr[0];
             Real c0[size(a,1)];
             Real c1[size(a,1)];
@@ -1773,28 +1774,28 @@ This representation has the following transfer function:
           end bandPass;
 
           function bandStop
-            "Return band stop filter roots as needed for block for given cut-off frequency"
+              "Return band stop filter roots as needed for block for given cut-off frequency"
 
             input Real cr_in[:] "Coefficients of real poles of base filter";
             input Real c0_in[:]
-              "Coefficients of s^0 term of base filter if conjugate complex pole";
+                "Coefficients of s^0 term of base filter if conjugate complex pole";
             input Real c1_in[size(c0_in,1)]
-              "Coefficients of s^1 term of base filter if conjugate complex pole";
+                "Coefficients of s^1 term of base filter if conjugate complex pole";
             input Modelica.SIunits.Frequency f_min
-              "Band of band stop filter is f_min (A=-3db) .. f_max (A=-3db)";
+                "Band of band stop filter is f_min (A=-3db) .. f_max (A=-3db)";
             input Modelica.SIunits.Frequency f_max "Upper band frequency";
 
             output Real a[size(cr_in,1) + 2*size(c0_in,1)]
-              "Real parts of complex conjugate eigenvalues";
+                "Real parts of complex conjugate eigenvalues";
             output Real b[size(cr_in,1) + 2*size(c0_in,1)]
-              "Imaginary parts of complex conjugate eigenvalues";
+                "Imaginary parts of complex conjugate eigenvalues";
             output Real ku[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of input terms";
+                "Gains of input terms";
             output Real k1[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of y = k1*x1 + k2*x";
+                "Gains of y = k1*x1 + k2*x";
             output Real k2[size(cr_in,1) + 2*size(c0_in,1)]
-              "Gains of y = k1*x1 + k2*x";
-          protected
+                "Gains of y = k1*x1 + k2*x";
+            protected
             Real cr[0];
             Real c0[size(a,1)];
             Real c1[size(a,1)];
@@ -1873,14 +1874,14 @@ This representation has the following transfer function:
               extends Modelica.Icons.Package;
 
             function BesselBaseCoefficients
-            "Return coefficients of normalized low pass Bessel filter (= gain at cut-off frequency 1 rad/s is decreased 3dB"
+              "Return coefficients of normalized low pass Bessel filter (= gain at cut-off frequency 1 rad/s is decreased 3dB"
 
               import Modelica.Utilities.Streams;
               input Integer order "Order of filter in the range 1..41";
               output Real c1[mod(order, 2)]
-              "[p] coefficients of Bessel denominator polynomials (a*p + 1)";
+                "[p] coefficients of Bessel denominator polynomials (a*p + 1)";
               output Real c2[integer(order/2),2]
-              "[p^2, p] coefficients of Bessel denominator polynomials (b2*p^2 + b1*p + 1)";
+                "[p^2, p] coefficients of Bessel denominator polynomials (b2*p^2 + b1*p + 1)";
               output Real alpha "Normalization factor";
             algorithm
               if order == 1 then
@@ -2918,18 +2919,18 @@ results from <blockquote><pre> a = -1/alpha </pre></blockquote> and
             end BesselBaseCoefficients;
 
             function toHighestPowerOne
-            "Transform filter to form with highest power of s equal 1"
+              "Transform filter to form with highest power of s equal 1"
 
               input Real den1[:]
-              "[s] coefficients of polynomials (den1[i]*s + 1)";
+                "[s] coefficients of polynomials (den1[i]*s + 1)";
               input Real den2[:,2]
-              "[s^2, s] coefficients of polynomials (den2[i,1]*s^2 + den2[i,2]*s + 1)";
+                "[s^2, s] coefficients of polynomials (den2[i,1]*s^2 + den2[i,2]*s + 1)";
               output Real cr[size(den1, 1)]
-              "[s^0] coefficients of polynomials cr[i]*(s+1/cr[i])";
+                "[s^0] coefficients of polynomials cr[i]*(s+1/cr[i])";
               output Real c0[size(den2, 1)]
-              "[s^0] coefficients of polynomials (s^2 + (den2[i,2]/den2[i,1])*s + (1/den2[i,1]))";
+                "[s^0] coefficients of polynomials (s^2 + (den2[i,2]/den2[i,1])*s + (1/den2[i,1]))";
               output Real c1[size(den2, 1)]
-              "[s^1] coefficients of polynomials (s^2 + (den2[i,2]/den2[i,1])*s + (1/den2[i,1]))";
+                "[s^1] coefficients of polynomials (s^2 + (den2[i,2]/den2[i,1])*s + (1/den2[i,1]))";
             algorithm
               for i in 1:size(den1, 1) loop
                 cr[i] := 1/den1[i];
@@ -2942,30 +2943,30 @@ results from <blockquote><pre> a = -1/alpha </pre></blockquote> and
             end toHighestPowerOne;
 
             function normalizationFactor
-            "Compute correction factor of low pass filter such that amplitude at cut-off frequency is -3db (=10^(-3/20) = 0.70794...)"
+              "Compute correction factor of low pass filter such that amplitude at cut-off frequency is -3db (=10^(-3/20) = 0.70794...)"
               import Modelica;
               import Modelica.Utilities.Streams;
 
               input Real c1[:]
-              "[p] coefficients of denominator polynomials (c1[i}*p + 1)";
+                "[p] coefficients of denominator polynomials (c1[i}*p + 1)";
               input Real c2[:,2]
-              "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
+                "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
               output Real alpha "Correction factor (replace p by alpha*p)";
-          protected
+            protected
               Real alpha_min;
               Real alpha_max;
 
               function normalizationResidue
-              "Residue of correction factor computation"
+                "Residue of correction factor computation"
                 input Real c1[:]
-                "[p] coefficients of denominator polynomials (c1[i]*p + 1)";
+                  "[p] coefficients of denominator polynomials (c1[i]*p + 1)";
                 input Real c2[:,2]
-                "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
+                  "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
                 input Real alpha;
                 output Real residue;
-            protected
+              protected
                 constant Real beta= 10^(-3/20)
-                "Amplitude of -3db required, i.e., -3db = 20*log(beta)";
+                  "Amplitude of -3db required, i.e., -3db = 20*log(beta)";
                 Real cc1;
                 Real cc2;
                 Real p;
@@ -2990,12 +2991,12 @@ results from <blockquote><pre> a = -1/alpha </pre></blockquote> and
 
               function findInterval "Find interval for the root"
                 input Real c1[:]
-                "[p] coefficients of denominator polynomials (a*p + 1)";
+                  "[p] coefficients of denominator polynomials (a*p + 1)";
                 input Real c2[:,2]
-                "[p^2, p] coefficients of denominator polynomials (b*p^2 + a*p + 1)";
+                  "[p^2, p] coefficients of denominator polynomials (b*p^2 + a*p + 1)";
                 output Real alpha_min;
                 output Real alpha_max;
-            protected
+              protected
                 Real alpha = 1.0;
                 Real residue;
               algorithm
@@ -3013,20 +3014,20 @@ results from <blockquote><pre> a = -1/alpha </pre></blockquote> and
               end findInterval;
 
             function solveOneNonlinearEquation
-              "Solve f(u) = 0; f(u_min) and f(u_max) must have different signs"
+                "Solve f(u) = 0; f(u_min) and f(u_max) must have different signs"
                 import Modelica.Utilities.Streams.error;
 
               input Real c1[:]
-                "[p] coefficients of denominator polynomials (c1[i]*p + 1)";
+                  "[p] coefficients of denominator polynomials (c1[i]*p + 1)";
               input Real c2[:,2]
-                "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
+                  "[p^2, p] coefficients of denominator polynomials (c2[i,1]*p^2 + c2[i,2]*p + 1)";
               input Real u_min "Lower bound of search intervall";
               input Real u_max "Upper bound of search intervall";
               input Real tolerance=100*Modelica.Constants.eps
-                "Relative tolerance of solution u";
+                  "Relative tolerance of solution u";
               output Real u "Value of independent variable so that f(u) = 0";
 
-            protected
+              protected
               constant Real eps=Modelica.Constants.eps "machine epsilon";
               Real a=u_min "Current best minimum interval value";
               Real b=u_max "Current best maximum interval value";
@@ -3180,10 +3181,10 @@ function. The solver function is a direct mapping of the Algol 60 procedure
                input Real a "Coefficient of s^1";
                input Real b "Coefficient of s^0";
                input Modelica.SIunits.AngularVelocity w
-              "Bandwidth angular frequency";
+                "Bandwidth angular frequency";
                output Real alpha "Alpha factor to build up band pass";
 
-          protected
+            protected
               Real alpha_min;
               Real alpha_max;
               Real z_min;
@@ -3201,7 +3202,7 @@ function. The solver function is a direct mapping of the Algol 60 procedure
               end residue;
 
             function solveOneNonlinearEquation
-              "Solve f(u) = 0; f(u_min) and f(u_max) must have different signs"
+                "Solve f(u) = 0; f(u_min) and f(u_max) must have different signs"
                 import Modelica.Utilities.Streams.error;
 
               input Real aa;
@@ -3210,10 +3211,10 @@ function. The solver function is a direct mapping of the Algol 60 procedure
               input Real u_min "Lower bound of search intervall";
               input Real u_max "Upper bound of search intervall";
               input Real tolerance=100*Modelica.Constants.eps
-                "Relative tolerance of solution u";
+                  "Relative tolerance of solution u";
               output Real u "Value of independent variable so that f(u) = 0";
 
-            protected
+              protected
               constant Real eps=Modelica.Constants.eps "machine epsilon";
               Real a=u_min "Current best minimum interval value";
               Real b=u_max "Current best maximum interval value";
@@ -3521,7 +3522,7 @@ for a 1-dim. rotational inertia controlled by a PI controller are that
     end Continuous;
 
     package Interfaces
-    "Library of connectors and partial models for input/output blocks"
+      "Library of connectors and partial models for input/output blocks"
       import Modelica.SIunits;
         extends Modelica.Icons.InterfacesPackage;
 
@@ -3672,7 +3673,7 @@ Block has one continuous Real output signal.
         end SO;
 
         partial block SISO
-      "Single Input Single Output continuous control block"
+        "Single Input Single Output continuous control block"
           extends BlockIcon;
 
           RealInput u "Connector of Real input signal"
@@ -3690,7 +3691,7 @@ Block has one continuous Real input and one continuous Real output signal.
         end SISO;
 
         partial block SI2SO
-      "2 Single Input / 1 Single Output continuous control block"
+        "2 Single Input / 1 Single Output continuous control block"
           extends BlockIcon;
 
           RealInput u1 "Connector of Real input signal 1"
@@ -3717,7 +3718,7 @@ continuous Real output signal y.
         end SI2SO;
 
         partial block MISO
-      "Multiple Input Single Output continuous control block"
+        "Multiple Input Single Output continuous control block"
 
           extends BlockIcon;
           parameter Integer nin=1 "Number of inputs";
@@ -3777,7 +3778,7 @@ to be used as base class for a corresponding controller.
         end SVcontrol;
 
         partial block DiscreteBlockIcon
-      "Graphical layout of discrete block component icon"
+        "Graphical layout of discrete block component icon"
 
           annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
                   -100},{100,100}}), graphics={Rectangle(
@@ -3801,12 +3802,12 @@ from Blocks.Discrete.
           extends DiscreteBlockIcon;
 
           parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start = 0.1)
-        "Sample period of component";
+          "Sample period of component";
           parameter SI.Time startTime=0 "First sample time instant";
-    protected
+      protected
           output Boolean sampleTrigger "True, if sample time instant";
           output Boolean firstTrigger
-        "Rising edge signals first sample instant";
+          "Rising edge signals first sample instant";
         equation
           sampleTrigger = sample(startTime, samplePeriod);
           when sampleTrigger then
@@ -3821,7 +3822,7 @@ Blocks.Discrete.
         end DiscreteBlock;
 
       partial block partialBooleanBlockIcon
-      "Basic graphical layout of logical block"
+        "Basic graphical layout of logical block"
 
         annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
                   -100},{100,100}}), graphics={Rectangle(
@@ -3875,7 +3876,7 @@ partial models for continuous and discrete blocks.
     end Interfaces;
 
     package Logical
-    "Library of components with Boolean input and output signals"
+      "Library of components with Boolean input and output signals"
         extends Modelica.Icons.Package;
 
       block Switch "Switch between two Real signals"
@@ -3961,7 +3962,7 @@ values are visualized in a diagram animation.
     end Logical;
 
     package Math
-    "Library of Real mathematical functions as input/output blocks"
+      "Library of Real mathematical functions as input/output blocks"
       import Modelica.SIunits;
       import Modelica.Blocks.Interfaces;
       extends Modelica.Icons.Package;
@@ -3969,8 +3970,8 @@ values are visualized in a diagram animation.
           block Gain "Output the product of a gain value with the input signal"
 
             parameter Real k(start=1, unit="1")
-        "Gain value multiplied with input signal";
-    public
+          "Gain value multiplied with input signal";
+      public
             Interfaces.RealInput u "Input signal connector"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}},
                 rotation=0)));
@@ -4075,7 +4076,7 @@ Example:
           end Sum;
 
           block Feedback
-      "Output difference between commanded and feedback input"
+        "Output difference between commanded and feedback input"
 
             input Interfaces.RealInput u1 annotation (Placement(transformation(
                 extent={{-100,-20},{-60,20}}, rotation=0)));
@@ -4153,7 +4154,7 @@ Example:
           end Feedback;
 
           block Add
-      "Output the sum of the two inputs (this is an obsolet block. Use instead MultiSum)"
+        "Output the sum of the two inputs (this is an obsolet block. Use instead MultiSum)"
             extends Interfaces.SI2SO;
             parameter Real k1=+1 "Gain of upper input";
             parameter Real k2=+1 "Gain of lower input";
@@ -4270,7 +4271,7 @@ Example:
           end Add;
 
           block Add3
-      "Output the sum of the three inputs (this is an obsolet block. Use instead MultiSum)"
+        "Output the sum of the three inputs (this is an obsolet block. Use instead MultiSum)"
             extends Interfaces.BlockIcon;
 
             parameter Real k1=+1 "Gain of upper input";
@@ -4382,7 +4383,7 @@ Example:
           end Add3;
 
           block Product
-      "Output product of the two inputs (this is an obsolet block. Use instead MultiProduct)"
+        "Output product of the two inputs (this is an obsolet block. Use instead MultiProduct)"
             extends Interfaces.SI2SO;
 
           equation
@@ -4455,7 +4456,7 @@ connected with continuous blocks or with sampled-data blocks.
     end Math;
 
     package Nonlinear
-    "Library of discontinuous or non-differentiable algebraic control blocks"
+      "Library of discontinuous or non-differentiable algebraic control blocks"
       import Modelica.Blocks.Interfaces;
       extends Modelica.Icons.Package;
 
@@ -4463,7 +4464,7 @@ connected with continuous blocks or with sampled-data blocks.
             parameter Real uMax(start=1) "Upper limits of input signals";
             parameter Real uMin= -uMax "Lower limits of input signals";
             parameter Boolean limitsAtInit = true
-        "= false, if limits are ignored during initializiation (i.e., y=u)";
+          "= false, if limits are ignored during initializiation (i.e., y=u)";
             extends Interfaces.SISO;
 
           equation
@@ -4582,22 +4583,22 @@ This package contains <b>discontinuous</b> and
         parameter Integer n4=1 "dimension of input signal connector 4";
         parameter Integer n5=1 "dimension of input signal connector 5";
         Modelica.Blocks.Interfaces.RealInput u1[n1]
-        "Connector of Real input signals 1"   annotation (Placement(transformation(
+          "Connector of Real input signals 1" annotation (Placement(transformation(
                 extent={{-140,80},{-100,120}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealInput u2[n2]
-        "Connector of Real input signals 2"   annotation (Placement(transformation(
+          "Connector of Real input signals 2" annotation (Placement(transformation(
                 extent={{-140,30},{-100,70}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealInput u3[n3]
-        "Connector of Real input signals 3"   annotation (Placement(transformation(
+          "Connector of Real input signals 3" annotation (Placement(transformation(
                 extent={{-140,-20},{-100,20}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealInput u4[n4]
-        "Connector of Real input signals 4"   annotation (Placement(transformation(
+          "Connector of Real input signals 4" annotation (Placement(transformation(
                 extent={{-140,-70},{-100,-30}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealInput u5[n5]
-        "Connector of Real input signals 5"   annotation (Placement(transformation(
+          "Connector of Real input signals 5" annotation (Placement(transformation(
                 extent={{-140,-120},{-100,-80}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealOutput y[n1 + n2 + n3 + n4 + n5]
-        "Connector of Real output signals"   annotation (Placement(transformation(
+          "Connector of Real output signals" annotation (Placement(transformation(
                 extent={{100,-10},{120,10}}, rotation=0)));
 
       equation
@@ -4650,19 +4651,19 @@ explicitly defined via parameters n1, n2, n3, n4 and n5.
         parameter Integer n3=1 "dimension of output signal connector 3";
         parameter Integer n4=1 "dimension of output signal connector 4";
         Modelica.Blocks.Interfaces.RealInput u[n1 + n2 + n3 + n4]
-        "Connector of Real input signals"   annotation (Placement(transformation(
+          "Connector of Real input signals" annotation (Placement(transformation(
                 extent={{-140,-20},{-100,20}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealOutput y1[n1]
-        "Connector of Real output signals 1"   annotation (Placement(transformation(
+          "Connector of Real output signals 1" annotation (Placement(transformation(
                 extent={{100,80},{120,100}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealOutput y2[n2]
-        "Connector of Real output signals 2"   annotation (Placement(transformation(
+          "Connector of Real output signals 2" annotation (Placement(transformation(
                 extent={{100,20},{120,40}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealOutput y3[n3]
-        "Connector of Real output signals 3"   annotation (Placement(transformation(
+          "Connector of Real output signals 3" annotation (Placement(transformation(
                 extent={{100,-40},{120,-20}}, rotation=0)));
         Modelica.Blocks.Interfaces.RealOutput y4[n4]
-        "Connector of Real output signals 4"   annotation (Placement(transformation(
+          "Connector of Real output signals 4" annotation (Placement(transformation(
                 extent={{100,-100},{120,-80}}, rotation=0)));
 
       equation
@@ -4711,13 +4712,13 @@ This package contains blocks to combine and extract signals.
     end Routing;
 
     package Sources
-    "Library of signal source blocks generating Real and Boolean signals"
+      "Library of signal source blocks generating Real and Boolean signals"
       import Modelica.Blocks.Interfaces;
       import Modelica.SIunits;
       extends Modelica.Icons.SourcesPackage;
 
       block RealExpression
-      "Set output signal to a time varying Real expression"
+        "Set output signal to a time varying Real expression"
 
         Modelica.Blocks.Interfaces.RealOutput y=0.0 "Value of Real output"
           annotation (                            Dialog(group=
@@ -4891,34 +4892,34 @@ usually requires a trimming calculation.
     end Sources;
 
     package Types
-    "Library of constants and types with choices, especially to build menus"
+      "Library of constants and types with choices, especially to build menus"
       extends Modelica.Icons.Package;
 
       type Init = enumeration(
-        NoInit
-          "No initialization (start values are used as guess values with fixed=false)",
+          NoInit
+            "No initialization (start values are used as guess values with fixed=false)",
 
-        SteadyState
-          "Steady state initialization (derivatives of states are zero)",
-        InitialState "Initialization with initial states",
-        InitialOutput
-          "Initialization with initial outputs (and steady state of the states if possibles)")
-      "Enumeration defining initialization of a block"
+          SteadyState
+            "Steady state initialization (derivatives of states are zero)",
+          InitialState "Initialization with initial states",
+          InitialOutput
+            "Initialization with initial outputs (and steady state of the states if possibles)")
+        "Enumeration defining initialization of a block"
           annotation (Evaluate=true);
 
       type InitPID = enumeration(
-        NoInit
-          "No initialization (start values are used as guess values with fixed=false)",
+          NoInit
+            "No initialization (start values are used as guess values with fixed=false)",
 
-        SteadyState
-          "Steady state initialization (derivatives of states are zero)",
-        InitialState "Initialization with initial states",
-        InitialOutput
-          "Initialization with initial outputs (and steady state of the states if possibles)",
+          SteadyState
+            "Steady state initialization (derivatives of states are zero)",
+          InitialState "Initialization with initial states",
+          InitialOutput
+            "Initialization with initial outputs (and steady state of the states if possibles)",
 
-        DoNotUse_InitialIntegratorState
-          "Don't use, only for backward compatibility (initialize only integrator state)")
-      "Enumeration defining initialization of PID and LimPID blocks"
+          DoNotUse_InitialIntegratorState
+            "Don't use, only for backward compatibility (initialize only integrator state)")
+        "Enumeration defining initialization of PID and LimPID blocks"
         annotation (Documentation(info="<html>
 <p>
 This initialization type is identical to Types.Init and has just one
@@ -4934,27 +4935,27 @@ initialization definition.
 </html>"),       Evaluate=true);
 
       type SimpleController = enumeration(
-        P "P controller",
-        PI "PI controller",
-        PD "PD controller",
-        PID "PID controller")
-      "Enumeration defining P, PI, PD, or PID simple controller type"
+          P "P controller",
+          PI "PI controller",
+          PD "PD controller",
+          PID "PID controller")
+        "Enumeration defining P, PI, PD, or PID simple controller type"
           annotation (Evaluate=true);
 
     type AnalogFilter = enumeration(
-        CriticalDamping "Filter with critical damping",
-        Bessel "Bessel filter",
-        Butterworth "Butterworth filter",
-        ChebyshevI "Chebyshev I filter")
-      "Enumeration defining the method of filtering"
+          CriticalDamping "Filter with critical damping",
+          Bessel "Bessel filter",
+          Butterworth "Butterworth filter",
+          ChebyshevI "Chebyshev I filter")
+        "Enumeration defining the method of filtering"
           annotation (Evaluate=true);
 
     type FilterType = enumeration(
-        LowPass "Low pass filter",
-        HighPass "High pass filter",
-        BandPass "Band pass filter",
-        BandStop "Band stop / notch filter")
-      "Enumeration of analog filter types (low, high, band pass or band stop filter"
+          LowPass "Low pass filter",
+          HighPass "High pass filter",
+          BandPass "Band pass filter",
+          BandStop "Band stop / notch filter")
+        "Enumeration of analog filter types (low, high, band pass or band stop filter"
         annotation (Evaluate=true);
       annotation ( Documentation(info="<HTML>
 <p>
@@ -5047,33 +5048,33 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Blocks;
 
   package Fluid
-  "Library of 1-dim. thermo-fluid flow models using the Modelica.Media media description"
+    "Library of 1-dim. thermo-fluid flow models using the Modelica.Media media description"
     extends Modelica.Icons.Package;
     import SI = Modelica.SIunits;
 
     model System
-    "System properties and default values (ambient, flow direction, initialization)"
+      "System properties and default values (ambient, flow direction, initialization)"
 
       package Medium = Modelica.Media.Interfaces.PartialMedium
-      "Medium model for default start values"
+        "Medium model for default start values"
           annotation (choicesAllMatching = true);
       parameter Modelica.SIunits.AbsolutePressure p_ambient=101325
-      "Default ambient pressure"
+        "Default ambient pressure"
         annotation(Dialog(group="Environment"));
       parameter Modelica.SIunits.Temperature T_ambient=293.15
-      "Default ambient temperature"
+        "Default ambient temperature"
         annotation(Dialog(group="Environment"));
       parameter Modelica.SIunits.Acceleration g=Modelica.Constants.g_n
-      "Constant gravity acceleration"
+        "Constant gravity acceleration"
         annotation(Dialog(group="Environment"));
 
       // Assumptions
       parameter Boolean allowFlowReversal = true
-      "= false to restrict to design flow direction (port_a -> port_b)"
+        "= false to restrict to design flow direction (port_a -> port_b)"
         annotation(Dialog(tab="Assumptions"), Evaluate=true);
       parameter Modelica.Fluid.Types.Dynamics energyDynamics=
         Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-      "Default formulation of energy balances"
+        "Default formulation of energy balances"
         annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
       parameter Modelica.Fluid.Types.Dynamics massDynamics=
         energyDynamics "Default formulation of mass balances"
@@ -5086,26 +5087,26 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
         annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
       parameter Modelica.Fluid.Types.Dynamics momentumDynamics=
         Modelica.Fluid.Types.Dynamics.SteadyState
-      "Default formulation of momentum balances, if options available"
+        "Default formulation of momentum balances, if options available"
         annotation(Evaluate=true, Dialog(tab = "Assumptions", group="Dynamics"));
 
       // Initialization
       parameter Modelica.SIunits.MassFlowRate m_flow_start = 0
-      "Default start value for mass flow rates"
+        "Default start value for mass flow rates"
         annotation(Dialog(tab = "Initialization"));
       parameter Modelica.SIunits.AbsolutePressure p_start = p_ambient
-      "Default start value for pressures"
+        "Default start value for pressures"
         annotation(Dialog(tab = "Initialization"));
       parameter Modelica.SIunits.Temperature T_start = T_ambient
-      "Default start value for temperatures"
+        "Default start value for temperatures"
         annotation(Dialog(tab = "Initialization"));
 
       // Advanced
       parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 0.01
-      "Default small laminar mass flow rate for regularization of zero flow"
+        "Default small laminar mass flow rate for regularization of zero flow"
         annotation(Dialog(tab = "Advanced"));
       parameter Modelica.SIunits.AbsolutePressure dp_small(min=0) = 1
-      "Default small pressure drop for regularization of laminar and zero flow"
+        "Default small pressure drop for regularization of laminar and zero flow"
         annotation(Dialog(tab="Advanced"));
 
       annotation (
@@ -5178,11 +5179,11 @@ is used for the current simulation.
        extends Modelica.Icons.VariantsPackage;
 
       package BaseClasses
-      "Base classes used in the Vessels package (only of interest to build new component models)"
+        "Base classes used in the Vessels package (only of interest to build new component models)"
         extends Modelica.Icons.BasesPackage;
 
         connector VesselFluidPorts_b
-        "Fluid connector with outlined, large icon to be used for horizontally aligned vectors of FluidPorts (vector dimensions must be added after dragging)"
+          "Fluid connector with outlined, large icon to be used for horizontally aligned vectors of FluidPorts (vector dimensions must be added after dragging)"
           extends Interfaces.FluidPort;
           annotation (defaultComponentName="ports_b",
                       Diagram(coordinateSystem(
@@ -5275,18 +5276,18 @@ is used for the current simulation.
       extends Modelica.Icons.SourcesPackage;
 
       package BaseClasses
-      "Base classes used in the Sources package (only of interest to build new component models)"
+        "Base classes used in the Sources package (only of interest to build new component models)"
         extends Modelica.Icons.BasesPackage;
 
       partial model PartialSource
-        "Partial component source with one fluid connector"
+          "Partial component source with one fluid connector"
           import Modelica.Constants;
 
         parameter Integer nPorts=0 "Number of ports" annotation(Dialog(connectorSizing=true));
 
         replaceable package Medium =
             Modelica.Media.Interfaces.PartialMedium
-          "Medium model within the source"
+            "Medium model within the source"
            annotation (choicesAllMatching=true);
 
         Medium.BaseProperties medium "Medium in the source";
@@ -5298,10 +5299,10 @@ is used for the current simulation.
                                   each min=if flowDirection==Types.PortFlowDirection.Entering then 0 else
                                            -Constants.inf))
           annotation (Placement(transformation(extent={{90,40},{110,-40}})));
-      protected
+        protected
         parameter Types.PortFlowDirection flowDirection=
                          Types.PortFlowDirection.Bidirectional
-          "Allowed flow direction"               annotation(Evaluate=true, Dialog(tab="Advanced"));
+            "Allowed flow direction"             annotation(Evaluate=true, Dialog(tab="Advanced"));
       equation
         // Only one connection allowed to a port to avoid unwanted ideal mixing
         for i in 1:nPorts loop
@@ -5345,25 +5346,25 @@ to define fixed or prescribed ambient conditions.
     end Sources;
 
     package Interfaces
-    "Interfaces for steady state and unsteady, mixed-phase, multi-substance, incompressible and compressible flow"
+      "Interfaces for steady state and unsteady, mixed-phase, multi-substance, incompressible and compressible flow"
       extends Modelica.Icons.InterfacesPackage;
 
       connector FluidPort
-      "Interface for quasi one-dimensional fluid flow in a piping network (incompressible or compressible, one or more phases, one or more substances)"
+        "Interface for quasi one-dimensional fluid flow in a piping network (incompressible or compressible, one or more phases, one or more substances)"
 
         replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
-        "Medium model"   annotation (choicesAllMatching=true);
+          "Medium model" annotation (choicesAllMatching=true);
 
         flow Medium.MassFlowRate m_flow
-        "Mass flow rate from the connection point into the component";
+          "Mass flow rate from the connection point into the component";
         Medium.AbsolutePressure p
-        "Thermodynamic pressure in the connection point";
+          "Thermodynamic pressure in the connection point";
         stream Medium.SpecificEnthalpy h_outflow
-        "Specific thermodynamic enthalpy close to the connection point if m_flow < 0";
+          "Specific thermodynamic enthalpy close to the connection point if m_flow < 0";
         stream Medium.MassFraction Xi_outflow[Medium.nXi]
-        "Independent mixture mass fractions m_i/m close to the connection point if m_flow < 0";
+          "Independent mixture mass fractions m_i/m close to the connection point if m_flow < 0";
         stream Medium.ExtraProperty C_outflow[Medium.nC]
-        "Properties c_i/m close to the connection point if m_flow < 0";
+          "Properties c_i/m close to the connection point if m_flow < 0";
       end FluidPort;
 
       connector FluidPort_a "Generic fluid connector at design inlet"
@@ -5424,7 +5425,7 @@ to define fixed or prescribed ambient conditions.
       end FluidPort_b;
 
       connector FluidPorts_b
-      "Fluid connector with outlined, large icon to be used for vectors of FluidPorts (vector dimensions must be added after dragging)"
+        "Fluid connector with outlined, large icon to be used for vectors of FluidPorts (vector dimensions must be added after dragging)"
         extends FluidPort;
         annotation (defaultComponentName="ports_b",
                     Diagram(coordinateSystem(
@@ -5517,29 +5518,29 @@ to define fixed or prescribed ambient conditions.
             annotation (choicesAllMatching = true);
 
         parameter Boolean allowFlowReversal = system.allowFlowReversal
-        "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+          "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
           annotation(Dialog(tab="Assumptions"), Evaluate=true);
 
         Modelica.Fluid.Interfaces.FluidPort_a port_a(
                                       redeclare package Medium = Medium,
                            m_flow(min=if allowFlowReversal then -Constants.inf else 0))
-        "Fluid connector a (positive design flow direction is from port_a to port_b)"
+          "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}},
                   rotation=0)));
         Modelica.Fluid.Interfaces.FluidPort_b port_b(
                                       redeclare package Medium = Medium,
                            m_flow(max=if allowFlowReversal then +Constants.inf else 0))
-        "Fluid connector b (positive design flow direction is from port_a to port_b)"
+          "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{110,-10},{90,10}}, rotation=
                    0), iconTransformation(extent={{110,-10},{90,10}})));
         // Model structure, e.g., used for visualization
-    protected
+      protected
         parameter Boolean port_a_exposesState = false
-        "= true if port_a exposes the state of a fluid volume";
+          "= true if port_a exposes the state of a fluid volume";
         parameter Boolean port_b_exposesState = false
-        "= true if port_b.p exposes the state of a fluid volume";
+          "= true if port_b.p exposes the state of a fluid volume";
         parameter Boolean showDesignFlowDirection = true
-        "= false to hide the arrow in the model icon";
+          "= false to hide the arrow in the model icon";
 
         annotation (
           Diagram(coordinateSystem(
@@ -5599,7 +5600,7 @@ This will be visualized at the port icons, in order to improve the understanding
       end PartialTwoPort;
 
     partial model PartialTwoPortTransport
-      "Partial element transporting fluid between two ports without storage of mass or energy"
+        "Partial element transporting fluid between two ports without storage of mass or energy"
 
       extends PartialTwoPort(
         final port_a_exposesState=false,
@@ -5607,21 +5608,21 @@ This will be visualized at the port icons, in order to improve the understanding
 
       // Advanced
       parameter Medium.AbsolutePressure dp_start = 0.01*system.p_start
-        "Guess value of dp = port_a.p - port_b.p"
+          "Guess value of dp = port_a.p - port_b.p"
         annotation(Dialog(tab = "Advanced"));
       parameter Medium.MassFlowRate m_flow_start = system.m_flow_start
-        "Guess value of m_flow = port_a.m_flow"
+          "Guess value of m_flow = port_a.m_flow"
         annotation(Dialog(tab = "Advanced"));
       parameter Medium.MassFlowRate m_flow_small = system.m_flow_small
-        "Small mass flow rate for regularization of zero flow"
+          "Small mass flow rate for regularization of zero flow"
         annotation(Dialog(tab = "Advanced"));
 
       // Diagnostics
       parameter Boolean show_T = true
-        "= true, if temperatures at port_a and port_b are computed"
+          "= true, if temperatures at port_a and port_b are computed"
         annotation(Dialog(tab="Advanced",group="Diagnostics"));
       parameter Boolean show_V_flow = true
-        "= true, if volume flow rate at inflowing port is computed"
+          "= true, if volume flow rate at inflowing port is computed"
         annotation(Dialog(tab="Advanced",group="Diagnostics"));
 
       // Variables
@@ -5629,32 +5630,32 @@ This will be visualized at the port icons, in order to improve the understanding
          min=if allowFlowReversal then -Modelica.Constants.inf else 0,
          start = m_flow_start) "Mass flow rate in design flow direction";
       Modelica.SIunits.Pressure dp(start=dp_start)
-        "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
+          "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
 
       Modelica.SIunits.VolumeFlowRate V_flow=
           m_flow/Modelica.Fluid.Utilities.regStep(m_flow,
                       Medium.density(state_a),
                       Medium.density(state_b),
                       m_flow_small) if show_V_flow
-        "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
+          "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
 
       Medium.Temperature port_a_T=
           Modelica.Fluid.Utilities.regStep(port_a.m_flow,
                       Medium.temperature(state_a),
                       Medium.temperature(Medium.setState_phX(port_a.p, port_a.h_outflow, port_a.Xi_outflow)),
                       m_flow_small) if show_T
-        "Temperature close to port_a, if show_T = true";
+          "Temperature close to port_a, if show_T = true";
       Medium.Temperature port_b_T=
           Modelica.Fluid.Utilities.regStep(port_b.m_flow,
                       Medium.temperature(state_b),
                       Medium.temperature(Medium.setState_phX(port_b.p, port_b.h_outflow, port_b.Xi_outflow)),
                       m_flow_small) if show_T
-        "Temperature close to port_b, if show_T = true";
-    protected
+          "Temperature close to port_b, if show_T = true";
+      protected
       Medium.ThermodynamicState state_a
-        "state for medium inflowing through port_a";
+          "state for medium inflowing through port_a";
       Medium.ThermodynamicState state_b
-        "state for medium inflowing through port_b";
+          "state for medium inflowing through port_b";
     equation
       // medium states
       state_a = Medium.setState_phX(port_a.p, inStream(port_a.h_outflow), inStream(port_a.Xi_outflow));
@@ -5743,14 +5744,15 @@ Three equations need to be added by an extending class using this component:
       extends Modelica.Icons.Package;
 
       type Dynamics = enumeration(
-        DynamicFreeInitial
-          "DynamicFreeInitial -- Dynamic balance, Initial guess value",
-        FixedInitial "FixedInitial -- Dynamic balance, Initial value fixed",
-        SteadyStateInitial
-          "SteadyStateInitial -- Dynamic balance, Steady state initial with guess value",
+          DynamicFreeInitial
+            "DynamicFreeInitial -- Dynamic balance, Initial guess value",
+          FixedInitial "FixedInitial -- Dynamic balance, Initial value fixed",
+          SteadyStateInitial
+            "SteadyStateInitial -- Dynamic balance, Steady state initial with guess value",
 
-        SteadyState "SteadyState -- Steady state balance, Initial guess value")
-      "Enumeration to define definition of balance equations"
+          SteadyState
+            "SteadyState -- Steady state balance, Initial guess value")
+        "Enumeration to define definition of balance equations"
       annotation (Documentation(info="<html>
 <p>
 Enumeration to define the formulation of balance equations
@@ -5866,10 +5868,11 @@ media have Medium.singleState = <b>true</b>.
 </html>"));
 
       type PortFlowDirection = enumeration(
-        Entering "Fluid flow is only entering",
-        Leaving "Fluid flow is only leaving",
-        Bidirectional "No restrictions on fluid flow (flow reversal possible)")
-      "Enumeration to define whether flow reversal is allowed"   annotation (
+          Entering "Fluid flow is only entering",
+          Leaving "Fluid flow is only leaving",
+          Bidirectional
+            "No restrictions on fluid flow (flow reversal possible)")
+        "Enumeration to define whether flow reversal is allowed" annotation (
           Documentation(info="<html>
 
 <p>
@@ -5905,7 +5908,7 @@ make the simulation of your model faster.
     end Types;
 
     package Utilities
-    "Utility models to construct fluid components (should not be used directly) "
+      "Utility models to construct fluid components (should not be used directly) "
       extends Modelica.Icons.Package;
 
       function checkBoundary "Check whether boundary definition is correct"
@@ -5916,7 +5919,7 @@ make the simulation of your model faster.
         input Boolean define_p;
         input Real X_boundary[:];
         input String modelName = "??? boundary ???";
-    protected
+      protected
         Integer nX = size(X_boundary,1);
         String X_str;
       algorithm
@@ -5951,30 +5954,30 @@ is negative. It must be positive.
       end checkBoundary;
 
       function regRoot2
-      "Anti-symmetric approximation of square root with discontinuous factor so that the first derivative is finite and continuous"
+        "Anti-symmetric approximation of square root with discontinuous factor so that the first derivative is finite and continuous"
 
         extends Modelica.Icons.Function;
         input Real x "abscissa value";
         input Real x_small(min=0)=0.01
-        "approximation of function for |x| <= x_small";
+          "approximation of function for |x| <= x_small";
         input Real k1(min=0)=1 "y = if x>=0 then sqrt(k1*x) else -sqrt(k2*|x|)";
         input Real k2(min=0)=1 "y = if x>=0 then sqrt(k1*x) else -sqrt(k2*|x|)";
         input Boolean use_yd0 = false "= true, if yd0 shall be used";
         input Real yd0(min=0)=1 "Desired derivative at x=0: dy/dx = yd0";
         output Real y "ordinate value";
-    protected
+      protected
         encapsulated function regRoot2_utility
-        "Interpolating with two 3-order polynomials with a prescribed derivative at x=0"
+          "Interpolating with two 3-order polynomials with a prescribed derivative at x=0"
           import Modelica.Fluid.Utilities.evaluatePoly3_derivativeAtZero;
            input Real x;
            input Real x1 "approximation of function abs(x) < x1";
            input Real k1
-          "y = if x>=0 then sqrt(k1*x) else -sqrt(k2*|x|); k1 >= k2";
+            "y = if x>=0 then sqrt(k1*x) else -sqrt(k2*|x|); k1 >= k2";
            input Real k2 "y = if x>=0 then sqrt(k1*x) else -sqrt(k2*|x|))";
            input Boolean use_yd0 "= true, if yd0 shall be used";
            input Real yd0(min=0) "Desired derivative at x=0: dy/dx = yd0";
            output Real y;
-      protected
+        protected
            Real x2;
            Real xsqrt1;
            Real xsqrt2;
@@ -6135,19 +6138,19 @@ k1=1, k2=3 is shown in the next figure:
       end regRoot2;
 
       function regSquare2
-      "Anti-symmetric approximation of square with discontinuous factor so that the first derivative is non-zero and is continuous"
+        "Anti-symmetric approximation of square with discontinuous factor so that the first derivative is non-zero and is continuous"
         extends Modelica.Icons.Function;
         input Real x "abscissa value";
         input Real x_small(min=0)=0.01
-        "approximation of function for |x| <= x_small";
+          "approximation of function for |x| <= x_small";
         input Real k1(min=0)=1 "y = (if x>=0 then k1 else k2)*x*|x|";
         input Real k2(min=0)=1 "y = (if x>=0 then k1 else k2)*x*|x|";
         input Boolean use_yd0 = false "= true, if yd0 shall be used";
         input Real yd0(min=0)=1 "Desired derivative at x=0: dy/dx = yd0";
         output Real y "ordinate value";
-    protected
+      protected
         encapsulated function regSquare2_utility
-        "Interpolating with two 3-order polynomials with a prescribed derivative at x=0"
+          "Interpolating with two 3-order polynomials with a prescribed derivative at x=0"
           import Modelica.Fluid.Utilities.evaluatePoly3_derivativeAtZero;
            input Real x;
            input Real x1 "approximation of function abs(x) < x1";
@@ -6156,7 +6159,7 @@ k1=1, k2=3 is shown in the next figure:
            input Boolean use_yd0 = false "= true, if yd0 shall be used";
            input Real yd0(min=0)=1 "Desired derivative at x=0: dy/dx = yd0";
            output Real y;
-      protected
+        protected
            Real x2;
            Real y1;
            Real y2;
@@ -6272,15 +6275,15 @@ k1=1, k2=3 is shown in the next figure:
       end regSquare2;
 
       function regStep
-      "Approximation of a general step, such that the characteristic is continuous and differentiable"
+        "Approximation of a general step, such that the characteristic is continuous and differentiable"
         extends Modelica.Icons.Function;
         input Real x "Abscissa value";
         input Real y1 "Ordinate value for x > 0";
         input Real y2 "Ordinate value for x < 0";
         input Real x_small(min=0) = 1e-5
-        "Approximation of step for -x_small <= x <= x_small; x_small >= 0 required";
+          "Approximation of step for -x_small <= x <= x_small; x_small >= 0 required";
         output Real y
-        "Ordinate value to approximate y = if x > 0 then y1 else y2";
+          "Ordinate value to approximate y = if x > 0 then y1 else y2";
       algorithm
         y := smooth(1, if x >  x_small then y1 else
                        if x < -x_small then y2 else
@@ -6319,7 +6322,7 @@ for a smooth transition from y1 to y2.
       end regStep;
 
       function evaluatePoly3_derivativeAtZero
-      "Evaluate polynomial of order 3 that passes the origin with a predefined derivative"
+        "Evaluate polynomial of order 3 that passes the origin with a predefined derivative"
         extends Modelica.Icons.Function;
         input Real x "Value for which polynomial shall be evaluated";
         input Real x1 "Abscissa value";
@@ -6327,7 +6330,7 @@ for a smooth transition from y1 to y2.
         input Real y1d "First derivative at y1";
         input Real y0d "First derivative at f(x=0)";
         output Real y;
-    protected
+      protected
         Real a1;
         Real a2;
         Real a3;
@@ -6352,7 +6355,7 @@ for a smooth transition from y1 to y2.
         input Real y1d "Lower gradient";
         input Real y2d "Upper gradient";
         output Real y "Interpolated ordinate value";
-    protected
+      protected
         Real h "Distance between x1 and x2";
         Real t "abscissa scaled with h, i.e., t=[0..1] within x=[x1..x2]";
         Real h00 "Basis function 00 of cubic Hermite spline";
@@ -6457,105 +6460,105 @@ Copyright &copy; 2002-2010, ABB, DLR, Dassault Syst&egrave;mes AB, Modelon, TU B
     import SI = Modelica.SIunits;
 
     partial package PartialMedium
-    "Partial medium properties (base package of all media packages)"
+        "Partial medium properties (base package of all media packages)"
 
       import SI = Modelica.SIunits;
       extends Modelica.Icons.MaterialPropertiesPackage;
 
       // Constants to be set in Medium
       constant
-      Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables
+          Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables
         ThermoStates "Enumeration type for independent variables";
       constant String mediumName = "unusablePartialMedium" "Name of the medium";
       constant String substanceNames[:]={mediumName}
-      "Names of the mixture substances. Set substanceNames={mediumName} if only one substance.";
+          "Names of the mixture substances. Set substanceNames={mediumName} if only one substance.";
       constant String extraPropertiesNames[:]=fill("", 0)
-      "Names of the additional (extra) transported properties. Set extraPropertiesNames=fill(\"\",0) if unused";
+          "Names of the additional (extra) transported properties. Set extraPropertiesNames=fill(\"\",0) if unused";
       constant Boolean singleState
-      "= true, if u and d are not a function of pressure";
+          "= true, if u and d are not a function of pressure";
       constant Boolean reducedX=true
-      "= true if medium contains the equation sum(X) = 1.0; set reducedX=true if only one substance (see docu for details)";
+          "= true if medium contains the equation sum(X) = 1.0; set reducedX=true if only one substance (see docu for details)";
       constant Boolean fixedX=false
-      "= true if medium contains the equation X = reference_X";
+          "= true if medium contains the equation X = reference_X";
       constant AbsolutePressure reference_p=101325
-      "Reference pressure of Medium: default 1 atmosphere";
+          "Reference pressure of Medium: default 1 atmosphere";
       constant Temperature reference_T=298.15
-      "Reference temperature of Medium: default 25 deg Celsius";
+          "Reference temperature of Medium: default 25 deg Celsius";
       constant MassFraction reference_X[nX]= fill(1/nX, nX)
-      "Default mass fractions of medium";
+          "Default mass fractions of medium";
       constant AbsolutePressure p_default=101325
-      "Default value for pressure of medium (for initialization)";
+          "Default value for pressure of medium (for initialization)";
       constant Temperature T_default = Modelica.SIunits.Conversions.from_degC(20)
-      "Default value for temperature of medium (for initialization)";
+          "Default value for temperature of medium (for initialization)";
       constant SpecificEnthalpy h_default = specificEnthalpy_pTX(p_default, T_default, X_default)
-      "Default value for specific enthalpy of medium (for initialization)";
+          "Default value for specific enthalpy of medium (for initialization)";
       constant MassFraction X_default[nX]=reference_X
-      "Default value for mass fractions of medium (for initialization)";
+          "Default value for mass fractions of medium (for initialization)";
 
       final constant Integer nS=size(substanceNames, 1) "Number of substances" annotation(Evaluate=true);
       constant Integer nX = nS "Number of mass fractions"
                                    annotation(Evaluate=true);
       constant Integer nXi=if fixedX then 0 else if reducedX then nS - 1 else nS
-      "Number of structurally independent mass fractions (see docu for details)"
+          "Number of structurally independent mass fractions (see docu for details)"
         annotation(Evaluate=true);
 
       final constant Integer nC=size(extraPropertiesNames, 1)
-      "Number of extra (outside of standard mass-balance) transported properties"
+          "Number of extra (outside of standard mass-balance) transported properties"
        annotation(Evaluate=true);
       constant Real C_nominal[nC](min=fill(Modelica.Constants.eps, nC)) = 1.0e-6*ones(nC)
-      "Default for the nominal values for the extra properties";
+          "Default for the nominal values for the extra properties";
       replaceable record FluidConstants
-      "critical, triple, molecular and other standard data of fluid"
+          "critical, triple, molecular and other standard data of fluid"
         extends Modelica.Icons.Record;
         String iupacName
-        "complete IUPAC name (or common name, if non-existent)";
+            "complete IUPAC name (or common name, if non-existent)";
         String casRegistryNumber
-        "chemical abstracts sequencing number (if it exists)";
+            "chemical abstracts sequencing number (if it exists)";
         String chemicalFormula
-        "Chemical formula, (brutto, nomenclature according to Hill";
+            "Chemical formula, (brutto, nomenclature according to Hill";
         String structureFormula "Chemical structure formula";
         MolarMass molarMass "molar mass";
       end FluidConstants;
 
       replaceable record ThermodynamicState
-      "Minimal variable set that is available as input argument to every medium function"
+          "Minimal variable set that is available as input argument to every medium function"
         extends Modelica.Icons.Record;
       end ThermodynamicState;
 
       replaceable partial model BaseProperties
-      "Base properties (p, d, T, h, u, R, MM and, if applicable, X and Xi) of a medium"
+          "Base properties (p, d, T, h, u, R, MM and, if applicable, X and Xi) of a medium"
         InputAbsolutePressure p "Absolute pressure of medium";
         InputMassFraction[nXi] Xi(start=reference_X[1:nXi])
-        "Structurally independent mass fractions";
+            "Structurally independent mass fractions";
         InputSpecificEnthalpy h "Specific enthalpy of medium";
         Density d "Density of medium";
         Temperature T "Temperature of medium";
         MassFraction[nX] X(start=reference_X)
-        "Mass fractions (= (component mass)/total mass  m_i/m)";
+            "Mass fractions (= (component mass)/total mass  m_i/m)";
         SpecificInternalEnergy u "Specific internal energy of medium";
         SpecificHeatCapacity R "Gas constant (of mixture if applicable)";
         MolarMass MM "Molar mass (of mixture or single fluid)";
         ThermodynamicState state
-        "thermodynamic state record for optional functions";
+            "thermodynamic state record for optional functions";
         parameter Boolean preferredMediumStates=false
-        "= true if StateSelect.prefer shall be used for the independent property variables of the medium"
+            "= true if StateSelect.prefer shall be used for the independent property variables of the medium"
           annotation (Evaluate=true, Dialog(tab="Advanced"));
         parameter Boolean standardOrderComponents = true
-        "if true, and reducedX = true, the last element of X will be computed from the other ones";
+            "if true, and reducedX = true, the last element of X will be computed from the other ones";
         SI.Conversions.NonSIunits.Temperature_degC T_degC=
             Modelica.SIunits.Conversions.to_degC(T)
-        "Temperature of medium in [degC]";
+            "Temperature of medium in [degC]";
         SI.Conversions.NonSIunits.Pressure_bar p_bar=
          Modelica.SIunits.Conversions.to_bar(p)
-        "Absolute pressure of medium in [bar]";
+            "Absolute pressure of medium in [bar]";
 
         // Local connector definition, used for equation balancing check
         connector InputAbsolutePressure = input SI.AbsolutePressure
-        "Pressure as input signal connector";
+            "Pressure as input signal connector";
         connector InputSpecificEnthalpy = input SI.SpecificEnthalpy
-        "Specific enthalpy as input signal connector";
+            "Specific enthalpy as input signal connector";
         connector InputMassFraction = input SI.MassFraction
-        "Mass fraction as input signal connector";
+            "Mass fraction as input signal connector";
 
       equation
         if standardOrderComponents then
@@ -6650,7 +6653,7 @@ Section 4.7 (Balanced Models) of the Modelica 3.0 specification.</p>
       end BaseProperties;
 
       replaceable partial function setState_pTX
-      "Return thermodynamic state as function of p, T and composition X or Xi"
+          "Return thermodynamic state as function of p, T and composition X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input Temperature T "Temperature";
@@ -6659,7 +6662,7 @@ Section 4.7 (Balanced Models) of the Modelica 3.0 specification.</p>
       end setState_pTX;
 
       replaceable partial function setState_phX
-      "Return thermodynamic state as function of p, h and composition X or Xi"
+          "Return thermodynamic state as function of p, h and composition X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -6668,7 +6671,7 @@ Section 4.7 (Balanced Models) of the Modelica 3.0 specification.</p>
       end setState_phX;
 
       replaceable partial function setState_psX
-      "Return thermodynamic state as function of p, s and composition X or Xi"
+          "Return thermodynamic state as function of p, s and composition X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEntropy s "Specific entropy";
@@ -6677,7 +6680,7 @@ Section 4.7 (Balanced Models) of the Modelica 3.0 specification.</p>
       end setState_psX;
 
       replaceable partial function setState_dTX
-      "Return thermodynamic state as function of d, T and composition X or Xi"
+          "Return thermodynamic state as function of d, T and composition X or Xi"
         extends Modelica.Icons.Function;
         input Density d "density";
         input Temperature T "Temperature";
@@ -6686,15 +6689,15 @@ Section 4.7 (Balanced Models) of the Modelica 3.0 specification.</p>
       end setState_dTX;
 
       replaceable partial function setSmoothState
-      "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
+          "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
         extends Modelica.Icons.Function;
         input Real x "m_flow or dp";
         input ThermodynamicState state_a "Thermodynamic state if x > 0";
         input ThermodynamicState state_b "Thermodynamic state if x < 0";
         input Real x_small(min=0)
-        "Smooth transition in the region -x_small < x < x_small";
+            "Smooth transition in the region -x_small < x < x_small";
         output ThermodynamicState state
-        "Smooth thermodynamic state for all x (continuous and differentiable)";
+            "Smooth thermodynamic state for all x (continuous and differentiable)";
         annotation(Documentation(info="<html>
 <p>
 This function is used to approximate the equation
@@ -6765,7 +6768,7 @@ Summing all mass fractions together results in
       end dynamicViscosity;
 
       replaceable partial function thermalConductivity
-      "Return thermal conductivity"
+          "Return thermal conductivity"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output ThermalConductivity lambda "Thermal conductivity";
@@ -6805,7 +6808,7 @@ Summing all mass fractions together results in
       end specificEnthalpy;
 
       replaceable partial function specificInternalEnergy
-      "Return specific internal energy"
+          "Return specific internal energy"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SpecificEnergy u "Specific internal energy";
@@ -6818,50 +6821,50 @@ Summing all mass fractions together results in
       end specificEntropy;
 
       replaceable partial function specificGibbsEnergy
-      "Return specific Gibbs energy"
+          "Return specific Gibbs energy"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SpecificEnergy g "Specific Gibbs energy";
       end specificGibbsEnergy;
 
       replaceable partial function specificHelmholtzEnergy
-      "Return specific Helmholtz energy"
+          "Return specific Helmholtz energy"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SpecificEnergy f "Specific Helmholtz energy";
       end specificHelmholtzEnergy;
 
       replaceable partial function specificHeatCapacityCp
-      "Return specific heat capacity at constant pressure"
+          "Return specific heat capacity at constant pressure"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SpecificHeatCapacity cp
-        "Specific heat capacity at constant pressure";
+            "Specific heat capacity at constant pressure";
       end specificHeatCapacityCp;
 
       function heatCapacity_cp = specificHeatCapacityCp
-      "alias for deprecated name";
+          "alias for deprecated name";
 
       replaceable partial function specificHeatCapacityCv
-      "Return specific heat capacity at constant volume"
+          "Return specific heat capacity at constant volume"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SpecificHeatCapacity cv
-        "Specific heat capacity at constant volume";
+            "Specific heat capacity at constant volume";
       end specificHeatCapacityCv;
 
       function heatCapacity_cv = specificHeatCapacityCv
-      "alias for deprecated name";
+          "alias for deprecated name";
 
       replaceable partial function isentropicExponent
-      "Return isentropic exponent"
+          "Return isentropic exponent"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output IsentropicExponent gamma "Isentropic exponent";
       end isentropicExponent;
 
       replaceable partial function isentropicEnthalpy
-      "Return isentropic enthalpy"
+          "Return isentropic enthalpy"
         extends Modelica.Icons.Function;
         input AbsolutePressure p_downstream "downstream pressure";
         input ThermodynamicState refState "reference state for entropy";
@@ -6888,11 +6891,11 @@ This function computes an isentropic state transformation:
       end velocityOfSound;
 
       replaceable partial function isobaricExpansionCoefficient
-      "Return overall the isobaric expansion coefficient beta"
+          "Return overall the isobaric expansion coefficient beta"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output IsobaricExpansionCoefficient beta
-        "Isobaric expansion coefficient";
+            "Isobaric expansion coefficient";
         annotation(Documentation(info="<html>
 <pre>
 beta is defined as  1/v * der(v,T), with v = 1/d, at constant pressure p.
@@ -6901,10 +6904,10 @@ beta is defined as  1/v * der(v,T), with v = 1/d, at constant pressure p.
       end isobaricExpansionCoefficient;
 
       function beta = isobaricExpansionCoefficient
-      "alias for isobaricExpansionCoefficient for user convenience";
+          "alias for isobaricExpansionCoefficient for user convenience";
 
       replaceable partial function isothermalCompressibility
-      "Return overall the isothermal compressibility factor"
+          "Return overall the isothermal compressibility factor"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output SI.IsothermalCompressibility kappa "Isothermal compressibility";
@@ -6918,55 +6921,55 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
       end isothermalCompressibility;
 
       function kappa = isothermalCompressibility
-      "alias of isothermalCompressibility for user convenience";
+          "alias of isothermalCompressibility for user convenience";
 
       // explicit derivative functions for finite element models
       replaceable partial function density_derp_h
-      "Return density derivative w.r.t. pressure at const specific enthalpy"
+          "Return density derivative w.r.t. pressure at const specific enthalpy"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output DerDensityByPressure ddph "Density derivative w.r.t. pressure";
       end density_derp_h;
 
       replaceable partial function density_derh_p
-      "Return density derivative w.r.t. specific enthalpy at constant pressure"
+          "Return density derivative w.r.t. specific enthalpy at constant pressure"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output DerDensityByEnthalpy ddhp
-        "Density derivative w.r.t. specific enthalpy";
+            "Density derivative w.r.t. specific enthalpy";
       end density_derh_p;
 
       replaceable partial function density_derp_T
-      "Return density derivative w.r.t. pressure at const temperature"
+          "Return density derivative w.r.t. pressure at const temperature"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output DerDensityByPressure ddpT "Density derivative w.r.t. pressure";
       end density_derp_T;
 
       replaceable partial function density_derT_p
-      "Return density derivative w.r.t. temperature at constant pressure"
+          "Return density derivative w.r.t. temperature at constant pressure"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output DerDensityByTemperature ddTp
-        "Density derivative w.r.t. temperature";
+            "Density derivative w.r.t. temperature";
       end density_derT_p;
 
       replaceable partial function density_derX
-      "Return density derivative w.r.t. mass fraction"
+          "Return density derivative w.r.t. mass fraction"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output Density[nX] dddX "Derivative of density w.r.t. mass fraction";
       end density_derX;
 
       replaceable partial function molarMass
-      "Return the molar mass of the medium"
+          "Return the molar mass of the medium"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state record";
         output MolarMass MM "Mixture molar mass";
       end molarMass;
 
       replaceable function specificEnthalpy_pTX
-      "Return specific enthalpy from p, T, and X or Xi"
+          "Return specific enthalpy from p, T, and X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input Temperature T "Temperature";
@@ -6978,7 +6981,7 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
       end specificEnthalpy_pTX;
 
       replaceable function specificEntropy_pTX
-      "Return specific enthalpy from p, T, and X or Xi"
+          "Return specific enthalpy from p, T, and X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input Temperature T "Temperature";
@@ -7001,7 +7004,7 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
       end density_pTX;
 
       replaceable function temperature_phX
-      "Return temperature from p, h, and X or Xi"
+          "Return temperature from p, h, and X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -7022,7 +7025,7 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
       end density_phX;
 
       replaceable function temperature_psX
-      "Return temperature from p,s, and X or Xi"
+          "Return temperature from p,s, and X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEntropy s "Specific entropy";
@@ -7044,7 +7047,7 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
       end density_psX;
 
       replaceable function specificEnthalpy_psX
-      "Return specific enthalpy from p, s, and X or Xi"
+          "Return specific enthalpy from p, s, and X or Xi"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEntropy s "Specific entropy";
@@ -7059,7 +7062,7 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
           max=1.e8,
           nominal=1.e5,
           start=1.e5)
-      "Type for absolute pressure with medium specific attributes";
+          "Type for absolute pressure with medium specific attributes";
 
       type Density = SI.Density (
           min=0,
@@ -7071,12 +7074,12 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
           max=1.e8,
           nominal=1.e-3,
           start=1.e-3)
-      "Type for dynamic viscosity with medium specific attributes";
+          "Type for dynamic viscosity with medium specific attributes";
       type EnthalpyFlowRate = SI.EnthalpyFlowRate (
           nominal=1000.0,
           min=-1.0e8,
           max=1.e8)
-      "Type for enthalpy flow rate with medium specific attributes";
+          "Type for enthalpy flow rate with medium specific attributes";
       type MassFlowRate = SI.MassFlowRate (
           quantity="MassFlowRate." + mediumName,
           min=-1.0e5,
@@ -7106,32 +7109,32 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
           max=500000,
           nominal=1.2,
           start=1.2)
-      "Type for isentropic exponent with medium specific attributes";
+          "Type for isentropic exponent with medium specific attributes";
       type SpecificEnergy = SI.SpecificEnergy (
           min=-1.0e8,
           max=1.e8,
           nominal=1.e6)
-      "Type for specific energy with medium specific attributes";
+          "Type for specific energy with medium specific attributes";
       type SpecificInternalEnergy = SpecificEnergy
-      "Type for specific internal energy with medium specific attributes";
+          "Type for specific internal energy with medium specific attributes";
       type SpecificEnthalpy = SI.SpecificEnthalpy (
           min=-1.0e10,
           max=1.e10,
           nominal=1.e6)
-      "Type for specific enthalpy with medium specific attributes";
+          "Type for specific enthalpy with medium specific attributes";
       type SpecificEntropy = SI.SpecificEntropy (
           min=-1.e7,
           max=1.e7,
           nominal=1.e3)
-      "Type for specific entropy with medium specific attributes";
+          "Type for specific entropy with medium specific attributes";
       type SpecificHeatCapacity = SI.SpecificHeatCapacity (
           min=0,
           max=1.e7,
           nominal=1.e3,
           start=1.e3)
-      "Type for specific heat capacity with medium specific attributes";
+          "Type for specific heat capacity with medium specific attributes";
       type SurfaceTension = SI.SurfaceTension
-      "Type for surface tension with medium specific attributes";
+          "Type for surface tension with medium specific attributes";
       type Temperature = SI.Temperature (
           min=1,
           max=1.e4,
@@ -7142,97 +7145,97 @@ kappa is defined as - 1/v * der(v,p), with v = 1/d at constant temperature T.
           max=500,
           nominal=1,
           start=1)
-      "Type for thermal conductivity with medium specific attributes";
+          "Type for thermal conductivity with medium specific attributes";
       type PrandtlNumber = SI.PrandtlNumber (
           min=1e-3,
           max=1e5,
           nominal=1.0)
-      "Type for Prandtl number with medium specific attributes";
+          "Type for Prandtl number with medium specific attributes";
       type VelocityOfSound = SI.Velocity (
           min=0,
           max=1.e5,
           nominal=1000,
           start=1000)
-      "Type for velocity of sound with medium specific attributes";
+          "Type for velocity of sound with medium specific attributes";
       type ExtraProperty = Real (min=0.0, start=1.0)
-      "Type for unspecified, mass-specific property transported by flow";
+          "Type for unspecified, mass-specific property transported by flow";
       type CumulativeExtraProperty = Real (min=0.0, start=1.0)
-      "Type for conserved integral of unspecified, mass specific property";
+          "Type for conserved integral of unspecified, mass specific property";
       type ExtraPropertyFlowRate = Real(unit="kg/s")
-      "Type for flow rate of unspecified, mass-specific property";
+          "Type for flow rate of unspecified, mass-specific property";
       type IsobaricExpansionCoefficient = Real (
           min=0,
           max=1.0e8,
           unit="1/K")
-      "Type for isobaric expansion coefficient with medium specific attributes";
+          "Type for isobaric expansion coefficient with medium specific attributes";
       type DipoleMoment = Real (
           min=0.0,
           max=2.0,
           unit="debye",
           quantity="ElectricDipoleMoment")
-      "Type for dipole moment with medium specific attributes";
+          "Type for dipole moment with medium specific attributes";
 
       type DerDensityByPressure = SI.DerDensityByPressure
-      "Type for partial derivative of density with resect to pressure with medium specific attributes";
+          "Type for partial derivative of density with resect to pressure with medium specific attributes";
       type DerDensityByEnthalpy = SI.DerDensityByEnthalpy
-      "Type for partial derivative of density with resect to enthalpy with medium specific attributes";
+          "Type for partial derivative of density with resect to enthalpy with medium specific attributes";
       type DerEnthalpyByPressure = SI.DerEnthalpyByPressure
-      "Type for partial derivative of enthalpy with resect to pressure with medium specific attributes";
+          "Type for partial derivative of enthalpy with resect to pressure with medium specific attributes";
       type DerDensityByTemperature = SI.DerDensityByTemperature
-      "Type for partial derivative of density with resect to temperature with medium specific attributes";
+          "Type for partial derivative of density with resect to temperature with medium specific attributes";
 
       package Choices "Types, constants to define menu choices"
 
         type IndependentVariables = enumeration(
-          T "Temperature",
-          pT "Pressure, Temperature",
-          ph "Pressure, Specific Enthalpy",
-          phX "Pressure, Specific Enthalpy, Mass Fraction",
-          pTX "Pressure, Temperature, Mass Fractions",
-          dTX "Density, Temperature, Mass Fractions")
-        "Enumeration defining the independent variables of a medium";
+              T "Temperature",
+              pT "Pressure, Temperature",
+              ph "Pressure, Specific Enthalpy",
+              phX "Pressure, Specific Enthalpy, Mass Fraction",
+              pTX "Pressure, Temperature, Mass Fractions",
+              dTX "Density, Temperature, Mass Fractions")
+            "Enumeration defining the independent variables of a medium";
 
         type Init = enumeration(
-          NoInit "NoInit (no initialization)",
-          InitialStates "InitialStates (initialize medium states)",
-          SteadyState "SteadyState (initialize in steady state)",
-          SteadyMass
-            "SteadyMass (initialize density or pressure in steady state)")
-        "Enumeration defining initialization for fluid flow"
+              NoInit "NoInit (no initialization)",
+              InitialStates "InitialStates (initialize medium states)",
+              SteadyState "SteadyState (initialize in steady state)",
+              SteadyMass
+                "SteadyMass (initialize density or pressure in steady state)")
+            "Enumeration defining initialization for fluid flow"
                   annotation (Evaluate=true);
 
         type ReferenceEnthalpy = enumeration(
-          ZeroAt0K
-            "The enthalpy is 0 at 0 K (default), if the enthalpy of formation is excluded",
+              ZeroAt0K
+                "The enthalpy is 0 at 0 K (default), if the enthalpy of formation is excluded",
 
-          ZeroAt25C
-            "The enthalpy is 0 at 25 degC, if the enthalpy of formation is excluded",
+              ZeroAt25C
+                "The enthalpy is 0 at 25 degC, if the enthalpy of formation is excluded",
 
-          UserDefined
-            "The user-defined reference enthalpy is used at 293.15 K (25 degC)")
-        "Enumeration defining the reference enthalpy of a medium"
+              UserDefined
+                "The user-defined reference enthalpy is used at 293.15 K (25 degC)")
+            "Enumeration defining the reference enthalpy of a medium"
             annotation (Evaluate=true);
 
         type ReferenceEntropy = enumeration(
-          ZeroAt0K "The entropy is 0 at 0 K (default)",
-          ZeroAt0C "The entropy is 0 at 0 degC",
-          UserDefined
-            "The user-defined reference entropy is used at 293.15 K (25 degC)")
-        "Enumeration defining the reference entropy of a medium"
+              ZeroAt0K "The entropy is 0 at 0 K (default)",
+              ZeroAt0C "The entropy is 0 at 0 degC",
+              UserDefined
+                "The user-defined reference entropy is used at 293.15 K (25 degC)")
+            "Enumeration defining the reference entropy of a medium"
             annotation (Evaluate=true);
 
         type pd = enumeration(
-          default "Default (no boundary condition for p or d)",
-          p_known "p_known (pressure p is known)",
-          d_known "d_known (density d is known)")
-        "Enumeration defining whether p or d are known for the boundary condition"
+              default "Default (no boundary condition for p or d)",
+              p_known "p_known (pressure p is known)",
+              d_known "d_known (density d is known)")
+            "Enumeration defining whether p or d are known for the boundary condition"
             annotation (Evaluate=true);
 
         type Th = enumeration(
-          default "Default (no boundary condition for T or h)",
-          T_known "T_known (temperature T is known)",
-          h_known "h_known (specific enthalpy h is known)")
-        "Enumeration defining whether T or h are known as boundary condition"
+              default "Default (no boundary condition for T or h)",
+              T_known "T_known (temperature T is known)",
+              h_known "h_known (specific enthalpy h is known)")
+            "Enumeration defining whether T or h are known as boundary condition"
             annotation (Evaluate=true);
 
         annotation (Documentation(info="<html>
@@ -7264,7 +7267,7 @@ are described in
     end PartialMedium;
 
     partial package PartialPureSubstance
-    "base class for pure substances of one chemical substance"
+        "base class for pure substances of one chemical substance"
       extends PartialMedium(final reducedX = true, final fixedX=true);
 
      replaceable function setState_pT "Return thermodynamic state from p and T"
@@ -7277,7 +7280,7 @@ are described in
      end setState_pT;
 
       replaceable function setState_ph
-      "Return thermodynamic state from p and h"
+          "Return thermodynamic state from p and h"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -7287,7 +7290,7 @@ are described in
       end setState_ph;
 
       replaceable function setState_ps
-      "Return thermodynamic state from p and s"
+          "Return thermodynamic state from p and s"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEntropy s "Specific entropy";
@@ -7297,7 +7300,7 @@ are described in
       end setState_ps;
 
       replaceable function setState_dT
-      "Return thermodynamic state from d and T"
+          "Return thermodynamic state from d and T"
         extends Modelica.Icons.Function;
         input Density d "density";
         input Temperature T "Temperature";
@@ -7334,7 +7337,7 @@ are described in
       end pressure_dT;
 
       replaceable function specificEnthalpy_dT
-      "Return specific enthalpy from d and T"
+          "Return specific enthalpy from d and T"
         extends Modelica.Icons.Function;
         input Density d "Density";
         input Temperature T "Temperature";
@@ -7344,7 +7347,7 @@ are described in
       end specificEnthalpy_dT;
 
       replaceable function specificEnthalpy_ps
-      "Return specific enthalpy from p and s"
+          "Return specific enthalpy from p and s"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEntropy s "Specific entropy";
@@ -7372,7 +7375,7 @@ are described in
       end density_ps;
 
       replaceable function specificEnthalpy_pT
-      "Return specific enthalpy from p and T"
+          "Return specific enthalpy from p and T"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input Temperature T "Temperature";
@@ -7396,19 +7399,19 @@ are described in
     end PartialPureSubstance;
 
   partial package PartialMixtureMedium
-    "Base class for pure substances of several chemical substances"
+        "Base class for pure substances of several chemical substances"
       extends PartialMedium;
 
       redeclare replaceable record extends ThermodynamicState
-      "thermodynamic state variables"
+          "thermodynamic state variables"
         AbsolutePressure p "Absolute pressure of medium";
         Temperature T "Temperature of medium";
         MassFraction X[nX]
-        "Mass fractions (= (component mass)/total mass  m_i/m)";
+            "Mass fractions (= (component mass)/total mass  m_i/m)";
       end ThermodynamicState;
 
       redeclare replaceable record extends FluidConstants
-      "extended fluid constants"
+          "extended fluid constants"
         Temperature criticalTemperature "critical temperature";
         AbsolutePressure criticalPressure "critical pressure";
         MolarVolume criticalMolarVolume "critical molar Volume";
@@ -7418,51 +7421,51 @@ are described in
         Temperature meltingPoint "melting point at 101325 Pa";
         Temperature normalBoilingPoint "normal boiling point (at 101325 Pa)";
         DipoleMoment dipoleMoment
-        "dipole moment of molecule in Debye (1 debye = 3.33564e10-30 C.m)";
+            "dipole moment of molecule in Debye (1 debye = 3.33564e10-30 C.m)";
         Boolean hasIdealGasHeatCapacity=false
-        "true if ideal gas heat capacity is available";
+            "true if ideal gas heat capacity is available";
         Boolean hasCriticalData=false "true if critical data are known";
         Boolean hasDipoleMoment=false "true if a dipole moment known";
         Boolean hasFundamentalEquation=false "true if a fundamental equation";
         Boolean hasLiquidHeatCapacity=false
-        "true if liquid heat capacity is available";
+            "true if liquid heat capacity is available";
         Boolean hasSolidHeatCapacity=false
-        "true if solid heat capacity is available";
+            "true if solid heat capacity is available";
         Boolean hasAccurateViscosityData=false
-        "true if accurate data for a viscosity function is available";
+            "true if accurate data for a viscosity function is available";
         Boolean hasAccurateConductivityData=false
-        "true if accurate data for thermal conductivity is available";
+            "true if accurate data for thermal conductivity is available";
         Boolean hasVapourPressureCurve=false
-        "true if vapour pressure data, e.g., Antoine coefficents are known";
+            "true if vapour pressure data, e.g., Antoine coefficents are known";
         Boolean hasAcentricFactor=false
-        "true if Pitzer accentric factor is known";
+            "true if Pitzer accentric factor is known";
         SpecificEnthalpy HCRIT0=0.0
-        "Critical specific enthalpy of the fundamental equation";
+            "Critical specific enthalpy of the fundamental equation";
         SpecificEntropy SCRIT0=0.0
-        "Critical specific entropy of the fundamental equation";
+            "Critical specific entropy of the fundamental equation";
         SpecificEnthalpy deltah=0.0
-        "Difference between specific enthalpy model (h_m) and f.eq. (h_f) (h_m - h_f)";
+            "Difference between specific enthalpy model (h_m) and f.eq. (h_f) (h_m - h_f)";
         SpecificEntropy deltas=0.0
-        "Difference between specific enthalpy model (s_m) and f.eq. (s_f) (s_m - s_f)";
+            "Difference between specific enthalpy model (s_m) and f.eq. (s_f) (s_m - s_f)";
       end FluidConstants;
 
     constant FluidConstants[nS] fluidConstants "constant data for the fluid";
 
     replaceable function gasConstant
-      "Return the gas constant of the mixture (also for liquids)"
+          "Return the gas constant of the mixture (also for liquids)"
         extends Modelica.Icons.Function;
         input ThermodynamicState state "thermodynamic state";
         output SI.SpecificHeatCapacity R "mixture gas constant";
     end gasConstant;
 
       function moleToMassFractions
-      "Return mass fractions X from mole fractions"
+          "Return mass fractions X from mole fractions"
         extends Modelica.Icons.Function;
         input SI.MoleFraction moleFractions[:] "Mole fractions of mixture";
         input MolarMass[:] MMX "molar masses of components";
         output SI.MassFraction X[size(moleFractions, 1)]
-        "Mass fractions of gas mixture";
-    protected
+            "Mass fractions of gas mixture";
+        protected
         MolarMass Mmix =  moleFractions*MMX "molar mass of mixture";
       algorithm
         for i in 1:size(moleFractions, 1) loop
@@ -7472,13 +7475,13 @@ are described in
       end moleToMassFractions;
 
       function massToMoleFractions
-      "Return mole fractions from mass fractions X"
+          "Return mole fractions from mass fractions X"
         extends Modelica.Icons.Function;
         input SI.MassFraction X[:] "Mass fractions of mixture";
         input SI.MolarMass[:] MMX "molar masses of components";
         output SI.MoleFraction moleFractions[size(X, 1)]
-        "Mole fractions of gas mixture";
-    protected
+            "Mole fractions of gas mixture";
+        protected
         Real invMMX[size(X, 1)] "inverses of molar weights";
         SI.MolarMass Mmix "molar mass of mixture";
       algorithm
@@ -7495,33 +7498,33 @@ are described in
   end PartialMixtureMedium;
 
     partial package PartialCondensingGases
-    "Base class for mixtures of condensing and non-condensing gases"
+        "Base class for mixtures of condensing and non-condensing gases"
       extends PartialMixtureMedium(
            ThermoStates = Choices.IndependentVariables.pTX);
 
     replaceable partial function saturationPressure
-      "Return saturation pressure of condensing fluid"
+          "Return saturation pressure of condensing fluid"
       extends Modelica.Icons.Function;
       input Temperature Tsat "saturation temperature";
       output AbsolutePressure psat "saturation pressure";
     end saturationPressure;
 
     replaceable partial function enthalpyOfVaporization
-      "Return vaporization enthalpy of condensing fluid"
+          "Return vaporization enthalpy of condensing fluid"
       extends Modelica.Icons.Function;
       input Temperature T "temperature";
       output SpecificEnthalpy r0 "vaporization enthalpy";
     end enthalpyOfVaporization;
 
     replaceable partial function enthalpyOfLiquid
-      "Return liquid enthalpy of condensing fluid"
+          "Return liquid enthalpy of condensing fluid"
       extends Modelica.Icons.Function;
       input Temperature T "temperature";
       output SpecificEnthalpy h "liquid enthalpy";
     end enthalpyOfLiquid;
 
     replaceable partial function enthalpyOfGas
-      "Return enthalpy of non-condensing gas mixture"
+          "Return enthalpy of non-condensing gas mixture"
       extends Modelica.Icons.Function;
       input Temperature T "temperature";
       input MassFraction[:] X "vector of mass fractions";
@@ -7529,14 +7532,14 @@ are described in
     end enthalpyOfGas;
 
     replaceable partial function enthalpyOfCondensingGas
-      "Return enthalpy of condensing gas (most often steam)"
+          "Return enthalpy of condensing gas (most often steam)"
       extends Modelica.Icons.Function;
       input Temperature T "temperature";
       output SpecificEnthalpy h "specific enthalpy";
     end enthalpyOfCondensingGas;
 
     replaceable partial function enthalpyOfNonCondensingGas
-      "Return enthalpy of the non-condensing species"
+          "Return enthalpy of the non-condensing species"
       extends Modelica.Icons.Function;
       input Temperature T "temperature";
       output SpecificEnthalpy h "specific enthalpy";
@@ -7551,19 +7554,19 @@ kind of media.
   end Interfaces;
 
   package Common
-    "data structures and fundamental functions for fluid properties"
+      "data structures and fundamental functions for fluid properties"
     extends Modelica.Icons.Package;
 
     function smoothStep
-    "Approximation of a general step, such that the characteristic is continuous and differentiable"
+        "Approximation of a general step, such that the characteristic is continuous and differentiable"
       extends Modelica.Icons.Function;
       input Real x "Abszissa value";
       input Real y1 "Ordinate value for x > 0";
       input Real y2 "Ordinate value for x < 0";
       input Real x_small(min=0) = 1e-5
-      "Approximation of step for -x_small <= x <= x_small; x_small > 0 required";
+          "Approximation of step for -x_small <= x <= x_small; x_small > 0 required";
       output Real y
-      "Ordinate value to approximate y = if x > 0 then y1 else y2";
+          "Ordinate value to approximate y = if x > 0 then y1 else y2";
     algorithm
       y := smooth(1, if x >  x_small then y1 else
                      if x < -x_small then y2 else
@@ -7642,49 +7645,49 @@ Summing all mass fractions together results in
     end smoothStep;
 
    package OneNonLinearEquation
-    "Determine solution of a non-linear algebraic equation in one unknown without derivatives in a reliable and efficient way"
+        "Determine solution of a non-linear algebraic equation in one unknown without derivatives in a reliable and efficient way"
      extends Modelica.Icons.Package;
 
       replaceable record f_nonlinear_Data
-      "Data specific for function f_nonlinear"
+          "Data specific for function f_nonlinear"
         extends Modelica.Icons.Record;
       end f_nonlinear_Data;
 
       replaceable partial function f_nonlinear
-      "Nonlinear algebraic equation in one unknown: y = f_nonlinear(x,p,X)"
+          "Nonlinear algebraic equation in one unknown: y = f_nonlinear(x,p,X)"
         extends Modelica.Icons.Function;
         input Real x "Independent variable of function";
         input Real p = 0.0
-        "disregaded variables (here always used for pressure)";
+            "disregaded variables (here always used for pressure)";
         input Real[:] X = fill(0,0)
-        "disregaded variables (her always used for composition)";
+            "disregaded variables (her always used for composition)";
         input f_nonlinear_Data f_nonlinear_data
-        "Additional data for the function";
+            "Additional data for the function";
         output Real y "= f_nonlinear(x)";
         // annotation(derivative(zeroDerivative=y)); // this must hold for all replaced functions
       end f_nonlinear;
 
       replaceable function solve
-      "Solve f_nonlinear(x_zero)=y_zero; f_nonlinear(x_min) - y_zero and f_nonlinear(x_max)-y_zero must have different sign"
+          "Solve f_nonlinear(x_zero)=y_zero; f_nonlinear(x_min) - y_zero and f_nonlinear(x_max)-y_zero must have different sign"
         import Modelica.Utilities.Streams.error;
         extends Modelica.Icons.Function;
         input Real y_zero
-        "Determine x_zero, such that f_nonlinear(x_zero) = y_zero";
+            "Determine x_zero, such that f_nonlinear(x_zero) = y_zero";
         input Real x_min "Minimum value of x";
         input Real x_max "Maximum value of x";
         input Real pressure = 0.0
-        "disregaded variables (here always used for pressure)";
+            "disregaded variables (here always used for pressure)";
         input Real[:] X = fill(0,0)
-        "disregaded variables (here always used for composition)";
+            "disregaded variables (here always used for composition)";
          input f_nonlinear_Data f_nonlinear_data
-        "Additional data for function f_nonlinear";
+            "Additional data for function f_nonlinear";
          input Real x_tol =  100*Modelica.Constants.eps
-        "Relative tolerance of the result";
+            "Relative tolerance of the result";
          output Real x_zero "f_nonlinear(x_zero) = y_zero";
-    protected
+        protected
          constant Real eps = Modelica.Constants.eps "machine epsilon";
          constant Real x_eps = 1e-10
-        "Slight modification of x_min, x_max, since x_min, x_max are usually exactly at the borders T_min/h_min and then small numeric noise may make the interval invalid";
+            "Slight modification of x_min, x_max, since x_min, x_max are usually exactly at the borders T_min/h_min and then small numeric noise may make the interval invalid";
          Real x_min2 = x_min - x_eps;
          Real x_max2 = x_max + x_eps;
          Real a = x_min2 "Current best minimum interval value";
@@ -7900,10 +7903,10 @@ provide a package in the following way:
            fluidConstants = {IdealGases.Common.FluidData.H2O,IdealGases.Common.FluidData.N2});
 
         constant Integer Water=1
-        "Index of water (in substanceNames, massFractions X, etc.)";
+          "Index of water (in substanceNames, massFractions X, etc.)";
 
         constant Integer Air=2
-        "Index of air (in substanceNames, massFractions X, etc.)";
+          "Index of air (in substanceNames, massFractions X, etc.)";
 
         constant Real k_mair =  steam.MM/dryair.MM "ratio of molar weights";
 
@@ -7912,7 +7915,7 @@ provide a package in the following way:
         constant IdealGases.Common.DataRecord steam = IdealGases.Common.SingleGasesData.H2O;
 
         constant SI.MolarMass[2] MMX = {steam.MM,dryair.MM}
-        "Molar masses of components";
+          "Molar masses of components";
         import Modelica.Media.Interfaces;
         import Modelica.Math;
         import SI = Modelica.SIunits;
@@ -7921,7 +7924,7 @@ provide a package in the following way:
         import Modelica.Media.IdealGases.Common.SingleGasNasa;
 
         redeclare record extends ThermodynamicState
-        "ThermodynamicState record for moist air"
+          "ThermodynamicState record for moist air"
         end ThermodynamicState;
 
         redeclare replaceable model extends BaseProperties(
@@ -7929,7 +7932,7 @@ provide a package in the following way:
           p(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
           Xi(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
           redeclare final constant Boolean standardOrderComponents=true)
-        "Moist air base properties record"
+          "Moist air base properties record"
 
           /* p, T, X = X[Water] are used as preferred states, since only then all
      other quantities can be computed in a recursive sequence.
@@ -7939,14 +7942,14 @@ provide a package in the following way:
           MassFraction x_water "Mass of total water/mass of dry air";
           Real phi "Relative humidity";
 
-      protected
+        protected
           MassFraction X_liquid "Mass fraction of liquid or solid water";
           MassFraction X_steam "Mass fraction of steam water";
           MassFraction X_air "Mass fraction of air";
           MassFraction X_sat
-          "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
+            "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
           MassFraction x_sat
-          "Steam water mass content of saturation boundary in kg_water/kg_dryair";
+            "Steam water mass content of saturation boundary in kg_water/kg_dryair";
           AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         equation
           assert(T >= 200.0 and T <= 423.15, "
@@ -7957,7 +7960,7 @@ required from medium model \""           + mediumName + "\".");
 
           p_steam_sat = min(saturationPressure(T),0.999*p);
           X_sat = min(p_steam_sat * k_mair/max(100*Constants.eps, p - p_steam_sat)*(1 - Xi[Water]), 1.0)
-          "Water content at saturation with respect to actual water content";
+            "Water content at saturation with respect to actual water content";
           X_liquid = max(Xi[Water] - X_sat, 0.0);
           X_steam  = Xi[Water]-X_liquid;
           X_air    = 1-Xi[Water];
@@ -7984,7 +7987,7 @@ required from medium model \""           + mediumName + "\".");
         end BaseProperties;
 
         redeclare function setState_pTX
-        "Return thermodynamic state as function of pressure p, temperature T and composition X"
+          "Return thermodynamic state as function of pressure p, temperature T and composition X"
           extends Modelica.Icons.Function;
           input AbsolutePressure p "Pressure";
           input Temperature T "Temperature";
@@ -8000,7 +8003,7 @@ The <a href=\"modelica://Modelica.Media.Air.MoistAir.ThermodynamicState\">thermo
         end setState_pTX;
 
         redeclare function setState_phX
-        "Return thermodynamic state as function of pressure p, specific enthalpy h and composition X"
+          "Return thermodynamic state as function of pressure p, specific enthalpy h and composition X"
           extends Modelica.Icons.Function;
           input AbsolutePressure p "Pressure";
           input SpecificEnthalpy h "Specific enthalpy";
@@ -8016,7 +8019,7 @@ The <a href=\"modelica://Modelica.Media.Air.MoistAir.ThermodynamicState\">thermo
         end setState_phX;
 
         redeclare function setState_dTX
-        "Return thermodynamic state as function of density d, temperature T and composition X"
+          "Return thermodynamic state as function of density d, temperature T and composition X"
           extends Modelica.Icons.Function;
           input Density d "density";
           input Temperature T "Temperature";
@@ -8032,7 +8035,7 @@ The <a href=\"modelica://Modelica.Media.Air.MoistAir.ThermodynamicState\">thermo
         end setState_dTX;
 
       redeclare function extends setSmoothState
-        "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
+          "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
       algorithm
         state := ThermodynamicState(p=Media.Common.smoothStep(x, state_a.p, state_b.p, x_small),
                                     T=Media.Common.smoothStep(x, state_a.T, state_b.T, x_small),
@@ -8040,7 +8043,7 @@ The <a href=\"modelica://Modelica.Media.Air.MoistAir.ThermodynamicState\">thermo
       end setSmoothState;
 
         redeclare function extends gasConstant
-        "Return ideal gas constant as a function from thermodynamic state, only valid for phi<1"
+          "Return ideal gas constant as a function from thermodynamic state, only valid for phi<1"
 
         algorithm
           R := dryair.R*(1-state.X[Water]) + steam.R*state.X[Water];
@@ -8051,7 +8054,7 @@ The ideal gas constant for moist air is computed from <a href=\"modelica://Model
         end gasConstant;
 
         function saturationPressureLiquid
-        "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
+          "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
 
           extends Modelica.Icons.Function;
           input SI.Temperature Tsat "saturation temperature";
@@ -8066,7 +8069,7 @@ Saturation pressure of water above the triple point temperature is computed from
         end saturationPressureLiquid;
 
         function saturationPressureLiquid_der
-        "Time derivative of saturationPressureLiquid"
+          "Time derivative of saturationPressureLiquid"
 
           extends Modelica.Icons.Function;
           input SI.Temperature Tsat "Saturation temperature";
@@ -8083,7 +8086,7 @@ Derivative function of <a href=\"modelica://Modelica.Media.Air.MoistAir.saturati
         end saturationPressureLiquid_der;
 
         function sublimationPressureIce
-        "Return sublimation pressure of water as a function of temperature T between 223.16 and 273.16 K"
+          "Return sublimation pressure of water as a function of temperature T between 223.16 and 273.16 K"
 
           extends Modelica.Icons.Function;
           input SI.Temperature Tsat "sublimation temperature";
@@ -8098,12 +8101,12 @@ Sublimation pressure of water below the triple point temperature is computed fro
         end sublimationPressureIce;
 
         function sublimationPressureIce_der
-        "Derivative function for 'sublimationPressureIce'"
+          "Derivative function for 'sublimationPressureIce'"
 
           extends Modelica.Icons.Function;
           input SI.Temperature Tsat "Sublimation temperature";
           input Real dTsat(unit="K/s")
-          "Time derivative of sublimation temperature";
+            "Time derivative of sublimation temperature";
           output Real psat_der(unit="Pa/s") "Sublimation pressure";
         algorithm
           /*psat := 611.657*Math.exp(22.5159*(1.0 - 273.16/Tsat));*/
@@ -8115,7 +8118,7 @@ Derivative function of <a href=\"modelica://Modelica.Media.Air.MoistAir.sublimat
         end sublimationPressureIce_der;
 
         redeclare function extends saturationPressure
-        "Return saturation pressure of water as a function of temperature T between 223.16 and 373.16 K"
+          "Return saturation pressure of water as a function of temperature T between 223.16 and 373.16 K"
 
         algorithm
           psat := Utilities.spliceFunction(saturationPressureLiquid(Tsat),sublimationPressureIce(Tsat),Tsat-273.16,1.0);
@@ -8127,10 +8130,10 @@ Saturation pressure of water in the liquid and the solid region is computed usin
         end saturationPressure;
 
         function saturationPressure_der
-        "Derivative function for 'saturationPressure'"
+          "Derivative function for 'saturationPressure'"
           input Temperature Tsat "Saturation temperature";
           input Real dTsat(unit="K/s")
-          "Time derivative of saturation temperature";
+            "Time derivative of saturation temperature";
           output Real psat_der(unit="Pa/s") "Saturation pressure";
 
         algorithm
@@ -8151,7 +8154,7 @@ Derivative function of <a href=\"modelica://Modelica.Media.Air.MoistAir.saturati
         end saturationPressure_der;
 
        redeclare function extends enthalpyOfVaporization
-        "Return enthalpy of vaporization of water as a function of temperature T, 0 - 130 degC"
+          "Return enthalpy of vaporization of water as a function of temperature T, 0 - 130 degC"
 
        algorithm
         /*r0 := 1e3*(2501.0145 - (T - 273.15)*(2.3853 + (T - 273.15)*(0.002969 - (T
@@ -8166,7 +8169,7 @@ Enthalpy of vaporization of water is computed from temperature in the region of 
        end enthalpyOfVaporization;
 
        redeclare function extends enthalpyOfLiquid
-        "Return enthalpy of liquid water as a function of temperature T(use enthalpyOfWater instead)"
+          "Return enthalpy of liquid water as a function of temperature T(use enthalpyOfWater instead)"
 
        algorithm
          h := (T - 273.15)*1e3*(4.2166 - 0.5*(T - 273.15)*(0.0033166 + 0.333333*(T - 273.15)*(0.00010295
@@ -8178,7 +8181,7 @@ Specific enthalpy of liquid water is computed from temperature using a polynomia
        end enthalpyOfLiquid;
 
        redeclare function extends enthalpyOfGas
-        "Return specific enthalpy of gas (air and steam) as a function of temperature T and composition X"
+          "Return specific enthalpy of gas (air and steam) as a function of temperature T and composition X"
 
        algorithm
          h := SingleGasNasa.h_Tlow(data=steam, T=T, refChoice=3, h_off=46479.819+2501014.5)*X[Water]
@@ -8190,7 +8193,7 @@ Specific enthalpy of moist air is computed from temperature, provided all water 
        end enthalpyOfGas;
 
        redeclare function extends enthalpyOfCondensingGas
-        "Return specific enthalpy of steam as a function of temperature T"
+          "Return specific enthalpy of steam as a function of temperature T"
 
        algorithm
          h := SingleGasNasa.h_Tlow(data=steam, T=T, refChoice=3, h_off=46479.819+2501014.5);
@@ -8201,7 +8204,7 @@ Specific enthalpy of steam is computed from temperature.
        end enthalpyOfCondensingGas;
 
        redeclare function extends enthalpyOfNonCondensingGas
-        "Return specific enthalpy of dry air as a function of temperature T"
+          "Return specific enthalpy of dry air as a function of temperature T"
 
        algorithm
          h := SingleGasNasa.h_Tlow(data=dryair, T=T, refChoice=3, h_off=25104.684);
@@ -8212,7 +8215,7 @@ Specific enthalpy of dry air is computed from temperature.
        end enthalpyOfNonCondensingGas;
 
       function enthalpyOfWater
-        "Computes specific enthalpy of water (solid/liquid) near atmospheric pressure from temperature T"
+          "Computes specific enthalpy of water (solid/liquid) near atmospheric pressure from temperature T"
         input SIunits.Temperature T "Temperature";
         output SIunits.SpecificEnthalpy h "Specific enthalpy of water";
       algorithm
@@ -8252,7 +8255,7 @@ Derivative function for <a href=\"modelica://Modelica.Media.Air.MoistAir.enthalp
       end enthalpyOfWater_der;
 
        redeclare function extends pressure
-        "Returns pressure of ideal gas as a function of the thermodynamic state record"
+          "Returns pressure of ideal gas as a function of the thermodynamic state record"
 
        algorithm
         p := state.p;
@@ -8263,7 +8266,7 @@ Pressure is returned from the thermodynamic state record input as a simple assig
        end pressure;
 
        redeclare function extends temperature
-        "Return temperature of ideal gas as a function of the thermodynamic state record"
+          "Return temperature of ideal gas as a function of the thermodynamic state record"
 
        algorithm
          T := state.T;
@@ -8274,18 +8277,18 @@ Temperature is returned from the thermodynamic state record input as a simple as
        end temperature;
 
       function T_phX
-        "Return temperature as a function of pressure p, specific enthalpy h and composition X"
+          "Return temperature as a function of pressure p, specific enthalpy h and composition X"
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
         input MassFraction[:] X "Mass fractions of composition";
         output Temperature T "Temperature";
 
-      protected
+        protected
       package Internal
-          "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
         extends Modelica.Media.Common.OneNonLinearEquation;
         redeclare record extends f_nonlinear_Data
-            "Data to be passed to non-linear function"
+              "Data to be passed to non-linear function"
           extends Modelica.Media.IdealGases.Common.DataRecord;
         end f_nonlinear_Data;
 
@@ -8307,7 +8310,7 @@ Temperature is computed from pressure, specific enthalpy and composition via num
       end T_phX;
 
        redeclare function extends density
-        "Returns density of ideal gas as a function of the thermodynamic state record"
+          "Returns density of ideal gas as a function of the thermodynamic state record"
 
        algorithm
          d := state.p/(gasConstant(state)*state.T);
@@ -8318,7 +8321,7 @@ Density is computed from pressure, temperature and composition in the thermodyna
        end density;
 
       redeclare function extends specificEnthalpy
-        "Return specific enthalpy of moist air as a function of the thermodynamic state record"
+          "Return specific enthalpy of moist air as a function of the thermodynamic state record"
 
       algorithm
         h := h_pTX(state.p, state.T, state.X);
@@ -8329,13 +8332,13 @@ Specific enthalpy of moist air is computed from the thermodynamic state record. 
       end specificEnthalpy;
 
       function h_pTX
-        "Return specific enthalpy of moist air as a function of pressure p, temperature T and composition X"
+          "Return specific enthalpy of moist air as a function of pressure p, temperature T and composition X"
         extends Modelica.Icons.Function;
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[:] "Mass fractions of moist air";
         output SI.SpecificEnthalpy h "Specific enthalpy at p, T, X";
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction X_sat "Absolute humidity per unit mass of moist air";
         SI.MassFraction X_liquid "mass fraction of liquid water";
@@ -8370,22 +8373,22 @@ Specific enthalpy of moist air is computed from pressure, temperature and compos
         input Real dT(unit="K/s") "Temperature derivative";
         input Real dX[:](each unit="1/s") "Composition derivative";
         output Real h_der(unit="J/(kg.s)")
-          "Time derivative of specific enthalpy";
-      protected
+            "Time derivative of specific enthalpy";
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction X_sat "Absolute humidity per unit mass of moist air";
         SI.MassFraction X_liquid "Mass fraction of liquid water";
         SI.MassFraction X_steam "Mass fraction of steam water";
         SI.MassFraction X_air "Mass fraction of air";
         SI.MassFraction x_sat
-          "Absolute humidity per unit mass of dry air at saturation";
+            "Absolute humidity per unit mass of dry air at saturation";
         Real dX_steam(unit="1/s") "Time deriveative of steam mass fraction";
         Real dX_air(unit="1/s") "Time derivative of dry air mass fraction";
         Real dX_liq(unit="1/s")
-          "Time derivative of liquid/solid water mass fraction";
+            "Time derivative of liquid/solid water mass fraction";
         Real dps(unit="Pa/s") "Time derivative of saturation pressure";
         Real dx_sat(unit="1/s")
-          "Time derivative of abolute humidity per unit mass of dry air";
+            "Time derivative of abolute humidity per unit mass of dry air";
       algorithm
         p_steam_sat :=saturationPressure(T);
         x_sat:=p_steam_sat*k_mair/max(100*Modelica.Constants.eps, p - p_steam_sat);
@@ -8415,13 +8418,13 @@ Derivative function for <a href=\"modelica://Modelica.Media.Air.MoistAir.h_pTX\"
       end h_pTX_der;
 
       redeclare function extends isentropicExponent
-        "Return isentropic exponent (only for gas fraction!)"
+          "Return isentropic exponent (only for gas fraction!)"
       algorithm
         gamma := specificHeatCapacityCp(state)/specificHeatCapacityCv(state);
       end isentropicExponent;
 
       redeclare function extends specificInternalEnergy
-        "Return specific internal energy of moist air as a function of the thermodynamic state record"
+          "Return specific internal energy of moist air as a function of the thermodynamic state record"
         extends Modelica.Icons.Function;
         output SI.SpecificInternalEnergy u "Specific internal energy";
       algorithm
@@ -8434,12 +8437,12 @@ Specific internal energy is determined from the thermodynamic state record, assu
       end specificInternalEnergy;
 
       function specificInternalEnergy_pTX
-        "Return specific internal energy of moist air as a function of pressure p, temperature T and composition X"
+          "Return specific internal energy of moist air as a function of pressure p, temperature T and composition X"
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[:] "Mass fractions of moist air";
         output SI.SpecificInternalEnergy u "Specific internal energy";
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction X_liquid "Mass fraction of liquid water";
         SI.MassFraction X_steam "Mass fraction of steam water";
@@ -8464,7 +8467,7 @@ Specific internal energy is determined from pressure p, temperature T and compos
       end specificInternalEnergy_pTX;
 
       function specificInternalEnergy_pTX_der
-        "Derivative function for specificInternalEnergy_pTX"
+          "Derivative function for specificInternalEnergy_pTX"
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[:] "Mass fractions of moist air";
@@ -8472,8 +8475,8 @@ Specific internal energy is determined from pressure p, temperature T and compos
         input Real dT(unit="K/s") "Temperature derivative";
         input Real dX[:](each unit="1/s") "Mass fraction derivatives";
         output Real u_der(unit="J/(kg.s)")
-          "Specific internal energy derivative";
-      protected
+            "Specific internal energy derivative";
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction X_liquid "Mass fraction of liquid water";
         SI.MassFraction X_steam "Mass fraction of steam water";
@@ -8482,14 +8485,14 @@ Specific internal energy is determined from pressure p, temperature T and compos
         SI.SpecificHeatCapacity R_gas "Ideal gas constant";
 
         SI.MassFraction x_sat
-          "Absolute humidity per unit mass of dry air at saturation";
+            "Absolute humidity per unit mass of dry air at saturation";
         Real dX_steam(unit="1/s") "Time deriveative of steam mass fraction";
         Real dX_air(unit="1/s") "Time derivative of dry air mass fraction";
         Real dX_liq(unit="1/s")
-          "Time derivative of liquid/solid water mass fraction";
+            "Time derivative of liquid/solid water mass fraction";
         Real dps(unit="Pa/s") "Time derivative of saturation pressure";
         Real dx_sat(unit="1/s")
-          "Time derivative of abolute humidity per unit mass of dry air";
+            "Time derivative of abolute humidity per unit mass of dry air";
         Real dR_gas(unit="J/(kg.K.s)") "Time derivative of ideal gas constant";
       algorithm
         p_steam_sat :=saturationPressure(T);
@@ -8519,11 +8522,11 @@ Derivative function for <a href=\"modelica://Modelica.Media.Air.MoistAir.specifi
       end specificInternalEnergy_pTX_der;
 
        redeclare function extends specificEntropy
-        "Return specific entropy from thermodynamic state record, only valid for phi<1"
+          "Return specific entropy from thermodynamic state record, only valid for phi<1"
 
-      protected
+        protected
           MoleFraction[2] Y = massToMoleFractions(state.X,{steam.MM,dryair.MM})
-          "molar fraction";
+            "molar fraction";
        algorithm
          s:=SingleGasNasa.s0_Tlow(dryair, state.T)*(1-state.X[Water])
            + SingleGasNasa.s0_Tlow(steam, state.T)*state.X[Water]
@@ -8536,7 +8539,7 @@ Specific entropy is calculated from the thermodynamic state record, assuming ide
        end specificEntropy;
 
       redeclare function extends specificGibbsEnergy
-        "Return specific Gibbs energy as a function of the thermodynamic state record, only valid for phi<1"
+          "Return specific Gibbs energy as a function of the thermodynamic state record, only valid for phi<1"
         extends Modelica.Icons.Function;
       algorithm
         g := h_pTX(state.p,state.T,state.X) - state.T*specificEntropy(state);
@@ -8547,7 +8550,7 @@ The Gibbs Energy is computed from the thermodynamic state record for moist air w
       end specificGibbsEnergy;
 
       redeclare function extends specificHelmholtzEnergy
-        "Return specific Helmholtz energy as a function of the thermodynamic state record, only valid for phi<1"
+          "Return specific Helmholtz energy as a function of the thermodynamic state record, only valid for phi<1"
         extends Modelica.Icons.Function;
       algorithm
         f := h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T - state.T*specificEntropy(state);
@@ -8558,13 +8561,13 @@ The Specific Helmholtz Energy is computed from the thermodynamic state record fo
       end specificHelmholtzEnergy;
 
        redeclare function extends specificHeatCapacityCp
-        "Return specific heat capacity at constant pressure as a function of the thermodynamic state record"
+          "Return specific heat capacity at constant pressure as a function of the thermodynamic state record"
 
-      protected
+        protected
          Real dT(unit="s/K") = 1.0;
        algorithm
          cp := h_pTX_der(state.p,state.T,state.X, 0.0, 1.0, zeros(size(state.X,1)))*dT
-          "Definition of cp: dh/dT @ constant p";
+            "Definition of cp: dh/dT @ constant p";
          //      cp:= SingleGasNasa.cp_Tlow(dryair, state.T)*(1-state.X[Water])
          //        + SingleGasNasa.cp_Tlow(steam, state.T)*state.X[Water];
          annotation(Inline=false,smoothOrder=2,
@@ -8574,7 +8577,7 @@ The specific heat capacity at constant pressure <b>cp</b> is computed from tempe
        end specificHeatCapacityCp;
 
       redeclare function extends specificHeatCapacityCv
-        "Return specific heat capacity at constant volume as a function of the thermodynamic state record"
+          "Return specific heat capacity at constant volume as a function of the thermodynamic state record"
 
       algorithm
         cv:= SingleGasNasa.cp_Tlow(dryair, state.T)*(1-state.X[Water]) +
@@ -8587,7 +8590,7 @@ The specific heat capacity at constant density <b>cv</b> is computed from temper
       end specificHeatCapacityCv;
 
       redeclare function extends dynamicViscosity
-        "Return dynamic viscosity as a function of the thermodynamic state record, valid from 73.15 K to 373.15 K"
+          "Return dynamic viscosity as a function of the thermodynamic state record, valid from 73.15 K to 373.15 K"
 
           import Modelica.Media.Incompressible.TableBased.Polynomials_Temp;
       algorithm
@@ -8600,7 +8603,7 @@ Dynamic viscosity is computed from temperature using a simple polynomial for dry
       end dynamicViscosity;
 
       redeclare function extends thermalConductivity
-        "Return thermal conductivity as a function of the thermodynamic state record, valid from 73.15 K to 373.15 K"
+          "Return thermal conductivity as a function of the thermodynamic state record, valid from 73.15 K to 373.15 K"
 
           import Modelica.Media.Incompressible.TableBased.Polynomials_Temp;
       algorithm
@@ -8620,7 +8623,7 @@ Thermal conductivity is computed from temperature using a simple polynomial for 
               input Real x "Function argument";
               input Real deltax=1 "Region around x with spline interpolation";
               output Real out;
-        protected
+          protected
               Real scaledX;
               Real scaledX1;
               Real y;
@@ -8648,7 +8651,7 @@ Thermal conductivity is computed from temperature using a simple polynomial for 
               input Real dx;
               input Real ddeltax=0;
               output Real out;
-        protected
+          protected
               Real scaledX;
               Real scaledX1;
               Real dscaledX1;
@@ -8715,21 +8718,21 @@ The thermodynamic model may be used for <b>temperatures</b> ranging from <b>240 
     end Air;
 
     package IdealGases
-    "Data and models of ideal gases (single, fixed and dynamic mixtures) from NASA source"
+      "Data and models of ideal gases (single, fixed and dynamic mixtures) from NASA source"
       extends Modelica.Icons.MaterialPropertiesPackage;
 
       package Common "Common packages and data for the ideal gas models"
       extends Modelica.Icons.Package;
 
       record DataRecord
-        "Coefficient data record for properties of ideal gases based on NASA source"
+          "Coefficient data record for properties of ideal gases based on NASA source"
         extends Modelica.Icons.Record;
         String name "Name of ideal gas";
         SI.MolarMass MM "Molar mass";
         SI.SpecificEnthalpy Hf "Enthalpy of formation at 298.15K";
         SI.SpecificEnthalpy H0 "H0(298.15K) - H0(0K)";
         SI.Temperature Tlimit
-          "Temperature limit between low and high data sets";
+            "Temperature limit between low and high data sets";
         Real alow[7] "Low temperature coefficients a";
         Real blow[2] "Low temperature constants b";
         Real ahigh[7] "High temperature coefficients a";
@@ -8763,7 +8766,7 @@ gases also differentiable at Tlimit.
       end DataRecord;
 
       partial package SingleGasNasa
-        "Medium model of an ideal gas based on NASA source"
+          "Medium model of an ideal gas based on NASA source"
 
         extends Interfaces.PartialPureSubstance(
            ThermoStates = Choices.IndependentVariables.pT,
@@ -8777,7 +8780,7 @@ gases also differentiable at Tlimit.
            AbsolutePressure(start=10e5, nominal=10e5));
 
         redeclare record extends ThermodynamicState
-          "thermodynamic state variables for ideal gases"
+            "thermodynamic state variables for ideal gases"
           AbsolutePressure p "Absolute pressure of medium";
           Temperature T "Temperature of medium";
         end ThermodynamicState;
@@ -8792,32 +8795,32 @@ gases also differentiable at Tlimit.
           Temperature meltingPoint "melting point at 101325 Pa";
           Temperature normalBoilingPoint "normal boiling point (at 101325 Pa)";
           DipoleMoment dipoleMoment
-            "dipole moment of molecule in Debye (1 debye = 3.33564e10-30 C.m)";
+              "dipole moment of molecule in Debye (1 debye = 3.33564e10-30 C.m)";
           Boolean hasIdealGasHeatCapacity=false
-            "true if ideal gas heat capacity is available";
+              "true if ideal gas heat capacity is available";
           Boolean hasCriticalData=false "true if critical data are known";
           Boolean hasDipoleMoment=false "true if a dipole moment known";
           Boolean hasFundamentalEquation=false "true if a fundamental equation";
           Boolean hasLiquidHeatCapacity=false
-            "true if liquid heat capacity is available";
+              "true if liquid heat capacity is available";
           Boolean hasSolidHeatCapacity=false
-            "true if solid heat capacity is available";
+              "true if solid heat capacity is available";
           Boolean hasAccurateViscosityData=false
-            "true if accurate data for a viscosity function is available";
+              "true if accurate data for a viscosity function is available";
           Boolean hasAccurateConductivityData=false
-            "true if accurate data for thermal conductivity is available";
+              "true if accurate data for thermal conductivity is available";
           Boolean hasVapourPressureCurve=false
-            "true if vapour pressure data, e.g., Antoine coefficents are known";
+              "true if vapour pressure data, e.g., Antoine coefficents are known";
           Boolean hasAcentricFactor=false
-            "true if Pitzer accentric factor is known";
+              "true if Pitzer accentric factor is known";
           SpecificEnthalpy HCRIT0=0.0
-            "Critical specific enthalpy of the fundamental equation";
+              "Critical specific enthalpy of the fundamental equation";
           SpecificEntropy SCRIT0=0.0
-            "Critical specific entropy of the fundamental equation";
+              "Critical specific entropy of the fundamental equation";
           SpecificEnthalpy deltah=0.0
-            "Difference between specific enthalpy model (h_m) and f.eq. (h_f) (h_m - h_f)";
+              "Difference between specific enthalpy model (h_m) and f.eq. (h_f) (h_m - h_f)";
           SpecificEntropy deltas=0.0
-            "Difference between specific enthalpy model (s_m) and f.eq. (s_f) (s_m - s_f)";
+              "Difference between specific enthalpy model (s_m) and f.eq. (s_f) (s_m - s_f)";
         end FluidConstants;
 
           import SI = Modelica.SIunits;
@@ -8825,22 +8828,22 @@ gases also differentiable at Tlimit.
           import Modelica.Media.Interfaces.PartialMedium.Choices.ReferenceEnthalpy;
 
         constant Boolean excludeEnthalpyOfFormation=true
-          "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
         constant ReferenceEnthalpy referenceChoice=Choices.
               ReferenceEnthalpy.ZeroAt0K "Choice of reference enthalpy";
         constant SpecificEnthalpy h_offset=0.0
-          "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
 
         constant IdealGases.Common.DataRecord data
-          "Data record of ideal gas substance";
+            "Data record of ideal gas substance";
 
         constant FluidConstants[nS] fluidConstants
-          "constant data for the fluid";
+            "constant data for the fluid";
 
         redeclare model extends BaseProperties(
          T(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
          p(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default))
-          "Base properties of ideal gas medium"
+            "Base properties of ideal gas medium"
         equation
           assert(T >= 200 and T <= 6000, "
 Temperature T (= "       + String(T) + " K) is not in the allowed range
@@ -8860,7 +8863,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end BaseProperties;
 
           redeclare function setState_pTX
-          "Return thermodynamic state as function of p, T and composition X"
+            "Return thermodynamic state as function of p, T and composition X"
             extends Modelica.Icons.Function;
             input AbsolutePressure p "Pressure";
             input Temperature T "Temperature";
@@ -8871,7 +8874,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           end setState_pTX;
 
           redeclare function setState_phX
-          "Return thermodynamic state as function of p, h and composition X"
+            "Return thermodynamic state as function of p, h and composition X"
             extends Modelica.Icons.Function;
             input AbsolutePressure p "Pressure";
             input SpecificEnthalpy h "Specific enthalpy";
@@ -8882,7 +8885,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           end setState_phX;
 
           redeclare function setState_psX
-          "Return thermodynamic state as function of p, s and composition X"
+            "Return thermodynamic state as function of p, s and composition X"
             extends Modelica.Icons.Function;
             input AbsolutePressure p "Pressure";
             input SpecificEntropy s "Specific entropy";
@@ -8893,7 +8896,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           end setState_psX;
 
           redeclare function setState_dTX
-          "Return thermodynamic state as function of d, T and composition X"
+            "Return thermodynamic state as function of d, T and composition X"
             extends Modelica.Icons.Function;
             input Density d "density";
             input Temperature T "Temperature";
@@ -8904,7 +8907,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           end setState_dTX;
 
             redeclare function extends setSmoothState
-          "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
+            "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
             algorithm
               state := ThermodynamicState(p=Media.Common.smoothStep(x, state_a.p, state_b.p, x_small),
                                           T=Media.Common.smoothStep(x, state_a.T, state_b.T, x_small));
@@ -8916,7 +8919,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end pressure;
 
         redeclare function extends temperature
-          "return temperature of ideal gas"
+            "return temperature of ideal gas"
         algorithm
           T := state.T;
         end temperature;
@@ -8933,7 +8936,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end specificEnthalpy;
 
         redeclare function extends specificInternalEnergy
-          "Return specific internal energy"
+            "Return specific internal energy"
           extends Modelica.Icons.Function;
         algorithm
           u := h_T(data,state.T) - data.R*state.T;
@@ -8946,33 +8949,33 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end specificEntropy;
 
         redeclare function extends specificGibbsEnergy
-          "Return specific Gibbs energy"
+            "Return specific Gibbs energy"
           extends Modelica.Icons.Function;
         algorithm
           g := h_T(data,state.T) - state.T*specificEntropy(state);
         end specificGibbsEnergy;
 
         redeclare function extends specificHelmholtzEnergy
-          "Return specific Helmholtz energy"
+            "Return specific Helmholtz energy"
           extends Modelica.Icons.Function;
         algorithm
           f := h_T(data,state.T) - data.R*state.T - state.T*specificEntropy(state);
         end specificHelmholtzEnergy;
 
         redeclare function extends specificHeatCapacityCp
-          "Return specific heat capacity at constant pressure"
+            "Return specific heat capacity at constant pressure"
         algorithm
           cp := cp_T(data, state.T);
         end specificHeatCapacityCp;
 
         redeclare function extends specificHeatCapacityCv
-          "Compute specific heat capacity at constant volume from temperature and gas data"
+            "Compute specific heat capacity at constant volume from temperature and gas data"
         algorithm
           cv := cp_T(data, state.T) - data.R;
         end specificHeatCapacityCv;
 
         redeclare function extends isentropicExponent
-          "Return isentropic exponent"
+            "Return isentropic exponent"
         algorithm
           gamma := specificHeatCapacityCp(state)/specificHeatCapacityCv(state);
         end isentropicExponent;
@@ -8984,74 +8987,74 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end velocityOfSound;
 
         function isentropicEnthalpyApproximation
-          "approximate method of calculating h_is from upstream properties and downstream pressure"
+            "approximate method of calculating h_is from upstream properties and downstream pressure"
           extends Modelica.Icons.Function;
           input SI.Pressure p2 "downstream pressure";
           input ThermodynamicState state "properties at upstream location";
           input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
           input ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
           input SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
           output SI.SpecificEnthalpy h_is "isentropic enthalpy";
-        protected
+          protected
           IsentropicExponent gamma =  isentropicExponent(state)
-            "Isentropic exponent";
+              "Isentropic exponent";
         algorithm
           h_is := h_T(data,state.T,exclEnthForm,refChoice,h_off) +
             gamma/(gamma - 1.0)*state.p/density(state)*((p2/state.p)^((gamma - 1)/gamma) - 1.0);
         end isentropicEnthalpyApproximation;
 
         redeclare function extends isentropicEnthalpy
-          "Return isentropic enthalpy"
+            "Return isentropic enthalpy"
         input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
         input ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
         input SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
         algorithm
           h_is := isentropicEnthalpyApproximation(p_downstream,refState,exclEnthForm,refChoice,h_off);
         end isentropicEnthalpy;
 
         redeclare function extends isobaricExpansionCoefficient
-          "Returns overall the isobaric expansion coefficient beta"
+            "Returns overall the isobaric expansion coefficient beta"
         algorithm
           beta := 1/state.T;
         end isobaricExpansionCoefficient;
 
         redeclare function extends isothermalCompressibility
-          "Returns overall the isothermal compressibility factor"
+            "Returns overall the isothermal compressibility factor"
         algorithm
           kappa := 1.0/state.p;
         end isothermalCompressibility;
 
         redeclare function extends density_derp_T
-          "Returns the partial derivative of density with respect to pressure at constant temperature"
+            "Returns the partial derivative of density with respect to pressure at constant temperature"
         algorithm
           ddpT := 1/(state.T*data.R);
         end density_derp_T;
 
         redeclare function extends density_derT_p
-          "Returns the partial derivative of density with respect to temperature at constant pressure"
+            "Returns the partial derivative of density with respect to temperature at constant pressure"
         algorithm
           ddTp := -state.p/(state.T*state.T*data.R);
         end density_derT_p;
 
         redeclare function extends density_derX
-          "Returns the partial derivative of density with respect to mass fractions at constant pressure and temperature"
+            "Returns the partial derivative of density with respect to mass fractions at constant pressure and temperature"
         algorithm
           dddX := fill(0,nX);
         end density_derX;
 
         function cp_T
-          "Compute specific heat capacity at constant pressure from temperature and gas data"
+            "Compute specific heat capacity at constant pressure from temperature and gas data"
           extends Modelica.Icons.Function;
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           output SI.SpecificHeatCapacity cp
-            "Specific heat capacity at temperature T";
+              "Specific heat capacity at temperature T";
         algorithm
           cp := smooth(0,if T < data.Tlimit then data.R*(1/(T*T)*(data.alow[1] + T*(
             data.alow[2] + T*(1.*data.alow[3] + T*(data.alow[4] + T*(data.alow[5] + T
@@ -9062,12 +9065,12 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end cp_T;
 
         function cp_Tlow
-          "Compute specific heat capacity at constant pressure, low T region"
+            "Compute specific heat capacity at constant pressure, low T region"
           extends Modelica.Icons.Function;
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           output SI.SpecificHeatCapacity cp
-            "Specific heat capacity at temperature T";
+              "Specific heat capacity at temperature T";
         algorithm
           cp := data.R*(1/(T*T)*(data.alow[1] + T*(
             data.alow[2] + T*(1.*data.alow[3] + T*(data.alow[4] + T*(data.alow[5] + T
@@ -9076,7 +9079,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end cp_Tlow;
 
         function cp_Tlow_der
-          "Compute specific heat capacity at constant pressure, low T region"
+            "Compute specific heat capacity at constant pressure, low T region"
           extends Modelica.Icons.Function;
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
@@ -9095,11 +9098,11 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
           input Choices.ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
           input SI.SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
           output SI.SpecificEnthalpy h "Specific enthalpy at temperature T";
             //     annotation (InlineNoEvent=false, Inline=false,
             //                 derivative(zeroDerivative=data,
@@ -9126,11 +9129,11 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
           input Choices.ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
           input SI.SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
           input Real dT "Temperature derivative";
           output Real h_der "Specific enthalpy at temperature T";
         algorithm
@@ -9144,11 +9147,11 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
           input Choices.ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
           input SI.SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
           output SI.SpecificEnthalpy h "Specific enthalpy at temperature T";
             //     annotation (Inline=false,InlineNoEvent=false, derivative(zeroDerivative=data,
             //                                zeroDerivative=exclEnthForm,
@@ -9173,14 +9176,14 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           input IdealGases.Common.DataRecord data "Ideal gas data";
           input SI.Temperature T "Temperature";
           input Boolean exclEnthForm=excludeEnthalpyOfFormation
-            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+              "If true, enthalpy of formation Hf is not included in specific enthalpy h";
           input Choices.ReferenceEnthalpy refChoice=referenceChoice
-            "Choice of reference enthalpy";
+              "Choice of reference enthalpy";
           input SI.SpecificEnthalpy h_off=h_offset
-            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+              "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
           input Real dT(unit="K/s") "Temperature derivative";
           output Real h_der(unit="J/(kg.s)")
-            "Derivative of specific enthalpy at temperature T";
+              "Derivative of specific enthalpy at temperature T";
         algorithm
           h_der := dT*cp_Tlow(data,T);
         end h_Tlow_der;
@@ -9214,7 +9217,7 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
         end s0_Tlow;
 
         function dynamicViscosityLowPressure
-          "Dynamic viscosity of low pressure gases"
+            "Dynamic viscosity of low pressure gases"
           extends Modelica.Icons.Function;
           input SI.Temp_K T "Gas temperature";
           input SI.Temp_K Tc "Critical temperature of gas";
@@ -9224,15 +9227,15 @@ Temperature T (= "       + String(T) + " K) is not in the allowed range
           input DipoleMoment mu "Dipole moment of gas molecule";
           input Real k =  0.0 "Special correction for highly polar substances";
           output SI.DynamicViscosity eta "Dynamic viscosity of gas";
-        protected
+          protected
           parameter Real Const1_SI=40.785*10^(-9.5)
-            "Constant in formula for eta converted to SI units";
+              "Constant in formula for eta converted to SI units";
           parameter Real Const2_SI=131.3/1000.0
-            "Constant in formula for mur converted to SI units";
+              "Constant in formula for mur converted to SI units";
           Real mur=Const2_SI*mu/sqrt(Vc*Tc)
-            "Dimensionless dipole moment of gas molecule";
+              "Dimensionless dipole moment of gas molecule";
           Real Fc=1 - 0.2756*w + 0.059035*mur^4 + k
-            "Factor to account for molecular shape and polarities of gas";
+              "Factor to account for molecular shape and polarities of gas";
           Real Tstar "Dimensionless temperature defined by equation below";
           Real Ov "Viscosity collision integral for the gas";
 
@@ -9270,7 +9273,7 @@ transform the formula to SI units:
         end dynamicViscosityLowPressure;
 
         redeclare replaceable function extends dynamicViscosity
-          "dynamic viscosity"
+            "dynamic viscosity"
         algorithm
           assert(fluidConstants[1].hasCriticalData,
           "Failed to compute dynamicViscosity: For the species \"" + mediumName + "\" no critical data is available.");
@@ -9286,12 +9289,12 @@ transform the formula to SI units:
         end dynamicViscosity;
 
         function thermalConductivityEstimate
-          "Thermal conductivity of polyatomic gases(Eucken and Modified Eucken correlation)"
+            "Thermal conductivity of polyatomic gases(Eucken and Modified Eucken correlation)"
           extends Modelica.Icons.Function;
           input SpecificHeatCapacity Cp "Constant pressure heat capacity";
           input DynamicViscosity eta "Dynamic viscosity";
           input Integer method(min=1,max=2)=1
-            "1: Eucken Method, 2: Modified Eucken Method";
+              "1: Eucken Method, 2: Modified Eucken Method";
           output ThermalConductivity lambda "Thermal conductivity [W/(m.k)]";
         algorithm
           lambda := if method == 1 then eta*(Cp - data.R + (9/4)*data.R) else eta*(Cp
@@ -9312,7 +9315,7 @@ thermal conductivity (lambda) at low temperatures.
         end thermalConductivityEstimate;
 
         redeclare replaceable function extends thermalConductivity
-          "thermal conductivity of gas"
+            "thermal conductivity of gas"
           input Integer method=1 "1: Eucken Method, 2: Modified Eucken Method";
         algorithm
           assert(fluidConstants[1].hasCriticalData,
@@ -9323,7 +9326,7 @@ thermal conductivity (lambda) at low temperatures.
         end thermalConductivity;
 
         redeclare function extends molarMass
-          "return the molar mass of the medium"
+            "return the molar mass of the medium"
         algorithm
           MM := data.MM;
         end molarMass;
@@ -9332,12 +9335,12 @@ thermal conductivity (lambda) at low temperatures.
           input SpecificEnthalpy h "Specific enthalpy";
           output Temperature T "Temperature";
 
-        protected
+          protected
         package Internal
-            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+              "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
           extends Modelica.Media.Common.OneNonLinearEquation;
           redeclare record extends f_nonlinear_Data
-              "Data to be passed to non-linear function"
+                "Data to be passed to non-linear function"
             extends Modelica.Media.IdealGases.Common.DataRecord;
           end f_nonlinear_Data;
 
@@ -9360,12 +9363,12 @@ thermal conductivity (lambda) at low temperatures.
           input SpecificEntropy s "Specific entropy";
           output Temperature T "Temperature";
 
-        protected
+          protected
         package Internal
-            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+              "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
           extends Modelica.Media.Common.OneNonLinearEquation;
           redeclare record extends f_nonlinear_Data
-              "Data to be passed to non-linear function"
+                "Data to be passed to non-linear function"
             extends Modelica.Media.IdealGases.Common.DataRecord;
           end f_nonlinear_Data;
 
@@ -9547,7 +9550,7 @@ Sulfur Dioxide    Sulfur Trioxide
         end FluidData;
 
         package SingleGasesData
-        "Ideal gas data based on the NASA Glenn coefficients"
+          "Ideal gas data based on the NASA Glenn coefficients"
           extends Modelica.Icons.Package;
 
           constant IdealGases.Common.DataRecord Air(
@@ -10012,7 +10015,7 @@ Data records for heat capacity, specific enthalpy and specific entropy exist for
     end IdealGases;
 
     package Incompressible
-    "Medium model for T-dependent properties, defined by tables or polynomials"
+      "Medium model for T-dependent properties, defined by tables or polynomials"
       extends Modelica.Icons.MaterialPropertiesPackage;
       import SI = Modelica.SIunits;
       import Cv = Modelica.SIunits.Conversions;
@@ -10041,10 +10044,10 @@ Data records for heat capacity, specific enthalpy and specific entropy exist for
            singleState=true);
 
         constant Boolean enthalpyOfT=true
-        "true if enthalpy is approximated as a function of T only, (p-dependence neglected)";
+          "true if enthalpy is approximated as a function of T only, (p-dependence neglected)";
 
         constant Boolean densityOfT = size(tableDensity,1) > 1
-        "true if density is a function of temperature";
+          "true if density is a function of temperature";
 
         constant Temperature T_min "Minimum temperature valid for medium model";
 
@@ -10061,7 +10064,7 @@ Data records for heat capacity, specific enthalpy and specific entropy exist for
         constant Integer npol=2 "degree of polynomial used for fitting";
 
         constant Integer neta=size(tableViscosity,1)
-        "number of data points for viscosity";
+          "number of data points for viscosity";
 
         constant Real[:,2] tableDensity "Table for rho(T)";
 
@@ -10074,13 +10077,13 @@ Data records for heat capacity, specific enthalpy and specific entropy exist for
         constant Boolean TinK "true if T[K],Kelvin used for table temperatures";
 
         constant Boolean hasDensity = not (size(tableDensity,1)==0)
-        "true if table tableDensity is present";
+          "true if table tableDensity is present";
 
         constant Boolean hasHeatCapacity = not (size(tableHeatCapacity,1)==0)
-        "true if table tableHeatCapacity is present";
+          "true if table tableHeatCapacity is present";
 
         constant Boolean hasViscosity = not (size(tableViscosity,1)==0)
-        "true if table tableViscosity is present";
+          "true if table tableViscosity is present";
 
         final constant Real invTK[neta] = if size(tableViscosity,1) > 0 then
             invertTemp(tableViscosity[:,1],TinK) else fill(0,0);
@@ -10117,7 +10120,7 @@ Data records for heat capacity, specific enthalpy and specific entropy exist for
           T_degC(start = T_start-273.15)=Cv.to_degC(T),
           T(start = T_start,
             stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default))
-        "Base properties of T dependent medium"
+          "Base properties of T dependent medium"
         //  redeclare parameter SpecificHeatCapacity R=Modelica.Constants.R,
 
           SI.SpecificHeatCapacity cp "specific heat capacity";
@@ -10174,38 +10177,38 @@ which is only exactly true for a fluid with constant density d=d0.
         end BaseProperties;
 
         redeclare function extends setState_pTX
-        "Returns state record, given pressure and temperature"
+          "Returns state record, given pressure and temperature"
         algorithm
           state := ThermodynamicState(p=p,T=T);
         end setState_pTX;
 
         redeclare function extends setState_dTX
-        "Returns state record, given pressure and temperature"
+          "Returns state record, given pressure and temperature"
         algorithm
           assert(false, "for incompressible media with d(T) only, state can not be set from density and temperature");
         end setState_dTX;
 
         redeclare function extends setState_phX
-        "Returns state record, given pressure and specific enthalpy"
+          "Returns state record, given pressure and specific enthalpy"
         algorithm
           state :=ThermodynamicState(p=p,T=T_ph(p,h));
         end setState_phX;
 
         redeclare function extends setState_psX
-        "Returns state record, given pressure and specific entropy"
+          "Returns state record, given pressure and specific entropy"
         algorithm
           state :=ThermodynamicState(p=p,T=T_ps(p,s));
         end setState_psX;
 
             redeclare function extends setSmoothState
-        "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
+          "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
             algorithm
               state :=ThermodynamicState(p=Media.Common.smoothStep(x, state_a.p, state_b.p, x_small),
                                          T=Media.Common.smoothStep(x, state_a.T, state_b.T, x_small));
             end setSmoothState;
 
         redeclare function extends specificHeatCapacityCv
-        "Specific heat capacity at constant volume (or pressure) of medium"
+          "Specific heat capacity at constant volume (or pressure) of medium"
 
         algorithm
           assert(hasHeatCapacity,"Specific Heat Capacity, Cv, is not defined for medium "
@@ -10215,7 +10218,7 @@ which is only exactly true for a fluid with constant density d=d0.
         end specificHeatCapacityCv;
 
         redeclare function extends specificHeatCapacityCp
-        "Specific heat capacity at constant volume (or pressure) of medium"
+          "Specific heat capacity at constant volume (or pressure) of medium"
 
         algorithm
           assert(hasHeatCapacity,"Specific Heat Capacity, Cv, is not defined for medium "
@@ -10225,7 +10228,7 @@ which is only exactly true for a fluid with constant density d=d0.
         end specificHeatCapacityCp;
 
         redeclare function extends dynamicViscosity
-        "Return dynamic viscosity as a function of the thermodynamic state record"
+          "Return dynamic viscosity as a function of the thermodynamic state record"
 
         algorithm
           assert(size(tableViscosity,1)>0,"DynamicViscosity, eta, is not defined for medium "
@@ -10235,7 +10238,7 @@ which is only exactly true for a fluid with constant density d=d0.
         end dynamicViscosity;
 
         redeclare function extends thermalConductivity
-        "Return thermal conductivity as a function of the thermodynamic state record"
+          "Return thermal conductivity as a function of the thermodynamic state record"
 
         algorithm
           assert(size(tableConductivity,1)>0,"ThermalConductivity, lambda, is not defined for medium "
@@ -10259,7 +10262,7 @@ which is only exactly true for a fluid with constant density d=d0.
         redeclare function extends specificEntropy "Return specific entropy
  as a function of the thermodynamic state record"
 
-      protected
+        protected
           Integer npol=size(poly_Cp,1)-1;
         algorithm
           assert(hasHeatCapacity,"Specific Entropy, s(T), is not defined for medium "
@@ -10296,7 +10299,7 @@ which is only exactly true for a fluid with constant density d=d0.
           input SI.Pressure p "Pressure";
           input SI.Temperature T "Temperature";
           input Boolean densityOfT = false
-          "include or neglect density derivative dependence of enthalpy"   annotation(Evaluate);
+            "include or neglect density derivative dependence of enthalpy" annotation(Evaluate);
           output SI.SpecificEnthalpy h "Specific enthalpy at p, T";
         algorithm
           h :=h0 + Poly.integralValue(poly_Cp, if TinK then T else Cv.to_degC(T), if TinK then
@@ -10308,35 +10311,35 @@ which is only exactly true for a fluid with constant density d=d0.
         end h_pT;
 
         redeclare function extends temperature
-        "Return temperature as a function of the thermodynamic state record"
+          "Return temperature as a function of the thermodynamic state record"
         algorithm
          T := state.T;
          annotation(smoothOrder=2);
         end temperature;
 
         redeclare function extends pressure
-        "Return pressure as a function of the thermodynamic state record"
+          "Return pressure as a function of the thermodynamic state record"
         algorithm
          p := state.p;
          annotation(smoothOrder=2);
         end pressure;
 
         redeclare function extends density
-        "Return density as a function of the thermodynamic state record"
+          "Return density as a function of the thermodynamic state record"
         algorithm
           d := Poly.evaluate(poly_rho,if TinK then state.T else Cv.to_degC(state.T));
          annotation(smoothOrder=2);
         end density;
 
         redeclare function extends specificEnthalpy
-        "Return specific enthalpy as a function of the thermodynamic state record"
+          "Return specific enthalpy as a function of the thermodynamic state record"
         algorithm
           h := if enthalpyOfT then h_T(state.T) else h_pT(state.p,state.T);
          annotation(smoothOrder=2);
         end specificEnthalpy;
 
         redeclare function extends specificInternalEnergy
-        "Return specific internal energy as a function of the thermodynamic state record"
+          "Return specific internal energy as a function of the thermodynamic state record"
         algorithm
           u := if enthalpyOfT then h_T(state.T) else h_pT(state.p,state.T)
             - (if singleState then  reference_p/density(state) else state.p/density(state));
@@ -10347,18 +10350,18 @@ which is only exactly true for a fluid with constant density d=d0.
           input AbsolutePressure p "pressure";
           input SpecificEnthalpy h "specific enthalpy";
           output Temperature T "temperature";
-      protected
+        protected
           package Internal
-          "Solve h(T) for T with given h (use only indirectly via temperature_phX)"
+            "Solve h(T) for T with given h (use only indirectly via temperature_phX)"
             extends Modelica.Media.Common.OneNonLinearEquation;
 
             redeclare record extends f_nonlinear_Data
-            "superfluous record, fix later when better structure of inverse functions exists"
+              "superfluous record, fix later when better structure of inverse functions exists"
                 constant Real[5] dummy = {1,2,3,4,5};
             end f_nonlinear_Data;
 
             redeclare function extends f_nonlinear
-            "p is smuggled in via vector"
+              "p is smuggled in via vector"
             algorithm
               y := if singleState then h_T(x) else h_pT(p,x);
             end f_nonlinear;
@@ -10376,18 +10379,18 @@ which is only exactly true for a fluid with constant density d=d0.
           input AbsolutePressure p "pressure";
           input SpecificEntropy s "specific entropy";
           output Temperature T "temperature";
-      protected
+        protected
           package Internal
-          "Solve h(T) for T with given h (use only indirectly via temperature_phX)"
+            "Solve h(T) for T with given h (use only indirectly via temperature_phX)"
             extends Modelica.Media.Common.OneNonLinearEquation;
 
             redeclare record extends f_nonlinear_Data
-            "superfluous record, fix later when better structure of inverse functions exists"
+              "superfluous record, fix later when better structure of inverse functions exists"
                 constant Real[5] dummy = {1,2,3,4,5};
             end f_nonlinear_Data;
 
             redeclare function extends f_nonlinear
-            "p is smuggled in via vector"
+              "p is smuggled in via vector"
             algorithm
               y := s_T(x);
             end f_nonlinear;
@@ -10401,13 +10404,13 @@ which is only exactly true for a fluid with constant density d=d0.
         end T_ps;
 
         package Polynomials_Temp
-        "Temporary Functions operating on polynomials (including polynomial fitting); only to be used in Modelica.Media.Incompressible.TableBased"
+          "Temporary Functions operating on polynomials (including polynomial fitting); only to be used in Modelica.Media.Incompressible.TableBased"
           extends Modelica.Icons.Package;
 
           function evaluate "Evaluate polynomial at a given abszissa value"
             extends Modelica.Icons.Function;
             input Real p[:]
-            "Polynomial coefficients (p[1] is coefficient of highest power)";
+              "Polynomial coefficients (p[1] is coefficient of highest power)";
             input Real u "Abszissa value";
             output Real y "Value of polynomial at u";
           algorithm
@@ -10419,13 +10422,13 @@ which is only exactly true for a fluid with constant density d=d0.
           end evaluate;
 
           function derivativeValue
-          "Value of derivative of polynomial at abszissa value u"
+            "Value of derivative of polynomial at abszissa value u"
             extends Modelica.Icons.Function;
             input Real p[:]
-            "Polynomial coefficients (p[1] is coefficient of highest power)";
+              "Polynomial coefficients (p[1] is coefficient of highest power)";
             input Real u "Abszissa value";
             output Real y "Value of derivative of polynomial at u";
-        protected
+          protected
             Integer n=size(p, 1);
           algorithm
             y := p[1]*(n - 1);
@@ -10436,13 +10439,13 @@ which is only exactly true for a fluid with constant density d=d0.
           end derivativeValue;
 
           function secondDerivativeValue
-          "Value of 2nd derivative of polynomial at abszissa value u"
+            "Value of 2nd derivative of polynomial at abszissa value u"
             extends Modelica.Icons.Function;
             input Real p[:]
-            "Polynomial coefficients (p[1] is coefficient of highest power)";
+              "Polynomial coefficients (p[1] is coefficient of highest power)";
             input Real u "Abszissa value";
             output Real y "Value of 2nd derivative of polynomial at u";
-        protected
+          protected
             Integer n=size(p, 1);
           algorithm
             y := p[1]*(n - 1)*(n - 2);
@@ -10452,14 +10455,14 @@ which is only exactly true for a fluid with constant density d=d0.
           end secondDerivativeValue;
 
           function integralValue
-          "Integral of polynomial p(u) from u_low to u_high"
+            "Integral of polynomial p(u) from u_low to u_high"
             extends Modelica.Icons.Function;
             input Real p[:] "Polynomial coefficients";
             input Real u_high "High integrand value";
             input Real u_low=0 "Low integrand value, default 0";
             output Real integral=0.0
-            "Integral of polynomial p from u_low to u_high";
-        protected
+              "Integral of polynomial p from u_low to u_high";
+          protected
             Integer n=size(p, 1) "degree of integrated polynomial";
             Real y_low=0 "value at lower integrand";
           algorithm
@@ -10472,15 +10475,15 @@ which is only exactly true for a fluid with constant density d=d0.
           end integralValue;
 
           function fitting
-          "Computes the coefficients of a polynomial that fits a set of data points in a least-squares sense"
+            "Computes the coefficients of a polynomial that fits a set of data points in a least-squares sense"
             extends Modelica.Icons.Function;
             input Real u[:] "Abscissa data values";
             input Real y[size(u, 1)] "Ordinate data values";
             input Integer n(min=1)
-            "Order of desired polynomial that fits the data points (u,y)";
+              "Order of desired polynomial that fits the data points (u,y)";
             output Real p[n + 1]
-            "Polynomial coefficients of polynomial that fits the date points";
-        protected
+              "Polynomial coefficients of polynomial that fits the date points";
+          protected
             Real V[size(u, 1), n + 1] "Vandermonde matrix";
           algorithm
             // Construct Vandermonde matrix
@@ -10507,11 +10510,11 @@ returned as a vector p[n+1] that has the following definition:
           function evaluate_der "Evaluate polynomial at a given abszissa value"
             extends Modelica.Icons.Function;
             input Real p[:]
-            "Polynomial coefficients (p[1] is coefficient of highest power)";
+              "Polynomial coefficients (p[1] is coefficient of highest power)";
             input Real u "Abszissa value";
             input Real du "Abszissa value";
             output Real dy "Value of polynomial at u";
-        protected
+          protected
             Integer n=size(p, 1);
           algorithm
             dy := p[1]*(n - 1);
@@ -10522,7 +10525,7 @@ returned as a vector p[n+1] that has the following definition:
           end evaluate_der;
 
           function integralValue_der
-          "Time derivative of integral of polynomial p(u) from u_low to u_high, assuming only u_high as time-dependent (Leibnitz rule)"
+            "Time derivative of integral of polynomial p(u) from u_low to u_high, assuming only u_high as time-dependent (Leibnitz rule)"
             extends Modelica.Icons.Function;
             input Real p[:] "Polynomial coefficients";
             input Real u_high "High integrand value";
@@ -10530,21 +10533,21 @@ returned as a vector p[n+1] that has the following definition:
             input Real du_high "High integrand value";
             input Real du_low=0 "Low integrand value, default 0";
             output Real dintegral=0.0
-            "Integral of polynomial p from u_low to u_high";
+              "Integral of polynomial p from u_low to u_high";
           algorithm
             dintegral := evaluate(p,u_high)*du_high;
           end integralValue_der;
 
           function derivativeValue_der
-          "time derivative of derivative of polynomial"
+            "time derivative of derivative of polynomial"
             extends Modelica.Icons.Function;
             input Real p[:]
-            "Polynomial coefficients (p[1] is coefficient of highest power)";
+              "Polynomial coefficients (p[1] is coefficient of highest power)";
             input Real u "Abszissa value";
             input Real du "delta of abszissa value";
             output Real dy
-            "time-derivative of derivative of polynomial w.r.t. input variable at u";
-        protected
+              "time-derivative of derivative of polynomial w.r.t. input variable at u";
+          protected
             Integer n=size(p, 1);
           algorithm
             dy := secondDerivativeValue(p,u)*du;
@@ -10754,11 +10757,11 @@ Copyright &copy; 1998-2010, Modelica Association.
   end Media;
 
   package Thermal
-  "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
+    "Library of thermal system components to model heat transfer and simple thermo-fluid pipe flow"
     extends Modelica.Icons.Package;
 
     package HeatTransfer
-    "Library of 1-dimensional heat transfer with lumped elements"
+      "Library of 1-dimensional heat transfer with lumped elements"
       import Modelica.SIunits.Conversions.*;
       extends Modelica.Icons.Package;
 
@@ -10767,9 +10770,9 @@ Copyright &copy; 1998-2010, Modelica Association.
 
         model PrescribedHeatFlow "Prescribed heat flow boundary condition"
           parameter Modelica.SIunits.Temperature T_ref=293.15
-          "Reference temperature";
+            "Reference temperature";
           parameter Modelica.SIunits.LinearTemperatureCoefficient alpha=0
-          "Temperature coefficient of heat flow rate";
+            "Temperature coefficient of heat flow rate";
           Modelica.Blocks.Interfaces.RealInput Q_flow
                 annotation (Placement(transformation(
                 origin={-100,0},
@@ -10871,14 +10874,14 @@ in order to simulate temperature dependent losses (which are given an reference 
         partial connector HeatPort "Thermal port for 1-dim. heat transfer"
           Modelica.SIunits.Temperature T "Port temperature";
           flow Modelica.SIunits.HeatFlowRate Q_flow
-          "Heat flow rate (positive if flowing from outside into the component)";
+            "Heat flow rate (positive if flowing from outside into the component)";
           annotation (Documentation(info="<html>
 
 </html>"));
         end HeatPort;
 
         connector HeatPort_a
-        "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
+          "Thermal port for 1-dim. heat transfer (filled rectangular icon)"
 
           extends HeatPort;
 
@@ -10915,7 +10918,7 @@ class.</p>
         end HeatPort_a;
 
         connector HeatPort_b
-        "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
+          "Thermal port for 1-dim. heat transfer (unfilled rectangular icon)"
 
           extends HeatPort;
 
@@ -11121,7 +11124,7 @@ and fluid heat flow.
   end Thermal;
 
   package Math
-  "Library of mathematical functions (e.g., sin, cos) and of functions operating on vectors and matrices"
+    "Library of mathematical functions (e.g., sin, cos) and of functions operating on vectors and matrices"
   import SI = Modelica.SIunits;
   extends Modelica.Icons.Package;
 
@@ -11129,16 +11132,16 @@ and fluid heat flow.
     extends Modelica.Icons.Package;
 
     function leastSquares
-    "Solve linear equation A*x = b (exactly if possible, or otherwise in a least square sense; A may be non-square and may be rank deficient)"
+        "Solve linear equation A*x = b (exactly if possible, or otherwise in a least square sense; A may be non-square and may be rank deficient)"
       extends Modelica.Icons.Function;
       input Real A[:, :] "Matrix A";
       input Real b[size(A, 1)] "Vector b";
       input Real rcond=100*Modelica.Constants.eps
-      "Reciprocal condition number to estimate the rank of A";
+          "Reciprocal condition number to estimate the rank of A";
       output Real x[size(A, 2)]
-      "Vector x such that min|A*x-b|^2 if size(A,1) >= size(A,2) or min|x|^2 and A*x=b, if size(A,1) < size(A,2)";
+          "Vector x such that min|A*x-b|^2 if size(A,1) >= size(A,2) or min|x|^2 and A*x=b, if size(A,1) < size(A,2)";
       output Integer rank "Rank of A";
-  protected
+      protected
       Integer info;
       Real xx[max(size(A,1),size(A,2))];
     algorithm
@@ -11281,21 +11284,21 @@ where Q1 consists of the first \"rank\" columns of Q.
     end leastSquares;
 
     package LAPACK
-    "Interface to LAPACK library (should usually not directly be used but only indirectly via Modelica.Math.Matrices)"
+        "Interface to LAPACK library (should usually not directly be used but only indirectly via Modelica.Math.Matrices)"
       extends Modelica.Icons.Package;
 
       function dgelsx_vec
-      "Computes the minimum-norm solution to a real linear least squares problem with rank deficient A"
+          "Computes the minimum-norm solution to a real linear least squares problem with rank deficient A"
 
         extends Modelica.Icons.Function;
         input Real A[:, :];
         input Real b[size(A,1)];
         input Real rcond=0.0 "Reciprocal condition number to estimate rank";
         output Real x[max(nrow,ncol)]= cat(1,b,zeros(max(nrow,ncol)-nrow))
-        "solution is in first size(A,2) rows";
+            "solution is in first size(A,2) rows";
         output Integer info;
         output Integer rank "Effective rank of A";
-    protected
+        protected
         Integer nrow=size(A,1);
         Integer ncol=size(A,2);
         Integer nx=max(nrow,ncol);
@@ -12233,7 +12236,7 @@ with u &gt; 0:
   end log;
 
   partial function baseIcon1
-    "Basic icon for mathematical function with y-axis on left side"
+      "Basic icon for mathematical function with y-axis on left side"
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
               -100},{100,100}}), graphics={
@@ -12275,7 +12278,7 @@ It is expected, that an x-axis is added and a plot of the function.
   end baseIcon1;
 
   partial function baseIcon2
-    "Basic icon for mathematical function with y-axis in middle"
+      "Basic icon for mathematical function with y-axis in middle"
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
               -100},{100,100}}), graphics={
@@ -12367,17 +12370,57 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
   end Math;
 
   package Utilities
-  "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
+    "Library of utility functions dedicated to scripting (operating on files, streams, strings, system)"
     extends Modelica.Icons.Package;
 
-    package Streams "Read from files and write to files"
+    package System "Interaction with environment"
+    extends Modelica.Icons.Package;
+
+
+
+      function getEnvironmentVariable "Get content of environment variable"
+        extends Modelica.Icons.Function;
+        input String name "Name of environment variable";
+        input Boolean convertToSlash =  false
+          "True, if native directory separators in 'result' shall be changed to '/'";
+        output String content
+          "Content of environment variable (empty, if not existent)";
+        output Boolean exist
+          "= true, if environment variable exists; = false, if it does not exist";
+        external "C" ModelicaInternal_getenv(name, convertToSlash, content, exist);
+          annotation (Library="ModelicaExternalC",Documentation(info="<html>
+
+</html>"));
+      end getEnvironmentVariable;
+
+
+
+      function exit "Terminate execution of Modelica environment"
+        extends Modelica.Icons.Function;
+        input Integer status=0
+          "Result to be returned by environment (0 means success)";
+        external "C" ModelicaInternal_exit(status);
+
+        annotation(Library="ModelicaExternalC");
+      end exit;
+      annotation (Documentation(info=
+                     "
+<HTML>
+<p>
+This package contains functions to interact with the environment.
+</p>
+</HTML>
+"));
+    end System;
+
+      package Streams "Read from files and write to files"
       extends Modelica.Icons.Package;
 
       function print "Print string to terminal or file"
         extends Modelica.Icons.Function;
         input String string="" "String to be printed";
         input String fileName=""
-        "File where to print (empty string is the terminal)"
+          "File where to print (empty string is the terminal)"
                      annotation(Dialog(__Dymola_saveSelector(filter="Text files (*.txt)",
                             caption="Text file to store the output of print(..)")));
       external "C" ModelicaInternal_print(string, fileName);
@@ -12510,7 +12553,7 @@ Example:
 </pre>
 </HTML>
 "));
-    end Streams;
+      end Streams;
 
     package Strings "Operations on strings"
       extends Modelica.Icons.Package;
@@ -12520,7 +12563,7 @@ Example:
         input String string1;
         input String string2;
         input Boolean caseSensitive=true
-        "= false, if case of letters is ignored";
+          "= false, if case of letters is ignored";
         output Modelica.Utilities.Types.Compare result "Result of comparison";
       external "C" result = ModelicaStrings_compare(string1, string2, caseSensitive);
         annotation (Library="ModelicaExternalC", Documentation(info="<html>
@@ -12552,7 +12595,7 @@ e.g., \"a\" &lt; \"b\";
         input String string1;
         input String string2;
         input Boolean caseSensitive=true
-        "= false, if lower and upper case are ignored for the comparison";
+          "= false, if lower and upper case are ignored for the comparison";
         output Boolean identical "True, if string1 is identical to string2";
       algorithm
         identical :=compare(string1, string2, caseSensitive) == Types.Compare.Equal;
@@ -12642,10 +12685,10 @@ into account whether a character is upper or lower case.
       extends Modelica.Icons.Package;
 
       type Compare = enumeration(
-        Less "String 1 is lexicographically less than string 2",
-        Equal "String 1 is identical to string 2",
-        Greater "String 1 is lexicographically greater than string 2")
-      "Enumeration defining comparision of two strings";
+          Less "String 1 is lexicographically less than string 2",
+          Equal "String 1 is identical to string 2",
+          Greater "String 1 is lexicographically greater than string 2")
+        "Enumeration defining comparision of two strings";
       annotation (Documentation(info="<html>
 <p>
 This package contains type definitions used in Modelica.Utilities.
@@ -12701,7 +12744,7 @@ Copyright &copy; 1998-2010, Modelica Association, DLR, and Dassault Syst&egrave;
   end Utilities;
 
   package Constants
-  "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
+    "Library of mathematical constants and constants of nature (e.g., pi, eps, R, sigma)"
     import SI = Modelica.SIunits;
     import NonSI = Modelica.SIunits.Conversions.NonSIunits;
     extends Modelica.Icons.Package;
@@ -12711,19 +12754,19 @@ Copyright &copy; 1998-2010, Modelica Association, DLR, and Dassault Syst&egrave;
     final constant Real eps=1.e-15 "Biggest number such that 1.0 + eps = 1.0";
 
     final constant Real small=1.e-60
-    "Smallest number such that small and -small are representable on the machine";
+      "Smallest number such that small and -small are representable on the machine";
 
     final constant Real inf=1.e+60
-    "Biggest Real number such that inf and -inf are representable on the machine";
+      "Biggest Real number such that inf and -inf are representable on the machine";
 
     final constant SI.Acceleration g_n=9.80665
-    "Standard acceleration of gravity on earth";
+      "Standard acceleration of gravity on earth";
 
     final constant Real R(final unit="J/(mol.K)") = 8.314472
-    "Molar gas constant";
+      "Molar gas constant";
 
     final constant NonSI.Temperature_degC T_zero=-273.15
-    "Absolute zero temperature";
+      "Absolute zero temperature";
     annotation (
       Documentation(info="<html>
 <p>
@@ -12834,7 +12877,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
     extends Icons.Package;
 
     partial package ExamplesPackage
-    "Icon for packages containing runnable examples"
+      "Icon for packages containing runnable examples"
     //extends Modelica.Icons.Package;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics={Rectangle(
@@ -13047,7 +13090,7 @@ Copyright &copy; 1998-2010, Modelica Association and DLR.
     end SensorsPackage;
 
     partial class RotationalSensor
-    "Icon representing a round measurement device"
+      "Icon representing a round measurement device"
 
       annotation (
         Icon(coordinateSystem(
@@ -13087,7 +13130,7 @@ This icon is designed for a <b>rotational sensor</b> model.
     end RotationalSensor;
 
     partial package MaterialPropertiesPackage
-    "Icon for package containing property classes"
+      "Icon for package containing property classes"
     //extends Modelica.Icons.Package;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics={Rectangle(
@@ -13165,11 +13208,11 @@ This icon is indicates a record.
   end Icons;
 
   package SIunits
-  "Library of type and unit definitions based on SI units according to ISO 31-1992"
+    "Library of type and unit definitions based on SI units according to ISO 31-1992"
     extends Modelica.Icons.Package;
 
     package Conversions
-    "Conversion functions to/from non SI units and type definitions of non SI units"
+      "Conversion functions to/from non SI units and type definitions of non SI units"
       extends Modelica.Icons.Package;
 
       package NonSIunits "Type definitions of non SI units"
@@ -13177,19 +13220,19 @@ This icon is indicates a record.
 
         type Temperature_degC = Real (final quantity="ThermodynamicTemperature",
               final unit="degC")
-        "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
+          "Absolute temperature in degree Celsius (for relative temperature use SIunits.TemperatureDifference)"
                                                                                                             annotation(__Dymola_absoluteValue=true);
 
         type AngularVelocity_rpm = Real (final quantity="AngularVelocity", final unit=
                    "1/min")
-        "Angular velocity in revolutions per minute. Alias unit names that are outside of the SI system: rpm, r/min, rev/min"
+          "Angular velocity in revolutions per minute. Alias unit names that are outside of the SI system: rpm, r/min, rev/min"
           annotation (Documentation(info="<html>
 <p>
 
 </html>"));
 
         type Pressure_bar = Real (final quantity="Pressure", final unit="bar")
-        "Absolute pressure in bar";
+          "Absolute pressure in bar";
         annotation (Documentation(info="<HTML>
 <p>
 This package provides predefined types, such as <b>Angle_deg</b> (angle in
@@ -13371,7 +13414,7 @@ argument):</p>
         min = 0,
         start = 288.15,
         displayUnit="degC")
-    "Absolute temperature (use type TemperatureDifference for relative temperatures)"
+      "Absolute temperature (use type TemperatureDifference for relative temperatures)"
                                                                                                         annotation(__Dymola_absoluteValue=true);
 
     type Temp_K = ThermodynamicTemperature;
@@ -13575,6 +13618,7 @@ TU Hamburg-Harburg, Politecnico di Milano.
 "));
 end Modelica;
 
+
 package Buildings "Library with models for building energy and control systems"
   extends Modelica.Icons.Package;
 
@@ -13585,7 +13629,7 @@ package Buildings "Library with models for building energy and control systems"
       extends Modelica.Icons.VariantsPackage;
 
       block LimPID
-      "P, PI, PD, and PID controller with limited output, anti-windup compensation and setpoint weighting"
+        "P, PI, PD, and PID controller with limited output, anti-windup compensation and setpoint weighting"
         extends Modelica.Blocks.Continuous.LimPID(
           addP(k1=revAct*wp, k2=-revAct),
           addD(k1=revAct*wd, k2=-revAct),
@@ -13594,8 +13638,8 @@ package Buildings "Library with models for building energy and control systems"
           yMax=1);
 
         parameter Boolean reverseAction = false
-        "Set to true for throttling the water flow rate through a cooling coil controller";
-    protected
+          "Set to true for throttling the water flow rate through a cooling coil controller";
+      protected
         parameter Real revAct = if reverseAction then -1 else 1;
         annotation (
       defaultComponentName="conPID",
@@ -13678,39 +13722,39 @@ Modelica.Blocks.Discrete</a>.
         extends Modelica.Blocks.Interfaces.BlockIcon;
 
         parameter Real occupancy[:]=3600*{7, 19}
-        "Occupancy table, each entry switching occupancy on or off";
+          "Occupancy table, each entry switching occupancy on or off";
         parameter Boolean firstEntryOccupied = true
-        "Set to true if first entry in occupancy denotes a changed from unoccupied to occupied";
+          "Set to true if first entry in occupancy denotes a changed from unoccupied to occupied";
         parameter Modelica.SIunits.Time period =   86400
-        "End time of periodicity";
+          "End time of periodicity";
 
         Modelica.Blocks.Interfaces.RealOutput tNexNonOcc
-        "Time until next non-occupancy"
+          "Time until next non-occupancy"
           annotation (Placement(transformation(extent={{100,-10},{120,10}})));
         Modelica.Blocks.Interfaces.RealOutput tNexOcc
-        "Time until next occupancy"
+          "Time until next occupancy"
           annotation (Placement(transformation(extent={{100,50},{120,70}})));
         Modelica.Blocks.Interfaces.BooleanOutput occupied
-        "Outputs true if occupied at current time"
+          "Outputs true if occupied at current time"
           annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
 
-    protected
+      protected
         final parameter Integer nRow = size(occupancy,1)
-        "Number of rows in the schedule";
+          "Number of rows in the schedule";
 
         output Modelica.SIunits.Time offSet=integer(time/period)*period
-        "Time off-set, in multiples of period, that is used to switch the time when doing the table lookup";
+          "Time off-set, in multiples of period, that is used to switch the time when doing the table lookup";
         output Integer nexStaInd "Next index when occupancy starts";
         output Integer nexStoInd "Next index when occupancy stops";
 
         output Integer iPerSta
-        "Counter for the period in which the next occupancy starts";
+          "Counter for the period in which the next occupancy starts";
         output Integer iPerSto
-        "Counter for the period in which the next occupancy stops";
+          "Counter for the period in which the next occupancy stops";
 
         output Modelica.SIunits.Time tOcc "Time when next occupancy starts";
         output Modelica.SIunits.Time tNonOcc
-        "Time when next non-occupancy starts";
+          "Time when next non-occupancy starts";
 
       encapsulated function switchInteger
         input Integer x1;
@@ -13921,16 +13965,16 @@ Modelica.Blocks</a>.
       extends Modelica.Icons.VariantsPackage;
 
       model DelayFirstOrder
-      "Delay element, approximated by a first order differential equation"
+        "Delay element, approximated by a first order differential equation"
         extends Buildings.Fluid.MixingVolumes.MixingVolume(final V=V0);
 
         parameter Modelica.SIunits.Time tau = 60
-        "Time constant at nominal flow"
+          "Time constant at nominal flow"
           annotation (Dialog(tab="Dynamics", group="Nominal condition"));
 
-    protected
+      protected
          parameter Modelica.SIunits.Volume V0 = m_flow_nominal*tau/rho_nominal
-        "Volume of delay element";
+          "Volume of delay element";
         annotation (Diagram(graphics),
           Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}}), graphics={Ellipse(
@@ -13996,11 +14040,11 @@ Buildings.Fluid.FixedResistances.Pipe</a>.
     end Delays;
 
     package FixedResistances
-    "Package with models for fixed flow resistances (pipes, diffusers etc.)"
+      "Package with models for fixed flow resistances (pipes, diffusers etc.)"
       extends Modelica.Icons.VariantsPackage;
 
       model FixedResistanceDpM
-      "Fixed flow resistance with dp and m_flow as parameter"
+        "Fixed flow resistance with dp and m_flow as parameter"
         extends Buildings.Fluid.BaseClasses.PartialResistance(
           final m_flow_turbulent = if (computeFlowResistance and use_dh) then
                              eta_default*dh/4*Modelica.Constants.pi*ReC
@@ -14008,23 +14052,23 @@ Buildings.Fluid.FixedResistances.Pipe</a>.
                              deltaM * m_flow_nominal_pos
                else 0);
         parameter Boolean use_dh = false
-        "Set to true to specify hydraulic diameter"
+          "Set to true to specify hydraulic diameter"
              annotation(Evaluate=true, Dialog(enable = not linearized));
         parameter Modelica.SIunits.Length dh=1 "Hydraulic diameter"
              annotation(Evaluate=true, Dialog(enable = use_dh and not linearized));
         parameter Real ReC(min=0)=4000
-        "Reynolds number where transition to turbulent starts"
+          "Reynolds number where transition to turbulent starts"
              annotation(Evaluate=true, Dialog(enable = use_dh and not linearized));
         parameter Real deltaM(min=0.01) = 0.3
-        "Fraction of nominal mass flow rate where transition to turbulent occurs"
+          "Fraction of nominal mass flow rate where transition to turbulent occurs"
              annotation(Evaluate=true, Dialog(enable = not use_dh and not linearized));
 
         final parameter Real k(unit="") = if computeFlowResistance then
               m_flow_nominal_pos / sqrt(dp_nominal_pos) else 0
-        "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
-    protected
+          "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
+      protected
         final parameter Boolean computeFlowResistance=(dp_nominal_pos > Modelica.Constants.eps)
-        "Flag to enable/disable computation of flow resistance"
+          "Flag to enable/disable computation of flow resistance"
          annotation(Evaluate=true);
       initial equation
        if computeFlowResistance then
@@ -14262,18 +14306,18 @@ can be used to model flow splitters or flow merges.
       extends Modelica.Icons.VariantsPackage;
 
       model HeaterCoolerPrescribed
-      "Heater or cooler with prescribed heat flow rate"
+        "Heater or cooler with prescribed heat flow rate"
         extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
           redeclare final Buildings.Fluid.MixingVolumes.MixingVolume vol);
 
         parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal
-        "Heat flow rate at u=1, positive for heating";
+          "Heat flow rate at u=1, positive for heating";
         Modelica.Blocks.Interfaces.RealInput u "Control input"
           annotation (Placement(transformation(
                 extent={{-140,40},{-100,80}}, rotation=0)));
-    protected
+      protected
         Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
-        "Prescribed heat flow"
+          "Prescribed heat flow"
           annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
         Modelica.Blocks.Math.Gain gai(k=Q_flow_nominal) "Gain"
           annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
@@ -14356,42 +14400,42 @@ This package contains models for heat exchangers with and without humidity conde
       extends Modelica.Icons.VariantsPackage;
 
       model HumidifierPrescribed
-      "Ideal humidifier or dehumidifier with prescribed water mass flow rate addition or subtraction"
+        "Ideal humidifier or dehumidifier with prescribed water mass flow rate addition or subtraction"
         extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
           redeclare final Buildings.Fluid.MixingVolumes.MixingVolumeMoistAir vol);
 
         parameter Boolean use_T_in= false
-        "Get the temperature from the input connector"
+          "Get the temperature from the input connector"
           annotation(Evaluate=true, HideResult=true);
 
         parameter Modelica.SIunits.Temperature T = 293.15
-        "Temperature of water that is added to the fluid stream (used if use_T_in=false)"
+          "Temperature of water that is added to the fluid stream (used if use_T_in=false)"
           annotation (Evaluate = true,
                       Dialog(enable = not use_T_in));
 
         parameter Modelica.SIunits.MassFlowRate mWat_flow_nominal
-        "Water mass flow rate at u=1, positive for humidification";
+          "Water mass flow rate at u=1, positive for humidification";
 
         Modelica.Blocks.Interfaces.RealInput T_in if use_T_in
-        "Temperature of water added to the fluid stream"
+          "Temperature of water added to the fluid stream"
           annotation (Placement(transformation(extent={{-140,-80},{-100,-40}},
                 rotation=0)));
         Modelica.Blocks.Interfaces.RealInput u "Control input"
           annotation (Placement(transformation(
                 extent={{-140,40},{-100,80}}, rotation=0)));
-    protected
+      protected
         Modelica.Blocks.Interfaces.RealInput T_in_internal
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Math.Gain gai(k=mWat_flow_nominal) "Gain"
           annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
         Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
-        "Prescribed heat flow"
+          "Prescribed heat flow"
           annotation (Placement(transformation(extent={{36,68},{56,88}})));
         Modelica.Blocks.Sources.RealExpression realExpression(y=
               Medium.enthalpyOfLiquid(T_in_internal))
           annotation (Placement(transformation(extent={{-96,70},{-20,94}})));
         Modelica.Blocks.Math.Product pro
-        "Product to compute latent heat added to volume"
+          "Product to compute latent heat added to volume"
           annotation (Placement(transformation(extent={{0,66},{20,86}})));
         Modelica.Blocks.Sources.RealExpression realExpression1(y=T_in_internal)
           annotation (Placement(transformation(extent={{-80,-48},{-52,-24}})));
@@ -14533,14 +14577,14 @@ Buildings.Fluid.HeatExchangers</a>.
       extends Modelica.Icons.VariantsPackage;
 
       model MixingVolume
-      "Mixing volume with inlet and outlet ports (flow reversal is allowed)"
+        "Mixing volume with inlet and outlet ports (flow reversal is allowed)"
         extends Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolume;
-    protected
+      protected
         Modelica.Blocks.Sources.Constant masExc(k=0)
-        "Block to set mass exchange in volume"
+          "Block to set mass exchange in volume"
           annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
         Modelica.Blocks.Sources.RealExpression heaInp(y=heatPort.Q_flow)
-        "Block to set heat input into volume"
+          "Block to set heat input into volume"
           annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
       equation
         connect(heaInp.y, steBal.Q_flow) annotation (Line(
@@ -14713,7 +14757,7 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
       end MixingVolume;
 
       model MixingVolumeMoistAir
-      "Mixing volume with heat port for latent heat exchange, to be used with media that contain water"
+        "Mixing volume with heat port for latent heat exchange, to be used with media that contain water"
         extends BaseClasses.PartialMixingVolumeWaterPort(
           steBal(final sensibleOnly = false));
         // redeclare Medium with a more restricting base class. This improves the error
@@ -14724,11 +14768,11 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
             annotation (choicesAllMatching = true);
 
         Modelica.SIunits.HeatFlowRate HWat_flow = mWat_flow * Medium.enthalpyOfLiquid(TWat)
-        "Enthalpy flow rate of extracted water";
-    protected
+          "Enthalpy flow rate of extracted water";
+      protected
         parameter Integer i_w(min=1, fixed=false) "Index for water substance";
         parameter Real s[Medium.nXi](each fixed=false)
-        "Vector with zero everywhere except where species is";
+          "Vector with zero everywhere except where species is";
 
         Modelica.Blocks.Sources.RealExpression heaInp(final y=
            heatPort.Q_flow + HWat_flow) "Block to set heat input into volume"
@@ -14841,50 +14885,50 @@ First implementation.
       end MixingVolumeMoistAir;
 
       package BaseClasses
-      "Package with base classes for Buildings.Fluid.MixingVolumes"
+        "Package with base classes for Buildings.Fluid.MixingVolumes"
         extends Modelica.Icons.BasesPackage;
 
         partial model PartialMixingVolume
-        "Partial mixing volume with inlet and outlet ports (flow reversal is allowed)"
+          "Partial mixing volume with inlet and outlet ports (flow reversal is allowed)"
           outer Modelica.Fluid.System system "System properties";
           extends Buildings.Fluid.Interfaces.LumpedVolumeDeclarations;
           parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
-          "Nominal mass flow rate"
+            "Nominal mass flow rate"
             annotation(Dialog(group = "Nominal condition"));
           // Port definitions
           parameter Integer nPorts=0 "Number of ports"
             annotation(Evaluate=true, Dialog(connectorSizing=true, tab="General",group="Ports"));
           parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
-          "Small mass flow rate for regularization of zero flow"
+            "Small mass flow rate for regularization of zero flow"
             annotation(Dialog(tab = "Advanced"));
           parameter Boolean homotopyInitialization = true
-          "= true, use homotopy method"
+            "= true, use homotopy method"
             annotation(Evaluate=true, Dialog(tab="Advanced"));
           parameter Boolean allowFlowReversal = system.allowFlowReversal
-          "= true to allow flow reversal in medium, false restricts to design direction (ports[1] -> ports[2]). Used only if model has two ports."
+            "= true to allow flow reversal in medium, false restricts to design direction (ports[1] -> ports[2]). Used only if model has two ports."
             annotation(Dialog(tab="Assumptions"), Evaluate=true);
           parameter Modelica.SIunits.Volume V "Volume";
           parameter Boolean prescribedHeatFlowRate=false
-          "Set to true if the model has a prescribed heat flow at its heatPort"
+            "Set to true if the model has a prescribed heat flow at its heatPort"
            annotation(Evaluate=true, Dialog(tab="Assumptions",
               enable=use_HeatTransfer,
               group="Heat transfer"));
           Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b ports[nPorts](
               redeclare each package Medium = Medium)
-          "Fluid inlets and outlets"
+            "Fluid inlets and outlets"
             annotation (Placement(transformation(extent={{-40,-10},{40,10}},
               origin={0,-100})));
           Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-          "Heat port connected to outflowing medium"
+            "Heat port connected to outflowing medium"
             annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
           Modelica.SIunits.Temperature T "Temperature of the fluid";
           Modelica.SIunits.Pressure p "Pressure of the fluid";
           Modelica.SIunits.MassFraction Xi[Medium.nXi]
-          "Species concentration of the fluid";
+            "Species concentration of the fluid";
           Medium.ExtraProperty C[Medium.nC](nominal=C_nominal)
-          "Trace substance mixture content";
+            "Trace substance mixture content";
            // Models for the steady-state and dynamic energy balance.
-      protected
+        protected
           Buildings.Fluid.Interfaces.StaticTwoPortConservationEquation steBal(
             sensibleOnly = true,
             redeclare final package Medium=Medium,
@@ -14894,7 +14938,7 @@ First implementation.
             final homotopyInitialization = homotopyInitialization,
             final show_V_flow = false) if
                 useSteadyStateTwoPort
-          "Model for steady-state balance if nPorts=2"
+            "Model for steady-state balance if nPorts=2"
                 annotation (Placement(transformation(extent={{-20,0},{0,20}})));
           Buildings.Fluid.Interfaces.ConservationEquation dynBal(
             redeclare final package Medium = Medium,
@@ -14929,17 +14973,17 @@ First implementation.
               massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) and (
               substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) and (
               traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)
-          "Flag, true if the model has two ports only and uses a steady state balance"
+            "Flag, true if the model has two ports only and uses a steady state balance"
             annotation (Evaluate=true);
           Modelica.SIunits.HeatFlowRate Q_flow
-          "Heat flow across boundaries or energy source/sink";
+            "Heat flow across boundaries or energy source/sink";
           // Outputs that are needed to assign the medium properties
           Modelica.Blocks.Interfaces.RealOutput hOut_internal(unit="J/kg")
-          "Internal connector for leaving temperature of the component";
+            "Internal connector for leaving temperature of the component";
           Modelica.Blocks.Interfaces.RealOutput XiOut_internal[Medium.nXi](each unit="1")
-          "Internal connector for leaving species concentration of the component";
+            "Internal connector for leaving species concentration of the component";
           Modelica.Blocks.Interfaces.RealOutput COut_internal[Medium.nC](each unit="1")
-          "Internal connector for leaving trace substances of the component";
+            "Internal connector for leaving trace substances of the component";
 
         equation
           ///////////////////////////////////////////////////////////////////////////
@@ -15104,22 +15148,22 @@ Buildings.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
         end PartialMixingVolume;
 
         partial model PartialMixingVolumeWaterPort
-        "Partial mixing volume that allows adding or subtracting water vapor"
+          "Partial mixing volume that allows adding or subtracting water vapor"
           extends Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolume;
 
          // additional declarations
           Modelica.Blocks.Interfaces.RealInput mWat_flow(final quantity="MassFlowRate",
                                                          final unit = "kg/s")
-          "Water flow rate added into the medium"
+            "Water flow rate added into the medium"
             annotation (Placement(transformation(extent={{-140,60},{-100,100}},rotation=
                    0)));
           Modelica.Blocks.Interfaces.RealInput TWat(final quantity="ThermodynamicTemperature",
                                                     final unit = "K", displayUnit = "degC", min=260)
-          "Temperature of liquid that is drained from or injected into volume"
+            "Temperature of liquid that is drained from or injected into volume"
             annotation (Placement(transformation(extent={{-140,28},{-100,68}},
                   rotation=0)));
           Modelica.Blocks.Interfaces.RealOutput X_w
-          "Species composition of medium"
+            "Species composition of medium"
             annotation (Placement(transformation(extent={{100,-60},{140,-20}}, rotation=
                    0)));
 
@@ -15239,12 +15283,12 @@ coil with water vapor condensation.
       extends Modelica.Icons.VariantsPackage;
 
       model FlowMachine_y
-      "Fan or pump with ideally controlled normalized speed y as input signal"
+        "Fan or pump with ideally controlled normalized speed y as input signal"
         extends Buildings.Fluid.Movers.BaseClasses.PrescribedFlowMachine(
         final N_nominal=1500 "fix N_nominal as it is used only for scaling");
 
         Modelica.Blocks.Interfaces.RealInput y(min=0, max=1, unit="1")
-        "Constant normalized rotational speed"
+          "Constant normalized rotational speed"
           annotation (Placement(transformation(
               extent={{-20,-20},{20,20}},
               rotation=-90,
@@ -15253,7 +15297,7 @@ coil with water vapor condensation.
               rotation=-90,
               origin={0,120})));
 
-    protected
+      protected
         Modelica.Blocks.Math.Gain gaiSpe(final k=N_nominal,
           u(min=0, max=1),
           y(final quantity="AngularVelocity",
@@ -15291,7 +15335,7 @@ coil with water vapor condensation.
         annotation (defaultComponentName="fan",
           Icon(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}}), graphics={Text(extent={{10,124},{102,102}},textString
-                =   "y_in [0, 1]")}),
+                  = "y_in [0, 1]")}),
           Diagram(coordinateSystem(preserveAspectRatio=true,  extent={{-100,-100},{100,
                   100}}),     graphics),
           Documentation(info="<html>
@@ -15339,7 +15383,7 @@ Revised implementation to allow zero flow rate.
       end FlowMachine_y;
 
       package BaseClasses
-      "Package with base classes for Buildings.Fluid.Movers"
+        "Package with base classes for Buildings.Fluid.Movers"
         extends Modelica.Icons.BasesPackage;
 
         package Characteristics "Functions for fan or pump characteristics"
@@ -15347,10 +15391,10 @@ Revised implementation to allow zero flow rate.
           record flowParameters "Record for flow parameters"
             extends Modelica.Icons.Record;
             parameter Modelica.SIunits.VolumeFlowRate V_flow[:](each min=0)
-            "Volume flow rate at user-selected operating points";
+              "Volume flow rate at user-selected operating points";
             parameter Modelica.SIunits.Pressure dp[size(V_flow,1)](
                each min=0, each displayUnit="Pa")
-            "Fan or pump total pressure at these flow rates";
+              "Fan or pump total pressure at these flow rates";
             annotation (Documentation(info="<html>
 <p>
 Data record for performance data that describe volume flow rate versus
@@ -15371,14 +15415,14 @@ First implementation.
           end flowParameters;
 
           record flowParametersInternal
-          "Record for flow parameters with prescribed size"
+            "Record for flow parameters with prescribed size"
             extends Modelica.Icons.Record;
             parameter Integer n "Number of elements in each array";
             parameter Modelica.SIunits.VolumeFlowRate V_flow[n](each min=0)
-            "Volume flow rate at user-selected operating points";
+              "Volume flow rate at user-selected operating points";
             parameter Modelica.SIunits.Pressure dp[n](
                each min=0, each displayUnit="Pa")
-            "Fan or pump total pressure at these flow rates";
+              "Fan or pump total pressure at these flow rates";
             annotation (Documentation(info="<html>
 <p>
 Data record for performance data that describe volume flow rate versus
@@ -15411,10 +15455,10 @@ First implementation.
           record efficiencyParameters "Record for efficiency parameters"
             extends Modelica.Icons.Record;
             parameter Real  r_V[:](each min=0, each max=1, each displayUnit="1")
-            "Volumetric flow rate divided by nominal flow rate at user-selected operating points";
+              "Volumetric flow rate divided by nominal flow rate at user-selected operating points";
             parameter Real eta[size(r_V,1)](
                each min=0, each max=1, each displayUnit="1")
-            "Fan or pump efficiency at these flow rates";
+              "Fan or pump efficiency at these flow rates";
             annotation (Documentation(info="<html>
 <p>
 Data record for performance data that describe volume flow rate versus
@@ -15437,10 +15481,10 @@ First implementation.
           record powerParameters "Record for electrical power parameters"
             extends Modelica.Icons.Record;
             parameter Modelica.SIunits.VolumeFlowRate V_flow[:](each min=0)= {0}
-            "Volume flow rate at user-selected operating points";
+              "Volume flow rate at user-selected operating points";
             parameter Modelica.SIunits.Power P[size(V_flow,1)](
                each min=0) = {0}
-            "Fan or pump electrical power at these flow rates";
+              "Fan or pump electrical power at these flow rates";
             annotation (Documentation(info="<html>
 <p>
 Data record for performance data that describe volume flow rate versus
@@ -15466,52 +15510,52 @@ First implementation.
           end powerParameters;
 
           function pressure
-          "Flow vs. head characteristics for fan or pump pressure raise"
+            "Flow vs. head characteristics for fan or pump pressure raise"
             extends Modelica.Icons.Function;
             input
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
+              Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
                                                                                             data
-            "Pressure performance data";
+              "Pressure performance data";
             input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
             input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
             input Modelica.SIunits.VolumeFlowRate VDelta_flow
-            "Small volume flow rate";
+              "Small volume flow rate";
             input Modelica.SIunits.Pressure dpDelta "Small pressure";
 
             input Modelica.SIunits.VolumeFlowRate V_flow_max
-            "Maximum volume flow rate at r_N=1 and dp=0";
+              "Maximum volume flow rate at r_N=1 and dp=0";
             input Modelica.SIunits.Pressure dpMax(min=0)
-            "Maximum pressure at r_N=1 and V_flow=0";
+              "Maximum pressure at r_N=1 and V_flow=0";
 
             input Real d[:]
-            "Derivatives at support points for spline interpolation";
+              "Derivatives at support points for spline interpolation";
             input Real delta
-            "Small value used to transition to other fan curve";
+              "Small value used to transition to other fan curve";
             input Real cBar[2]
-            "Coefficients for linear approximation of pressure vs. flow rate";
+              "Coefficients for linear approximation of pressure vs. flow rate";
             input Real kRes(unit="kg/(s.m4)")
-            "Linear coefficient for fan-internal pressure drop";
+              "Linear coefficient for fan-internal pressure drop";
             output Modelica.SIunits.Pressure dp "Pressure raise";
 
-        protected
+          protected
              Integer dimD(min=2)=size(data.V_flow, 1)
-            "Dimension of data vector";
+              "Dimension of data vector";
 
             function performanceCurve "Performance curve away from the origin"
               input Modelica.SIunits.VolumeFlowRate V_flow
-              "Volumetric flow rate";
+                "Volumetric flow rate";
               input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
               input Real d[dimD]
-              "Coefficients for polynomial of pressure vs. flow rate";
+                "Coefficients for polynomial of pressure vs. flow rate";
               input
-              Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
+                Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
                                                                                               data
-              "Pressure performance data";
+                "Pressure performance data";
               input Integer dimD "Dimension of data vector";
 
               output Modelica.SIunits.Pressure dp "Pressure raise";
 
-          protected
+            protected
               Modelica.SIunits.VolumeFlowRate rat "Ratio of V_flow/r_N";
               Integer i "Integer to select data interval";
             algorithm
@@ -15607,17 +15651,17 @@ First implementation.
           end pressure;
 
           function flowApproximationAtOrigin
-          "Approximation for fan or pump pressure raise at origin"
+            "Approximation for fan or pump pressure raise at origin"
             extends Modelica.Icons.Function;
             input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
             input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
             input Modelica.SIunits.VolumeFlowRate VDelta_flow
-            "Small volume flow rate";
+              "Small volume flow rate";
             input Modelica.SIunits.Pressure dpDelta "Small pressure";
             input Real delta
-            "Small value used to transition to other fan curve";
+              "Small value used to transition to other fan curve";
             input Real cBar[2]
-            "Coefficients for linear approximation of pressure vs. flow rate";
+              "Coefficients for linear approximation of pressure vs. flow rate";
             output Modelica.SIunits.Pressure dp "Pressure raise";
           algorithm
             dp := r_N * dpDelta + r_N^2 * (cBar[1] + cBar[2]*V_flow);
@@ -15639,18 +15683,19 @@ First implementation.
           end flowApproximationAtOrigin;
 
           function power
-          "Flow vs. electrical power characteristics for fan or pump"
+            "Flow vs. electrical power characteristics for fan or pump"
             extends Modelica.Icons.Function;
             input
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters       data
-            "Pressure performance data";
+              Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters
+                                                                                     data
+              "Pressure performance data";
             input Modelica.SIunits.VolumeFlowRate V_flow "Volumetric flow rate";
             input Real r_N(unit="1") "Relative revolution, r_N=N/N_nominal";
             input Real d[:]
-            "Derivatives at support points for spline interpolation";
+              "Derivatives at support points for spline interpolation";
             output Modelica.SIunits.Power P "Power consumption";
 
-        protected
+          protected
              Integer n=size(data.V_flow, 1) "Dimension of data vector";
 
              Modelica.SIunits.VolumeFlowRate rat "Ratio of V_flow/r_N";
@@ -15712,18 +15757,18 @@ First implementation.
           end power;
 
           function efficiency
-          "Flow vs. efficiency characteristics for fan or pump"
+            "Flow vs. efficiency characteristics for fan or pump"
             extends Modelica.Icons.Function;
             input
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+              Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
               data "Efficiency performance data";
             input Real r_V(unit="1")
-            "Volumetric flow rate divided by nominal flow rate";
+              "Volumetric flow rate divided by nominal flow rate";
             input Real d[:]
-            "Derivatives at support points for spline interpolation";
+              "Derivatives at support points for spline interpolation";
             output Real eta(min=0, unit="1") "Efficiency";
 
-        protected
+          protected
             Integer n = size(data.r_V, 1) "Number of data points";
             Integer i "Integer to select data interval";
           algorithm
@@ -15829,7 +15874,7 @@ New implementation due to changes from polynomial to cubic hermite splines.
         end Characteristics;
 
         partial model PrescribedFlowMachine
-        "Partial model for fan or pump with speed (y or Nrpm) as input signal"
+          "Partial model for fan or pump with speed (y or Nrpm) as input signal"
           extends Buildings.Fluid.Movers.BaseClasses.FlowMachineInterface(
             V_flow_max(start=V_flow_nominal),
             final rho_default = Medium.density_pTX(Medium.p_default, Medium.T_default, Medium.X_default));
@@ -15840,13 +15885,13 @@ New implementation due to changes from polynomial to cubic hermite splines.
               preSou(final control_m_flow=false));
 
           // Models
-      protected
+        protected
           Modelica.Blocks.Sources.RealExpression dpMac(y=-dpMachine)
-          "Pressure drop of the pump or fan"
+            "Pressure drop of the pump or fan"
             annotation (Placement(transformation(extent={{0,20},{20,40}})));
 
           Modelica.Blocks.Sources.RealExpression PToMedium_flow(y=Q_flow + WFlo) if  addPowerToMedium
-          "Heat and work input into medium"
+            "Heat and work input into medium"
             annotation (Placement(transformation(extent={{-100,10},{-80,30}})));
         equation
          VMachine_flow = -port_b.m_flow/rho;
@@ -15889,7 +15934,7 @@ First implementation.
         end PrescribedFlowMachine;
 
         partial model PartialFlowMachine
-        "Partial model to interface fan or pump models with the medium"
+          "Partial model to interface fan or pump models with the medium"
           extends Buildings.Fluid.Interfaces.LumpedVolumeDeclarations;
           import Modelica.Constants;
 
@@ -15918,23 +15963,23 @@ First implementation.
             nPorts=2) "Fluid volume for dynamic model"
             annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
            parameter Boolean dynamicBalance = true
-          "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
+            "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
             annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
 
           parameter Boolean addPowerToMedium=true
-          "Set to false to avoid any power (=heat and flow work) being added to medium (may give simpler equations)";
+            "Set to false to avoid any power (=heat and flow work) being added to medium (may give simpler equations)";
 
           parameter Modelica.SIunits.Time tau=1
-          "Time constant of fluid volume for nominal flow, used if dynamicBalance=true"
+            "Time constant of fluid volume for nominal flow, used if dynamicBalance=true"
             annotation (Dialog(tab="Dynamics", group="Nominal condition", enable=dynamicBalance));
 
           // Models
           Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-          "Heat dissipation to environment"
+            "Heat dissipation to environment"
             annotation (Placement(transformation(extent={{-70,-90},{-50,-70}}),
                 iconTransformation(extent={{-10,-78},{10,-58}})));
 
-      protected
+        protected
           Modelica.SIunits.Density rho_in "Density of inflowing fluid";
 
           Buildings.Fluid.Movers.BaseClasses.IdealSource preSou(
@@ -15943,13 +15988,13 @@ First implementation.
             annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
           Buildings.HeatTransfer.Sources.PrescribedHeatFlow prePow if addPowerToMedium
-          "Prescribed power (=heat and flow work) flow for dynamic model"
+            "Prescribed power (=heat and flow work) flow for dynamic model"
             annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
 
           parameter Medium.ThermodynamicState sta_start=Medium.setState_pTX(
               T=T_start, p=p_start, X=X_start);
           parameter Modelica.SIunits.SpecificEnthalpy h_outflow_start = Medium.specificEnthalpy(sta_start)
-          "Start value for outflowing enthalpy";
+            "Start value for outflowing enthalpy";
 
         equation
           // For computing the density, we assume that the fan operates in the design flow direction.
@@ -16076,16 +16121,16 @@ First implementation.
         end PartialFlowMachine;
 
         model IdealSource
-        "Base class for pressure and mass flow source with optional power input"
+          "Base class for pressure and mass flow source with optional power input"
           extends Modelica.Fluid.Interfaces.PartialTwoPortTransport(show_V_flow=false,
                                                                     show_T=false);
 
           // what to control
           parameter Boolean control_m_flow
-          "= false to control dp instead of m_flow"
+            "= false to control dp instead of m_flow"
             annotation(Evaluate = true);
           Modelica.Blocks.Interfaces.RealInput m_flow_in if control_m_flow
-          "Prescribed mass flow rate"
+            "Prescribed mass flow rate"
             annotation (Placement(transformation(
                 extent={{-20,-20},{20,20}},
                 rotation=-90,
@@ -16094,7 +16139,7 @@ First implementation.
                 rotation=-90,
                 origin={-60,80})));
           Modelica.Blocks.Interfaces.RealInput dp_in if not control_m_flow
-          "Prescribed outlet pressure"
+            "Prescribed outlet pressure"
             annotation (Placement(transformation(
                 extent={{-20,-20},{20,20}},
                 rotation=-90,
@@ -16103,11 +16148,11 @@ First implementation.
                 rotation=-90,
                 origin={60,80})));
 
-      protected
+        protected
           Modelica.Blocks.Interfaces.RealInput m_flow_internal
-          "Needed to connect to conditional connector";
+            "Needed to connect to conditional connector";
           Modelica.Blocks.Interfaces.RealInput dp_internal
-          "Needed to connect to conditional connector";
+            "Needed to connect to conditional connector";
         equation
 
           // Ideal control
@@ -16186,38 +16231,38 @@ First implementation.
         end IdealSource;
 
         partial model PowerInterface
-        "Partial model to compute power draw and heat dissipation of fans and pumps"
+          "Partial model to compute power draw and heat dissipation of fans and pumps"
 
           import Modelica.Constants;
 
           parameter Boolean use_powerCharacteristic = false
-          "Use powerCharacteristic (vs. efficiencyCharacteristic)"
+            "Use powerCharacteristic (vs. efficiencyCharacteristic)"
              annotation(Evaluate=true,Dialog(group="Characteristics"));
 
           parameter Boolean motorCooledByFluid = true
-          "If true, then motor heat is added to fluid stream"
+            "If true, then motor heat is added to fluid stream"
             annotation(Dialog(group="Characteristics"));
           parameter Boolean homotopyInitialization = true
-          "= true, use homotopy method"
+            "= true, use homotopy method"
             annotation(Evaluate=true, Dialog(tab="Advanced"));
 
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
               motorEfficiency(r_V={1}, eta={0.7})
-          "Normalized volume flow rate vs. efficiency"
+            "Normalized volume flow rate vs. efficiency"
             annotation(Placement(transformation(extent={{60,-40},{80,-20}})),
                        Dialog(group="Characteristics"),
                        enable = not use_powerCharacteristic);
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
               hydraulicEfficiency(r_V={1}, eta={0.7})
-          "Normalized volume flow rate vs. efficiency"
+            "Normalized volume flow rate vs. efficiency"
             annotation(Placement(transformation(extent={{60,-80},{80,-60}})),
                        Dialog(group="Characteristics"),
                        enable = not use_powerCharacteristic);
 
           parameter Modelica.SIunits.Density rho_default
-          "Fluid density at medium default state";
+            "Fluid density at medium default state";
 
           Modelica.Blocks.Interfaces.RealOutput P(quantity="Modelica.SIunits.Power",
            unit="W") "Electrical power consumed"
@@ -16225,32 +16270,32 @@ First implementation.
                 rotation=0)));
 
           Modelica.SIunits.Power WHyd
-          "Hydraulic power input (converted to flow work and heat)";
+            "Hydraulic power input (converted to flow work and heat)";
           Modelica.SIunits.Power WFlo "Flow work";
           Modelica.SIunits.HeatFlowRate Q_flow
-          "Heat input from fan or pump to medium";
+            "Heat input from fan or pump to medium";
           Real eta(min=0, max=1) "Global efficiency";
           Real etaHyd(min=0, max=1) "Hydraulic efficiency";
           Real etaMot(min=0, max=1) "Motor efficiency";
 
           Modelica.SIunits.Pressure dpMachine(displayUnit="Pa")
-          "Pressure increase";
+            "Pressure increase";
           Modelica.SIunits.VolumeFlowRate VMachine_flow "Volume flow rate";
-      protected
+        protected
           parameter Modelica.SIunits.VolumeFlowRate V_flow_max(fixed=false)
-          "Maximum volume flow rate, used for smoothing";
+            "Maximum volume flow rate, used for smoothing";
           //Modelica.SIunits.HeatFlowRate QThe_flow "Heat input into the medium";
           parameter Modelica.SIunits.VolumeFlowRate delta_V_flow = 1E-3*V_flow_max
-          "Factor used for setting heat input into medium to zero at very small flows";
+            "Factor used for setting heat input into medium to zero at very small flows";
           final parameter Real motDer[size(motorEfficiency.r_V, 1)](fixed=false)
-          "Coefficients for polynomial of pressure vs. flow rate"
+            "Coefficients for polynomial of pressure vs. flow rate"
             annotation (Evaluate=true);
           final parameter Real hydDer[size(hydraulicEfficiency.r_V,1)](fixed=false)
-          "Coefficients for polynomial of pressure vs. flow rate"
+            "Coefficients for polynomial of pressure vs. flow rate"
             annotation (Evaluate=true);
 
           Modelica.SIunits.HeatFlowRate QThe_flow
-          "Heat input from fan or pump to medium";
+            "Heat input from fan or pump to medium";
 
         initial algorithm
          // Compute derivatives for cubic spline
@@ -16344,7 +16389,7 @@ Renamed protected parameters for consistency with the naming conventions.
         end PowerInterface;
 
         partial model FlowMachineInterface
-        "Partial model with performance curves for fans or pumps"
+          "Partial model with performance curves for fans or pumps"
           extends Buildings.Fluid.Movers.BaseClasses.PowerInterface(
             VMachine_flow(nominal=V_flow_nominal, start=V_flow_nominal),
             V_flow_max(nominal=V_flow_nominal, start=V_flow_nominal));
@@ -16356,31 +16401,31 @@ Renamed protected parameters for consistency with the naming conventions.
             N_nominal = 1500 "Nominal rotational speed for flow characteristic"
             annotation(Dialog(group="Characteristics"));
           final parameter Modelica.SIunits.VolumeFlowRate V_flow_nominal = pressure.V_flow[size(pressure.V_flow,1)]
-          "Nominal volume flow rate, used for homotopy";
+            "Nominal volume flow rate, used for homotopy";
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters           pressure
-          "Volume flow rate vs. total pressure rise"
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters         pressure
+            "Volume flow rate vs. total pressure rise"
             annotation(Placement(transformation(extent={{20,-80},{40,-60}})),
                        Dialog(group="Characteristics"));
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters           power
-          "Volume flow rate vs. electrical power consumption"
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters         power
+            "Volume flow rate vs. electrical power consumption"
             annotation(Placement(transformation(extent={{20,-40},{40,-20}})),
                        Dialog(group="Characteristics", enable = use_powerCharacteristic));
 
           parameter Boolean homotopyInitialization = true
-          "= true, use homotopy method"
+            "= true, use homotopy method"
             annotation(Evaluate=true, Dialog(tab="Advanced"));
 
           // Classes used to implement the filtered speed
           parameter Boolean filteredSpeed=true
-          "= true, if speed is filtered with a 2nd order CriticalDamping filter"
+            "= true, if speed is filtered with a 2nd order CriticalDamping filter"
             annotation(Dialog(tab="Dynamics", group="Filtered speed"));
           parameter Modelica.SIunits.Time riseTime=30
-          "Rise time of the filter (time to reach 99.6 % of the speed)"
+            "Rise time of the filter (time to reach 99.6 % of the speed)"
             annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=filteredSpeed));
           parameter Modelica.Blocks.Types.Init init=Modelica.Blocks.Types.Init.InitialOutput
-          "Type of initialization (no init/steady state/initial state/initial output)"
+            "Type of initialization (no init/steady state/initial state/initial output)"
             annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=filteredSpeed));
           parameter Real N_start=0 "Initial value of speed"
             annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=filteredSpeed));
@@ -16394,10 +16439,10 @@ Renamed protected parameters for consistency with the naming conventions.
 
           // "Shaft rotational speed in rpm";
           Real r_N(min=0, start=N_start/N_nominal, unit="1")
-          "Ratio N_actual/N_nominal";
+            "Ratio N_actual/N_nominal";
           Real r_V(start=1, unit="1") "Ratio V_flow/V_flow_max";
 
-      protected
+        protected
           Modelica.Blocks.Interfaces.RealOutput N_filtered(min=0, start=N_start, max=N_nominal) if
              filteredSpeed "Filtered speed in the range 0..N_nominal"
             annotation (Placement(transformation(extent={{40,78},{60,98}}),
@@ -16414,48 +16459,48 @@ Renamed protected parameters for consistency with the naming conventions.
              final analogFilter=Modelica.Blocks.Types.AnalogFilter.CriticalDamping,
              final filterType=Modelica.Blocks.Types.FilterType.LowPass) if
                 filteredSpeed
-          "Second order filter to approximate valve opening time, and to improve numerics"
+            "Second order filter to approximate valve opening time, and to improve numerics"
             annotation (Placement(transformation(extent={{20,81},{34,95}})));
           parameter Modelica.SIunits.VolumeFlowRate VDelta_flow(fixed=false, start=delta*V_flow_nominal)
-          "Small volume flow rate";
+            "Small volume flow rate";
           parameter Modelica.SIunits.Pressure dpDelta(fixed=false, start=100)
-          "Small pressure";
+            "Small pressure";
           parameter Real delta = 0.05
-          "Small value used to transition to other fan curve";
+            "Small value used to transition to other fan curve";
           parameter Real cBar[2](fixed=false)
-          "Coefficients for linear approximation of pressure vs. flow rate";
+            "Coefficients for linear approximation of pressure vs. flow rate";
           parameter Modelica.SIunits.Pressure dpMax(min=0, fixed=false);
           parameter Real kRes(min=0, unit="kg/(s.m4)", fixed=false)
-          "Coefficient for internal pressure drop of fan or pump";
+            "Coefficient for internal pressure drop of fan or pump";
 
           parameter Integer curve(min=1, max=3, fixed=false)
-          "Flag, used to pick the right representatio of the fan or pump pressure curve";
+            "Flag, used to pick the right representatio of the fan or pump pressure curve";
           parameter Integer nOri = size(pressure.V_flow,1)
-          "Number of data points for pressure curve";
+            "Number of data points for pressure curve";
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
                                                                                               pCur1(
             final n = nOri,
             V_flow(each fixed=false), dp(each fixed=false))
-          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+            "Volume flow rate vs. total pressure rise with correction for pump resistance added";
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
                                                                                               pCur2(
            final n = nOri + 1,
             V_flow(each fixed=false), dp(each fixed=false))
-          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+            "Volume flow rate vs. total pressure rise with correction for pump resistance added";
           parameter
-          Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
+            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal
                                                                                               pCur3(
            final n = nOri + 2,
             V_flow(each fixed=false), dp(each fixed=false))
-          "Volume flow rate vs. total pressure rise with correction for pump resistance added";
+            "Volume flow rate vs. total pressure rise with correction for pump resistance added";
           parameter Real preDer1[nOri](fixed=false)
-          "Derivatives of flow rate vs. pressure at the support points";
+            "Derivatives of flow rate vs. pressure at the support points";
           parameter Real preDer2[nOri+1](fixed=false)
-          "Derivatives of flow rate vs. pressure at the support points";
+            "Derivatives of flow rate vs. pressure at the support points";
           parameter Real preDer3[nOri+2](fixed=false)
-          "Derivatives of flow rate vs. pressure at the support points";
+            "Derivatives of flow rate vs. pressure at the support points";
           parameter Real powDer[size(power.V_flow,1)]=
            if use_powerCharacteristic then
              Buildings.Utilities.Math.Functions.splineDerivatives(
@@ -16465,22 +16510,23 @@ Renamed protected parameters for consistency with the naming conventions.
                                                                                              strict=false))
            else
              zeros(size(power.V_flow,1))
-          "Coefficients for polynomial of pressure vs. flow rate";
+            "Coefficients for polynomial of pressure vs. flow rate";
 
           parameter Boolean haveMinimumDecrease(fixed=false)
-          "Flag used for reporting";
+            "Flag used for reporting";
           parameter Boolean haveDPMax(fixed=false)
-          "Flag, true if user specified data that contain dpMax";
+            "Flag, true if user specified data that contain dpMax";
           parameter Boolean haveVMax(fixed=false)
-          "Flag, true if user specified data that contain V_flow_max";
+            "Flag, true if user specified data that contain V_flow_max";
 
           // Variables
           Modelica.SIunits.Density rho "Medium density";
 
         function getPerformanceDataAsString
           input
-            Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters     pressure
-            "Performance data";
+              Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters
+                                                                                  pressure
+              "Performance data";
           input Real derivative[:](unit="kg/(s.m4)") "Derivative";
           input Integer minimumLength =  6 "Minimum width of result";
           input Integer significantDigits = 6 "Number of significant digits";
@@ -16942,19 +16988,19 @@ This package contains components models for fans and pumps.
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Modelica.Icons.RotationalSensor;
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
-        "Enthalpy flow rate, positive if from port_a to port_b"
+          "Enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{-10,-10},{10,10}},
               rotation=90)));
         parameter Modelica.SIunits.SpecificEnthalpy h_out_start=
           Medium.specificEnthalpy_pTX(Medium.p_default, Medium.T_default, Medium.X_default)
-        "Initial or guess value of measured specific enthalpy"
+          "Initial or guess value of measured specific enthalpy"
           annotation (Dialog(group="Initialization"));
         Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
-        "Medium enthalpy to which the sensor is exposed";
+          "Medium enthalpy to which the sensor is exposed";
         Modelica.SIunits.SpecificEnthalpy h_out(start=h_out_start)
-        "Medium enthalpy that is used to compute the enthalpy flow rate";
+          "Medium enthalpy that is used to compute the enthalpy flow rate";
       initial equation
         if dynamic then
           if initType == Modelica.Blocks.Types.Init.SteadyState then
@@ -17029,12 +17075,12 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
       end EnthalpyFlowRate;
 
       model SensibleEnthalpyFlowRate
-      "Ideal enthalphy flow rate sensor that outputs the sensible enthalpy flow rate only"
+        "Ideal enthalphy flow rate sensor that outputs the sensible enthalpy flow rate only"
         extends Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor(tau=0);
         extends Buildings.Fluid.BaseClasses.IndexWater;
         extends Modelica.Icons.RotationalSensor;
         Modelica.Blocks.Interfaces.RealOutput H_flow(unit="W")
-        "Sensible enthalpy flow rate, positive if from port_a to port_b"
+          "Sensible enthalpy flow rate, positive if from port_a to port_b"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{-10,-10},{10,10}},
@@ -17043,19 +17089,19 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
           Medium.enthalpyOfNonCondensingGas(
             Medium.temperature(Medium.setState_phX(
               Medium.p_default, Medium.T_default, Medium.X_default)))
-        "Initial or guess value of measured specific sensible enthalpy"
+          "Initial or guess value of measured specific sensible enthalpy"
           annotation (Dialog(group="Initialization"));
         Modelica.SIunits.SpecificEnthalpy hMed_out(start=h_out_start)
-        "Medium sensible enthalpy to which the sensor is exposed";
+          "Medium sensible enthalpy to which the sensor is exposed";
         Modelica.SIunits.SpecificEnthalpy h_out(start=h_out_start)
-        "Medium sensible enthalpy that is used to compute the enthalpy flow rate";
-    protected
+          "Medium sensible enthalpy that is used to compute the enthalpy flow rate";
+      protected
         Medium.MassFraction XiActual[Medium.nXi]
-        "Medium mass fraction to which sensor is exposed to";
+          "Medium mass fraction to which sensor is exposed to";
         Medium.SpecificEnthalpy hActual
-        "Medium enthalpy to which sensor is exposed to";
+          "Medium enthalpy to which sensor is exposed to";
         Medium.ThermodynamicState sta
-        "Medium state to which sensor is exposed to";
+          "Medium state to which sensor is exposed to";
       initial equation
        // Compute initial state
        if dynamic then
@@ -17207,22 +17253,22 @@ Implementation is based on enthalpy sensor of <code>Modelica.Fluid</code>.
         extends Modelica.Icons.RotationalSensor;
         parameter String substanceName = "water" "Name of species substance";
         Modelica.Blocks.Interfaces.RealOutput X(min=0, max=1, start=X_start)
-        "Mass fraction of the passing fluid"
+          "Mass fraction of the passing fluid"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{10,-10},{-10,10}},
               rotation=270)));
         parameter Medium.MassFraction X_start=Medium.X_default[ind]
-        "Initial or guess value of output (= state)"
+          "Initial or guess value of output (= state)"
           annotation (Dialog(group="Initialization"));
         Medium.MassFraction XMed(start=X_start)
-        "Mass fraction to which the sensor is exposed";
-    protected
+          "Mass fraction to which the sensor is exposed";
+      protected
         parameter Integer ind(fixed=false)
-        "Index of species in vector of auxiliary substances";
+          "Index of species in vector of auxiliary substances";
         Medium.MassFraction XiVec[Medium.nXi](
             quantity=Medium.extraPropertiesNames)
-        "Trace substances vector, needed because indexed argument for the operator inStream is not supported";
+          "Trace substances vector, needed because indexed argument for the operator inStream is not supported";
       initial algorithm
         // Compute the index of the element in the substance vector
         ind:= -1;
@@ -17318,21 +17364,21 @@ First implementation.
                                                 displayUnit = "degC",
                                                 min = 0,
                                                 start=T_start)
-        "Temperature of the passing fluid"
+          "Temperature of the passing fluid"
           annotation (Placement(transformation(
               origin={0,110},
               extent={{10,-10},{-10,10}},
               rotation=270)));
         parameter Modelica.SIunits.Temperature T_start=Medium.T_default
-        "Initial or guess value of output (= state)"
+          "Initial or guess value of output (= state)"
           annotation (Dialog(group="Initialization"));
         Medium.Temperature TMed(start=T_start)
-        "Medium temperature to which the sensor is exposed";
-    protected
+          "Medium temperature to which the sensor is exposed";
+      protected
         Medium.Temperature T_a_inflow
-        "Temperature of inflowing fluid at port_a";
+          "Temperature of inflowing fluid at port_a";
         Medium.Temperature T_b_inflow
-        "Temperature of inflowing fluid at port_b or T_a_inflow, if uni-directional flow";
+          "Temperature of inflowing fluid at port_b or T_a_inflow, if uni-directional flow";
       initial equation
         if dynamic then
           if initType == Modelica.Blocks.Types.Init.SteadyState then
@@ -17436,23 +17482,23 @@ Implementation is based on
       end TemperatureTwoPort;
 
       package BaseClasses
-      "Package with base classes for Buildings.Fluid.Sensors"
+        "Package with base classes for Buildings.Fluid.Sensors"
         extends Modelica.Icons.BasesPackage;
 
         partial model PartialDynamicFlowSensor
-        "Partial component to model sensors that measure flow properties using a dynamic model"
+          "Partial component to model sensors that measure flow properties using a dynamic model"
           extends PartialFlowSensor;
 
           parameter Modelica.SIunits.Time tau(min=0) = 1
-          "Time constant at nominal flow rate"   annotation (Evaluate=true);
+            "Time constant at nominal flow rate" annotation (Evaluate=true);
           parameter Modelica.Blocks.Types.Init initType = Modelica.Blocks.Types.Init.InitialState
-          "Type of initialization (InitialState and InitialOutput are identical)"
+            "Type of initialization (InitialState and InitialOutput are identical)"
           annotation(Evaluate=true, Dialog(group="Initialization"));
-      protected
+        protected
           Real k(start=1)
-          "Gain to take flow rate into account for sensor time constant";
+            "Gain to take flow rate into account for sensor time constant";
           final parameter Boolean dynamic = tau > 1E-10 or tau < -1E-10
-          "Flag, true if the sensor is a dynamic sensor";
+            "Flag, true if the sensor is a dynamic sensor";
           Real mNor_flow "Normalized mass flow rate";
         equation
           if dynamic then
@@ -17497,13 +17543,13 @@ First implementation.
         end PartialDynamicFlowSensor;
 
         partial model PartialFlowSensor
-        "Partial component to model sensors that measure flow properties"
+          "Partial component to model sensors that measure flow properties"
           extends Modelica.Fluid.Interfaces.PartialTwoPort;
           parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
-          "Nominal mass flow rate, used for regularization near zero flow"
+            "Nominal mass flow rate, used for regularization near zero flow"
             annotation(Dialog(group = "Nominal condition"));
           parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
-          "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
+            "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
             annotation(Dialog(group="Advanced"));
         equation
           // mass balance
@@ -17583,64 +17629,64 @@ model the time constant of the sensor).
       extends Modelica.Icons.SourcesPackage;
 
       model Boundary_pT
-      "Boundary with prescribed pressure, temperature, composition and trace substances"
+        "Boundary with prescribed pressure, temperature, composition and trace substances"
         extends Modelica.Fluid.Sources.BaseClasses.PartialSource;
         parameter Boolean use_p_in = false
-        "Get the pressure from the input connector"
+          "Get the pressure from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_T_in= false
-        "Get the temperature from the input connector"
+          "Get the temperature from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_X_in = false
-        "Get the composition from the input connector"
+          "Get the composition from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_C_in = false
-        "Get the trace substances from the input connector"
+          "Get the trace substances from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Medium.AbsolutePressure p = Medium.p_default
-        "Fixed value of pressure"
+          "Fixed value of pressure"
           annotation (Evaluate = true,
                       Dialog(enable = not use_p_in));
         parameter Medium.Temperature T = Medium.T_default
-        "Fixed value of temperature"
+          "Fixed value of temperature"
           annotation (Evaluate = true,
                       Dialog(enable = not use_T_in));
         parameter Medium.MassFraction X[Medium.nX] = Medium.X_default
-        "Fixed value of composition"
+          "Fixed value of composition"
           annotation (Evaluate = true,
                       Dialog(enable = (not use_X_in) and Medium.nXi > 0));
         parameter Medium.ExtraProperty C[Medium.nC](
              quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
-        "Fixed values of trace substances"
+          "Fixed values of trace substances"
           annotation (Evaluate=true,
                       Dialog(enable = (not use_C_in) and Medium.nC > 0));
         Modelica.Blocks.Interfaces.RealInput p_in if              use_p_in
-        "Prescribed boundary pressure"
+          "Prescribed boundary pressure"
           annotation (Placement(transformation(extent={{-140,60},{-100,100}},
                 rotation=0)));
         Modelica.Blocks.Interfaces.RealInput T_in if         use_T_in
-        "Prescribed boundary temperature"
+          "Prescribed boundary temperature"
           annotation (Placement(transformation(extent={{-140,20},{-100,60}},
                 rotation=0)));
         Modelica.Blocks.Interfaces.RealInput X_in[Medium.nX] if
                                                               use_X_in
-        "Prescribed boundary composition"
+          "Prescribed boundary composition"
           annotation (Placement(transformation(extent={{-140,-60},{-100,-20}},
                 rotation=0)));
         Modelica.Blocks.Interfaces.RealInput C_in[Medium.nC] if
                                                               use_C_in
-        "Prescribed boundary trace substances"
+          "Prescribed boundary trace substances"
           annotation (Placement(transformation(extent={{-140,-100},{-100,-60}},
                 rotation=0)));
-    protected
+      protected
         Modelica.Blocks.Interfaces.RealInput p_in_internal
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput T_in_internal
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput X_in_internal[Medium.nX]
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput C_in_internal[Medium.nC]
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
       equation
         Modelica.Fluid.Utilities.checkBoundary(Medium.mediumName, Medium.substanceNames,
           Medium.singleState, true, X_in_internal, "Boundary_pT");
@@ -17757,64 +17803,64 @@ Implementation is based on <code>Modelica.Fluid</code>.
       end Boundary_pT;
 
       model MassFlowSource_T
-      "Ideal flow source that produces a prescribed mass flow with prescribed temperature, mass fraction and trace substances"
+        "Ideal flow source that produces a prescribed mass flow with prescribed temperature, mass fraction and trace substances"
         extends Modelica.Fluid.Sources.BaseClasses.PartialSource;
         parameter Boolean use_m_flow_in = false
-        "Get the mass flow rate from the input connector"
+          "Get the mass flow rate from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_T_in= false
-        "Get the temperature from the input connector"
+          "Get the temperature from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_X_in = false
-        "Get the composition from the input connector"
+          "Get the composition from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Boolean use_C_in = false
-        "Get the trace substances from the input connector"
+          "Get the trace substances from the input connector"
           annotation(Evaluate=true, HideResult=true);
         parameter Modelica.SIunits.MassFlowRate m_flow = 0
-        "Fixed mass flow rate going out of the fluid port"
+          "Fixed mass flow rate going out of the fluid port"
           annotation (Evaluate = true,
                       Dialog(enable = not use_m_flow_in));
         parameter Medium.Temperature T = Medium.T_default
-        "Fixed value of temperature"
+          "Fixed value of temperature"
           annotation (Evaluate = true,
                       Dialog(enable = not use_T_in));
         parameter Medium.MassFraction X[Medium.nX] = Medium.X_default
-        "Fixed value of composition"
+          "Fixed value of composition"
           annotation (Evaluate = true,
                       Dialog(enable = (not use_X_in) and Medium.nXi > 0));
         parameter Medium.ExtraProperty C[Medium.nC](
              quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
-        "Fixed values of trace substances"
+          "Fixed values of trace substances"
           annotation (Evaluate=true,
                       Dialog(enable = (not use_C_in) and Medium.nC > 0));
         Modelica.Blocks.Interfaces.RealInput m_flow_in if     use_m_flow_in
-        "Prescribed mass flow rate"
+          "Prescribed mass flow rate"
           annotation (Placement(transformation(extent={{-120,60},{-80,100}},
                 rotation=0), iconTransformation(extent={{-120,60},{-80,100}})));
         Modelica.Blocks.Interfaces.RealInput T_in if         use_T_in
-        "Prescribed fluid temperature"
+          "Prescribed fluid temperature"
           annotation (Placement(transformation(extent={{-140,20},{-100,60}},
                 rotation=0), iconTransformation(extent={{-140,20},{-100,60}})));
         Modelica.Blocks.Interfaces.RealInput X_in[Medium.nX] if
                                                               use_X_in
-        "Prescribed fluid composition"
+          "Prescribed fluid composition"
           annotation (Placement(transformation(extent={{-140,-60},{-100,-20}},
                 rotation=0)));
         Modelica.Blocks.Interfaces.RealInput C_in[Medium.nC] if
                                                               use_C_in
-        "Prescribed boundary trace substances"
+          "Prescribed boundary trace substances"
           annotation (Placement(transformation(extent={{-120,-100},{-80,-60}},
                 rotation=0)));
-    protected
+      protected
         Modelica.Blocks.Interfaces.RealInput m_flow_in_internal
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput T_in_internal
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput X_in_internal[Medium.nX]
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
         Modelica.Blocks.Interfaces.RealInput C_in_internal[Medium.nC]
-        "Needed to connect to conditional connector";
+          "Needed to connect to conditional connector";
       equation
         Modelica.Fluid.Utilities.checkBoundary(
           Medium.mediumName,
@@ -17962,17 +18008,17 @@ to define fixed or prescribed ambient conditions.
         function basicFlowFunction_dp "Basic class for flow models"
 
           input Modelica.SIunits.Pressure dp(displayUnit="Pa")
-          "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
+            "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
           input Real k(min=0, unit="")
-          "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
+            "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
           input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
-          "Mass flow rate";
+            "Mass flow rate";
           output Modelica.SIunits.MassFlowRate m_flow
-          "Mass flow rate in design flow direction";
-      protected
+            "Mass flow rate in design flow direction";
+        protected
           Modelica.SIunits.Pressure dp_turbulent(displayUnit="Pa")
-          "Turbulent flow if |dp| >= dp_small, not a parameter because k can be a function of time";
-      protected
+            "Turbulent flow if |dp| >= dp_small, not a parameter because k can be a function of time";
+        protected
          Real kSqu(unit="kg.m") "Flow coefficient, kSqu=k^2=m_flow^2/|dp|";
         algorithm
          kSqu:=k*k;
@@ -18057,14 +18103,14 @@ First implementation.
         function basicFlowFunction_m_flow "Basic class for flow models"
 
           input Modelica.SIunits.MassFlowRate m_flow
-          "Mass flow rate in design flow direction";
+            "Mass flow rate in design flow direction";
           input Real k(unit="")
-          "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
+            "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
           input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
-          "Mass flow rate";
+            "Mass flow rate";
           output Modelica.SIunits.Pressure dp(displayUnit="Pa")
-          "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
-      protected
+            "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
+        protected
          Real kSquInv(unit="1/(kg.m)") "Flow coefficient";
         algorithm
          kSquInv:=1/k^2;
@@ -18152,7 +18198,7 @@ First implementation.
         replaceable package Medium =
             Modelica.Media.Interfaces.PartialCondensingGases "Medium model"
             annotation (choicesAllMatching = true);
-    protected
+      protected
         parameter Integer i_w(fixed=false) "Index for water substance";
       initial algorithm
         // Compute index of species vector that carries the water vapor concentration
@@ -18185,7 +18231,7 @@ First implementation.
       end IndexWater;
 
       partial model PartialResistance
-      "Partial model for a hydraulic resistance"
+        "Partial model for a hydraulic resistance"
           extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
            show_T=false, show_V_flow=false,
            m_flow(start=0, nominal=m_flow_nominal_pos),
@@ -18193,31 +18239,31 @@ First implementation.
            final m_flow_small = 1E-4*abs(m_flow_nominal));
 
         parameter Boolean from_dp = false
-        "= true, use m_flow = f(dp) else dp = f(m_flow)"
+          "= true, use m_flow = f(dp) else dp = f(m_flow)"
           annotation (Evaluate=true, Dialog(tab="Advanced"));
 
         parameter Modelica.SIunits.Pressure dp_nominal(displayUnit="Pa")
-        "Pressure drop at nominal mass flow rate"                                  annotation(Dialog(group = "Nominal condition"));
+          "Pressure drop at nominal mass flow rate"                                annotation(Dialog(group = "Nominal condition"));
         parameter Boolean homotopyInitialization = true
-        "= true, use homotopy method"
+          "= true, use homotopy method"
           annotation(Evaluate=true, Dialog(tab="Advanced"));
         parameter Boolean linearized = false
-        "= true, use linear relation between m_flow and dp for any flow rate"
+          "= true, use linear relation between m_flow and dp for any flow rate"
           annotation(Evaluate=true, Dialog(tab="Advanced"));
 
         parameter Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
-        "Turbulent flow if |m_flow| >= m_flow_turbulent";
+          "Turbulent flow if |m_flow| >= m_flow_turbulent";
 
-    protected
+      protected
         parameter Medium.ThermodynamicState sta_default=
            Medium.setState_pTX(T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
         parameter Modelica.SIunits.DynamicViscosity eta_default=Medium.dynamicViscosity(sta_default)
-        "Dynamic viscosity, used to compute transition to turbulent flow regime";
-    protected
+          "Dynamic viscosity, used to compute transition to turbulent flow regime";
+      protected
         final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_pos = abs(m_flow_nominal)
-        "Absolute value of nominal flow rate";
+          "Absolute value of nominal flow rate";
         final parameter Modelica.SIunits.Pressure dp_nominal_pos = abs(dp_nominal)
-        "Absolute value of nominal pressure";
+          "Absolute value of nominal pressure";
       equation
         // Isenthalpic state transformation (no storage and no loss of energy)
         port_a.h_outflow = inStream(port_b.h_outflow);
@@ -18362,7 +18408,7 @@ This package contains base classes that are used to construct the models in
       extends Modelica.Icons.InterfacesPackage;
 
       model TwoPortHeatMassExchanger
-      "Partial model transporting one fluid stream with storing mass or energy"
+        "Partial model transporting one fluid stream with storing mass or energy"
         extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
           port_a(h_outflow(start=h_outflow_start)),
           port_b(h_outflow(start=h_outflow_start)));
@@ -18372,7 +18418,7 @@ This package contains base classes that are used to construct the models in
 
         replaceable Buildings.Fluid.MixingVolumes.MixingVolume vol
           constrainedby
-        Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolume(
+          Buildings.Fluid.MixingVolumes.BaseClasses.PartialMixingVolume(
           redeclare final package Medium = Medium,
           nPorts = 2,
           V=m_flow_nominal*tau/rho_default,
@@ -18387,47 +18433,47 @@ This package contains base classes that are used to construct the models in
                   11,-20}},         rotation=0)));
 
         parameter Modelica.SIunits.Time tau = 30
-        "Time constant at nominal flow (if energyDynamics <> SteadyState)"
+          "Time constant at nominal flow (if energyDynamics <> SteadyState)"
            annotation (Evaluate=true, Dialog(tab = "Dynamics", group="Nominal condition"));
 
         // Advanced
         parameter Boolean homotopyInitialization = true
-        "= true, use homotopy method"
+          "= true, use homotopy method"
           annotation(Evaluate=true, Dialog(tab="Advanced"));
 
         // Dynamics
         parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-        "Formulation of energy balance"
+          "Formulation of energy balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
         parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
-        "Formulation of mass balance"
+          "Formulation of mass balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
         // Initialization
         parameter Medium.AbsolutePressure p_start = Medium.p_default
-        "Start value of pressure"
+          "Start value of pressure"
           annotation(Dialog(tab = "Initialization"));
         parameter Medium.Temperature T_start = Medium.T_default
-        "Start value of temperature"
+          "Start value of temperature"
           annotation(Dialog(tab = "Initialization"));
         parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
-        "Start value of mass fractions m_i/m"
+          "Start value of mass fractions m_i/m"
           annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
         parameter Medium.ExtraProperty C_start[Medium.nC](
              quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
-        "Start value of trace substances"
+          "Start value of trace substances"
           annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
 
-    protected
+      protected
         parameter Medium.ThermodynamicState sta_default=Medium.setState_pTX(
             T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
         parameter Modelica.SIunits.Density rho_default=Medium.density(sta_default)
-        "Density, used to compute fluid volume";
+          "Density, used to compute fluid volume";
         parameter Medium.ThermodynamicState sta_start=Medium.setState_pTX(
             T=T_start, p=p_start, X=X_start);
         parameter Modelica.SIunits.SpecificEnthalpy h_outflow_start = Medium.specificEnthalpy(sta_start)
-        "Start value for outflowing enthalpy";
-    public
+          "Start value for outflowing enthalpy";
+      public
         Buildings.Fluid.FixedResistances.FixedResistanceDpM preDro(
           redeclare package Medium = Medium,
           final use_dh=false,
@@ -18599,7 +18645,7 @@ First implementation.
       end TwoPortHeatMassExchanger;
 
       partial model PartialTwoPortInterface
-      "Partial model transporting fluid between two ports without storing mass or energy"
+        "Partial model transporting fluid between two ports without storing mass or energy"
         import Modelica.Constants;
         extends Modelica.Fluid.Interfaces.PartialTwoPort(
           port_a(p(start=Medium.p_default,
@@ -18608,31 +18654,31 @@ First implementation.
                  nominal=Medium.p_default)));
 
         parameter Modelica.SIunits.MassFlowRate m_flow_nominal
-        "Nominal mass flow rate"
+          "Nominal mass flow rate"
           annotation(Dialog(group = "Nominal condition"));
         parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
-        "Small mass flow rate for regularization of zero flow"
+          "Small mass flow rate for regularization of zero flow"
           annotation(Dialog(tab = "Advanced"));
         parameter Boolean homotopyInitialization = true
-        "= true, use homotopy method"
+          "= true, use homotopy method"
           annotation(Evaluate=true, Dialog(tab="Advanced"));
 
         // Diagnostics
          parameter Boolean show_V_flow = false
-        "= true, if volume flow rate at inflowing port is computed"
+          "= true, if volume flow rate at inflowing port is computed"
           annotation(Dialog(tab="Advanced",group="Diagnostics"));
          parameter Boolean show_T = false
-        "= true, if actual temperature at port is computed (may lead to events)"
+          "= true, if actual temperature at port is computed (may lead to events)"
           annotation(Dialog(tab="Advanced",group="Diagnostics"));
 
         Modelica.SIunits.VolumeFlowRate V_flow=
             m_flow/Medium.density(sta_a) if show_V_flow
-        "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
+          "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
 
         Modelica.SIunits.MassFlowRate m_flow(start=0) = port_a.m_flow
-        "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
+          "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
         Modelica.SIunits.Pressure dp(start=0, displayUnit="Pa")
-        "Pressure difference between port_a and port_b";
+          "Pressure difference between port_a and port_b";
 
         Medium.ThermodynamicState sta_a=if homotopyInitialization then
             Medium.setState_phX(port_a.p,
@@ -18755,53 +18801,53 @@ First implementation.
         Modelica.SIunits.Energy U "Internal energy of fluid";
         Modelica.SIunits.Mass m "Mass of fluid";
         Modelica.SIunits.Mass[Medium.nXi] mXi
-        "Masses of independent components in the fluid";
+          "Masses of independent components in the fluid";
         Modelica.SIunits.Mass[Medium.nC] mC
-        "Masses of trace substances in the fluid";
+          "Masses of trace substances in the fluid";
         // C need to be added here because unlike for Xi, which has medium.Xi,
         // there is no variable medium.C
         Medium.ExtraProperty C[Medium.nC](each nominal=C_nominal)
-        "Trace substance mixture content";
+          "Trace substance mixture content";
 
         Modelica.SIunits.MassFlowRate mb_flow "Mass flows across boundaries";
         Modelica.SIunits.MassFlowRate[Medium.nXi] mbXi_flow
-        "Substance mass flows across boundaries";
+          "Substance mass flows across boundaries";
         Medium.ExtraPropertyFlowRate[Medium.nC] mbC_flow
-        "Trace substance mass flows across boundaries";
+          "Trace substance mass flows across boundaries";
         Modelica.SIunits.EnthalpyFlowRate Hb_flow
-        "Enthalpy flow across boundaries or energy source/sink";
+          "Enthalpy flow across boundaries or energy source/sink";
 
         // Inputs that need to be defined by an extending class
         input Modelica.SIunits.Volume fluidVolume "Volume";
 
         Modelica.Blocks.Interfaces.RealInput Q_flow(unit="W")
-        "Heat transfered into the medium"
+          "Heat transfered into the medium"
           annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
         Modelica.Blocks.Interfaces.RealInput mWat_flow(unit="kg/s")
-        "Moisture mass flow rate added to the medium"
+          "Moisture mass flow rate added to the medium"
           annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
 
         // Outputs that are needed in models that extend this model
         Modelica.Blocks.Interfaces.RealOutput hOut(unit="J/kg")
-        "Leaving enthalpy of the component"
+          "Leaving enthalpy of the component"
            annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={-50,110})));
         Modelica.Blocks.Interfaces.RealOutput XiOut[Medium.nXi](each unit="1",
                                                                 each min=0,
                                                                 each max=1)
-        "Leaving species concentration of the component"
+          "Leaving species concentration of the component"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={0,110})));
         Modelica.Blocks.Interfaces.RealOutput COut[Medium.nC](each min=0)
-        "Leaving trace substances of the component"
+          "Leaving trace substances of the component"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={50,110})));
-    protected
+      protected
         parameter Boolean initialize_p = not Medium.singleState
-        "= true to set up initial equations for pressure";
+          "= true to set up initial equations for pressure";
 
         Medium.EnthalpyFlowRate ports_H_flow[nPorts];
         Modelica.SIunits.MassFlowRate ports_mXi_flow[nPorts,Medium.nXi];
@@ -18820,7 +18866,7 @@ First implementation.
                                                   string2="Water",
                                                   caseSensitive=false)
                                                   then 1 else 0 for i in 1:Medium.nXi}
-        "Vector with zero everywhere except where species is";
+          "Vector with zero everywhere except where species is";
       equation
         // Total quantities
         m = fluidVolume*medium.d;
@@ -18834,11 +18880,11 @@ First implementation.
 
         for i in 1:nPorts loop
           ports_H_flow[i]     = ports[i].m_flow * actualStream(ports[i].h_outflow)
-          "Enthalpy flow";
+            "Enthalpy flow";
           ports_mXi_flow[i,:] = ports[i].m_flow * actualStream(ports[i].Xi_outflow)
-          "Component mass flow";
+            "Component mass flow";
           ports_mC_flow[i,:]  = ports[i].m_flow * actualStream(ports[i].C_outflow)
-          "Trace substance mass flow";
+            "Trace substance mass flow";
         end for;
 
         for i in 1:Medium.nXi loop
@@ -19096,20 +19142,20 @@ Implemented first version in <code>Buildings</code> library, based on model from
       end ConservationEquation;
 
       model StaticTwoPortConservationEquation
-      "Partial model for static energy and mass conservation equations"
+        "Partial model for static energy and mass conservation equations"
         extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
         showDesignFlowDirection = false);
 
         Modelica.Blocks.Interfaces.RealInput Q_flow(unit="W")
-        "Heat transfered into the medium"
+          "Heat transfered into the medium"
           annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
         Modelica.Blocks.Interfaces.RealInput mWat_flow(unit="kg/s")
-        "Moisture mass flow rate added to the medium"
+          "Moisture mass flow rate added to the medium"
           annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
         constant Boolean sensibleOnly "Set to true if sensible exchange only";
         // Outputs that are needed in models that extend this model
         Modelica.Blocks.Interfaces.RealOutput hOut(unit="J/kg")
-        "Leaving temperature of the component"
+          "Leaving temperature of the component"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={-50,110}), iconTransformation(
@@ -19120,23 +19166,23 @@ Implemented first version in <code>Buildings</code> library, based on model from
         Modelica.Blocks.Interfaces.RealOutput XiOut[Medium.nXi](each unit="1",
                                                                 each min=0,
                                                                 each max=1)
-        "Leaving species concentration of the component"
+          "Leaving species concentration of the component"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={0,110})));
         Modelica.Blocks.Interfaces.RealOutput COut[Medium.nC](each min=0)
-        "Leaving trace substances of the component"
+          "Leaving trace substances of the component"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}},
               rotation=90,
               origin={50,110})));
 
         constant Boolean use_safeDivision=true
-        "Set to true to improve numerical robustness";
-    protected
+          "Set to true to improve numerical robustness";
+      protected
         Real m_flowInv(unit="s/kg") "Regularization of 1/m_flow";
 
         Modelica.SIunits.MassFlowRate mXi_flow[Medium.nXi]
-        "Mass flow rates of independent substances added to the medium";
+          "Mass flow rates of independent substances added to the medium";
 
         // Parameters that are used to construct the vector mXi_flow
         parameter Integer i_w(min=1, fixed=false) "Index for water substance";
@@ -19144,7 +19190,7 @@ Implemented first version in <code>Buildings</code> library, based on model from
                                                   string2="Water",
                                                   caseSensitive=false)
                                                   then 1 else 0 for i in 1:Medium.nXi}
-        "Vector with zero everywhere except where species is";
+          "Vector with zero everywhere except where species is";
       initial algorithm
         i_w:= -1;
         for i in 1:Medium.nXi loop
@@ -19394,24 +19440,24 @@ First implementation.
       end StaticTwoPortConservationEquation;
 
       record TwoPortFlowResistanceParameters
-      "Parameters for flow resistance for models with two ports"
+        "Parameters for flow resistance for models with two ports"
 
         parameter Boolean computeFlowResistance = true
-        "=true, compute flow resistance. Set to false to assume no friction"
+          "=true, compute flow resistance. Set to false to assume no friction"
           annotation (Evaluate=true, Dialog(tab="Flow resistance"));
 
         parameter Boolean from_dp = false
-        "= true, use m_flow = f(dp) else dp = f(m_flow)"
+          "= true, use m_flow = f(dp) else dp = f(m_flow)"
           annotation (Evaluate=true, Dialog(enable = computeFlowResistance,
                       tab="Flow resistance"));
         parameter Modelica.SIunits.Pressure dp_nominal(min=0, displayUnit="Pa")
-        "Pressure"                                  annotation(Dialog(group = "Nominal condition"));
+          "Pressure"                                annotation(Dialog(group = "Nominal condition"));
         parameter Boolean linearizeFlowResistance = false
-        "= true, use linear relation between m_flow and dp for any flow rate"
+          "= true, use linear relation between m_flow and dp for any flow rate"
           annotation(Dialog(enable = computeFlowResistance,
                      tab="Flow resistance"));
         parameter Real deltaM = 0.1
-        "Fraction of nominal flow rate where flow transitions to laminar"
+          "Fraction of nominal flow rate where flow transitions to laminar"
           annotation(Dialog(enable = computeFlowResistance, tab="Flow resistance"));
 
       annotation (preferredView="info",
@@ -19441,41 +19487,41 @@ First implementation.
 
         // Assumptions
         parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-        "Formulation of energy balance"
+          "Formulation of energy balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
         parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
-        "Formulation of mass balance"
+          "Formulation of mass balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
         final parameter Modelica.Fluid.Types.Dynamics substanceDynamics=energyDynamics
-        "Formulation of substance balance"
+          "Formulation of substance balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
         final parameter Modelica.Fluid.Types.Dynamics traceDynamics=energyDynamics
-        "Formulation of trace substance balance"
+          "Formulation of trace substance balance"
           annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
         // Initialization
         parameter Medium.AbsolutePressure p_start = Medium.p_default
-        "Start value of pressure"
+          "Start value of pressure"
           annotation(Dialog(tab = "Initialization"));
       //  parameter Boolean use_T_start = true "= true, use T_start, otherwise h_start"
        //   annotation(Dialog(tab = "Initialization"), Evaluate=true);
         parameter Medium.Temperature T_start=Medium.T_default
-        "Start value of temperature"
+          "Start value of temperature"
           annotation(Dialog(tab = "Initialization"));
       //  parameter Medium.SpecificEnthalpy h_start=
       //    if use_T_start then Medium.specificEnthalpy_pTX(p_start, T_start, X_start) else Medium.h_default
       //    "Start value of specific enthalpy"
       //    annotation(Dialog(tab = "Initialization", enable = not use_T_start));
         parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
-        "Start value of mass fractions m_i/m"
+          "Start value of mass fractions m_i/m"
           annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
         parameter Medium.ExtraProperty C_start[Medium.nC](
              quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
-        "Start value of trace substances"
+          "Start value of trace substances"
           annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
         parameter Medium.ExtraProperty C_nominal[Medium.nC](
              quantity=Medium.extraPropertiesNames) = fill(1E-2, Medium.nC)
-        "Nominal value of trace substances. (Set to typical order of magnitude.)"
+          "Nominal value of trace substances. (Set to typical order of magnitude.)"
          annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
 
       annotation (preferredView="info",
@@ -19669,11 +19715,11 @@ This package contains models for heat transfer elements.
     extends Modelica.Icons.MaterialPropertiesPackage;
 
     package GasesPTDecoupled
-    "Package with models for gases where pressure and temperature are independent of each other"
+      "Package with models for gases where pressure and temperature are independent of each other"
       extends Modelica.Icons.MaterialPropertiesPackage;
 
       package MoistAirUnsaturated
-      "Package with moist air model that decouples pressure and temperature and that has no liquid water"
+        "Package with moist air model that decouples pressure and temperature and that has no liquid water"
         extends Modelica.Media.Interfaces.PartialCondensingGases(
            final singleState = false,
            mediumName="MoistAirPTDecoupledUnsaturated",
@@ -19684,10 +19730,10 @@ This package contains models for heat transfer elements.
                              Modelica.Media.IdealGases.Common.FluidData.N2});
 
         constant Integer Water=1
-        "Index of water (in substanceNames, massFractions X, etc.)";
+          "Index of water (in substanceNames, massFractions X, etc.)";
 
         constant Integer Air=2
-        "Index of air (in substanceNames, massFractions X, etc.)";
+          "Index of air (in substanceNames, massFractions X, etc.)";
 
         constant Real k_mair =  steam.MM/dryair.MM "ratio of molar weights";
 
@@ -19699,12 +19745,12 @@ This package contains models for heat transfer elements.
         import SI = Modelica.SIunits;
 
         constant AbsolutePressure pStp = 101325
-        "Pressure for which dStp is defined";
+          "Pressure for which dStp is defined";
 
         constant Density dStp = 1.2 "Fluid density at pressure pStp";
 
         redeclare record extends ThermodynamicState
-        "ThermodynamicState record for moist air"
+          "ThermodynamicState record for moist air"
         end ThermodynamicState;
 
         redeclare replaceable model extends BaseProperties(
@@ -19721,17 +19767,17 @@ This package contains models for heat transfer elements.
           MassFraction x_water "Mass of total water/mass of dry air";
           Real phi "Relative humidity";
 
-      protected
+        protected
           constant SI.MolarMass[2] MMX = {steam.MM,dryair.MM}
-          "Molar masses of components";
+            "Molar masses of components";
 
           //    MassFraction X_liquid "Mass fraction of liquid water";
           MassFraction X_steam "Mass fraction of steam water";
           MassFraction X_air "Mass fraction of air";
           MassFraction X_sat
-          "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
+            "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
           MassFraction x_sat
-          "Steam water mass content of saturation boundary in kg_water/kg_dryair";
+            "Steam water mass content of saturation boundary in kg_water/kg_dryair";
           AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
 
         equation
@@ -19754,7 +19800,7 @@ required from medium model \""           + mediumName + "\".");
 
           p_steam_sat = min(saturationPressure(T),0.999*p);
           X_sat = min(p_steam_sat * k_mair/max(100*Modelica.Constants.eps, p - p_steam_sat)*(1 - Xi[Water]), 1.0)
-          "Water content at saturation with respect to actual water content";
+            "Water content at saturation with respect to actual water content";
           //    X_liquid = max(Xi[Water] - X_sat, 0.0);
           //    X_steam  = Xi[Water]-X_liquid;
 
@@ -19788,12 +19834,12 @@ required from medium model \""           + mediumName + "\".");
         end BaseProperties;
 
         redeclare function setState_pTX
-        "Thermodynamic state as function of p, T and composition X"
+          "Thermodynamic state as function of p, T and composition X"
             extends Buildings.Media.PerfectGases.MoistAir.setState_pTX;
         end setState_pTX;
 
         redeclare function setState_phX
-        "Thermodynamic state as function of p, h and composition X"
+          "Thermodynamic state as function of p, h and composition X"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -19813,17 +19859,17 @@ implementation provided by its parent package.
         end setState_phX;
 
         redeclare function setState_dTX
-        "Thermodynamic state as function of d, T and composition X"
+          "Thermodynamic state as function of d, T and composition X"
            extends Buildings.Media.PerfectGases.MoistAir.setState_dTX;
         end setState_dTX;
 
         redeclare function gasConstant
-        "Gas constant (computation neglects liquid fraction)"
+          "Gas constant (computation neglects liquid fraction)"
            extends Buildings.Media.PerfectGases.MoistAir.gasConstant;
         end gasConstant;
 
       function saturationPressureLiquid
-        "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
+          "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "saturation temperature";
@@ -19838,7 +19884,7 @@ Saturation pressure of water above the triple point temperature is computed from
       end saturationPressureLiquid;
 
       function saturationPressureLiquid_der
-        "Time derivative of saturationPressureLiquid"
+          "Time derivative of saturationPressureLiquid"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "Saturation temperature";
@@ -19855,10 +19901,10 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
 
         function sublimationPressureIce =
             Buildings.Media.PerfectGases.MoistAir.sublimationPressureIce
-        "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned";
+          "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned";
 
       redeclare function extends saturationPressure
-        "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
+          "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
 
       algorithm
         psat := Buildings.Utilities.Math.Functions.spliceFunction(
@@ -19883,18 +19929,18 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
        end density;
 
        redeclare function specificEntropy
-        "Specific entropy (liquid part neglected, mixing entropy included)"
+          "Specific entropy (liquid part neglected, mixing entropy included)"
           extends Buildings.Media.PerfectGases.MoistAir.specificEntropy;
        end specificEntropy;
 
        redeclare function extends enthalpyOfVaporization
-        "Enthalpy of vaporization of water"
+          "Enthalpy of vaporization of water"
        algorithm
         r0 := 2501014.5;
        end enthalpyOfVaporization;
 
       redeclare replaceable function extends enthalpyOfLiquid
-        "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
+          "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
 
       algorithm
         h := (T - 273.15)*4186;
@@ -19902,7 +19948,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfLiquid;
 
       replaceable function der_enthalpyOfLiquid
-        "Temperature derivative of enthalpy of liquid per unit mass of liquid"
+          "Temperature derivative of enthalpy of liquid per unit mass of liquid"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -19912,7 +19958,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfLiquid;
 
       redeclare function enthalpyOfCondensingGas
-        "Enthalpy of steam per unit mass of steam"
+          "Enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -19923,7 +19969,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfCondensingGas;
 
       replaceable function der_enthalpyOfCondensingGas
-        "Derivative of enthalpy of steam per unit mass of steam"
+          "Derivative of enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T(unit="K/s") "temperature derivative";
@@ -19933,14 +19979,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfCondensingGas;
 
       redeclare replaceable function extends enthalpyOfGas
-        "Enthalpy of gas mixture per unit mass of gas mixture"
+          "Enthalpy of gas mixture per unit mass of gas mixture"
       algorithm
         h := Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.enthalpyOfCondensingGas(T)*X[Water]
              + Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.enthalpyOfDryAir(T)*(1.0-X[Water]);
       end enthalpyOfGas;
 
       replaceable function enthalpyOfDryAir
-        "Enthalpy of dry air per unit mass of dry air"
+          "Enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -19951,7 +19997,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfDryAir;
 
       replaceable function der_enthalpyOfDryAir
-        "Derivative of enthalpy of dry air per unit mass of dry air"
+          "Derivative of enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T(unit="K/s") "temperature derivative";
@@ -19961,14 +20007,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfDryAir;
 
       redeclare replaceable function extends specificHeatCapacityCp
-        "Specific heat capacity of gas mixture at constant pressure"
+          "Specific heat capacity of gas mixture at constant pressure"
       algorithm
         cp := dryair.cp*(1-state.X[Water]) +steam.cp*state.X[Water];
           annotation(derivative=der_specificHeatCapacityCp);
       end specificHeatCapacityCp;
 
       replaceable function der_specificHeatCapacityCp
-        "Derivative of specific heat capacity of gas mixture at constant pressure"
+          "Derivative of specific heat capacity of gas mixture at constant pressure"
           input ThermodynamicState state;
           input ThermodynamicState der_state;
           output Real der_cp(unit="J/(kg.K.s)");
@@ -19977,14 +20023,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_specificHeatCapacityCp;
 
       redeclare replaceable function extends specificHeatCapacityCv
-        "Specific heat capacity of gas mixture at constant volume"
+          "Specific heat capacity of gas mixture at constant volume"
       algorithm
         cv:= dryair.cv*(1-state.X[Water]) +steam.cv*state.X[Water];
           annotation(derivative=der_specificHeatCapacityCv);
       end specificHeatCapacityCv;
 
       replaceable function der_specificHeatCapacityCv
-        "Derivative of specific heat capacity of gas mixture at constant volume"
+          "Derivative of specific heat capacity of gas mixture at constant volume"
           input ThermodynamicState state;
           input ThermodynamicState der_state;
           output Real der_cv(unit="J/(kg.K.s)");
@@ -19993,13 +20039,13 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_specificHeatCapacityCv;
 
       redeclare function extends dynamicViscosity
-        "dynamic viscosity of dry air"
+          "dynamic viscosity of dry air"
       algorithm
         eta := 1.85E-5;
       end dynamicViscosity;
 
       redeclare function extends thermalConductivity
-        "Thermal conductivity of dry air as a polynomial in the temperature"
+          "Thermal conductivity of dry air as a polynomial in the temperature"
         import Modelica.Media.Incompressible.TableBased.Polynomials_Temp;
       algorithm
         lambda := Polynomials_Temp.evaluate({(-4.8737307422969E-008), 7.67803133753502E-005, 0.0241814385504202},
@@ -20012,7 +20058,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificEnthalpy;
 
       redeclare function extends specificInternalEnergy
-        "Specific internal energy"
+          "Specific internal energy"
         extends Modelica.Icons.Function;
       algorithm
         u := Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.h_pTX(state.p,state.T,state.X) - pStp/dStp;
@@ -20025,7 +20071,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificGibbsEnergy;
 
       redeclare function extends specificHelmholtzEnergy
-        "Specific Helmholtz energy"
+          "Specific Helmholtz energy"
         extends Modelica.Icons.Function;
       algorithm
         f := Buildings.Media.GasesPTDecoupled.MoistAirUnsaturated.h_pTX(state.p,state.T,state.X)
@@ -20034,17 +20080,17 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificHelmholtzEnergy;
 
       function h_pTX
-        "Compute specific enthalpy from pressure, temperature and mass fraction"
+          "Compute specific enthalpy from pressure, temperature and mass fraction"
         extends Modelica.Icons.Function;
 
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[nX] "Mass fractions of moist air";
         output SI.SpecificEnthalpy h "Specific enthalpy at p, T, X";
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction x_sat
-          "steam water mass fraction of saturation boundary";
+            "steam water mass fraction of saturation boundary";
         SI.SpecificEnthalpy hDryAir "Enthalpy of dry air";
       algorithm
         p_steam_sat :=saturationPressure(T);
@@ -20063,17 +20109,17 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end h_pTX;
 
       function T_phX
-        "Compute temperature from specific enthalpy and mass fraction"
+          "Compute temperature from specific enthalpy and mass fraction"
         extends Modelica.Icons.Function;
 
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "specific enthalpy";
         input MassFraction[:] X "mass fractions of composition";
         output Temperature T "temperature";
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction x_sat
-          "steam water mass fraction of saturation boundary";
+            "steam water mass fraction of saturation boundary";
       algorithm
         T := 273.15 + (h-2501014.5 * X[Water])/(dryair.cp * (1 - X[Water])+steam.cp*X[Water]);
         // Check for saturation
@@ -20092,7 +20138,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end T_phX;
 
       redeclare function enthalpyOfNonCondensingGas
-        "Enthalpy of non-condensing gas per unit mass"
+          "Enthalpy of non-condensing gas per unit mass"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20103,7 +20149,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfNonCondensingGas;
 
       replaceable function der_enthalpyOfNonCondensingGas
-        "Derivative of enthalpy of non-condensing gas per unit mass"
+          "Derivative of enthalpy of non-condensing gas per unit mass"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20230,10 +20276,10 @@ First implementation.
                              Modelica.Media.IdealGases.Common.FluidData.N2});
 
         constant Integer Water=1
-        "Index of water (in substanceNames, massFractions X, etc.)";
+          "Index of water (in substanceNames, massFractions X, etc.)";
 
         constant Integer Air=2
-        "Index of air (in substanceNames, massFractions X, etc.)";
+          "Index of air (in substanceNames, massFractions X, etc.)";
 
         constant Real k_mair =  steam.MM/dryair.MM "Ratio of molar weights";
 
@@ -20249,7 +20295,7 @@ First implementation.
         constant Modelica.SIunits.Temperature TMax = 400 "Maximum temperature";
 
         redeclare record extends ThermodynamicState
-        "ThermodynamicState record for moist air"
+          "ThermodynamicState record for moist air"
         end ThermodynamicState;
 
         redeclare replaceable model extends BaseProperties(
@@ -20266,17 +20312,17 @@ First implementation.
           MassFraction x_water "Mass of total water/mass of dry air";
           Real phi "Relative humidity";
 
-      protected
+        protected
           constant SI.MolarMass[2] MMX = {steam.MM,dryair.MM}
-          "Molar masses of components";
+            "Molar masses of components";
 
           MassFraction X_liquid "Mass fraction of liquid water";
           MassFraction X_steam "Mass fraction of steam water";
           MassFraction X_air "Mass fraction of air";
           MassFraction X_sat
-          "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
+            "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
           MassFraction x_sat
-          "Steam water mass content of saturation boundary in kg_water/kg_dryair";
+            "Steam water mass content of saturation boundary in kg_water/kg_dryair";
           AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
 
         equation
@@ -20288,7 +20334,7 @@ required from medium model \""           + mediumName + "\".");
 
           p_steam_sat = min(saturationPressure(T),0.999*p);
           X_sat = min(p_steam_sat * k_mair/max(100*Modelica.Constants.eps, p - p_steam_sat)*(1 - Xi[Water]), 1.0)
-          "Water content at saturation with respect to actual water content";
+            "Water content at saturation with respect to actual water content";
           X_liquid = max(Xi[Water] - X_sat, 0.0);
           X_steam  = Xi[Water]-X_liquid;
           X_air    = 1-Xi[Water];
@@ -20312,12 +20358,12 @@ required from medium model \""           + mediumName + "\".");
         end BaseProperties;
 
         redeclare function setState_pTX
-        "Thermodynamic state as function of p, T and composition X"
+          "Thermodynamic state as function of p, T and composition X"
             extends Modelica.Media.Air.MoistAir.setState_pTX;
         end setState_pTX;
 
         redeclare function setState_phX
-        "Thermodynamic state as function of p, h and composition X"
+          "Thermodynamic state as function of p, h and composition X"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -20336,17 +20382,17 @@ implementation provided by its parent package.
         end setState_phX;
 
         redeclare function setState_dTX
-        "Thermodynamic state as function of d, T and composition X"
+          "Thermodynamic state as function of d, T and composition X"
            extends Modelica.Media.Air.MoistAir.setState_dTX;
         end setState_dTX;
 
         redeclare function gasConstant
-        "Gas constant (computation neglects liquid fraction)"
+          "Gas constant (computation neglects liquid fraction)"
            extends Modelica.Media.Air.MoistAir.gasConstant;
         end gasConstant;
 
       function saturationPressureLiquid
-        "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
+          "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "saturation temperature";
@@ -20361,7 +20407,7 @@ Saturation pressure of water above the triple point temperature is computed from
       end saturationPressureLiquid;
 
       function saturationPressureLiquid_der
-        "Time derivative of saturationPressureLiquid"
+          "Time derivative of saturationPressureLiquid"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "Saturation temperature";
@@ -20378,11 +20424,11 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
 
         function sublimationPressureIce =
             Modelica.Media.Air.MoistAir.sublimationPressureIce
-        "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned"
+          "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned"
           annotation(Inline=false,smoothOrder=5,derivative=Modelica.Media.Air.MoistAir.sublimationPressureIce_der);
 
       redeclare function extends saturationPressure
-        "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
+          "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
 
       algorithm
         psat := Buildings.Utilities.Math.Functions.spliceFunction(
@@ -20403,18 +20449,18 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
        end density;
 
        redeclare function specificEntropy
-        "Specific entropy (liquid part neglected, mixing entropy included)"
+          "Specific entropy (liquid part neglected, mixing entropy included)"
           extends Modelica.Media.Air.MoistAir.specificEntropy;
        end specificEntropy;
 
        redeclare function extends enthalpyOfVaporization
-        "Enthalpy of vaporization of water"
+          "Enthalpy of vaporization of water"
        algorithm
         r0 := 2501014.5;
        end enthalpyOfVaporization;
 
       redeclare replaceable function extends enthalpyOfLiquid
-        "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
+          "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
 
       algorithm
         h := (T - 273.15)*4186;
@@ -20422,7 +20468,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfLiquid;
 
       replaceable function der_enthalpyOfLiquid
-        "Temperature derivative of enthalpy of liquid per unit mass of liquid"
+          "Temperature derivative of enthalpy of liquid per unit mass of liquid"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20432,7 +20478,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfLiquid;
 
       redeclare function enthalpyOfCondensingGas
-        "Enthalpy of steam per unit mass of steam"
+          "Enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20443,7 +20489,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfCondensingGas;
 
       replaceable function der_enthalpyOfCondensingGas
-        "Derivative of enthalpy of steam per unit mass of steam"
+          "Derivative of enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20453,7 +20499,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfCondensingGas;
 
       redeclare function enthalpyOfNonCondensingGas
-        "Enthalpy of non-condensing gas per unit mass of steam"
+          "Enthalpy of non-condensing gas per unit mass of steam"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20464,7 +20510,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfNonCondensingGas;
 
       replaceable function der_enthalpyOfNonCondensingGas
-        "Derivative of enthalpy of non-condensing gas per unit mass of steam"
+          "Derivative of enthalpy of non-condensing gas per unit mass of steam"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20474,14 +20520,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfNonCondensingGas;
 
       redeclare replaceable function extends enthalpyOfGas
-        "Enthalpy of gas mixture per unit mass of gas mixture"
+          "Enthalpy of gas mixture per unit mass of gas mixture"
       algorithm
         h := enthalpyOfCondensingGas(T)*X[Water]
              + enthalpyOfDryAir(T)*(1.0-X[Water]);
       end enthalpyOfGas;
 
       replaceable function enthalpyOfDryAir
-        "Enthalpy of dry air per unit mass of dry air"
+          "Enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20492,7 +20538,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfDryAir;
 
       replaceable function der_enthalpyOfDryAir
-        "Derivative of enthalpy of dry air per unit mass of dry air"
+          "Derivative of enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20502,27 +20548,27 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfDryAir;
 
       redeclare replaceable function extends specificHeatCapacityCp
-        "Specific heat capacity of gas mixture at constant pressure"
+          "Specific heat capacity of gas mixture at constant pressure"
       algorithm
         cp := dryair.cp*(1-state.X[Water]) +steam.cp*state.X[Water];
         annotation(smoothOrder=5);
       end specificHeatCapacityCp;
 
       redeclare replaceable function extends specificHeatCapacityCv
-        "Specific heat capacity of gas mixture at constant volume"
+          "Specific heat capacity of gas mixture at constant volume"
       algorithm
         cv:= dryair.cv*(1-state.X[Water]) +steam.cv*state.X[Water];
         annotation(smoothOrder=5);
       end specificHeatCapacityCv;
 
       redeclare function extends dynamicViscosity
-        "dynamic viscosity of dry air"
+          "dynamic viscosity of dry air"
       algorithm
         eta := 1.85E-5;
       end dynamicViscosity;
 
       redeclare function extends thermalConductivity
-        "Thermal conductivity of dry air as a polynomial in the temperature"
+          "Thermal conductivity of dry air as a polynomial in the temperature"
       algorithm
         lambda := Modelica.Media.Incompressible.TableBased.Polynomials_Temp.evaluate(
                      {(-4.8737307422969E-008), 7.67803133753502E-005, 0.0241814385504202},
@@ -20530,17 +20576,17 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end thermalConductivity;
 
       function h_pTX
-        "Compute specific enthalpy from pressure, temperature and mass fraction"
+          "Compute specific enthalpy from pressure, temperature and mass fraction"
         extends Modelica.Icons.Function;
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[:] "Mass fractions of moist air";
         output SI.SpecificEnthalpy h "Specific enthalpy at p, T, X";
 
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction x_sat
-          "steam water mass fraction of saturation boundary";
+            "steam water mass fraction of saturation boundary";
         SI.MassFraction X_liquid "mass fraction of liquid water";
         SI.MassFraction X_steam "mass fraction of steam water";
         SI.MassFraction X_air "mass fraction of air";
@@ -20575,7 +20621,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificEnthalpy;
 
       redeclare function extends specificInternalEnergy
-        "Specific internal energy"
+          "Specific internal energy"
         extends Modelica.Icons.Function;
       algorithm
         u := h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T;
@@ -20588,26 +20634,26 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificGibbsEnergy;
 
       redeclare function extends specificHelmholtzEnergy
-        "Specific Helmholtz energy"
+          "Specific Helmholtz energy"
         extends Modelica.Icons.Function;
       algorithm
         f := h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T - state.T*specificEntropy(state);
       end specificHelmholtzEnergy;
 
       function T_phX
-        "Compute temperature from specific enthalpy and mass fraction"
+          "Compute temperature from specific enthalpy and mass fraction"
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
         input MassFraction X[:] "Mass fractions of composition";
         output Temperature T "Temperature";
 
-      protected
+        protected
       package Internal
-          "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
         extends Modelica.Media.Common.OneNonLinearEquation;
 
         redeclare record extends f_nonlinear_Data
-            "Data to be passed to non-linear function"
+              "Data to be passed to non-linear function"
           extends Modelica.Media.IdealGases.Common.DataRecord;
         end f_nonlinear_Data;
 
@@ -20620,10 +20666,10 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
         redeclare function extends solve
         end solve;
       end Internal;
-      protected
+        protected
       constant Modelica.Media.IdealGases.Common.DataRecord steam=
                     Modelica.Media.IdealGases.Common.SingleGasesData.H2O;
-      protected
+        protected
        SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
        SI.MassFraction x_sat "steam water mass fraction of saturation boundary";
 
@@ -20718,10 +20764,10 @@ First implementation.
                              Modelica.Media.IdealGases.Common.FluidData.N2});
 
         constant Integer Water=1
-        "Index of water (in substanceNames, massFractions X, etc.)";
+          "Index of water (in substanceNames, massFractions X, etc.)";
 
         constant Integer Air=2
-        "Index of air (in substanceNames, massFractions X, etc.)";
+          "Index of air (in substanceNames, massFractions X, etc.)";
 
         constant Real k_mair =  steam.MM/dryair.MM "ratio of molar weights";
 
@@ -20733,7 +20779,7 @@ First implementation.
         import SI = Modelica.SIunits;
 
         redeclare record extends ThermodynamicState
-        "ThermodynamicState record for moist air"
+          "ThermodynamicState record for moist air"
         end ThermodynamicState;
 
         redeclare replaceable model extends BaseProperties(
@@ -20750,17 +20796,17 @@ First implementation.
           MassFraction x_water "Mass of total water/mass of dry air";
           Real phi "Relative humidity";
 
-      protected
+        protected
           constant SI.MolarMass[2] MMX = {steam.MM,dryair.MM}
-          "Molar masses of components";
+            "Molar masses of components";
 
         //  MassFraction X_liquid "Mass fraction of liquid water. Need to be zero.";
           MassFraction X_steam "Mass fraction of steam water";
           MassFraction X_air "Mass fraction of air";
           MassFraction X_sat
-          "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
+            "Steam water mass fraction of saturation boundary in kg_water/kg_moistair";
           MassFraction x_sat
-          "Steam water mass content of saturation boundary in kg_water/kg_dryair";
+            "Steam water mass content of saturation boundary in kg_water/kg_dryair";
           AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         equation
           assert(T >= 200.0 and T <= 423.15, "
@@ -20780,7 +20826,7 @@ required from medium model \""           + mediumName + "\".");
 
           p_steam_sat = min(saturationPressure(T),0.999*p);
           X_sat = min(p_steam_sat * k_mair/max(100*Modelica.Constants.eps, p - p_steam_sat)*(1 - Xi[Water]), 1.0)
-          "Water content at saturation with respect to actual water content";
+            "Water content at saturation with respect to actual water content";
         //  X_liquid = max(Xi[Water] - X_sat, 0.0);
 
           X_steam  = Xi[Water];
@@ -20805,12 +20851,12 @@ required from medium model \""           + mediumName + "\".");
         end BaseProperties;
 
         redeclare function setState_pTX
-        "Thermodynamic state as function of p, T and composition X"
+          "Thermodynamic state as function of p, T and composition X"
           extends Buildings.Media.PerfectGases.MoistAir.setState_pTX;
         end setState_pTX;
 
         redeclare function setState_phX
-        "Thermodynamic state as function of p, h and composition X"
+          "Thermodynamic state as function of p, h and composition X"
         extends Modelica.Icons.Function;
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "Specific enthalpy";
@@ -20830,7 +20876,7 @@ Buildings.Media.PerfectGases.MoistAir.setState_pTX</a>.
         end setState_phX;
 
         redeclare function setState_dTX
-        "Thermodynamic state as function of d, T and composition X"
+          "Thermodynamic state as function of d, T and composition X"
            extends Buildings.Media.PerfectGases.MoistAir.setState_dTX;
         end setState_dTX;
 
@@ -20839,7 +20885,7 @@ Buildings.Media.PerfectGases.MoistAir.setState_pTX</a>.
         end gasConstant;
 
       function saturationPressureLiquid
-        "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
+          "Return saturation pressure of water as a function of temperature T in the range of 273.16 to 373.16 K"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "saturation temperature";
@@ -20857,7 +20903,7 @@ Saturation pressure of water above the triple point temperature is computed from
       end saturationPressureLiquid;
 
       function saturationPressureLiquid_der
-        "Time derivative of saturationPressureLiquid"
+          "Time derivative of saturationPressureLiquid"
 
         extends Modelica.Icons.Function;
         input SI.Temperature Tsat "Saturation temperature";
@@ -20875,10 +20921,10 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
 
         function sublimationPressureIce =
             Buildings.Media.PerfectGases.MoistAir.sublimationPressureIce
-        "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned";
+          "Saturation curve valid for 223.16 <= T <= 273.16. Outside of these limits a (less accurate) result is returned";
 
       redeclare function extends saturationPressure
-        "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
+          "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
 
       algorithm
         psat := Buildings.Utilities.Math.Functions.spliceFunction(
@@ -20899,18 +20945,18 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
        end density;
 
        redeclare function specificEntropy
-        "Specific entropy (liquid part neglected, mixing entropy included)"
+          "Specific entropy (liquid part neglected, mixing entropy included)"
           extends Buildings.Media.PerfectGases.MoistAir.specificEntropy;
        end specificEntropy;
 
        redeclare function extends enthalpyOfVaporization
-        "Enthalpy of vaporization of water"
+          "Enthalpy of vaporization of water"
        algorithm
         r0 := 2501014.5;
        end enthalpyOfVaporization;
 
       redeclare replaceable function extends enthalpyOfLiquid
-        "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
+          "Enthalpy of liquid (per unit mass of liquid) which is linear in the temperature"
 
       algorithm
         h := (T - 273.15)*4186;
@@ -20918,7 +20964,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfLiquid;
 
       replaceable function der_enthalpyOfLiquid
-        "Temperature derivative of enthalpy of liquid per unit mass of liquid"
+          "Temperature derivative of enthalpy of liquid per unit mass of liquid"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20928,7 +20974,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfLiquid;
 
       redeclare function enthalpyOfCondensingGas
-        "Enthalpy of steam per unit mass of steam"
+          "Enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20939,7 +20985,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfCondensingGas;
 
       replaceable function der_enthalpyOfCondensingGas
-        "Derivative of enthalpy of steam per unit mass of steam"
+          "Derivative of enthalpy of steam per unit mass of steam"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20949,7 +20995,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfCondensingGas;
 
       redeclare function enthalpyOfNonCondensingGas
-        "Enthalpy of non-condensing gas per unit mass of steam"
+          "Enthalpy of non-condensing gas per unit mass of steam"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20960,7 +21006,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfNonCondensingGas;
 
       replaceable function der_enthalpyOfNonCondensingGas
-        "Derivative of enthalpy of non-condensing gas per unit mass of steam"
+          "Derivative of enthalpy of non-condensing gas per unit mass of steam"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20970,14 +21016,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfNonCondensingGas;
 
       redeclare replaceable function extends enthalpyOfGas
-        "Enthalpy of gas mixture per unit mass of gas mixture"
+          "Enthalpy of gas mixture per unit mass of gas mixture"
       algorithm
         h := enthalpyOfCondensingGas(T)*X[Water]
              + enthalpyOfDryAir(T)*(1.0-X[Water]);
       end enthalpyOfGas;
 
       replaceable function enthalpyOfDryAir
-        "Enthalpy of dry air per unit mass of dry air"
+          "Enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
 
         input Temperature T "temperature";
@@ -20988,7 +21034,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end enthalpyOfDryAir;
 
       replaceable function der_enthalpyOfDryAir
-        "Derivative of enthalpy of dry air per unit mass of dry air"
+          "Derivative of enthalpy of dry air per unit mass of dry air"
         extends Modelica.Icons.Function;
         input Temperature T "temperature";
         input Real der_T "temperature derivative";
@@ -20998,14 +21044,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_enthalpyOfDryAir;
 
       redeclare replaceable function extends specificHeatCapacityCp
-        "Specific heat capacity of gas mixture at constant pressure"
+          "Specific heat capacity of gas mixture at constant pressure"
       algorithm
         cp := dryair.cp*(1-state.X[Water]) +steam.cp*state.X[Water];
           annotation(derivative=der_specificHeatCapacityCp);
       end specificHeatCapacityCp;
 
       replaceable function der_specificHeatCapacityCp
-        "Derivative of specific heat capacity of gas mixture at constant pressure"
+          "Derivative of specific heat capacity of gas mixture at constant pressure"
           input ThermodynamicState state;
           input ThermodynamicState der_state;
           output Real der_cp(unit="J/(kg.K.s)");
@@ -21014,14 +21060,14 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_specificHeatCapacityCp;
 
       redeclare replaceable function extends specificHeatCapacityCv
-        "Specific heat capacity of gas mixture at constant volume"
+          "Specific heat capacity of gas mixture at constant volume"
       algorithm
         cv:= dryair.cv*(1-state.X[Water]) +steam.cv*state.X[Water];
           annotation(derivative=der_specificHeatCapacityCv);
       end specificHeatCapacityCv;
 
       replaceable function der_specificHeatCapacityCv
-        "Derivative of specific heat capacity of gas mixture at constant volume"
+          "Derivative of specific heat capacity of gas mixture at constant volume"
           input ThermodynamicState state;
           input ThermodynamicState der_state;
           output Real der_cv(unit="J/(kg.K.s)");
@@ -21030,13 +21076,13 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end der_specificHeatCapacityCv;
 
       redeclare function extends dynamicViscosity
-        "dynamic viscosity of dry air"
+          "dynamic viscosity of dry air"
       algorithm
         eta := 1.85E-5;
       end dynamicViscosity;
 
       redeclare function extends thermalConductivity
-        "Thermal conductivity of dry air as a polynomial in the temperature"
+          "Thermal conductivity of dry air as a polynomial in the temperature"
       algorithm
         lambda := Modelica.Media.Incompressible.TableBased.Polynomials_Temp.evaluate(
             {(-4.8737307422969E-008), 7.67803133753502E-005, 0.0241814385504202},
@@ -21044,17 +21090,17 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end thermalConductivity;
 
       function h_pTX
-        "Compute specific enthalpy from pressure, temperature and mass fraction"
+          "Compute specific enthalpy from pressure, temperature and mass fraction"
         extends Modelica.Icons.Function;
         input SI.Pressure p "Pressure";
         input SI.Temperature T "Temperature";
         input SI.MassFraction X[:] "Mass fractions of moist air";
         output SI.SpecificEnthalpy h "Specific enthalpy at p, T, X";
 
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction x_sat
-          "steam water mass fraction of saturation boundary";
+            "steam water mass fraction of saturation boundary";
         SI.SpecificEnthalpy hDryAir "Enthalpy of dry air";
       algorithm
         p_steam_sat :=saturationPressure(T);
@@ -21080,7 +21126,7 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificEnthalpy;
 
       redeclare function extends specificInternalEnergy
-        "Specific internal energy"
+          "Specific internal energy"
         extends Modelica.Icons.Function;
       algorithm
         u := h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T;
@@ -21093,23 +21139,23 @@ Derivative function of <a href=Modelica:Modelica.Media.Air.MoistAir.saturationPr
       end specificGibbsEnergy;
 
       redeclare function extends specificHelmholtzEnergy
-        "Specific Helmholtz energy"
+          "Specific Helmholtz energy"
         extends Modelica.Icons.Function;
       algorithm
         f := h_pTX(state.p,state.T,state.X) - gasConstant(state)*state.T - state.T*specificEntropy(state);
       end specificHelmholtzEnergy;
 
       function T_phX
-        "Compute temperature from specific enthalpy and mass fraction"
+          "Compute temperature from specific enthalpy and mass fraction"
         input AbsolutePressure p "Pressure";
         input SpecificEnthalpy h "specific enthalpy";
         input MassFraction[:] X "mass fractions of composition";
         output Temperature T "temperature";
 
-      protected
+        protected
         SI.AbsolutePressure p_steam_sat "Partial saturation pressure of steam";
         SI.MassFraction x_sat
-          "steam water mass fraction of saturation boundary";
+            "steam water mass fraction of saturation boundary";
 
       algorithm
         T := 273.15 + (h - 2501014.5 * X[Water])/((1 - X[Water])*dryair.cp + X[Water] * steam.cp);
@@ -21187,16 +21233,16 @@ First implementation.
         extends Modelica.Icons.MaterialPropertiesPackage;
 
         record DataRecord
-        "Coefficient data record for properties of perfect gases"
+          "Coefficient data record for properties of perfect gases"
           extends Modelica.Icons.Record;
 
           String name "Name of ideal gas";
           Modelica.SIunits.MolarMass MM "Molar mass";
           Modelica.SIunits.SpecificHeatCapacity R "Gas constant";
           Modelica.SIunits.SpecificHeatCapacity cp
-          "Specific heat capacity at constant pressure";
+            "Specific heat capacity at constant pressure";
           Modelica.SIunits.SpecificHeatCapacity cv = cp - R
-          "Specific heat capacity at constant volume";
+            "Specific heat capacity at constant volume";
           annotation (
         defaultComponentName="gas",
         Documentation(preferredView="info", info="<html>
@@ -21306,33 +21352,33 @@ sufficient for building HVAC applications.
       extends Modelica.Icons.VariantsPackage;
 
       package BCVTB
-      "Package with functions to communicate with the Building Controls Virtual Test Bed"
+        "Package with functions to communicate with the Building Controls Virtual Test Bed"
         extends Modelica.Icons.VariantsPackage;
 
         model MoistAirInterface
-        "Fluid interface that can be coupled to BCVTB for medium that model the air humidity"
+          "Fluid interface that can be coupled to BCVTB for medium that model the air humidity"
           extends Buildings.Utilities.IO.BCVTB.BaseClasses.FluidInterface(bou(
                 final use_X_in=true));
 
           Modelica.Blocks.Interfaces.RealOutput HLat_flow(unit="W")
-          "Latent enthalpy flow rate, positive if flow into the component"
+            "Latent enthalpy flow rate, positive if flow into the component"
             annotation (Placement(transformation(extent={{100,50},{120,70}})));
           Buildings.Fluid.Sensors.SensibleEnthalpyFlowRate senEntFloRat[nPorts](
             redeclare final package Medium = Medium,
             each final m_flow_nominal=m_flow_nominal)
-          "Sensible enthalpy flow rates"
+            "Sensible enthalpy flow rates"
             annotation (Placement(transformation(extent={{40,-10},{20,10}})));
           Modelica.Blocks.Math.Sum sumHSen_flow(nin=nPorts)
-          "Sum of sensible enthalpy flow rates"
+            "Sum of sensible enthalpy flow rates"
             annotation (Placement(transformation(extent={{20,30},{40,50}})));
           Modelica.Blocks.Math.Feedback diff
-          "Difference between total and sensible enthalpy flow rate"
+            "Difference between total and sensible enthalpy flow rate"
             annotation (Placement(transformation(extent={{70,50},{90,70}})));
           Modelica.Blocks.Interfaces.RealInput phi "Medium relative humidity"
             annotation (Placement(transformation(extent={{-140,-80},{-100,-40}},
                   rotation=0)));
           Buildings.Utilities.Psychrometrics.X_pTphi masFra(use_p_in=false)
-          "Mass fraction"
+            "Mass fraction"
             annotation (Placement(transformation(extent={{-60,-64},{-40,-44}})));
         equation
           for i in 1:nPorts loop
@@ -21443,51 +21489,51 @@ First implementation.
         end MoistAirInterface;
 
         model BCVTB
-        "Block that exchanges data with the Building Controls Virtual Test Bed"
+          "Block that exchanges data with the Building Controls Virtual Test Bed"
           extends Modelica.Blocks.Interfaces.DiscreteBlock(final startTime=0,
           final samplePeriod = if activateInterface then timeStep else Modelica.Constants.inf);
           parameter Boolean activateInterface = true
-          "Set to false to deactivate interface and use instead yFixed as output"
+            "Set to false to deactivate interface and use instead yFixed as output"
             annotation(Evaluate = true);
           parameter Modelica.SIunits.Time timeStep
-          "Time step used for the synchronization"
+            "Time step used for the synchronization"
             annotation(Dialog(enable = activateInterface));
           parameter String xmlFileName = "socket.cfg"
-          "Name of the file that is generated by the BCVTB and that contains the socket information";
+            "Name of the file that is generated by the BCVTB and that contains the socket information";
           parameter Integer nDblWri(min=0)
-          "Number of double values to write to the BCVTB";
+            "Number of double values to write to the BCVTB";
           parameter Integer nDblRea(min=0)
-          "Number of double values to be read from the BCVTB";
+            "Number of double values to be read from the BCVTB";
           parameter Integer flaDblWri[nDblWri] = zeros(nDblWri)
-          "Flag for double values (0: use current value, 1: use average over interval, 2: use integral over interval)";
+            "Flag for double values (0: use current value, 1: use average over interval, 2: use integral over interval)";
           parameter Real uStart[nDblWri]
-          "Initial input signal, used during first data transfer with BCVTB";
+            "Initial input signal, used during first data transfer with BCVTB";
           parameter Real yRFixed[nDblRea] = zeros(nDblRea)
-          "Fixed output, used if activateInterface=false"
+            "Fixed output, used if activateInterface=false"
             annotation(Evaluate = true,
                         Dialog(enable = not activateInterface));
 
           Modelica.Blocks.Interfaces.RealInput uR[nDblWri]
-          "Real inputs to be sent to the BCVTB"
+            "Real inputs to be sent to the BCVTB"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.RealOutput yR[nDblRea]
-          "Real outputs received from the BCVTB"
+            "Real outputs received from the BCVTB"
             annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 
          Integer flaRea "Flag received from BCVTB";
          Modelica.SIunits.Time simTimRea
-          "Current simulation time received from the BCVTB";
+            "Current simulation time received from the BCVTB";
          Integer retVal "Return value from the BSD socket data exchange";
-      protected
+        protected
           parameter Integer socketFD(fixed=false)
-          "Socket file descripter, or a negative value if an error occured";
+            "Socket file descripter, or a negative value if an error occured";
           parameter Real _uStart[nDblWri](fixed=false)
-          "Initial input signal, used during first data transfer with BCVTB";
+            "Initial input signal, used during first data transfer with BCVTB";
           constant Integer flaWri=0;
           Real uRInt[nDblWri] "Value of integral";
           Real uRIntPre[nDblWri]
-          "Value of integral at previous sampling instance";
-      public
+            "Value of integral at previous sampling instance";
+        public
           Real uRWri[nDblWri] "Value to be sent to the interface";
         initial algorithm
           socketFD :=if activateInterface then
@@ -21825,12 +21871,12 @@ First implementation.
 
           Modelica.Blocks.Interfaces.RealInput Kelvin(final quantity="ThermodynamicTemperature",
                                                       final unit = "K", displayUnit = "degC", min=0)
-          "Temperature in Kelvin"
+            "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
                 iconTransformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.RealOutput Celsius(final quantity="ThermodynamicTemperature",
                                                         final unit = "degC", displayUnit = "degC", min=-273.15)
-          "Temperature in Celsius"
+            "Temperature in Celsius"
             annotation (Placement(transformation(extent={{100,-10},{120,10}}),
                 iconTransformation(extent={{100,-10},{120,10}})));
         equation
@@ -21876,12 +21922,12 @@ First implementation.
 
           Modelica.Blocks.Interfaces.RealInput Celsius(final quantity="ThermodynamicTemperature",
                                                        final unit = "degC", displayUnit = "degC", min=-273.15)
-          "Temperature in Celsius"
+            "Temperature in Celsius"
             annotation (Placement(transformation(extent={{-140,-24},{-100,16}}),
                 iconTransformation(extent={{-140,-24},{-100,16}})));
           Modelica.Blocks.Interfaces.RealOutput Kelvin(final quantity="ThermodynamicTemperature",
                                                        final unit = "K", displayUnit = "degC", min=0)
-          "Temperature in Kelvin"
+            "Temperature in Kelvin"
             annotation (Placement(transformation(extent={{100,-12},{120,8}}),
                 iconTransformation(extent={{100,-12},{120,8}})));
         equation
@@ -21922,11 +21968,11 @@ First implementation.
         end From_degC;
 
         package Examples
-        "Collection of models that illustrate model use and test models"
+          "Collection of models that illustrate model use and test models"
           extends Modelica.Icons.ExamplesPackage;
 
           model MoistAir
-          "Model with interfaces for media with moist air that will be linked to the BCVTB which models the response of the room"
+            "Model with interfaces for media with moist air that will be linked to the BCVTB which models the response of the room"
             import Buildings;
             extends Modelica.Icons.Example;
             package Medium =
@@ -21985,19 +22031,19 @@ First implementation.
               annotation (Placement(transformation(extent={{192,62},{212,82}})));
             Buildings.Fluid.Sensors.TemperatureTwoPort
                                                 TRet(redeclare package Medium
-              =                                                                 Medium,
+                =                                                               Medium,
                 m_flow_nominal=m_flow_nominal) "Return air temperature"
               annotation (Placement(transformation(extent={{320,-60},{340,-40}})));
             Buildings.Fluid.Sensors.MassFractionTwoPort
                                                  Xi_w(redeclare package Medium
-              =                                                                  Medium,
+                =                                                                Medium,
                 m_flow_nominal=m_flow_nominal) "Measured air humidity"
               annotation (Placement(transformation(extent={{290,-60},{310,-40}})));
             Modelica.Blocks.Sources.Constant XSet(k=0.005)
-            "Set point for humidity"
+              "Set point for humidity"
               annotation (Placement(transformation(extent={{180,150},{200,170}})));
             Modelica.Blocks.Sources.Constant TRooSetNig(k=273.15 + 16)
-            "Set point for room air temperature"
+              "Set point for room air temperature"
               annotation (Placement(transformation(extent={{40,130},{60,150}})));
             Buildings.Controls.Continuous.LimPID PIDHea(
               yMax=1,
@@ -22034,11 +22080,11 @@ First implementation.
               annotation (Placement(transformation(extent={{420,0},{440,20}})));
             Buildings.Fluid.Sensors.TemperatureTwoPort
                                                 TSup(redeclare package Medium
-              =                                                                 Medium,
+                =                                                               Medium,
                 m_flow_nominal=m_flow_nominal) "Supply air temperature"
               annotation (Placement(transformation(extent={{310,62},{330,82}})));
             Buildings.Fluid.Movers.FlowMachine_y fan(redeclare package Medium
-              =                                                                 Medium,
+                =                                                               Medium,
                   pressure(V_flow={0,m_flow_nominal/1.2},
                     dp={2*400,400}),
                   dynamicBalance=false)
@@ -22046,22 +22092,22 @@ First implementation.
             Modelica.Blocks.Sources.Constant yFan(k=1) "Fan control signal"
               annotation (Placement(transformation(extent={{120,100},{140,120}})));
             Modelica.Blocks.Math.Gain perToRel(k=0.01)
-            "Converts 0...100 to 0...1"
+              "Converts 0...100 to 0...1"
               annotation (Placement(transformation(extent={{22,-10},{42,10}})));
             Modelica.Blocks.Math.Gain perToRel1(
                                                k=0.01)
-            "Converts 0...100 to 0...1"
+              "Converts 0...100 to 0...1"
               annotation (Placement(transformation(extent={{0,50},{20,70}})));
             Buildings.Utilities.Psychrometrics.X_pTphi masFra(use_p_in=false)
-            "Mass fraction"
+              "Mass fraction"
               annotation (Placement(transformation(extent={{50,56},{70,76}})));
             Buildings.Controls.SetPoints.OccupancySchedule occSch
-            "Occupancy schedule"
+              "Occupancy schedule"
               annotation (Placement(transformation(extent={{0,156},{20,176}})));
             Modelica.Blocks.Logical.Switch switch1
               annotation (Placement(transformation(extent={{84,150},{104,170}})));
             Modelica.Blocks.Sources.Constant TRooSetDay(k=273.15 + 20)
-            "Set point for room air temperature"
+              "Set point for room air temperature"
               annotation (Placement(transformation(extent={{40,170},{60,190}})));
             Buildings.Utilities.IO.BCVTB.From_degC from_degC
               annotation (Placement(transformation(extent={{20,18},{40,38}})));
@@ -22291,48 +22337,48 @@ Buildings.Utilities.IO.BCVTB</a>.
         end Examples;
 
         package BaseClasses
-        "Package with base classes for Buildings.Utilities.IO.BCVTB"
+          "Package with base classes for Buildings.Utilities.IO.BCVTB"
           extends Modelica.Icons.BasesPackage;
 
           partial model FluidInterface
-          "Partial class for fluid interface that can be coupled to BCVTB"
+            "Partial class for fluid interface that can be coupled to BCVTB"
             import Buildings;
             extends Buildings.BaseClasses.BaseIcon;
 
             replaceable package Medium =
                 Modelica.Media.Interfaces.PartialMedium
-            "Medium model within the source"
+              "Medium model within the source"
                annotation (choicesAllMatching=true);
 
             parameter Integer nPorts=0 "Number of ports" annotation(Dialog(connectorSizing=true));
             Modelica.Blocks.Interfaces.RealInput m_flow_in if     use_m_flow_in
-            "Prescribed mass flow rate"
+              "Prescribed mass flow rate"
               annotation (Placement(transformation(extent={{-120,60},{-80,100}},
                     rotation=0), iconTransformation(extent={{-120,60},{-80,100}})));
             Modelica.Blocks.Interfaces.RealInput T_in
-            "Prescribed boundary temperature"
+              "Prescribed boundary temperature"
               annotation (Placement(transformation(extent={{-140,40},{-100,80}},
                     rotation=0)));
 
              parameter Boolean use_m_flow_in = false
-            "Get the mass flow rate from the input connector"
+              "Get the mass flow rate from the input connector"
               annotation(Evaluate=true, HideResult=true);
             parameter Modelica.SIunits.MassFlowRate m_flow = 0
-            "Fixed mass flow rate going out of the fluid port"
+              "Fixed mass flow rate going out of the fluid port"
               annotation (Evaluate = true,
                           Dialog(enable = not use_m_flow_in));
 
             parameter Modelica.SIunits.MassFlowRate m_flow_nominal(min=0)
-            "Nominal mass flow rate, used for regularization near zero flow"
+              "Nominal mass flow rate, used for regularization near zero flow"
               annotation(Dialog(group = "Nominal condition"));
             parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*m_flow_nominal
-            "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
+              "For bi-directional flow, temperature is regularized in the region |m_flow| < m_flow_small (m_flow_small > 0 required)"
               annotation(Dialog(group="Advanced"));
 
             Buildings.Fluid.Sensors.EnthalpyFlowRate totEntFloRat[nPorts](
               redeclare final package Medium = Medium,
               each final m_flow_nominal=m_flow_nominal)
-            "Total enthalpy flow rate (sensible plus latent)"
+              "Total enthalpy flow rate (sensible plus latent)"
               annotation (Placement(transformation(extent={{0,-10},{-20,10}})));
             Modelica.Fluid.Interfaces.FluidPorts_b ports[
                                           nPorts](
@@ -22344,10 +22390,10 @@ Buildings.Utilities.IO.BCVTB</a>.
               annotation (Placement(transformation(extent={{88,40},{108,-40}})));
 
             Modelica.Blocks.Math.Sum sumHTot_flow(nin=nPorts)
-            "Sum of total enthalpy flow rates"
+              "Sum of total enthalpy flow rates"
               annotation (Placement(transformation(extent={{0,70},{20,90}})));
             Modelica.Blocks.Interfaces.RealOutput HSen_flow(unit="W")
-            "Sensible enthalpy flow rate, positive if flow into the component"
+              "Sensible enthalpy flow rate, positive if flow into the component"
               annotation (Placement(transformation(extent={{100,80},{120,100}})));
             Buildings.Fluid.Sources.MassFlowSource_T bou(
               redeclare package Medium = Medium,
@@ -22357,10 +22403,10 @@ Buildings.Utilities.IO.BCVTB</a>.
               use_C_in=false,
               final use_m_flow_in=true)
               annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-        protected
+          protected
             parameter Modelica.Fluid.Types.PortFlowDirection flowDirection=
                              Modelica.Fluid.Types.PortFlowDirection.Bidirectional
-            "Allowed flow direction"                 annotation(Evaluate=true, Dialog(tab="Advanced"));
+              "Allowed flow direction"               annotation(Evaluate=true, Dialog(tab="Advanced"));
           equation
             connect(m_flow_in, bou.m_flow_in);
             if not use_m_flow_in then
@@ -22440,12 +22486,12 @@ First implementation.
           end FluidInterface;
 
           function establishClientSocket
-          "Establishes the client socket connection"
+            "Establishes the client socket connection"
 
             input String xmlFileName = "socket.cfg"
-            "Name of xml file that contains the socket information";
+              "Name of xml file that contains the socket information";
             output Integer socketFD
-            "Socket file descripter, or a negative value if an error occured";
+              "Socket file descripter, or a negative value if an error occured";
             external "C"
                socketFD =
                         establishModelicaClient(xmlFileName)
@@ -22469,23 +22515,23 @@ First implementation.
           end establishClientSocket;
 
           function exchangeReals
-          "Exchanges values of type Real with the socket"
+            "Exchanges values of type Real with the socket"
 
             input Integer socketFD(min=1) "Socket file descripter";
             input Integer flaWri
-            "Communication flag to write to the socket stream";
+              "Communication flag to write to the socket stream";
             input Modelica.SIunits.Time simTimWri
-            "Current simulation time in seconds to write";
+              "Current simulation time in seconds to write";
             input Real[nDblWri] dblValWri "Double values to write";
             input Integer nDblWri "Number of double values to write";
             input Integer nDblRea "Number of double values to read";
             output Integer flaRea
-            "Communication flag read from the socket stream";
+              "Communication flag read from the socket stream";
             output Modelica.SIunits.Time simTimRea
-            "Current simulation time in seconds read from socket";
+              "Current simulation time in seconds read from socket";
             output Real[nDblRea] dblValRea "Double values read from socket";
             output Integer retVal
-            "The exit value, which is negative if an error occured";
+              "The exit value, which is negative if an error occured";
             external "C"
                retVal =
                       exchangeModelicaClient(socketFD,
@@ -22511,12 +22557,12 @@ First implementation.
           end exchangeReals;
 
           function closeClientSocket
-          "Closes the socket for the inter process communication"
+            "Closes the socket for the inter process communication"
 
             input Integer socketFD
-            "Socket file descripter, or a negative value if an error occured";
+              "Socket file descripter, or a negative value if an error occured";
             output Integer retVal
-            "Return value of the function that closes the socket connection";
+              "Return value of the function that closes the socket connection";
             external "C"
                retVal =
                       closeModelicaClient(socketFD)
@@ -22561,7 +22607,7 @@ Building Controls Virtual Test Bed</a>.
         extends Modelica.Icons.BasesPackage;
 
         function cubicHermiteLinearExtrapolation
-        "Interpolate using a cubic Hermite spline with linear extrapolation"
+          "Interpolate using a cubic Hermite spline with linear extrapolation"
           input Real x "Abscissa value";
           input Real x1 "Lower abscissa value";
           input Real x2 "Upper abscissa value";
@@ -22610,7 +22656,7 @@ First implementation.
         end cubicHermiteLinearExtrapolation;
 
         function smoothMax
-        "Once continuously differentiable approximation to the maximum function"
+          "Once continuously differentiable approximation to the maximum function"
           input Real x1 "First argument";
           input Real x2 "Second argument";
           input Real deltaX "Width of transition interval";
@@ -22640,7 +22686,7 @@ First implementation.
             input Real x "Independent value";
             input Real deltax "Half width of transition interval";
             output Real out "Smoothed value";
-      protected
+        protected
             Real scaledX1;
             Real y;
             constant Real asin1 = Modelica.Math.asin(1);
@@ -22686,13 +22732,13 @@ First implementation.
         end spliceFunction;
 
         function splineDerivatives
-        "Function to compute the derivatives for cubic hermite spline interpolation"
+          "Function to compute the derivatives for cubic hermite spline interpolation"
           input Real x[:] "Support point, strict monotone increasing";
           input Real y[size(x, 1)] "Function values at x";
           input Boolean ensureMonotonicity=isMonotonic(y, strict=false)
-          "Set to true to ensure monotonicity of the cubic hermite";
+            "Set to true to ensure monotonicity of the cubic hermite";
           output Real d[size(x, 1)] "Derivative at the support points";
-      protected
+        protected
           Integer n=size(x, 1) "Number of data points";
           Real delta[n - 1] "Slope of secant line between data points";
           Real alpha "Coefficient to ensure monotonicity";
@@ -22794,12 +22840,12 @@ First implementation.
         end splineDerivatives;
 
         function inverseXRegularized
-        "Function that approximates 1/x by a twice continuously differentiable function"
+          "Function that approximates 1/x by a twice continuously differentiable function"
          input Real x "Abscissa value";
          input Real delta(min=0)
-          "Abscissa value below which approximation occurs";
+            "Abscissa value below which approximation occurs";
          output Real y "Function value";
-      protected
+        protected
          Real delta2 "Delta^2";
          Real x2_d2 "=x^2/delta^2";
         algorithm
@@ -22836,13 +22882,13 @@ First implementation.
         end inverseXRegularized;
 
         function isMonotonic
-        "Returns true if the argument is a monotonic sequence"
+          "Returns true if the argument is a monotonic sequence"
           input Real x[:] "Sequence to be tested";
           input Boolean strict=false
-          "Set to true to test for strict monotonicity";
+            "Set to true to test for strict monotonicity";
           output Boolean monotonic
-          "True if x is monotonic increasing or decreasing";
-      protected
+            "True if x is monotonic increasing or decreasing";
+        protected
           Integer n=size(x, 1) "Number of data points";
 
         algorithm
@@ -22901,7 +22947,7 @@ First implementation.
         end isMonotonic;
 
         package BaseClasses
-        "Package with base classes for Buildings.Utilities.Math.Functions"
+          "Package with base classes for Buildings.Utilities.Math.Functions"
           extends Modelica.Icons.BasesPackage;
 
           function der_spliceFunction "Derivative of splice function"
@@ -22914,7 +22960,7 @@ First implementation.
               input Real dx;
               input Real ddeltax=0;
               output Real out;
-        protected
+          protected
               Real scaledX;
               Real scaledX1;
               Real dscaledX1;
@@ -22989,29 +23035,29 @@ Modelica.Blocks</a>.
       extends Modelica.Icons.VariantsPackage;
 
       block X_pTphi
-      "Return steam mass fraction as a function of relative humidity phi and temperature T"
+        "Return steam mass fraction as a function of relative humidity phi and temperature T"
         extends
-        Buildings.Utilities.Psychrometrics.BaseClasses.HumidityRatioVaporPressure;
+          Buildings.Utilities.Psychrometrics.BaseClasses.HumidityRatioVaporPressure;
         package Medium = Buildings.Media.PerfectGases.MoistAirUnsaturated
-        "Medium model";
+          "Medium model";
 
-    public
+      public
         Modelica.Blocks.Interfaces.RealInput T(final unit="K",
                                                  displayUnit="degC",
                                                  min = 0) "Temperature"
           annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
         Modelica.Blocks.Interfaces.RealInput phi(min = 0, max=1)
-        "Relative humidity (0...1)"
+          "Relative humidity (0...1)"
           annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
         Modelica.Blocks.Interfaces.RealOutput X[Medium.nX](each min=0, each max=1)
-        "Steam mass fraction"
+          "Steam mass fraction"
           annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-    protected
+      protected
         constant Real k = 0.621964713077499 "Ratio of molar masses";
         Modelica.SIunits.AbsolutePressure psat "Saturation pressure";
        parameter Integer i_w(min=1, fixed=false) "Index for water substance";
        parameter Integer i_nw(min=1, fixed=false)
-        "Index for non-water substance";
+          "Index for non-water substance";
        parameter Boolean found(fixed=false) "Flag, used for error checking";
       initial algorithm
         found:=false;
@@ -23092,7 +23138,7 @@ First implementation.
             max=1,
             nominal=0.01) "Water vapor concentration per total mass of air";
 
-      protected
+        protected
           constant Real k = 0.621964713077499 "Ratio of molar masses";
         algorithm
           X_w := phi*k/(k*phi+p/pSat-phi);
@@ -23128,30 +23174,30 @@ Buildings.UsersGuide.Conventions</a>.
       end Functions;
 
       package BaseClasses
-      "Package with base classes for Buildings.Utilities.Psychrometrics"
+        "Package with base classes for Buildings.Utilities.Psychrometrics"
         extends Modelica.Icons.BasesPackage;
 
         partial block HumidityRatioVaporPressure
-        "Humidity ratio for given water vapor pressure"
+          "Humidity ratio for given water vapor pressure"
           extends Modelica.Blocks.Interfaces.BlockIcon;
           parameter Boolean use_p_in = true
-          "Get the pressure from the input connector"
+            "Get the pressure from the input connector"
             annotation(Evaluate=true, HideResult=true);
 
           parameter Modelica.SIunits.Pressure p = 101325
-          "Fixed value of pressure"
+            "Fixed value of pressure"
             annotation (Evaluate = true,
                         Dialog(enable = not use_p_in));
           Modelica.Blocks.Interfaces.RealInput p_in(final quantity="Pressure",
                                                  final unit="Pa",
                                                  min = 0) if  use_p_in
-          "Atmospheric Pressure"
+            "Atmospheric Pressure"
             annotation (Placement(transformation(extent={{-140,40},{-100,80}},
                         rotation=0)));
 
-      protected
+        protected
           Modelica.Blocks.Interfaces.RealInput p_in_internal
-          "Needed to connect to conditional connector";
+            "Needed to connect to conditional connector";
         equation
           connect(p_in, p_in_internal);
           if not use_p_in then
@@ -23306,6 +23352,8 @@ to solve specific problems.
 </p>
 </html>"));
 end Buildings;
+
+
 model Buildings_Utilities_IO_BCVTB_Examples_MoistAir
  extends Buildings.Utilities.IO.BCVTB.Examples.MoistAir;
   annotation(experiment(
