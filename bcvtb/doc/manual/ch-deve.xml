@@ -476,6 +476,11 @@ Apache Ant build system that is used to compile the BCVTB.</entry>
 Source code and executables for the BACnet interface.</entry>
       </row>
       <row>
+       <entry>lib/adInterfaceMCC-stack</entry>
+       <entry>
+Source code and executables for the Analog/Digital interface.</entry>
+      </row>
+      <row>
        <entry>lib/config</entry>
        <entry>
 Code for detecting the configuration on Windows systems.</entry>
