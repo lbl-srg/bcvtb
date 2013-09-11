@@ -4,42 +4,43 @@
   <!-- compile 
        Overwrites target of build-java.xml -->
   <target name="compile" description="Compiles the source code">
-     <mkdir dir="${build.dir}/adInterfaceReader"/>
-     <mkdir dir="${classes.dir}/adInterfaceReader"/>
-     <javac srcdir="${src.dir}/adInterfaceReader" 
-	    destdir="${classes.dir}/adInterfaceReader/" 
+     <mkdir dir="${build.dir}/Java/adInterfaceReader"/>
+     <mkdir dir="${classes.dir}/Java/adInterfaceReader"/>
+     <javac srcdir="${src.dir}/Java/adInterfaceReader" 
+	    destdir="${classes.dir}/Java/adInterfaceReader/" 
 	    debug="${compile.debug}"
 	    includeAntRuntime="no">
      </javac>
-     <mkdir dir="${build.dir}/adInterfaceWriter"/>
-     <mkdir dir="${classes.dir}/adInterfaceWriter"/>
-     <javac srcdir="${src.dir}/adInterfaceWriter" 
-	    destdir="${classes.dir}/adInterfaceWriter/" 
+     <mkdir dir="${build.dir}/Java/adInterfaceWriter"/>
+     <mkdir dir="${classes.dir}/Java/adInterfaceWriter"/>
+     <javac srcdir="${src.dir}/Java/adInterfaceWriter" 
+	    destdir="${classes.dir}/Java/adInterfaceWriter/" 
 	    debug="${compile.debug}"
 	    includeAntRuntime="no">
      </javac>
+     <ant dir="${src.dir}/C" target="all"/>
   </target>
 
   <!-- jar 
        Overwrites target of build-java.xml -->
   <target name="jar" depends="compile" description="Builds runable jar file for the project">
-     <mkdir dir="${jar.dir}"/>
-    <jar destfile="${jar.dir}/adInterfaceReader.jar" basedir="${classes.dir}/adInterfaceReader">
+     <mkdir dir="${jar.dir}/Java"/>
+    <jar destfile="${jar.dir}/Java/adInterfaceReader.jar" basedir="${classes.dir}/Java/adInterfaceReader">
     <manifest>
         <attribute name="Built-By" value="${user.name}" />
         <attribute name="Main-Class" value="adInterfaceReader.ADInterfaceReader"/>
     </manifest>
     </jar>
-    <jar destfile="${jar.dir}/adInterfaceWriter.jar" basedir="${classes.dir}/adInterfaceWriter">
+    <jar destfile="${jar.dir}/Java/adInterfaceWriter.jar" basedir="${classes.dir}/Java/adInterfaceWriter">
     <manifest>
         <attribute name="Built-By" value="${user.name}" />
         <attribute name="Main-Class" value="adInterfaceWriter.ADInterfaceWriter"/>
     </manifest>
     </jar>
     <!-- Copy the jar files -->
-    <copy file="${jar.dir}/adInterfaceReader.jar" 
+    <copy file="${jar.dir}/Java/adInterfaceReader.jar" 
 	  todir="bin-windows"/>
-    <copy file="${jar.dir}/adInterfaceWriter.jar" 
+    <copy file="${jar.dir}/Java/adInterfaceWriter.jar" 
 	  todir="bin-windows"/>
     <!-- Delete class files -->
     <ant target="cleanTemp"/>
@@ -48,19 +49,19 @@
  <!-- javadoc
        Overwrites target of build-java.xml -->
   <target name="doc" description="Builds the javadoc">
-     <mkdir dir="${doc.dir}/adInterfaceReader"/>
+     <mkdir dir="${doc.dir}/Java/adInterfaceReader"/>
      <javadoc packagenames="adInterfaceReader"
-              destdir="${doc.dir}/adInterfaceReader"
+              destdir="${doc.dir}/Java/adInterfaceReader"
               failonerror="true">
-       <fileset dir="${src.dir}/adInterfaceReader" defaultexcludes="yes">
+       <fileset dir="${src.dir}/Java/adInterfaceReader" defaultexcludes="yes">
          <include name="**/*.java"/>
        </fileset>
      </javadoc>
-     <mkdir dir="${doc.dir}/adInterfaceWriter"/>
+     <mkdir dir="${doc.dir}/Java/adInterfaceWriter"/>
      <javadoc packagenames="adInterfaceWriter"
-              destdir="${doc.dir}/adInterfaceWriter"
+              destdir="${doc.dir}/Java/adInterfaceWriter"
               failonerror="true">
-       <fileset dir="${src.dir}/adInterfaceWriter" defaultexcludes="yes">
+       <fileset dir="${src.dir}/Java/adInterfaceWriter" defaultexcludes="yes">
          <include name="**/*.java"/>
        </fileset>
      </javadoc>
@@ -69,8 +70,9 @@
   <!-- clean 
     Overwrites target of build-java.xml -->
   <target name="clean">
-    <delete dir="${doc.dir}" />
-    <delete dir="${classes.dir}" />
-    <delete dir="${build.dir}" />
+    <delete dir="${doc.dir}"/>
+    <delete dir="${classes.dir}"/>
+    <delete dir="${build.dir}"/>
+    <ant dir="${src.dir}/C" target="clean"/>
   </target>
 </project>
