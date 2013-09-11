@@ -4,17 +4,17 @@
   <!-- compile 
        Overwrites target of build-java.xml -->
   <target name="compile" description="Compiles the source code">
-     <mkdir dir="${build.dir}/Java/adInterfaceReader"/>
-     <mkdir dir="${classes.dir}/Java/adInterfaceReader"/>
+     <mkdir dir="${build.dir}/adInterfaceReader"/>
+     <mkdir dir="${classes.dir}/adInterfaceReader"/>
      <javac srcdir="${src.dir}/Java/adInterfaceReader" 
-	    destdir="${classes.dir}/Java/adInterfaceReader/" 
+	    destdir="${classes.dir}/adInterfaceReader/" 
 	    debug="${compile.debug}"
 	    includeAntRuntime="no">
      </javac>
-     <mkdir dir="${build.dir}/Java/adInterfaceWriter"/>
-     <mkdir dir="${classes.dir}/Java/adInterfaceWriter"/>
+     <mkdir dir="${build.dir}/adInterfaceWriter"/>
+     <mkdir dir="${classes.dir}/adInterfaceWriter"/>
      <javac srcdir="${src.dir}/Java/adInterfaceWriter" 
-	    destdir="${classes.dir}/Java/adInterfaceWriter/" 
+	    destdir="${classes.dir}/adInterfaceWriter/" 
 	    debug="${compile.debug}"
 	    includeAntRuntime="no">
      </javac>
@@ -24,23 +24,23 @@
   <!-- jar 
        Overwrites target of build-java.xml -->
   <target name="jar" depends="compile" description="Builds runable jar file for the project">
-     <mkdir dir="${jar.dir}/Java"/>
-    <jar destfile="${jar.dir}/Java/adInterfaceReader.jar" basedir="${classes.dir}/Java/adInterfaceReader">
+     <mkdir dir="${jar.dir}"/>
+    <jar destfile="${jar.dir}/adInterfaceReader.jar" basedir="${classes.dir}/adInterfaceReader">
     <manifest>
         <attribute name="Built-By" value="${user.name}" />
         <attribute name="Main-Class" value="adInterfaceReader.ADInterfaceReader"/>
     </manifest>
     </jar>
-    <jar destfile="${jar.dir}/Java/adInterfaceWriter.jar" basedir="${classes.dir}/Java/adInterfaceWriter">
+    <jar destfile="${jar.dir}/adInterfaceWriter.jar" basedir="${classes.dir}/adInterfaceWriter">
     <manifest>
         <attribute name="Built-By" value="${user.name}" />
         <attribute name="Main-Class" value="adInterfaceWriter.ADInterfaceWriter"/>
     </manifest>
     </jar>
     <!-- Copy the jar files -->
-    <copy file="${jar.dir}/Java/adInterfaceReader.jar" 
+    <copy file="${jar.dir}/adInterfaceReader.jar" 
 	  todir="bin-windows"/>
-    <copy file="${jar.dir}/Java/adInterfaceWriter.jar" 
+    <copy file="${jar.dir}/adInterfaceWriter.jar" 
 	  todir="bin-windows"/>
     <!-- Delete class files -->
     <ant target="cleanTemp"/>
@@ -49,17 +49,17 @@
  <!-- javadoc
        Overwrites target of build-java.xml -->
   <target name="doc" description="Builds the javadoc">
-     <mkdir dir="${doc.dir}/Java/adInterfaceReader"/>
+     <mkdir dir="${doc.dir}/adInterfaceReader"/>
      <javadoc packagenames="adInterfaceReader"
-              destdir="${doc.dir}/Java/adInterfaceReader"
+              destdir="${doc.dir}/adInterfaceReader"
               failonerror="true">
        <fileset dir="${src.dir}/Java/adInterfaceReader" defaultexcludes="yes">
          <include name="**/*.java"/>
        </fileset>
      </javadoc>
-     <mkdir dir="${doc.dir}/Java/adInterfaceWriter"/>
+     <mkdir dir="${doc.dir}/adInterfaceWriter"/>
      <javadoc packagenames="adInterfaceWriter"
-              destdir="${doc.dir}/Java/adInterfaceWriter"
+              destdir="${doc.dir}/adInterfaceWriter"
               failonerror="true">
        <fileset dir="${src.dir}/Java/adInterfaceWriter" defaultexcludes="yes">
          <include name="**/*.java"/>
