@@ -3570,7 +3570,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
   <note>
    <para>
     The ADInterfaceMCC (Analog/Digital Interface) is an interface between the BCVTB and USB-data acquisition devices. This interface has been tested for one device (USB-1208LS) 
-    of the Measurement Computing Corporation and is only supported on Windows 32 bit. This interface will work properly only if the drivers of the Data Acquisition device have been installed correctly and the device has been configured. 
+    of the Measurement Computing Corporation and is only supported on Windows. This interface will work properly only if the drivers of the Data Acquisition device have been installed correctly and the device has been configured. 
     Read the user guide available at <ulink url="http://www.mccdaq.com/PDFmanuals/USB-1208LS.pdf"> http://www.mccdaq.com/PDFmanuals/USB-1208LS.pdf</ulink> and the 
     Data Acquisition software manual <ulink url="http://www.mccdaq.com/PDFs/Manuals/DAQ-Software-Quick-Start.pdf"> http://www.mccdaq.com/PDFs/Manuals/DAQ-Software-Quick-Start.pdf</ulink> to learn how to
     install and to configure the USB-1208LS.  
