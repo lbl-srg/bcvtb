@@ -252,7 +252,7 @@
     </target>
 
     <!--Compile Binaries-->
-    <target name="compileBinary" if="NoMac" depends="link" description="Compile the binaryies for use in bcvtb">
+    <target name="compileBinary" if="NoMac" depends="link" description="Compile the binaries for use in bcvtb">
         <cpptasks:cc runtime="static" objdir="demo/bcvtb">
 	    <cpptasks:compiler name="${cc}"/>
             <compilerarg value="-c" if="Linux"/>
