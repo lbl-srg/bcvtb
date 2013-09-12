@@ -32,12 +32,13 @@ rem Batch file that sets environment variables for Visual Studio C compiler
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_VS_BAT') do set BCVTB_VS_BAT="%%i"
 rem Directory with libraries that are needed to compile the BACnet stack
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_SDKLib_DIR') do set BCVTB_SDKLib_DIR="%%i"
+rem Directory with include files that are needed to compile the ADInterfaceMCC stack
+for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_JNI_DIR') do set BCVTB_JNI_DIR="%%i"
 rem Batch file that sets environment variables for Intel Fortran compiler
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_IFORT_BAT') do set BCVTB_IFORT_BAT="%%i"
 rem Path variable so that dll's can be found. Don't quote Path as it contain
 rem many entries.
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable Path') do set Path=%%i
-
 rem Get the flag that indicates whether the BACnet interface is available on this installation
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable haveBACnetALC') do set haveBACnetALC=%%i
 rem Get the flag that indicates whether the A/D interface is available on this installation
@@ -143,7 +144,7 @@ rem ------------- C++ compiler -----------------------
 rem --------------------------------------------------
 rem The next command checks if the directory pointed to by BCVTB_SDKLib_DIR exists
 if exist %BCVTB_SDKLib_DIR% (
-  goto SETVARS2
+  goto CHECKJNIDir
 )
 echo **************************************************************
 echo *** Warning: Did not find Microsoft's SDK directory.
@@ -151,6 +152,23 @@ echo  This directory is only needed to compile the BACnet stack.
 echo  BCVTB_SDKLib_DIR is set to 
 echo  %BCVTB_SDKLib_DIR%.
 echo  If Microsoft's SDK is installed, adjust BCVTB_SDKLib_DIR
+echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
+
+
+:CHECKJNIDir
+rem --------------------------------------------------
+rem ------------- JNI include files ------------------
+rem --------------------------------------------------
+rem The next command checks if the directory pointed to by BCVTB_JNI_DIR exists
+if exist %BCVTB_JNI_DIR% (
+  goto SETVARS2
+)
+echo **************************************************************
+echo *** Warning: Did not find JNI include directories.
+echo  This directory is only needed to compile the ADInterfaceMCC stack.
+echo  BCVTB_JNI_DIR is set to 
+echo  %BCVTB_JNI_DIR%.
+echo  If Java is installed, adjust BCVTB_JNI_DIR
 echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
 
 
