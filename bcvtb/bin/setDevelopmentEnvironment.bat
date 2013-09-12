@@ -165,7 +165,7 @@ if exist %BCVTB_JNI_DIR% (
   goto SETVARS2
 )
 echo **************************************************************
-echo *** Warning: Did not find JNI include directories.
+echo *** Warning: Did not find JNI include files.
 echo  This directory is only needed to compile the ADInterfaceMCC stack.
 echo  BCVTB_JNI_DIR is set to 
 echo  %BCVTB_JNI_DIR%.
