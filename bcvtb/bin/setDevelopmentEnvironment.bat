@@ -152,7 +152,8 @@ echo  This directory is only needed to compile the BACnet stack.
 echo  BCVTB_SDKLib_DIR is set to 
 echo  %BCVTB_SDKLib_DIR%.
 echo  If Microsoft's SDK is installed, adjust BCVTB_SDKLib_DIR
-echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
+echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties, and
+echo  in %BCVTB_HOME%\lib\bacnet-stack\build.xml
 
 
 :CHECKJNIDir
@@ -169,7 +170,8 @@ echo  This directory is only needed to compile the ADInterfaceMCC stack.
 echo  BCVTB_JNI_DIR is set to 
 echo  %BCVTB_JNI_DIR%.
 echo  If Java is installed, adjust BCVTB_JNI_DIR
-echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
+echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties, and
+echo  in %BCVTB_HOME%\lib\adInterfaceMCC-stack\src\C\build.xml
 
 
 :SETVARS2
