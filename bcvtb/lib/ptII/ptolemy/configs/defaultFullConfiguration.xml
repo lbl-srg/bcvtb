@@ -159,6 +159,7 @@
       <configure>
         <?moml
           <group>
+          <input source="ptolemy/actor/lib/aspect/aspect.xml"/>
             <input source="ptolemy/configs/automataActorLibrary.xml"/>
         <!-- Backtracking actors -->
             <input source="ptolemy/backtrack/backtrack.xml"/>
@@ -186,6 +187,8 @@
 	    <!-- Joystick actors depend on the Joystick interface being present  -->
             <input source="ptolemy/actor/lib/joystick/jstick.xml"/>
             <input source="ptolemy/actor/lib/conversions/json/json.xml"/>
+		<!-- Machine Learning library still under development  -->
+			<input source="org/ptolemy/machineLearning/machineLearning.xml"/>
             <input source="ptolemy/actor/lib/mail/mail.xml"/>
             <input source="ptolemy/domains/metroII/metroII.xml"/>
 
@@ -206,8 +209,6 @@
 	    <!--ptp not shipped with 6.0 -->
             <!--input source="ptolemy/ptp/lib/ptpentities.xml"/-->
             <input source="ptolemy/actor/lib/python/python.xml"/>
-            <input source="ptolemy/actor/lib/qm/qm.xml"/>
-            <input source="ptolemy/actor/lib/resourceScheduler/resourceScheduler.xml"/>
             <input source="ptolemy/actor/lib/test.xml"/>
             <input source="ptolemy/actor/lib/security/security.xml"/>
             <input source="ptolemy/domains/wireless/wireless.xml"/>

@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 65966 2013-03-26 17:38:12Z hudson $
+# @Version: $Id: makefile 67236 2013-08-26 16:46:24Z cxh $
 #
 # @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
@@ -86,7 +86,8 @@ OTHER_FILES_TO_BE_JARED = \
 	whatsNew7.0.htm \
 	whatsNew8.0.htm \
 	whatsNew8.1.htm \
-	whatsNew9.1.htm
+	whatsNew9.1.htm \
+	whatsNew10.0.htm
 
 EXTRA_SRCS = \
 	ClassesIllustrated.htm \
@@ -99,7 +100,8 @@ MISC_FILES =	$(DIRS)
 
 # make checkjunk will not report OPTIONAL_FILES as trash
 # make realclean removes OPTIONAL_FILES
-OPTIONAL_FILES =
+OPTIONAL_FILES = \
+	demosModels.txt
 
 JCLASS = $(JSRCS:%.java=%.class)
 
