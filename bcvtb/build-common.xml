@@ -106,6 +106,9 @@
   <!-- Set the path to the Microsoft SDK, which is needed by bacnet-stack -->
   <property name="BCVTB_SDKLib_DIR" value="${env.BCVTB_SDKLib_DIR}"/>
   <property name="BCVTB_SDKLibs"   value="WS2_32,WinMM,IPHlpApi"/>
+  
+  <!-- Set the path to the JNI include files, which is needed by adInterfaceMCC-stack -->
+  <property name="BCVTB_JNI_DIR" value="${env.BCVTB_JNI_DIR}"/>
 
   <property name="compiler.debug" value="false"/>
 
