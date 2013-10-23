@@ -428,6 +428,35 @@ int exchangedoubleswithsocket(const int *sockfd,
 			      double *simTimRea,
 			      double dblValRea[]);
 
+/////////////////////////////////////////////////////////////////
+/// Exchanges data with the socket.
+///
+/// Clients can call this method to exchange data through the socket.
+/// This methods differs from the exchangedoubleswithsocket. It has
+/// a flag that is used to set a global variable in readbufferfromsocket.
+///\param sockfd Socket file descripter
+///\param flaWri Communication flag to write to the socket stream.
+///\param flaRea Communication flag read from the socket stream.
+///\param nDblWri Number of double values to write.
+///\param nDblRea Number of double values to read.
+///\param simTimWri Current simulation time in seconds to write.
+///\param dblValWri Double values to write.
+///\param simTimRea Current simulation time in seconds read from socket.
+///\param dblValRea Double values read from socket.
+///\param flaexport Flag for FMUExport.
+///\sa int establishclientsocket(uint16_t *portNo)
+///\return The exit value of \c send or \c read, or a negative value if an error occured.
+int exchangedoubleswithsocketFMU(const int *sockfd, 
+			      const int *flaWri, int *flaRea,
+			      const int *nDblWri,
+			      int *nDblRea,
+			      double *simTimWri,
+			      double dblValWri[],
+			      double *simTimRea,
+			      double dblValRea[],
+				  const int *flaExport);
+
+
 ///////////////////////////////////////////////////////////
 /// Closes the inter process communication socket.
 ///

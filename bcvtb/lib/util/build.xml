@@ -41,16 +41,18 @@
       <!-- Windows -->
       <libset dir="${path.expat}\lib" libs="libexpat"  if="windows"/>
       <libset libs="WSock32" if="windows"/>
-      <linkerarg value="/EXPORT:getmainversionnumber"      if="windows"/>
-      <linkerarg value="/EXPORT:establishclientsocket"     if="windows"/>
-      <linkerarg value="/EXPORT:exchangedoubleswithsocket" if="windows"/>
-      <linkerarg value="/EXPORT:closeipc"                  if="windows"/>
-      <linkerarg value="/EXPORT:sendclientmessage"         if="windows"/>
-      <linkerarg value="/EXPORT:sendclienterror"           if="windows"/>
-      <linkerarg value="/EXPORT:getepvariables"            if="windows"/>
-      <linkerarg value="/EXPORT:getxmlvalue"               if="windows"/>
-      <linkerarg value="/EXPORT:getxmlvaluesf"             if="windows"/>
-      <linkerarg value="/EXPORT:getnumberofxmlvalues"      if="windows"/>
+      <linkerarg value="/EXPORT:getmainversionnumber"      	if="windows"/>
+      <linkerarg value="/EXPORT:establishclientsocket"     	if="windows"/>
+      <linkerarg value="/EXPORT:exchangedoubleswithsocket" 	if="windows"/>
+      <linkerarg value="/EXPORT:closeipc"                  	if="windows"/>
+      <linkerarg value="/EXPORT:sendclientmessage"         	if="windows"/>
+      <linkerarg value="/EXPORT:sendclienterror"           	if="windows"/>
+      <linkerarg value="/EXPORT:getepvariables"            	if="windows"/>
+      <linkerarg value="/EXPORT:getxmlvalue"               	if="windows"/>
+      <linkerarg value="/EXPORT:getxmlvaluesf"             	if="windows"/>
+      <linkerarg value="/EXPORT:getnumberofxmlvalues"      	if="windows"/>
+       <linkerarg value="/EXPORT:getepvariablesFMU"            	if="windows"/>
+       <linkerarg value="/EXPORT:exchangedoubleswithsocketFMU" 	if="windows"/>
     </cpptasks:cc>
     <delete file="bcvtb.exp" verbose="false"/>
   </target>
