@@ -1,6 +1,23 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
 <section>
+    <title>Version 1.4.0</title>
+    <para>
+      <itemizedlist spacing="compact">
+        <listitem>
+          <para>
+            Ptolemy II has been updated to version 10.0.devel.
+          </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The example files have been updated for EnergyPlus 8.1.
+        </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+        </section>
+<section>
     <title>Version 1.3.0</title>
     <para>
       <itemizedlist spacing="compact">
