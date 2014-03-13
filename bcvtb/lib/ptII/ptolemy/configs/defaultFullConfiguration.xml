@@ -45,7 +45,7 @@
   <!-- Used in BasicGraphFrame.java -->
   <property name="_importActionClassNames"
             class="ptolemy.data.expr.Parameter"
-            value="{&quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.g4ltl.ImportG4LTLAction&quot;}"/>
+            value="{&quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAsJavaFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.g4ltl.ImportG4LTLAction&quot;}"/>
 
   <!-- Use the KIELER graph layout algorithms. -->
   <!--  Used in BasicGraphFrame.java-->
@@ -71,6 +71,7 @@
     <input source="ptolemy/configs/extendedEffigyFactories.xml"/>
     <input source="ptolemy/configs/ontologyEffigyFactory.xml"/>
     <input source="ptolemy/configs/ontologySolverEffigyFactory.xml"/>
+    <input source="ptolemy/configs/scrEffigyFactory.xml"/>
   </entity>
 
   <!-- The list of tableau factories, which defines the visual   -->
@@ -79,6 +80,7 @@
   <!-- is willing to open the model. Each editor contains a list -->
   <!-- of other editors that appear in the View menu.            -->
   <property name="tableauFactory" class="ptolemy.actor.gui.TableauFactory">
+    <input source="ptolemy/configs/scrTableauFactory.xml"/>
     <input source="ptolemy/configs/ontologyTableauFactories.xml"/>
     <input source="ptolemy/configs/gtTableauFactory.xml"/>
     <input source="ptolemy/configs/pteraTableauFactory.xml"/>
@@ -210,6 +212,7 @@
             <!--input source="ptolemy/ptp/lib/ptpentities.xml"/-->
             <input source="ptolemy/actor/lib/python/python.xml"/>
             <input source="ptolemy/actor/lib/test.xml"/>
+            <input source="ptolemy/domains/scr/scr.xml"/>
             <input source="ptolemy/actor/lib/security/security.xml"/>
             <input source="ptolemy/domains/wireless/wireless.xml"/>
             <input source="ptolemy/actor/lib/xslt/xslt.xml"/>

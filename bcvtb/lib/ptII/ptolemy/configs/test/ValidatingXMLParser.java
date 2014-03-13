@@ -1,6 +1,6 @@
 /* A validating parser.
 
- Copyright (c) 2010-2012 The Regents of the University of California.
+ Copyright (c) 2010-2013 The Regents of the University of California.
  All rights reserved.
  Permission is hereby granted, without written agreement and without
  license or royalty fees, to use, copy, modify, and distribute this
@@ -49,8 +49,8 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 65764 2013-03-07 02:38:11Z cxh $
- @since Ptolemy II 9.0
+ @version $Id: ValidatingXMLParser.java 67784 2013-10-26 16:53:27Z cxh $
+ @since Ptolemy II 10.0
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
  */

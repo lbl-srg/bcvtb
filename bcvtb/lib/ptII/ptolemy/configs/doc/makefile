@@ -2,9 +2,9 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 67236 2013-08-26 16:46:24Z cxh $
+# @Version: $Id: makefile 68489 2014-02-25 16:46:41Z cxh $
 #
-# @Copyright (c) 2000-2012 The Regents of the University of California.
+# @Copyright (c) 2000-2013 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -173,6 +173,7 @@ missingDemos: demosModels.txt models.txt
 	@sort demosModels.txt > /tmp/demosModels.txt
 	@sort models.txt > /tmp/models.txt
 	@comm -13 /tmp/models.txt /tmp/demosModels.txt
+	@rm -f /tmp/models.txt /tmp/demosModels.txt
 
 update: $(DERIVED_FILES)
 	svn commit -m "Master files changed" $(DERIVED_FILES)
