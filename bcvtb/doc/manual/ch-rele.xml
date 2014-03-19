@@ -6,6 +6,12 @@
       <itemizedlist spacing="compact">
         <listitem>
           <para>
+            Improved Functional Mock-up Unit (FMU) for co-simulation import interface to support the 
+            Functional Mock-up Interface (FMI) for co-simulation API in the tool coupling variant.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
             Ptolemy II has been updated to version 10.0.devel.
           </para>
         </listitem>
