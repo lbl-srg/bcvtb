@@ -86,7 +86,7 @@ else
       % Compilation for Windows
       if (strcmp(os, 'windows')) % have Windows    
         disp('*** Compiling MATLAB interface for Windows')
-        legacy_code('compile', def, {'../util/bcvtb.lib', 'simulinkSocket.c', '-I../util', '-I..'})
+        legacy_code('compile', def, {'../util/bcvtb.lib', '-I../util', '-I..'})
       else
         % Compilation for Mac OS X and Linux
         disp('*** Compiling MATLAB interface for Mac OS X or Linux')
