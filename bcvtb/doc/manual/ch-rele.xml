@@ -6,6 +6,11 @@
       <itemizedlist spacing="compact">
         <listitem>
           <para>
+            Two Python actors have been added for scripting.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
             Improved the Functional Mock-up Unit (FMU) for co-simulation import interface to support the 
             Functional Mock-up Interface (FMI) for co-simulation API for tool coupling.
           </para>
