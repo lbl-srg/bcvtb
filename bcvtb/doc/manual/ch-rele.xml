@@ -1,6 +1,29 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
 <section>
+    <title>Version 1.5.0</title>
+    <para>
+      <itemizedlist spacing="compact">
+        <listitem>
+          <para>
+            Added an FMU for model exchange import interface for FMI version 2.0 RC 1.0.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Ptolemy II has been updated to version xxx.
+          </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The example files have been updated for EnergyPlus xxx.
+        </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+        </section>
+<section>
+<section>
     <title>Version 1.4.0</title>
     <para>
       <itemizedlist spacing="compact">
@@ -11,8 +34,8 @@
         </listitem>
         <listitem>
           <para>
-            Improved the Functional Mock-up Unit (FMU) for co-simulation import interface to support the 
-            Functional Mock-up Interface (FMI) for co-simulation API for tool coupling.
+            Improved the FMU for co-simulation import interface to support the 
+            FMI for co-simulation version 1.0 for tool coupling.
           </para>
         </listitem>
         <listitem>
@@ -46,7 +69,8 @@
         </listitem>
         <listitem>
           <para>
-            Added a Functional Mock-up Unit (FMU) for co-simulation import interface. An example file can be found in
+            Added a Functional Mock-up Unit (FMU) for co-simulation import interface 
+            for Functional Mock-up Interface (FMI) version 1.0. An example file can be found in
             <code>examples/fmu-room</code> and is explained
             in <xref linkend="tit-FMUCon"></xref>.
         </para>
