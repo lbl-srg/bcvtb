@@ -1,6 +1,5 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
-
   <section>
     <title>Version 1.5.0</title>
     <para>
@@ -28,7 +27,6 @@
       </itemizedlist>
     </para>
   </section>
-  <section>
   <section>
     <title>Version 1.4.0</title>
     <para>
