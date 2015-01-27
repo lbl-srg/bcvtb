@@ -1,29 +1,35 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
-<section>
+
+  <section>
     <title>Version 1.5.0</title>
     <para>
       <itemizedlist spacing="compact">
         <listitem>
           <para>
-            Added an FMU for model exchange import interface for FMI version 2.0 RC 1.0.
+            Added support for FMUs for co-simulation and model exchange for FMI version 2.0.
           </para>
         </listitem>
         <listitem>
           <para>
-            Ptolemy II has been updated to version xxx.
+            Ptolemy II has been updated to version 11.
           </para>
         </listitem>
 	<listitem>
 	  <para>
-	    The example files have been updated for EnergyPlus xxx.
+	    The example files have been updated for EnergyPlus 8.2.
+        </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The BCVTB support for Linux 32 bit has been discontinued.
         </para>
         </listitem>
       </itemizedlist>
     </para>
-        </section>
-<section>
-<section>
+  </section>
+  <section>
+  <section>
     <title>Version 1.4.0</title>
     <para>
       <itemizedlist spacing="compact">
@@ -50,8 +56,8 @@
         </listitem>
       </itemizedlist>
     </para>
-        </section>
-<section>
+  </section>
+  <section>
     <title>Version 1.3.0</title>
     <para>
       <itemizedlist spacing="compact">
@@ -83,7 +89,7 @@
         </listitem>
       </itemizedlist>
     </para>
-        </section>
+  </section>
   <section>
     <title>Version 1.2.0</title>
     <para>
