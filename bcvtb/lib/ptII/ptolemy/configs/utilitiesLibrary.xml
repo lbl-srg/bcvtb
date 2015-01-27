@@ -11,8 +11,11 @@
         <class name="CompositeClassDefinition" extends="ptolemy.actor.TypedCompositeActor"/>
 	    <input source="ptolemy/configs/utilityModalModel.xml"/>
 
+
         <!-- Do not include ptera or anything else that does not ship
 	     with Ptiny here.  See defaultFullConfiguration.xml -->
+
+
         <!--input source="ptolemy/configs/utilityPteraModalModel.xml"/ -->
 
         <input source="ptolemy/configs/basicUtilities.xml"/>

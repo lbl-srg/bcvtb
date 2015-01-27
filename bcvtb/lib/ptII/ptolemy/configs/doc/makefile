@@ -2,9 +2,9 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 68489 2014-02-25 16:46:41Z cxh $
+# @Version: $Id: makefile 70459 2014-10-28 21:36:31Z cxh $
 #
-# @Copyright (c) 2000-2013 The Regents of the University of California.
+# @Copyright (c) 2000-2014 The Regents of the University of California.
 # All rights reserved.
 #
 # Permission is hereby granted, without written agreement and without
@@ -69,12 +69,14 @@ DERIVED_FILES = \
 OTHER_FILES_TO_BE_JARED = \
 	$(DERIVED_FILES) \
 	basicHelp.htm \
+	book.htm \
 	ClassesIllustrated.png \
 	ClassesIllustrated.xml \
 	completeDemos.htm \
 	copyright.htm \
 	demos.htm \
 	docs.htm \
+	pt_cover_online.png \
 	vergilFsmEditorHelp.htm \
 	vergilGraphEditorHelp.htm \
 	whatsNew.htm \
@@ -85,12 +87,11 @@ OTHER_FILES_TO_BE_JARED = \
 	whatsNew6.0.htm \
 	whatsNew7.0.htm \
 	whatsNew8.0.htm \
-	whatsNew8.1.htm \
-	whatsNew9.1.htm \
-	whatsNew10.0.htm
+	whatsNew10.0.htm \
+	whatsNew11.0.htm
 
 EXTRA_SRCS = \
-	ClassesIllustrated.htm \
+	 \
 	ClassesIllustratedVergil.htm \
 	$(JSRCS) $(OTHER_FILES_TO_BE_JARED)
 

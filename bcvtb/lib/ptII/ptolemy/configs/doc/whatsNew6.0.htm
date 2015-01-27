@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: whatsNew6.0.htm 48044 2008-01-29 08:12:46Z cxh $ -->
+<!-- $Id: whatsNew6.0.htm 70166 2014-09-24 14:50:41Z cxh $ -->
 <!--
 
 This file has pointers to tours of what's new in version 6.0
@@ -13,9 +13,7 @@ so that we can easily find and update the version number
 <link href="../../../doc/default.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>
-Tour of What's New in Version 6.0.2
-</h1>
+<h1>Tour of What's New in Version 6.0.2</h1>
 See also <a href="whatsNew.htm">What's New in other versions</a>.
 
 <p>Contents:
@@ -30,7 +28,7 @@ See also <a href="whatsNew.htm">What's New in other versions</a>.
 
 <h2> <a name="highlights">Highlights</a></h2>
 <ul>
-<li> <a href="../../../ptolemy/codegen/README.html">Ptolemy II C Code Generation</a>
+<li> Ptolemy II C Code Generation <i>($PTII/ptolemy/codegen was removed after Ptolemy II 8.0. Use $PTII/ptolemy/cg instead.)</i>
  <p>Primary Developers: Jackie Leung, Gang Zhou, Ye Zhou, Edward A. Lee,
 	Christopher Brooks
  <br>  Ptolemy II can now generate C code for SDF, FSM and HDF models.
@@ -64,8 +62,8 @@ communication is also known as synchronous message passing, but we
 avoid this term to avoid confusion with the SR (synchronous/reactive)
 domain.
 <P><a href="../../../ptolemy/configs/doc/completeDemos.htm#rendezvous">Demonstrations</a> - 
-Javadoc: <a href="../../../doc/codeDoc/ptolemy/domains/rendezvous/kernel/package-summary.html">kernel</a>, 
-<a href="../../../doc/codeDoc/ptolemy/domains/rendezvous/lib/package-summary.html">lib</a>
+Javadoc: <a href="../../../doc/codeDoc/ptolemy/domains/rendezvous/kernel/package-summary.html#in_browser">kernel</a>, 
+<a href="../../../doc/codeDoc/ptolemy/domains/rendezvous/lib/package-summary.html#in_browser">lib</a>
 
 <li> <a href="../../../ptolemy/configs/viptos/intro.htm">Viptos</a> 
  <i>Visual editor, code generator, and simulator for TinyOS programs</i>.
@@ -84,12 +82,12 @@ provides a graphical user interface for TinyOS developers.  Users can create Tin
  are fired in parallel) after a buffering phase.
  <p><a href="../../../ptolemy/distributed/demo/Sleep/Sleep.xml">Distributed Sleep Demo</a> -
 Javadoc:
- <a href="../../../doc/codeDoc/ptolemy/distributed/actor/package-summary.html">actor</a>,
- <a href="../../../doc/codeDoc/ptolemy/distributed/client/package-summary.html">client</a>,
- <a href="../../../doc/codeDoc/ptolemy/distributed/common/package-summary.html">common</a>,
- <a href="../../../doc/codeDoc/ptolemy/distributed/domains/sdf/kernel/package-summary.html">domains.sdf.kernel</a>,
- <a href="../../../doc/codeDoc/ptolemy/distributed/rmi/package-summary.html">rmi</a>,
- <a href="../../../doc/codeDoc/ptolemy/distributed/util/package-summary.html">util</a>
+ <a href="../../../doc/codeDoc/ptolemy/distributed/actor/package-summary.html#in_browser">actor</a>,
+ <a href="../../../doc/codeDoc/ptolemy/distributed/client/package-summary.html#in_browser">client</a>,
+ <a href="../../../doc/codeDoc/ptolemy/distributed/common/package-summary.html#in_browser">common</a>,
+ <a href="../../../doc/codeDoc/ptolemy/distributed/domains/sdf/kernel/package-summary.html#in_browser">domains.sdf.kernel</a>,
+ <a href="../../../doc/codeDoc/ptolemy/distributed/rmi/package-summary.html#in_browser">rmi</a>,
+ <a href="../../../doc/codeDoc/ptolemy/distributed/util/package-summary.html#in_browser">util</a>
 
 </ul>
 
@@ -103,12 +101,13 @@ Javadoc:
 </ul>
 
 <li><i>New Continuous Time (CT) demonstrations</i>:
+<i>In Ptolemy II 8.0, the continuous domain was created.  Between Ptolemy II 8.0 and 10.0, ct was removed.  The paths to the demos below have been updated from domains/ct to domains/continuous.</i>
 <ul>
-<li> <a href="../../domains/ct/demo/CartPendulum/CartPendulum.xml">Cart with Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li> <a href="../../domains/ct/demo/NewtonsCradle/NewtonsCradlePerfectlyInelastic1.xml">Newton's Cradle with Perfectly Inelastic Collisions</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li> <a href="../../domains/ct/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimated.xml">Newton's Cradle with Configurable Parameters</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li> <a href="../../domains/ct/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimatedNondeterministic.xml">Newton's Cradle with Balls Having Different Masses</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
-<li> <a href="../../domains/ct/demo/Pendulum3D/Pendulum3D.xml">3D Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
+<li> <a href="../../domains/continuous/demo/CartPendulum/CartPendulum.xml">Cart with Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
+<li> <a href="../../domains/continuous/demo/NewtonsCradle/NewtonsCradlePerfectlyInelastic1.xml">Newton's Cradle with Perfectly Inelastic Collisions</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
+<li> <a href="../../domains/continuous/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimated.xml">Newton's Cradle with Configurable Parameters</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
+<li> <a href="../../domains/continuous/demo/NewtonsCradle/ParameterizedNewtonsCradleAnimatedNondeterministic.xml">Newton's Cradle with Balls Having Different Masses</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
+<li> <a href="../../domains/continuous/demo/Pendulum3D/Pendulum3D.xml">3D Pendulum</a> (Requires Java 3D, see the <a href="../../domains/gr/doc/main.htm">GR domain</a>)
 </ul>
 
 <li><i>New Discrete Event (DE)demonstration</i>:
@@ -183,7 +182,7 @@ demo illustrates use of nil tokens.
 </h2>
 A number of new and enhanced actor libraries are included in version 6.0
 You may also wish to refer to the
-<a href="../../../doc/codeDoc/ptolemy/actor/lib/package-summary.html">ptolemy.actor.lib</a>
+<a href="../../../doc/codeDoc/ptolemy/actor/lib/package-summary.html#in_browser">ptolemy.actor.lib</a>
 package, where most of the domain-polymorphic actors reside (domain-polymorphic actors are
 those that can be used in more than one domain).
 
@@ -193,7 +192,7 @@ those that can be used in more than one domain).
 <li><i>New generic actors</i>:
 <ul>
 <li><a href="ptdoc:ptolemy.actor.lib.DelayStart">DelayStart</a>
-<li><a href="ptdoc:ptolemy.actor.lib.FireAccumulator">FireAccumulator</a>
+<li>ptolemy.actor.lib.FireAccumulator <i>Removed</i>
 <li><a href="ptdoc:ptolemy.actor.lib.RemoveNilTokens">RemoveNilTokens</a>
 <li><a href="ptdoc:ptolemy.actor.lib.Triangular">Triangular</a>
 </ul>
@@ -207,7 +206,7 @@ those that can be used in more than one domain).
 
 <li><i>New Discrete Event (DE) actors</i>:
 <ul>
-<li><a href="ptdoc:ptolemy.domains.de.lib.UnionMerge">UnionMerge</a>
+<li>ptolemy.domains.de.lib.UnionMerge <i>Moved to ptolemy.actor.lib.UnionMerge</i>
 <li><a href="ptdoc:ptolemy.domains.de.lib.Wire">Wire</a>
 </ul>
 
@@ -227,7 +226,7 @@ those that can be used in more than one domain).
  <a
  href="ptdoc:ptolemy.vergil.actor.DocTableau">DocTableau</a>
  and other classes in vergil.actor and the
- <a href="ptdoc:doc.doclets.PtDoclet">PtDoclet</a> doclet.
+ <a href="../../../doc/codeDoc/doc/doclets/PtDoclet.html">PtDoclet</a> doclet.
 
 <li> Relation Groups
 Relations mediate connections between ports. For flexibility,
@@ -267,29 +266,29 @@ A preference system for UI related preferences, including:
 <a href="ptdoc:ptolemy.actor.gui.WelcomeWindowTableau">WelcomeWindowTableau</a>:
 An alternative start up screen infrastructure.
 
-<li><a href="ptdoc:ptolemy.actor.lib.hoc.AbstractCase">AbstractCase</a>,
+<li>ptolemy.actor.lib.hoc.AbstractCase <i>(Removed)</i>,
  <a href="ptdoc:ptolemy.actor.lib.hoc.MultiCompositeActor">MultiCompositeActor</a>,
  <a href="ptdoc:ptolemy.actor.lib.hoc.MultiCompositePort">MultiCompositePort</a>,
  <a href="ptdoc:ptolemy.actor.lib.hoc.Refinement">Refinement</a>,
  <a href="ptdoc:ptolemy.actor.lib.hoc.RefinementPort">RefinementPort</a>,
- <a href="ptdoc:ptolemy.domains.ct.kernel.CTCaseDirector">CTCaseDirector</a>,
- <a href="ptdoc:ptolemy.domains.ct.kernel.CTCase">CTCase</a>,
- <a href="ptdoc:ptolemy.domains.ct.kernel.CTRefinement">CTRefinement</a>,
- <a href="ptdoc:ptolemy.vergil.fsm.CaseGraphFrame">CaseGraphFrame</a>,
- <a href="ptdoc:ptolemy.vergil.fsm.CaseGraphTableau">CaseGraphTableau</a>,
-<a href="ptdoc:ptolemy.domains.fsm.modal.Case">Case</a>:
+ ptolemy.domains.ct.kernel.CTCaseDirector, 
+ ptolemy.domains.ct.kernel.CTCase,
+ ptolemy.domains.ct.kernel.CTRefinement,
+ ptolemy.vergil.fsm.CaseGraphFrame,
+ ptolemy.vergil.fsm.CaseGraphTableau,
+ ptolemy.domains.fsm.modal.Case:
 
  Used by the <a href="#Case">Case facility</a>.
 
 <li><a href="ptdoc:ptolemy.actor.TokenSentEvent">TokenSentEvent</a>,
     <a href="ptdoc:ptolemy.actor.TokenSentListener">TokenSentListener</a>:
     Two listeners created by Oscar Barney to help with
-    <a href="http://kepler-project.org#in_browser">Kepler</a>.
+    <a href="http://kepler-project.org#in_browser" target="_top">Kepler</a>.
 
 <li><a href="ptdoc:ptolemy.caltrop.ddi.DataflowWithRates">DataflowWithRates</a>,
  <a href="ptdoc:ptolemy.caltrop.ddi.DDFFactory">DDFFactory</a>,
  <a href="ptdoc:ptolemy.caltrop.ddi.DDF">DDF</a>,
- <a href="ptdoc:ptolemy.caltrop.ddi.util.DataflowWithRatesActorInterpreter">DataflowWithRatesActorInterpreter</a>:
+ ptolemy.caltrop.ddi.util.DataflowWithRatesActorInterpreter:
  Caltrop work by J&#246;rn W. Janneck, and Steve Neuendorffer
 
 <li><a href="ptdoc:ptolemy.data.expr.ASTPtUnionConstructNode">ASTPtUnionConstructNode</a>,
@@ -310,7 +309,7 @@ An alternative start up screen infrastructure.
     <br>"2:-2" (vhdl)
     <br>"5e-2" (length e exponent)
    </ul> 
-   <a href="ptdoc:ptolemy/math/FixPoint">FixPoint</a>:
+   <a href="ptdoc:ptolemy.math.FixPoint">FixPoint</a>:
    <ul> 
      <li> Provide "lossless" arithmetic operators. These operators
     will generate FixPoint results that "grow" if overflow occurs.
@@ -322,20 +321,20 @@ An alternative start up screen infrastructure.
 
 <li><a href="ptdoc:ptolemy.domains.csp.kernel.AbstractBranchController">AbstractBranchController</a>,
  <a href="ptdoc:ptolemy.domains.csp.kernel.BranchActor">BranchActor</a>,
- <a href="ptdoc:ptolemy.domains.csp.kernel.ConditionalBranchActor">ConditionalBranchActor</a>,
+ ptolemy.domains.csp.kernel.ConditionalBranchActor, 
  <a href="ptdoc:ptolemy.domains.csp.kernel.MultiwayBranchController">MultiwayBranchController</a>:
  Support for CSP changes
 
-<li><a href="ptdoc:ptolemy.domains.fsm.kernel.HSDirector">HSDirector</a>
-<li><a href="ptdoc:ptolemy.domains.fsm.kernel.HSFSMDirector">HSFSMDirector</a>
+<li>ptolemy.domains.fsm.kernel.HSDirector
+<li>ptolemy.domains.fsm.kernel.HSFSMDirector
 <li><a href="ptdoc:ptolemy.domains.sdf.kernel.CachedSDFScheduler">CachedSDFScheduler</a>
 
-<li><a href="ptdoc:ptolemy.domains.sr.kernel.IllegalOutputException">IllegalOutputException</a>,
-<a href="ptdoc:ptolemy.domains.sr/kernel/UnknownTokenException">UnknownTokenException</a>:
+<li>ptolemy.domains.sr.kernel.IllegalOutputException,
+ptolemy.domains.sr.kernel.UnknownTokenException:
   Synchronous/Reactive rework
 
 <li><a href="ptdoc:ptolemy.moml.LibraryBuilder">LibraryBuilder</a>:
-    Support for <a href="http://kepler-project.org#in_browser">Kepler</a>,
+    Support for <a href="http://kepler-project.org#in_browser" target="_top">Kepler</a>,
     added by Chad Berkeley.
 
 
@@ -367,7 +366,7 @@ to make regression tests that ensure that an exception is thrown.
  <a href="ptdoc:ptolemy.vergil.actor.PortTerminal">PortTerminal</a>,
  <a href="ptdoc:ptolemy.vergil.icon.ActorNameIcon">ActorNameIcon</a>,
  <a href="ptdoc:ptolemy.vergil.icon.NameIcon">NameIcon</a>,
- <a href="ptdoc:ptolemy.vergil.kernel.attributes/VisibleAttribute">VisibleAttribute</a>,
+ <a href="ptdoc:ptolemy.vergil.kernel.attributes.VisibleAttribute">VisibleAttribute</a>,
  <a href="ptdoc:ptolemy.vergil.toolbox.RotateOrFlipPorts">RotateOrFlipPorts</a>:
   Vergil features such as controllable port orientation.
   

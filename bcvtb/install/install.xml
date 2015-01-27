@@ -15,9 +15,9 @@
     -->
     <info>
         <appname>Building Controls Virtual Test Bed</appname>
-        <appversion>1.4.0</appversion>
+        <appversion>1.5.0</appversion>
 	<appsubpath>bcvtb</appsubpath>
-	<javaversion>1.6</javaversion>
+	<javaversion>1.8</javaversion>
         <authors>
             <author name="Michael Wetter" email="MWetter@lbl.gov"/>
             <author name="Thierry Stephane Nouidui" email="TSNouidui@lbl.gov"/>

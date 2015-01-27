@@ -1,6 +1,6 @@
 /* A validating parser.
 
- Copyright (c) 2010-2013 The Regents of the University of California.
+ Copyright (c) 2010-2014 The Regents of the University of California.
  All rights reserved.
  Permission is hereby granted, without written agreement and without
  license or royalty fees, to use, copy, modify, and distribute this
@@ -49,7 +49,7 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 67784 2013-10-26 16:53:27Z cxh $
+ @version $Id: ValidatingXMLParser.java 70402 2014-10-23 00:52:20Z cxh $
  @since Ptolemy II 10.0
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
@@ -121,6 +121,7 @@ public class ValidatingXMLParser extends DefaultHandler {
          *  otherwise return null.
          *  @exception SAXException If the MoML DTD cannot be created.
          */
+        @Override
         public InputSource resolveEntity(String publicID, String systemID)
                 throws SAXException {
             if (systemID
@@ -134,41 +135,51 @@ public class ValidatingXMLParser extends DefaultHandler {
     //===========================================================
     // SAX DocumentHandler methods
     //===========================================================
+    @Override
     public void setDocumentLocator(Locator l) {
     }
 
+    @Override
     public void startDocument() throws SAXException {
     }
 
+    @Override
     public void endDocument() throws SAXException {
     }
 
+    @Override
     public void startElement(String namespaceURI, String sName, // simple name
             String qName, // qualified name
             Attributes attrs) throws SAXException {
     }
 
+    @Override
     public void endElement(String namespaceURI, String sName, // simple name
             String qName // qualified name
-    ) throws SAXException {
+            ) throws SAXException {
     }
 
+    @Override
     public void characters(char[] buf, int offset, int len) throws SAXException {
     }
 
+    @Override
     public void ignorableWhitespace(char[] buf, int offset, int len)
             throws SAXException {
     }
 
+    @Override
     public void processingInstruction(String target, String data)
             throws SAXException {
     }
 
+    @Override
     public void error(SAXParseException exception) throws SAXParseException {
         warning(exception);
         throw exception;
     }
 
+    @Override
     public void warning(SAXParseException exception) throws SAXParseException {
         System.out.println("Warning: line " + exception.getLineNumber()
                 + ", uri " + exception.getSystemId());

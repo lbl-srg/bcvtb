@@ -1,6 +1,6 @@
 <html>
 <head>
-<!-- $Id: whatsNew8.0.htm 67069 2013-08-01 16:52:03Z cxh $ -->
+<!-- $Id: whatsNew8.0.htm 70409 2014-10-23 05:10:03Z cxh $ -->
 <!--
 
 This file has pointers to tours of what's new in version 8.0
@@ -239,7 +239,7 @@ Interfaces for Actor Networks</a>, <i>ACM
 Transactions on Embedded Computing Systems (TECS)</i>,
 7(3):1-35, April 2008.
 <li><a name="Zhou:07:Interface">Ye Zhou</a>
-<a href="http://chess.eecs.berkeley.edu/pubs/302.html#in_browser"><i>Interface Theories for Causality Analysis in Actor Networks</i></a>, PhD thesis,  University of
+<a href="http://chess.eecs.berkeley.edu/pubs/302.html#in_browser" target="_top"><i>Interface Theories for Causality Analysis in Actor Networks</i></a>, PhD thesis,  University of
 California, Berkeley, May, 2007.
 </ul>
 
@@ -276,7 +276,7 @@ replace CT.</p>
 <li>Hybrid Plant: <a href="../../domains/continuous/demo/HybridPlant/HybridPlant.xml">Deterministic</a>, 
 <a href="../../domains/continuous/demo/HybridPlant/RandomHybridPlant.xml">Random</a>
 <li><a href="../../domains/continuous/demo/Hysteresis/Hysteresis.xml">Hysteresis</a>
-<li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithBernoulliLosses.xml">HysteresisWithBernoulliLosses</a>
+<li>HysteresisWithBernoulliLosses (<i>Removed after Ptolemy II 8.0</i>
 <li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithRandomDelay.xml">HysteresisWithRandomDelay</a>
 <li><a href="../../domains/continuous/demo/Hysteresis/HysteresisWithRandomLosses.xml">HysteresisWithRandomLosses</a>
 <li><a href="../../domains/continuous/demo/LevelCrossingDetector/LevelCrossingDetector.xml">Level Crossing Detector</a>,
@@ -407,7 +407,7 @@ files in the XML format. For example, buttons on the tool bar or menu items spec
 to a certain application domain can be added that trigger user-defined actions. Those
 actions may be defined in Java classes or as MoML change requests to be applied to the
 model being edited.
-<p>Please see the <a href="../../../doc/codeDoc/ptolemy/actor/gui/properties/package-summary.html">
+<p>Please see the <a href="../../../doc/codeDoc/ptolemy/actor/gui/properties/package-summary.html#in_browser">
 ptolemy.actor.gui.properties</a> documentation for details.</p>
 <p>(Thomas Huining Feng)</p>
 </li>
@@ -446,10 +446,12 @@ LazyTypedCompositeActor is a replacement for TypedCompositeActor that does lazy 
 
 <li><i>Java Code Generation</i>
 <br>The code generation can generate Java code for SDF models that use a subset of Ptolemy actors.
-See <a href="../../codegen/java/README.txt">$PTII/ptolemy/codegen/java/README.txt</a> for details.
+See $PTII/ptolemy/codegen/java/README.txt for details.
+(<i> $PTII/ptolemy/codegen was replaced with $PTII/ptolemy/cg after Ptolemy II 8.0</i>)
 <ul>
-  <li><a href="../../codegen/java/actor/lib/embeddedJava/demo/CompiledCompositeActor/CompiledCompositeActor.xml">Expression demo with  Java CompiledCompositeActor</a>
-  <li><a href="../../codegen/java/actor/lib/embeddedJava/demo/Scale/Scale.xml">Scale with Embedded Java</a>
+  <li>$PTII/codegen/java/actor/lib/embeddedJava/demo/CompiledCompositeActor/CompiledCompositeActor.xml: Expression demo with  Java CompiledCompositeActor. Moved. See <a href="../../cg/lib/demo/CompiledCompositeActor/CompiledCompositeActor.xml">$PTII/ptolem/cg/lib/demo/CompiledCompositeActor/CompiledCompositeActor.xml</a>
+  <li>$PTII/ptolemy/codegen/java/actor/lib/embeddedJava/demo/Scale/Scale.xml: Scale with Embedded Java.
+<i>Moved. See <a href="../../cg/lib/demo/Scale/ScaleJava.xml">$PTII/ptolem/cg/lib/demo/ScaleActor/ScaleJava.xml</a></i>
 </ul>
 (Bert Rodiers, Christopher Brooks)</p>
 
@@ -469,7 +471,7 @@ controlled, on the Mac look in <code>~/Documents/Java Printing.pdf</code>.
 
 
 <h2><a name="demos">New demonstrations</a></h2>
-<!-- grep "Only in" /tmp/pt78.diff | grep 10.0.devel | grep demo | awk '{if ($4 !~ /\./) {print "<a href=\"" $3 "/" $4}}' | sed 's@:/@/@'| sed 's@src/ptII10.0.devel/ptolemy@../..@' | sed 's@/\([^/]*$\)@/\1/\1.xml">\1</a>@' | sort -->
+<!-- grep "Only in" /tmp/pt78.diff | grep 11.0.devel | grep demo | awk '{if ($4 !~ /\./) {print "<a href=\"" $3 "/" $4}}' | sed 's@:/@/@'| sed 's@src/ptII11.0.devel/ptolemy@../..@' | sed 's@/\([^/]*$\)@/\1/\1.xml">\1</a>@' | sort -->
 
 <h3>Discrete Event (DE)</h3>
 <ul>
@@ -498,20 +500,21 @@ controlled, on the Mac look in <code>~/Documents/Java Printing.pdf</code>.
 </ul>
 
 <h3><a name="pnCodegen">PN Code Generation</a></h3>
+<i>PN Code Generation was removed after Ptolemy II 8.0 because it never really worked in in 8.0</i>.
 <ul>
 <!-- Please keep the demos alphabetical -->
-<li><a href="../../codegen/c/domains/pn/demo/Gravitation/Gravitation.xml">Gravitation</a>
-<li><a href="../../codegen/c/domains/pn/demo/PNButterfly/PNButterfly.xml">PN Butterfly</a>
+<li>$PTII/ptolemy/codegen/c/domains/pn/demo/Gravitation/Gravitation.xml: Gravitation (<i>Removed after Ptolemy II 8.0</i>)
+<li>$PTII/ptolemy/codegen/c/domains/pn/demo/PNButterfly/PNButterfly.xml: PN Butterfly (<i>Removed after Ptolemy II 8.0</i>)
 </ul>
 
 <h3><a name="sdfCodegen">SDF Code Generation</a></h3>
 <ul>
 <!-- Please keep the demos alphabetical -->
-<li> <a href="../../codegen/c/domains/fsm/demo/Mod4Counter/Mod4Counter.xml">Mod4Counter</a>
-<li><a href="../../actor/lib/jni/demo/Scale/Scale.xml">Scale</a>
-<li><a href="../../actor/lib/jni/demo/Scale/ScaleWithEmbeddedCFileActor.xml">Scale with EmbeddedCFileActor</a>
-<li><a href="../../actor/lib/jni/demo/SimplePassPointer/SimplePassPointer.xml">Simple Pass Pointer</a>
-<li><a href="../../actor/lib/jni/demo/SimplePassPointer/SimplePassPointerWithECFA.xml">Simple Pass Pointer With ECFA</a>
+<li> $PTII/ptolemy/codegen/c/domains/fsm/demo/Mod4Counter/Mod4Counter.xml: Mod4Counter (<i>Removed after Ptolemy II 8.0, not supported in ptolemy/cg</i>)
+<li>$PTII/ptolemy/actor/lib/jni/demo/Scale/Scale.xml: Scale. Moved. See <a href="../../cg/lib/demo/Scale/ScaleC.xml">$PTII/ptolem/cg/lib/demo/Scale/ScaleC.xml</a>
+<li>$PTII/ptolemy/actor/lib/jni/demo/Scale/ScaleWithEmbeddedCFileActor.xml: Scale with EmbeddedCFileActor (<i>Removed after Ptolemy II 8.0</i>)
+<li>$PTII/ptolemy/actor/lib/jni/demo/SimplePassPointer/SimplePassPointer.xml: Simple Pass Pointer (<i>Removed after Ptolemy II 8.0</i>)
+<li>$PTII/ptolemy/actor/lib/jni/demo/SimplePassPointer/SimplePassPointerWithECFA.xml: Simple Pass Pointer With ECFA (<i>Removed after Ptolemy II 8.0</i>)
 
 </ul>
 
@@ -528,23 +531,23 @@ See also the <a href="completeDemos.htm">Complete Demonstrations</a> page.
 <h2><a name="libraries">New and Enhanced Actor Libraries</a></h2>
 
 <!--
-diff -r -I '$Id:' -x alljtests.tcl -x allsimplejtests.tcl -x '*.jar' -x codeDoc -x '*.out' -x .svn -x '*.class' ptII10.0.devel ptII8.0.beta >& /tmp/p.diffs 
+diff -r -I '$Id:' -x alljtests.tcl -x allsimplejtests.tcl -x '*.jar' -x codeDoc -x '*.out' -x .svn -x '*.class' ptII11.0.devel ptII8.0.beta >& /tmp/p.diffs 
 
-grep "Only in" /tmp/p.diffs | grep java | sed 's@Only in ptII10.0.devel/@@' |  sed 's@/@.@g' | sed 's@.java@@' | awk -F : '{print "<li><a href="\"ptdoc:"" $1 "." $2 "\">" $2 "</a>"}' | sed 's/\. /./' | sed 's/> />/' -->
+grep "Only in" /tmp/p.diffs | grep java | sed 's@Only in ptII11.0.devel/@@' |  sed 's@/@.@g' | sed 's@.java@@' | awk -F : '{print "<li><a href="\"ptdoc:"" $1 "." $2 "\">" $2 "</a>"}' | sed 's/\. /./' | sed 's/> />/' -->
 
 <ul>
 <li><i>New Domain Polymorphic actors</i>:
 
   <ul>
-    <li><a href="ptdoc:ptolemy.actor.lib.ClockSensor">ClockSensor</a>
+    <li>ptolemy.actor.lib.ClockSensor (<i>Removed after Ptolemy II 8.0</i>)
     <li><a href="ptdoc:ptolemy.actor.lib.ConfigurationSelect">ConfigurationSelect</a>
     <li><a href="ptdoc:ptolemy.actor.lib.ConfigurationSwitch">ConfigurationSwitch</a>
     <li><a href="ptdoc:ptolemy.actor.lib.DiscreteClock">DiscreteClock</a>
     <li><a href="ptdoc:ptolemy.actor.lib.ExecutionTime">ExecutionTime</a>
 
-    <li><a href="ptdoc:ptolemy.actor.lib.logic.FuzzyLogic">FuzzyLogic</a>
+    <li><ptolemy.actor.lib.logic.FuzzyLogic (<i>Removed after Ptolemy II 8.0</i>)
     (Uses Edward Sarzonov's GPL'd Java Fuzzy Engine.  The FuzzyEngine distribution may be found at
-    <a href="http://people.clarkson.edu/~esazonov/FuzzyEngine.htm#in_browser">http://people.clarkson.edu/~esazonov/FuzzyEngine.htm</a>
+    <a href="http://people.clarkson.edu/~esazonov/FuzzyEngine.htm#in_browser" target="_top">http://people.clarkson.edu/~esazonov/FuzzyEngine.htm</a>
 
     <li><a href="ptdoc:ptolemy.actor.lib.GetCausalityInterface">GetCausalityInterface</a>
     <li><a href="ptdoc:ptolemy.actor.lib.MovingMaximum">MovingMaximum</a>
@@ -573,31 +576,31 @@ grep "Only in" /tmp/p.diffs | grep java | sed 's@Only in ptII10.0.devel/@@' |  s
     <li><a href="ptdoc:ptolemy.actor.lib.database.SQLStatement">SQLStatement</a>
   </ul>
 
-<li>Codegen
+<li>Codegen (<i> $PTII/ptolemy/codegen was replaced with $PTII/ptolemy/cg after Ptolemy II 8.0</i>)
 <ul>
-<li><a href="ptdoc:ptolemy.actor.lib.jni.CodegenActor">CodegenActor</a>
-<li><a href="ptdoc:ptolemy.actor.lib.jni.EmbeddedCFileActor">EmbeddedCFileActor</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.Interpolator">Interpolator</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.OrderedMerge">OrderedMerge</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.conversions.StringToUnsignedByteArray">StringToUnsignedByteArray</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.gui.TimedPlotter">TimedPlotter</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.hoc.MultiCompositePort">MultiCompositePort</a>
-<li><a href="ptdoc:ptolemy.codegen.c.actor.lib.hoc.RefinementPort">RefinementPort</a>
-<li><a href="ptdoc:ptolemy.codegen.c.domains.fsm.modal.ModalPort">ModalPort</a>
-<li><a href="ptdoc:ptolemy.codegen.c.domains.fsm.modal.RefinementPort">RefinementPort</a>
-<li><a href="ptdoc:ptolemy.codegen.c.domains.fsm.modal.TransitionRefinementPort">TransitionRefinementPort</a>
-<li><a href="ptdoc:ptolemy.codegen.actor.Director">Director</a>
-<li><a href="ptdoc:ptolemy.codegen.kernel.PortCodeGenerator">PortCodeGenerator</a>
+<li>ptolemy.actor.lib.jni.CodegenActor
+<li>ptolemy.actor.lib.jni.EmbeddedCFileActor
+<li>ptolemy.codegen.c.actor.lib.Interpolator
+<li>ptolemy.codegen.c.actor.lib.OrderedMerge
+<li>ptolemy.codegen.c.actor.lib.conversions.StringToUnsignedByteArray
+<li>ptolemy.codegen.c.actor.lib.gui.TimedPlotter
+<li>ptolemy.codegen.c.actor.lib.hoc.MultiCompositePort
+<li>ptolemy.codegen.c.actor.lib.hoc.RefinementPort
+<li>ptolemy.codegen.c.domains.fsm.modal.ModalPort
+<li>ptolemy.codegen.c.domains.fsm.modal.RefinementPort
+<li>ptolemy.codegen.c.domains.fsm.modal.TransitionRefinementPort
+<li>ptolemy.codegen.actor.Director
+<li>ptolemy.codegen.kernel.PortCodeGenerator
 <li>The code generator has been extended so that Java code may be generated for a model.
   <!-- FIXME: need demos -->
   <ul>
-  <li><a href="../../../doc/codeDoc/ptolemy/actor/lib/embeddedJava/package-summary.html">ptolemy.actor.lib.embeddedJava</a>
-  <li><a href="../../../doc/codeDoc/ptolemy/codegen/java/actor/package-summary.html">ptolemy.codegen.java.actor</a>
-  <li><a href="../../../doc/codeDoc/ptolemy/codegen/java/kernel/package-summary.html">ptolemy.codegen.java.kernel</a>
-  <li><a href="../../../doc/codeDoc/ptolemy/codegen/java/domains/modal/kernel/package-summary.html">ptolemy.codegen.java.domains.modal.kernel</a>
-  <li><a href="../../../doc/codeDoc/ptolemy/codegen/java/domains/sdf/kernel/package-summary.html">ptolemy.codegen.java.domains.sdf.kernel</a>
-  <li><a href="../../../doc/codeDoc/ptolemy/codegen/java/domains/sdf/lib/package-summary.html">ptolemy.codegen.java.domains.sdf.lib</a>
-  <li><a href="ptdoc:ptolemy.copernicus.applet.JarSigner">JarSigner</a>
+  <li>ptolemy.actor.lib.embeddedJava
+  <li>ptolemy.codegen.java.actor
+  <li>ptolemy.codegen.java.kernel
+  <li>ptolemy.codegen.java.domains.modal.kernel
+  <li>ptolemy.codegen.java.domains.sdf.kernel
+  <li>ptolemy.codegen.java.domains.sdf.lib
+  <li>ptolemy.copernicus.applet.JarSigner
   </ul> 
 </ul>
 </li>
@@ -642,7 +645,7 @@ grep "Only in" /tmp/p.diffs | grep java | sed 's@Only in ptII10.0.devel/@@' |  s
 <li>ptolemy.actor
 
   <ul>
-  <li><a href="ptdoc:ptolemy.actor.CausalityMarker">CausalityMarker</a>
+  <li><ptolemy.actor.CausalityMarker
   <li><a href="ptdoc:ptolemy.actor.DoNothingDirector">DoNothingDirector</a>
   <li><a href="ptdoc:ptolemy.actor.LazyTypedCompositeActor">LazyTypedCompositeActor</a>
   <li><a href="ptdoc:ptolemy.actor.RelationWidthInference">RelationWidthInference</a>
@@ -684,7 +687,7 @@ Ptera.
     <li><a href="ptdoc:ptolemy.actor.gt.ingredients.operations.BooleanOperationElement">BooleanOperationElement</a>
     <li><a href="ptdoc:ptolemy.actor.gt.ingredients.operations.PortCreationOperation">PortCreationOperation</a>
     <li><a href="ptdoc:ptolemy.actor.gt.ingredients.operations.PortRemovalOperation">PortRemovalOperation</a>
-    <li><a href="ptdoc:ptolemy.actor.gt.util.RecursiveFileFilter">RecursiveFileFilter</a>
+    <li>ptolemy.actor.gt.util.RecursiveFileFilter (<i>Removed after Ptolemy II 8.0, see <a href="ptdoc:ptolemy.util.RecursiveFileFilter">ptolemy.util.RecursiveFileFilter</i>)
 </ul>
 </li>
 
@@ -725,25 +728,21 @@ Ptera.
   </ul>
 </li>
 
-<li>ptolemy.domains.fsm  
+<li>ptolemy.domains.fsm. (<i>The FSM domain was removed after Ptolemy II 8.0, see domains/modal instead</i>)
   <ul>
-    <li><a href="ptdoc:ptolemy.domains.fsm.kernel.ConfigurableEntity">ConfigurableEntity</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.kernel.Configurer">Configurer</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.kernel.ContainmentExtender">ContainmentExtender</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.kernel.FSMCausalityInterface">FSMCausalityInterface</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.kernel.RefinementActor">RefinementActor</a>
-  </ul>
-
-<li>ptolemy.domains.modal  
-  <ul>
-    <li><a href="ptdoc:ptolemy.domains.fsm.modal.MirrorCausalityInterface">MirrorCausalityInterface</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.modal.RefinementExtender">RefinementExtender</a>
-    <li><a href="ptdoc:ptolemy.domains.fsm.modal.RefinementSuggestion">RefinementSuggestion</a>
-    <li><a href="ptdoc:ptolemy.gui.PtGUIUtilities">PtGUIUtilities</a>
+    <li>ptolemy.domains.fsm.kernel.ConfigurableEntity</li>
+    <li>ptolemy.domains.fsm.kernel.Configurer</li>
+    <li>ptolemy.domains.fsm.kernel.ContainmentExtender</li>
+    <li>ptolemy.domains.fsm.kernel.FSMCausalityInterface</li>
+    <li>ptolemy.domains.fsm.kernel.RefinementActor</li>
+    <li>ptolemy.domains.fsm.modal.MirrorCausalityInterface</li>
+    <li>ptolemy.domains.fsm.modal.RefinementExtender<li>
+    <li>ptolemy.domains.fsm.modal.RefinementSuggestion</li>
   </ul>
 </li>
 <li>ptolemy.gui  
   <ul>
+    <li><a href="ptdoc:ptolemy.gui.PtGUIUtilities">PtGUIUtilities</a>
     <li><a href="ptdoc:ptolemy.gui.QueryChooser">QueryChooser</a>
     <li><a href="ptdoc:ptolemy.gui.QueryChooserHelper">QueryChooserHelper</a>
     <li><a href="ptdoc:ptolemy.gui.SettableQueryChooser">SettableQueryChooser</a>
@@ -755,7 +754,7 @@ Ptera.
 <li>ptolemy.kernel
   <ul>
      <li><a href="ptdoc:ptolemy.kernel.undo.UndoActionsList">UndoActionsList</a>
-     <li><a href="ptdoc:ptolemy.kernel.util.DecoratedAttribute">DecoratedAttribute</a>
+     <li>ptdoc:ptolemy.kernel.util.DecoratedAttribute (<i>Removed after Ptolemy II 8.0</i>)
      <li><a href="ptdoc:ptolemy.kernel.util.Decorator">Decorator</a>
      <li><a href="ptdoc:ptolemy.kernel.util.DropTargetHandler">DropTargetHandler</a>
      <li><a href="ptdoc:ptolemy.kernel.util.Flowable">Flowable</a>
@@ -779,7 +778,7 @@ Ptera.
 <li>ptolemy.util
   <ul>
     <li><a href="ptdoc:ptolemy.util.MultiHashMap">MultiHashMap</a>
-    <li><a href="ptdoc:ptolemy.util.MultiMap">MultiMap</a>
+    <li>ptolemy.util.MultiMap (<i>Removed after Ptolemy II 8.0</i>)
     <li><a href="ptdoc:ptolemy.util.OrderedResourceBundle">OrderedResourceBundle</a>
     <li><a href="ptdoc:ptolemy.util.RunnableExceptionCatcher">RunnableExceptionCatcher</a>
   </ul>
@@ -808,7 +807,7 @@ Ptera.
 <h2><a name="worksinprogress">Works in Progress</a></h2>
 <ul>
 <li> The experimental UI build in
-  <a href="../../../doc/codeDoc/ptolemy/actor/gui/run/package-summary.html">ptolemy.actor.gui.runJava</a></li>
+  <a href="../../../doc/codeDoc/ptolemy/actor/gui/run/package-summary.html#in_browser">ptolemy.actor.gui.runJava</a></li>
 
 </ul>
 <h2><a name="bugs">Bug fixes</a></h2>
@@ -839,7 +838,7 @@ For the current list of bugs, see <a href="http://chess.eecs.berkeley.edu/ptexte
 
   </tr> 
     <td>ptolemy.actor.lib.CodegenActor</td>
-    <td><a href="ptdoc:ptolemy.actor.lib.jni.CodegenActor">ptolemy.actor.lib.jni.CodegenActor</a></td>
+    <td>ptolemy.actor.lib.jni.CodegenActor</a></td>
   <tr>
 
   </tr> 
@@ -849,22 +848,22 @@ For the current list of bugs, see <a href="http://chess.eecs.berkeley.edu/ptexte
 
   <tr>
    <td>ptolemy.actor.lib.gui.ModelDisplay</td>
-   <td><a href="ptdoc:ptolemy.vergil.actor.lib.ModelDisplay">ptolemy.vergil.actor.lib.ModelDisplay</a></td>
+   <td>ptolemy.vergil.actor.lib.ModelDisplay</td>
   </tr> 
 
   <tr>
    <td>ptolemy.codegen.c.actor.lib.CodegenActor was moved to</td>
-   <td><a href="ptdoc:ptolemy.actor.lib.jni.CodegenActor">ptolemy.actor.lib.jni.CodegenActor</a></td>
+   <td>ptolemy.actor.lib.jni.CodegenActor</td>
   <tr>
 
   </tr> 
     <td>ptolemy.codegen.c.actor.lib.gui.LEDMatrix</td>
-    <td><a href="ptdoc:ptolemy.codegen.c.vergil.actor.lib.LEDMatrix">ptolemy.codegen.c.vergil.actor.lib.LEDMatrix</a></td>
+    <td>ptolemy.codegen.c.vergil.actor.lib.LEDMatrix</td>
   <tr>
 
   </tr> 
     <td>ptolemy.codegen.kernel.Director</td>
-    <td><a href="ptdoc:ptolemy.codegen.actor.Director">ptolemy.codegen.actor.Director</a></td>
+    <td>ptolemy.codegen.actor.Director</td>
   </tr> 
 
   <tr>
@@ -894,7 +893,7 @@ For the current list of bugs, see <a href="http://chess.eecs.berkeley.edu/ptexte
 
   <tr>
    <td>ptolemy.vergil.kernel.ConfigureUnitsAction</td>
-   <td><a href="ptdoc:ptolemy.vergil.kernel.unit.ConfigureUnitsAction">ConfigureUnitsAction</a></td>
+   <td>ptolemy.vergil.kernel.unit.ConfigureUnitsAction</td>
   </tr>
 
   <tr>
