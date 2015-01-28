@@ -119,9 +119,9 @@ public class MyRamp extends SequenceSource {
     /** If the argument is the <i>init</i> parameter, then reset the
      *  state to the specified value.
      *  @param attribute The attribute that changed.
-     *  @throws IllegalActionException If <i>init<i> cannot be evaluated
-     *   or cannot be converted to the output type, or if the superclass
-     *   throws it.
+     *  @throws IllegalActionException If <i>init</i> cannot be evaluated
+     *  or cannot be converted to the output type, or if the superclass
+     *  throws it.
      */
     public void attributeChanged(Attribute attribute)
             throws IllegalActionException {
