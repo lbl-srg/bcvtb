@@ -21,19 +21,19 @@ fi
 ##############################################################
 # Checking for BCVTB dll's to be installed Dymola
 
-if [ ! -f ${DYMPAT}/bin/lib/libbcvtb_modelica.so ]; then
-    echo "Error: Expected file ${DYMPAT}/bin/lib/libbcvtb_modelica.so"
+if [ ! -f ${DYMPAT}/bin/lib64/libbcvtb_modelica.so ]; then
+    echo "Error: Expected file ${DYMPAT}/bin/lib64/libbcvtb_modelica.so"
     echo "       You may need to copy"
     echo "       $BCVTB_HOME/lib/modelica/libbcvtb_modelica.so"
-    echo "       to ${DYMPAT}/bin/lib"
+    echo "       to ${DYMPAT}/bin/lib64"
     echo "       Exit with error."
     exit 1
 fi
-if [ ! -f ${DYMPAT}/bin/lib/libbcvtb.so ]; then
-    echo "Error: Expected file ${DYMPAT}/bin/lib/libbcvtb.so"
+if [ ! -f ${DYMPAT}/bin/lib64/libbcvtb.so ]; then
+    echo "Error: Expected file ${DYMPAT}/bin/lib64/libbcvtb.so"
     echo "       You may need to copy"
     echo "       $BCVTB_HOME/lib/util/libbcvtb.so"
-    echo "       to ${DYMPAT}/bin/lib"
+    echo "       to ${DYMPAT}/bin/lib64"
     echo "       Exit with error."
     exit 1
 fi
@@ -59,7 +59,7 @@ done
 ##############################################################
 # Checking if dymosim.exe and dsin.txt exist
 if [[ -f "dymosim" && -f "dsin.txt" ]]; then
-    export LD_LIBRARY_PATH=${DYMPAT}/bin/lib
+    export LD_LIBRARY_PATH=${DYMPAT}/bin/lib64
     ./dymosim -s
     exiVal=$?
 else
