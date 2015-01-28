@@ -32,6 +32,10 @@ Update Ptolemy files (to write version number into Ptolemy)
  - Commit changes
     svn commit -m "Updated version number"
 
+
+Update version number of EnergyPlus to be displayed on start page in
+ - lib/ptII
+
 Run 
   cleanfilesystem
 
