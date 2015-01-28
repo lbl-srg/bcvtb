@@ -18,7 +18,6 @@ public class GetPath
     /** Main method.
      *
      * @param args No arguments are used by this method.
-     * @throws IOException
      */
     public static void main(String[] args){
 	Map<String, String> envVar = System.getenv();
