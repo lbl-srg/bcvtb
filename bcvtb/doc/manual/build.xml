@@ -7,7 +7,7 @@
    <!-- path for xslt processor  -->
    <path id="xslt.processor.classpath">
      <pathelement path="/usr/share/java/saxon.jar" />
-     <pathelement path="/usr/share/java/docbook-xsl-saxon_1.00.jar"/>
+     <pathelement path="/usr/share/java/docbook-xsl-saxon.jar"/>
    </path>
    <property name="html.dir" value="www"/>
 
