@@ -27,6 +27,9 @@ Update version number in
 
 
 Update Ptolemy files (to write version number into Ptolemy)
+Note: expat needs to be installed and libexpat.so or libexpat.so.1 should 
+be found when running configure in PTII otherwise lib/ptII/lbnl/lbnl.jar won't be copied.
+This will cause all the BCVTB examples to fail.
  ant updatePtolemyFiles
 
  - Commit changes
