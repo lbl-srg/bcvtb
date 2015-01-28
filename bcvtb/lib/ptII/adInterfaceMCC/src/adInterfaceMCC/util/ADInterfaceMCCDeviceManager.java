@@ -172,7 +172,7 @@ public class ADInterfaceMCCDeviceManager
      *
      *@param s path of configuration file.
      *@return ArrayList containing ADInterfaceMCCObjectTypes.
-     *@exception ParserConfigurationRxception if errors occur in configuring parser. 
+     *@exception ParserConfigurationException if errors occur in configuring parser. 
      *@exception SAXException if errors occur in parsing configuration file.
      *@exception IOException if I/O exception occurs in parsing configuration file. 
      */
@@ -232,7 +232,6 @@ public class ADInterfaceMCCDeviceManager
      *
      *@param prop_arr arraylist with elements of ADInterfaceMCCObjectType.
      *@return arraylist with elements of ProcessBuilder for writing property to device.
-     * @throws IOException if the inputs and outputs are not valid. 
      */
     public ArrayList<ProcessBuilder> getProcesses(ArrayList<ADInterfaceMCCObjectType> prop_arr) 
     {
