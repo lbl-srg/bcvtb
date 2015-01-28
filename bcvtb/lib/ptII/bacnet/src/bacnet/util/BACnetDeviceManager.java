@@ -457,12 +457,7 @@ public class BACnetDeviceManager
      *
      *@return  interger arraylist with the elements of device instance number  
      *            of those devices found in the network
-     *@exception IOException if errors occur while executing globalwi 
-     *            binary or while converting instance number from string to integer
-     *@exception NullPointerException if some of the command lists 
-     *            passed to globalwi are null
-     *@exception IndexOutOfBoundsException if the command list passed to glabalwi is empty
-      @exception SecurityException if creation of the globalwi subprocess is not allowed
+     *@exception IllegalActionException if an error occurs.
      */
     public ArrayList<Integer> findDevice() throws IllegalActionException
     {
@@ -544,7 +539,7 @@ public class BACnetDeviceManager
      *
      *@param s path of configuration file
      *@return ArrayList containing BACnetObjectTypes
-     *@exception ParserConfigurationRxception if errors occur in configuring parser 
+     *@exception ParserConfigurationException if errors occur in configuring parser 
      *@exception SAXException if errors occur in parsing configuration file
      *@exception IOException if I/O exception occurs in parsing configuration file 
      */
@@ -619,7 +614,7 @@ public class BACnetDeviceManager
      *@param bot_arr ArrayList containing XML configuration file
      *@param dev_inst device instance number
      *@return object_array ArrayList with elements of BACnetObject
-     *@exception IOException if error occurs while trying to convert object instance 
+     *@exception NumberFormatException if error occurs while trying to convert object instance 
      *           number from string  to integer
      *
      */

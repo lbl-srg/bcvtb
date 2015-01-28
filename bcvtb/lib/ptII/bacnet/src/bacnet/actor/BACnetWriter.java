@@ -128,7 +128,7 @@ public class BACnetWriter extends BACnet {
      *   @param name The name of this actor
      *   @exception IllegalActionException If the actor cannot be 
      *   contained by the proposed container.
-     *   @exception NameDuplicateException If the container already has
+     *   @exception NameDuplicationException If the container already has
      *   an actor with this name
      */
     public BACnetWriter(CompositeEntity container, String name)
