@@ -283,7 +283,7 @@
 	    <!-- Rather than expanding ${BCVTB_SDKLib_DIR}, the build.xml file adds the path to the working directory to ${BCVTB_SDKLib_DIR}. This causes -->
 	    <!-- the build.xml file to not longer find the path to the Lib. The work-around is currently to hardwired the path in the build.xml file. -->
 	    <libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/>
-	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/>  -->
+	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/> -->
 	</cpptasks:cc>
 
         <cpptasks:cc outtype="executable" subsystem="console" outfile="${bindir}/bacrp${extension}">
@@ -314,7 +314,7 @@
 	    <!-- Rather than expanding ${BCVTB_SDKLib_DIR}, the build file adds the path to the working directory to ${BCVTB_SDKLib_DIR}. This causes -->
 	    <!-- the build.xml file to not longer find the path to the Lib. The work-around is currently to hardwired the path in the build.xml file. -->
 	    <libset dir="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" libs="${BCVTB_SDKLibs}" if="windows"/>
-	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/>  -->
+	    <!-- <libset dir="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\x64" libs="${BCVTB_SDKLibs}" if="windows"/> -->
         </cpptasks:cc>
     </target>
     <!--Build-->
