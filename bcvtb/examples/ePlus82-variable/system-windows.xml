@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system-windows" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="11.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
@@ -130,10 +130,10 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="_editorFactory" class="ptolemy.vergil.toolbox.AnnotationEditorFactory">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{130.0, 375.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[25.0, 370.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={68, 148, 1317, 752}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={68, 148, 1329, 744}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1101, 628]">
     </property>
@@ -146,7 +146,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Plots an EnergyPlus object of type&#10;EnergyManagementSystem:OutputVariable">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[750.0, 365.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[750.0, 345.0]">
         </property>
     </property>
     <property name="Annotation3" class="ptolemy.vergil.kernel.attributes.TextAttribute">
@@ -162,7 +162,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="text" class="ptolemy.kernel.util.StringAttribute" value="Plots an EnergyPlus object of type&#10;Output:Variable">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[750.0, 300.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[750.0, 280.0]">
         </property>
     </property>
     <entity name="VectorDisassembler" class="ptolemy.actor.lib.VectorDisassembler">
@@ -185,7 +185,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="WallClockTime" class="ptolemy.actor.lib.WallClockTime">
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{205.0, 525.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[205.0, 540.0]">
         </property>
     </entity>
     <entity name="SimulationTime" class="ptolemy.actor.lib.gui.MonitorValue">
@@ -226,7 +226,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="TOut, TZone, 10*yShade, 0.01*ISolExt">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={881, 46, 559, 353}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={798, 51, 575, 368}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[559, 309]">
         </property>
@@ -376,6 +376,8 @@ This is for illustration purposes only and not needed by the above model.</text>
                 </property>
                 <property name="preemptive" class="ptolemy.data.expr.Parameter" value="false">
                 </property>
+                <property name="history" class="ptolemy.data.expr.Parameter" value="true">
+                </property>
             </relation>
             <relation name="relation4" class="ptolemy.domains.modal.kernel.Transition">
                 <property name="guardExpression" class="ptolemy.kernel.util.StringAttribute" value="ISolExt &gt; 10">
@@ -386,6 +388,8 @@ This is for illustration purposes only and not needed by the above model.</text>
                 </property>
                 <property name="gamma" class="ptolemy.data.expr.Parameter" value="1.6726148224824477">
                 </property>
+                <property name="history" class="ptolemy.data.expr.Parameter" value="true">
+                </property>
             </relation>
             <relation name="relation" class="ptolemy.domains.modal.kernel.Transition">
                 <property name="guardExpression" class="ptolemy.kernel.util.StringAttribute" value="ISolExt &gt; 200 &amp;&amp; TRoo &gt; 23">
@@ -395,6 +399,8 @@ This is for illustration purposes only and not needed by the above model.</text>
                 <property name="exitAngle" class="ptolemy.data.expr.Parameter" value="0.6283185307179586">
                 </property>
                 <property name="gamma" class="ptolemy.data.expr.Parameter" value="1.0819109851725899">
+                </property>
+                <property name="history" class="ptolemy.data.expr.Parameter" value="true">
                 </property>
             </relation>
             <relation name="relation2" class="ptolemy.domains.modal.kernel.Transition">
@@ -415,6 +421,8 @@ This is for illustration purposes only and not needed by the above model.</text>
                 <property name="exitAngle" class="ptolemy.data.expr.Parameter" value="1.257679437666481">
                 </property>
                 <property name="gamma" class="ptolemy.data.expr.Parameter" value="-1.8146978503041926">
+                </property>
+                <property name="history" class="ptolemy.data.expr.Parameter" value="true">
                 </property>
             </relation>
             <link port="noShade.incomingPort" relation="relation4"/>
@@ -503,11 +511,11 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="yShadeFromE+">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={303, 546, 559, 353}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={303, 546, 575, 368}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[559, 309]">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[720.0, 380.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[720.0, 360.0]">
         </property>
         <property name="_expertMode" class="ptolemy.kernel.util.SingletonAttribute">
         </property>
@@ -548,11 +556,11 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="extWinSolInc">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={881, 412, 559, 353}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={881, 412, 575, 368}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[559, 309]">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[720.0, 315.0]">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[720.0, 295.0]">
         </property>
         <property name="_expertMode" class="ptolemy.kernel.util.SingletonAttribute">
         </property>
@@ -567,6 +575,16 @@ This is for illustration purposes only and not needed by the above model.</text>
 <yRange min="0.0" max="738.1095815734"/>
 </plot>?>
         </configure>
+    </entity>
+    <entity name="Test" class="ptolemy.actor.lib.Test">
+        <property name="correctValues" class="ptolemy.data.expr.Parameter" value="{15.0000000000001, 15.0000000000001, 15.0000000000001, 15.0000000000001, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 14.9999999999999, 15.0000000000001, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0000000000002, 15.0, 15.0, 15.0000000000001, 15.0000000000002, 15.0000000000002, 15.0000000000002, 15.0000000000002, 15.0000000000002, 15.0000000000001, 15.0000000000002, 15.0, 14.9999999999998, 14.9999999999999, 15.0000000000001, 15.0000000000001, 20.3248409679098, 20.015528337329, 20.0001903816089, 20.0000187050679, 20.000001832462, 20.0000001780794, 20.0000000015999, 20.0000000000104, 20.0000000000001, 20.0, 20.0, 20.0499760634969, 20.1544920817691, 20.2815583882354, 20.4103544954153, 20.5323984262467, 20.650032824741, 20.7682263531698, 20.881458535533, 20.9907870421232, 21.1002221867902, 21.2006971253272, 21.2880691399247, 21.3656554786366, 21.4440048058897, 21.5232300698628, 21.5988207700003, 21.6762862819427, 21.7593901794502, 21.8456332805958, 21.8117237463881, 21.800505887798, 21.8598540749891, 21.9476257876855, 22.0261885359197, 22.0910958141135, 22.2719939895171, 22.430502894992, 22.5186882433246, 22.582381624655, 22.6605376787699, 22.756270488235, 22.8587175190449, 22.9631407770649, 23.0714518983737, 23.1713604688277, 23.25800320304, 23.3359656352487, 23.4089838177331, 23.4788164916373, 23.5457322098455, 23.6361270546338, 23.7570699268817, 23.895304688426, 23.9219900194514, 23.9652045026505, 24.0652635488672, 24.1658690732148, 24.0439820023752, 23.8612672197778, 23.714235184202, 23.6229716195137, 23.4914060617129, 23.3451394185508, 23.2947555331876, 23.3186838629308, 20.1176177086267, 17.2955174911111, 17.0596227153559, 16.8979366408084, 16.4814394465977, 15.9207429343786, 15.7574254610273, 15.7191549694326, 15.6719806503865, 15.598774954285, 15.5222553604655, 15.4563391697778, 15.3448488812289, 15.2538808456879, 15.1325941147505, 15.0412094488425, 15.0000887725232, 15.0000002232427, 15.0000000007298, 15.0000000000033, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0000000000001, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0000000000001, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000001, 14.9999999999999, 14.9999999999999, 15.0000000000002, 15.0, 15.0000000000002, 15.0000000000001, 15.0000000000001, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000002, 15.0000000000001, 15.0000000000003, 14.9999999999999, 15.0, 15.0, 15.0000000000001, 15.0000000000003, 15.0, 15.0000000000001, 15.0000000000001, 15.0, 15.0, 15.0000000000001, 20.3006400671704, 20.0137325785335, 20.0001619183128, 20.0000163988698, 20.0000016277409, 20.0000001573462, 20.0000000010696, 20.0000000000021, 20.0799299541667, 20.2740152173106, 20.5199296120219, 20.7701199240375, 21.0066278430824, 21.2399637639721, 21.4813852873468, 21.729375526955, 21.9802099837224, 22.233390844397, 22.4857574681686, 22.7391033742073, 22.995108031874, 23.2578115501989, 23.5276481134834, 23.7959003110371, 24.88926001496, 25.0999769044008, 25.3994575772018, 25.8915963491445, 26.129960072694, 26.3133524695409, 26.4369211751712, 26.5905681861839, 26.7820737431275, 26.873690345444, 26.8975847027362, 26.9176450225471, 27.0280315291229, 27.1354428552114, 27.1160122555873, 27.0660045940566, 27.0424030935242, 27.0332064707065, 27.0155355755479, 26.929428246671, 26.8511730975592, 26.8364492374913, 26.8512753235188, 26.8538701486073, 26.8309899864777, 26.7940604510687, 26.7532329263112, 26.6995173755354, 26.6343606686698, 26.5342013381733, 26.3657551788141, 26.2453460844126, 26.1660823026516, 26.1153394353209, 26.0704384994363, 26.019295786449, 25.9017859042139, 25.8281912507912, 25.7188463131602, 25.5959599358097, 25.5237746676634, 25.4888938912685, 22.2276437901724, 19.2436905997592, 19.0216172192541, 18.8719524088155, 18.443750391647, 17.8947700510354, 17.7098432214485, 17.6112991713636, 17.4834467607865, 17.3323570018493, 17.1874660687227, 17.0583598451179, 16.9459802166971, 16.8435407833246, 16.7414715406658, 16.6370369110528, 16.5318580504098, 16.4277205771383, 16.329580558623, 16.2339355471959, 16.1407721516977, 16.0472003964959, 15.9554954863425, 15.8640760347185, 15.7812957803196, 15.7073323476549, 15.6366503692715, 15.5651221343198, 15.4925700056484, 15.4049952974575, 15.3196499370172, 15.2288571884634, 15.1317665306973, 15.0342910064238, 15.0000623570129, 15.0000001781312, 15.0000000006438, 15.000000000003, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000001, 15.0, 15.0000000000001, 14.9999999999999, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000003, 14.9999999999999, 15.0000000000003, 14.9999999999999, 15.0, 15.0000000000002, 15.0, 15.0, 15.0, 20.3161083343909, 20.013139112667, 20.0001244768419, 20.0000117954159, 20.0000011106604, 20.0000001031327, 20.0000000003176, 20.006662001087, 20.1024666444524, 20.2439178398125, 20.3718048728185, 20.4736539185195, 20.5618901079258, 20.6475687253457, 20.7328846123218, 20.8244471141397, 20.9251006202107, 21.0312779442331, 21.1511104182023, 21.2771209385228, 21.4020872778874, 21.5076844406526, 21.6001542260156, 21.6930822428127, 21.7889677295239, 21.8727748308599, 21.9491283195761, 22.0253937724331, 22.1015900693342, 22.1750392845547, 22.1232094791107, 22.0862025993567, 22.1139694631136, 22.1756471998389, 22.2375441834529, 22.2912791757172, 22.4630426470933, 22.6166978173653, 22.7030183514872, 22.7525033221593, 22.7981974215477, 22.8478459735679, 22.8922758547602, 22.9282602895602, 22.9584362582061, 22.985722767233, 23.0107739005093, 23.0329945119599, 23.0540067395336, 23.0733223099553, 23.0899356261661, 23.1019813886101, 23.1088893504025, 23.1113499169554, 23.0034050634511, 22.9169980074882, 22.8946078457639, 22.900362859185, 22.9010368954416, 22.891073760283, 22.7803176583244, 22.7314489505641, 22.673298050251, 22.6111067338145, 22.562289133347, 22.5257735523089, 18.6315584108964, 15.4515049163016, 15.4401638293189, 15.3818185195257, 15.039873845415, 15.0000100568322, 15.0000001168954, 15.0000000016104, 15.0000000000249, 15.0000000000005, 15.0000000000001, 15.0000000000001, 15.0, 15.0, 15.0, 15.0000000000001, 15.0000000000001, 15.0000000000001, 15.0, 15.0, 15.0000000000001, 15.0, 15.0, 15.0, 15.0, 14.9999999999999, 15.0000000000001, 15.0, 15.0000000000002, 15.0, 15.0000000000002, 15.0000000000001, 14.9999999999998, 15.0000000000002, 15.0, 15.0, 15.0, 15.0000000000002, 15.0, 15.0, 15.0, 15.0000000000001, 15.0, 15.0, 15.0, 15.0000000000002, 15.0, 15.0, 15.0, 15.0000000000001, 15.0000000000001, 15.0, 15.0000000000002, 15.0, 14.9999999999999, 15.0000000000001, 15.0, 14.9999999999999, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0, 15.0, 14.9999999999999, 15.0, 15.0, 15.0000000000001, 14.9999999999999, 15.0, 15.0000000000001, 15.0000000000003, 15.0, 14.9999999999997, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 20.2370531040651, 20.0114039768943, 20.0001494531821, 20.0000162410693, 20.0000017510032, 20.0000001866948, 20.0000000037951, 20.0000000000667, 20.000000000001, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0512569922279, 20.1632319540623, 20.3022063192894, 20.4438762503326, 20.5850136480488, 20.7306481151552, 20.8836485043442, 21.0162300686215, 21.131881443381, 21.2461755266077, 21.4084686662624, 21.6356752067678, 21.9108806743173, 22.0754577232121, 22.2643188197824, 22.5473994474966, 22.7560829243512, 23.1318479301193, 23.4064743116427, 23.793739359116, 24.8157612886587, 25.0271391047627, 25.1469024482554, 25.2145323031406, 25.0794468496467, 24.851824030214, 24.5938997199513, 24.3394600182502, 24.2582083266415, 24.2960005243582, 24.3390699163922, 24.33362949576, 24.2998604317912, 24.2638884251857, 24.2078409060571, 24.1531915999506, 24.1045057093208, 23.929083718119, 23.7593871637865, 23.6475153753806, 23.5684768001236, 23.4841393310959, 23.3832482892328, 23.2602967151355, 23.213510294454, 23.1425117819908, 23.0592682537045, 23.0065436510189, 22.9796345707837, 19.6612005825235, 16.6967809050383, 16.4821857342333, 16.3313999455498, 15.8854396855211, 15.3155648685525, 15.1272866367515, 15.0001116755729, 15.0000003735501, 15.000000001504, 15.0000000000095, 15.0000000000001, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0000000000001, 15.0000000000001, 15.0000000000001, 15.0, 15.0, 15.0, 15.0000000000001, 14.9999999999999, 14.9999999999999, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001, 15.0, 15.0000000000001}">
+        </property>
+        <property name="tolerance" class="ptolemy.data.expr.Parameter" value="1.500000000000009E-8">
+        </property>
+        <property name="trainingMode" class="ptolemy.actor.parameters.SharedParameter" value="false">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[730.0, 425.0]">
+        </property>
     </entity>
     <relation name="relation2" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
@@ -643,4 +661,5 @@ This is for illustration purposes only and not needed by the above model.</text>
     <link port="ScaleISol.input" relation="relation8"/>
     <link port="ScaleISol.output" relation="relation10"/>
     <link port="PlotterSolarIrradiation.input" relation="relation8"/>
+    <link port="Test.input" relation="relation9"/>
 </entity>

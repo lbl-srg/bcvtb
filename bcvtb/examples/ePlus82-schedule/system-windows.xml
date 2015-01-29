@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system-windows" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="11.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
@@ -131,7 +131,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{130.0, 375.0}">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={142, 170, 1067, 730}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={103, 62, 1079, 722}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[851, 606]">
     </property>
@@ -144,7 +144,7 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
         <property name="legend" class="ptolemy.kernel.util.StringAttribute" value="TOut, TRoo, TSetHea, TSetCoo">
         </property>
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={878, 24, 559, 353}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={755, 41, 575, 368}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[559, 309]">
         </property>
@@ -590,7 +590,7 @@ The variables TH* are for heating and TC* are for cooling.</text></svg></configu
             </port>
         </entity>
         <entity name="SetPointPlotter" class="ptolemy.actor.lib.gui.XYPlotter">
-            <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={930, 378, 500, 344}, maximized=false}">
+            <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={930, 378, 516, 359}, maximized=false}">
             </property>
             <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[500, 300]">
             </property>
@@ -941,7 +941,7 @@ The variables TH* are for heating and TC* are for cooling.</text></svg></configu
         <link port="VectorAssembler.output" relation="relation2"/>
     </entity>
     <entity name="HistogramPlotter" class="ptolemy.actor.lib.gui.HistogramPlotter">
-        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={195, 196, 500, 378}, maximized=false}">
+        <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={195, 196, 516, 393}, maximized=false}">
         </property>
         <property name="_plotSize" class="ptolemy.actor.gui.SizeAttribute" value="[500, 334]">
         </property>
@@ -953,7 +953,7 @@ The variables TH* are for heating and TC* are for cooling.</text></svg></configu
 <plot>
 <title>HistogramPlotter</title>
 <xRange min="13.5" max="32.0"/>
-<yRange min="0.0" max="105.0"/>
+<yRange min="0.0" max="104.0"/>
 <barGraph width="0.5" offset="0.15"/>
 <bin width="1.0" offset="0.5"/>
 </plot>?>
@@ -963,6 +963,16 @@ The variables TH* are for heating and TC* are for cooling.</text></svg></configu
         <property name="_location" class="ptolemy.kernel.util.Location" value="{550.0, 295.0}">
         </property>
         <property name="_hideName" class="ptolemy.data.expr.SingletonParameter" value="true">
+        </property>
+    </entity>
+    <entity name="Test" class="ptolemy.actor.lib.Test">
+        <property name="correctValues" class="ptolemy.data.expr.Parameter" value="{25.6, 25.175, 24.75, 24.325, 23.9, 23.75, 23.6, 23.45, 23.3, 23.025, 22.75, 22.475, 22.2, 22.075, 21.95, 21.825, 21.7, 21.425, 21.15, 20.875, 20.6, 20.875, 21.15, 21.425, 21.7, 22.25, 22.8, 23.35, 23.9, 24.175, 24.45, 24.725, 25.0, 25.425, 25.85, 26.275, 26.7, 26.975, 27.25, 27.525, 27.8, 28.075, 28.35, 28.625, 28.9, 29.175, 29.45, 29.725, 30.0, 30.15, 30.3, 30.45, 30.6, 30.725, 30.85, 30.975, 31.1, 31.1, 31.1, 31.1, 31.1, 31.1, 31.1, 31.1, 31.1, 30.975, 30.85, 30.725, 30.6, 30.45, 30.3, 30.15, 30.0, 29.85, 29.7, 29.55, 29.4, 29.125, 28.85, 28.575, 28.3, 28.175, 28.05, 27.925, 27.8, 27.8, 27.8, 27.8, 27.8, 27.525, 27.25, 26.975, 26.7, 26.425, 26.15, 25.875, 25.6, 25.45, 25.3, 25.15, 25.0, 24.85, 24.7, 24.55, 24.4, 24.275, 24.15, 24.025, 23.9, 23.75, 23.6, 23.45, 23.3, 23.3, 23.3, 23.3, 23.3, 23.3, 23.3, 23.3, 23.3, 23.025, 22.75, 22.475, 22.2, 22.475, 22.75, 23.025, 23.3, 23.3, 23.3, 23.3, 23.3, 22.475, 21.65, 20.825, 20.0, 20.275, 20.55, 20.825, 21.1, 21.1, 21.1, 21.1, 21.1, 21.1, 21.1, 21.1, 21.1, 21.375, 21.65, 21.925, 22.2, 22.075, 21.95, 21.825, 21.7, 21.425, 21.15, 20.875, 20.6, 20.175, 19.75, 19.325, 18.9, 18.75, 18.6, 18.45, 18.3, 17.9, 17.5, 17.1, 16.7, 16.425, 16.15, 15.875, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.6, 15.45, 15.3, 15.15, 15.0, 15.0, 15.0, 15.0, 15.0, 14.725, 14.45, 14.175, 13.9, 13.75, 13.6, 13.45, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.3, 13.575, 13.85, 14.125, 14.4, 14.825, 15.25, 15.675, 16.1, 16.25, 16.4, 16.55, 16.7, 16.825, 16.95, 17.075, 17.2, 16.925, 16.65, 16.375, 16.1, 15.825, 15.55, 15.275, 15.0, 15.15, 15.3, 15.45, 15.6, 16.0, 16.4, 16.8, 17.2, 17.475, 17.75, 18.025, 18.3, 18.45, 18.6, 18.75, 18.9, 18.75, 18.6, 18.45, 18.3, 18.025, 17.75, 17.475, 17.2, 16.8, 16.4, 16.0, 15.6, 15.175, 14.75, 14.325, 13.9, 13.75, 13.6, 13.45, 13.3, 13.3, 13.3, 13.3, 13.3, 13.45, 13.6, 13.75, 13.9, 13.9, 13.9, 13.9, 13.9, 14.025, 14.15, 14.275, 14.4, 14.975, 15.55, 16.125, 16.7, 16.7, 16.7, 16.7, 16.7, 16.7, 16.7, 16.7, 16.7, 16.825, 16.95, 17.075, 17.2, 17.35, 17.5, 17.65, 17.8, 17.925, 18.05, 18.175, 18.3, 18.875, 19.45, 20.025, 20.6, 21.0, 21.4, 21.8, 22.2, 22.625, 23.05, 23.475, 23.9, 23.625, 23.35, 23.075, 22.8, 23.2, 23.6, 24.0, 24.4, 25.1, 25.8, 26.5, 27.2, 27.35, 27.5, 27.65, 27.8, 27.925, 28.05, 28.175, 28.3, 28.45, 28.6, 28.75, 28.9, 28.9, 28.9, 28.9, 28.9, 28.625, 28.35, 28.075, 27.8, 27.525, 27.25, 26.975, 26.7, 26.55, 26.4, 26.25, 26.1, 25.975, 25.85, 25.725, 25.6, 25.6, 25.6, 25.6, 25.6, 25.45, 25.3, 25.15, 25.0, 24.85, 24.7, 24.55, 24.4}">
+        </property>
+        <property name="tolerance" class="ptolemy.data.expr.Parameter" value="2.560000000000003E-8">
+        </property>
+        <property name="trainingMode" class="ptolemy.actor.parameters.SharedParameter" value="false">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[705.0, 240.0]">
         </property>
     </entity>
     <relation name="relation" class="ptolemy.actor.TypedIORelation">
@@ -1033,5 +1043,6 @@ The variables TH* are for heating and TC* are for cooling.</text></svg></configu
     <link port="VectorDisassembler2.input" relation="relation"/>
     <link port="VectorDisassembler2.output" relation="relation10"/>
     <link port="VectorDisassembler2.output" relation="relation11"/>
+    <link port="Test.input" relation="relation7"/>
     <link relation1="relation3" relation2="relation5"/>
 </entity>
