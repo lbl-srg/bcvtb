@@ -25,13 +25,20 @@
   <target name="dist" depends="dist-bcvtb,dist-EnergyPlus" 
   description="Generates the distribution file"/>
 
-  <target name="dist-bcvtb" depends="clean-bcvtb,pack-bcvtb" 
+  <target name="dist-bcvtb" depends="enable-training, clean-bcvtb, pack-bcvtb" 
   description="Generates the distribution file"/>
 
   <target name="dist-EnergyPlus" depends="clean-EnergyPlus,pack-EnergyPlus" 
   description="Generates the distribution file"/>
 
   <!-- BCVTB distribution -->
+
+  <!-- Set TrainingMode of Test actor to true for distribution -->
+  <target name="enable-training" 
+          description="Set the trainingMode of Test actor  to true">
+   <exec executable="./setTrainingTrue.sh" failonerror="true"/>
+  </target>
+
   <target name="pack-bcvtb" 
           description="Generates the BCVTB distribution file">
    <exec executable="izpack" failonerror="true">
