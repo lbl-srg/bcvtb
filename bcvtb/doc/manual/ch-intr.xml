@@ -6,7 +6,7 @@
  </para>
  <para>
   The Building Controls Virtual Test Bed (BCVTB) is a
-  software environment that allows expert users to couple
+  software environment that allows users to couple
   different simulation programs for co-simulation. For
   example, the BCVTB allows the simulation of a building and HVAC
   system in EnergyPlus and the control logic in Modelica or in
