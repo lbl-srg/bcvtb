@@ -36,9 +36,9 @@ rem Directory with include files that are needed to compile the ADInterfaceMCC s
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_JNI_DIR') do set BCVTB_JNI_DIR="%%i"
 rem Batch file that sets environment variables for Intel Fortran compiler
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_IFORT_BAT') do set BCVTB_IFORT_BAT="%%i"
-rem Path variable so that dll's can be found. Don't quote Path as it contain
+rem PATH variable so that dll's can be found. Don't quote PATH as it contain
 rem many entries.
-for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable Path') do set Path=%%i
+for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable PATH') do set PATH=%%i
 rem Get the flag that indicates whether the BACnet interface is available on this installation
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable haveBACnetALC') do set haveBACnetALC=%%i
 rem Get the flag that indicates whether the A/D interface is available on this installation
@@ -175,7 +175,7 @@ echo  in %BCVTB_HOME%\lib\adInterfaceMCC-stack\src\C\build.xml
 
 
 :SETVARS2
-@set Path=%Path%;%ANT_HOME%\bin
+@set PATH=%PATH%;%ANT_HOME%\bin
 @set CLASSPATH=%PTII%;%CLASSPATH%;%BCVTB_HOME%\lib\cpptasks.jar
 @set BCVTB_OS=windows 
 
@@ -197,7 +197,7 @@ IF %ERRORLEVEL%==0 (
 ) ELSE (
    echo **************************************************************
    echo *** Warning: Did not find matlab.
-   echo  If matlab is installed, add it to the Path
+   echo  If matlab is installed, add it to the PATH
    echo  variable in %BCVTB_HOME%\bin\systemVariables-windows.properties
 )
 del setenv.temp
