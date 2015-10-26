@@ -7,7 +7,10 @@
 BCVTBpath=..
 ESPR_PATH=`which bps`
 
-# Check wether ESP-r is installed and on the PATH
+sleep 1
+cp socket.cfg ${BCVTBpath}/cfg
+
+# Check whether ESP-r is installed and on the PATH
 if [ "${ESPR_PATH}x" == "x" ]; then
     echo "Error: Did not find ESP-r executable 'bps'."
     echo "       ESP-r directory must be on the PATH variable."
