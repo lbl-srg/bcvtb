@@ -20,7 +20,7 @@
   <!-- All -->
   <target name="all" if="have.matlab" description="Builds Simulink interface">
     <exec executable="matlab" failonerror="true" osfamily="unix">
-      <arg line="-nojvm -nodesktop -nosplash -logfile matlab.log -r compile"/>
+      <arg line="-nodesktop -nosplash -logfile matlab.log -r compile"/>
     </exec>
     <exec executable="matlab" failonerror="true" osfamily="windows">
       <!-- The flag -wait is a windows only option, which is required since otherwise,

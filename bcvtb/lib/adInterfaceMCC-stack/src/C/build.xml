@@ -25,8 +25,8 @@
 	  <!-- There is a bug in ant which causes the build.xml file to not work when the hardwired path is replaced by ${BCVTB_JNI_DIR}-->
 	  <!-- Rather than expanding ${BCVTB_JNI_DIR}, the build.xml file adds the path to the working directory to ${BCVTB_JNI_DIR}. This causes -->
 	  <!-- the build.xml file to not longer find the path to the Lib. The work-around is currently to hardwired the path in the build.xml file. -->
-      <includepath path="C:\Program Files\Java\jdk1.8.0_31\include"/>
-      <includepath path="C:\Program Files\Java\jdk1.8.0_31\include\win32"/>	  
+      <includepath path="C:\Program Files\Java\jdk1.8.0_77\include"/>
+      <includepath path="C:\Program Files\Java\jdk1.8.0_77\include\win32"/>	  
     </cpptasks:cc>
   </target>
 
