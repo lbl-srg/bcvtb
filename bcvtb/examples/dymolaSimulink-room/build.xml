@@ -6,7 +6,7 @@
   <target name="clean" description="Deletes generated files">
     <delete verbose="true">
       <fileset dir="dymola"   includes="bcvtb_modelica.*, *.dll, *.so, bcvtb.h"/>
-      <fileset dir="dymola"   includes="dsmodel.c, buildlog.txt, dymosim.exe, dymosim"/>
+      <fileset dir="dymola"   includes="dsmodel.c, buildlog.txt, dymosim.exe, dymosim, dymosim.exp, dymosim.lib"/>
       <fileset dir="dymola"   includes="status, success, stop, failure, request"/>
       <fileset dir="dymola"   includes="status., success., stop., failure., request."/>
       <fileset dir="dymola"   includes="dsin.txt, dsres.mat, dslog.txt, dsfinal.txt"/>
