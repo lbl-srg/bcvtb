@@ -2,7 +2,7 @@
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
 <entity name="system-windows" class="ptolemy.actor.TypedCompositeActor">
-    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.1.devel">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="11.0.devel">
     </property>
     <property name="SDF Director" class="ptolemy.domains.sdf.kernel.SDFDirector">
         <property name="iterations" class="ptolemy.data.expr.Parameter" value="(endTime-beginTime)/timeStep+1">
@@ -135,13 +135,13 @@ This is for illustration purposes only and not needed by the above model.</text>
         <property name="_location" class="ptolemy.kernel.util.Location" value="[-380.0, 250.0]">
         </property>
     </property>
-    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={83, 52, 1259, 764}, maximized=false}">
+    <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={83, 52, 1267, 763}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[1039, 647]">
     </property>
     <property name="_vergilZoomFactor" class="ptolemy.data.expr.ExpertParameter" value="1.0091838502859123">
     </property>
-    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{114.73978365384619, 152.30468750000003}">
+    <property name="_vergilCenter" class="ptolemy.data.expr.ExpertParameter" value="{114.73978365384625, 152.30468750000009}">
     </property>
     <entity name="Plotter" class="ptolemy.actor.lib.gui.TimedPlotter">
         <property name="fillOnWrapup" class="ptolemy.data.expr.Parameter" value="false">
@@ -385,8 +385,6 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="RunTime" class="ptolemy.actor.lib.gui.MonitorValue">
-        <property name="value" class="ptolemy.data.expr.Parameter" value="0.484">
-        </property>
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
         </property>
@@ -404,8 +402,6 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="SimulationTime" class="ptolemy.actor.lib.gui.MonitorValue">
-        <property name="value" class="ptolemy.data.expr.Parameter" value="21600.0">
-        </property>
         <doc>Monitor and display values</doc>
         <property name="displayWidth" class="ptolemy.data.expr.Parameter" value="20">
         </property>
@@ -436,352 +432,622 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </entity>
     <entity name="FMU-TwoRooms" class="ptolemy.actor.lib.fmi.FMUImport">
-        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="$PTII\..\..\examples\fmu-room\fmus\windows\32\Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRooms.fmu">
+        <property name="fmuFile" class="ptolemy.data.expr.FileParameter" value="fmus/windows/64/Buildings_0Utilities_0IO_0BCVTB_0Examples_0TwoRoomsFMU.fmu">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="[55.0, 145.0]">
-        </property>
-        <property name="tau" class="ptolemy.data.expr.Parameter" value="7200.0">
-        </property>
-        <property name="Q_flow_nom" class="ptolemy.data.expr.Parameter" value="100.0">
-        </property>
-        <property name="UA" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="TStart" class="ptolemy.data.expr.Parameter" value="283.15">
-        </property>
-        <property name="C1_C" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="UA1_G" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="TOut1_T" class="ptolemy.data.expr.Parameter" value="278.15">
-        </property>
-        <property name="GaiQ_flow_nom1_k" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="UA2_G" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="C2_C" class="ptolemy.data.expr.Parameter" value="0.0">
-        </property>
-        <property name="TOut2_T" class="ptolemy.data.expr.Parameter" value="278.15">
-        </property>
-        <property name="GaiQ_flow_nom2_k" class="ptolemy.data.expr.Parameter" value="0.0">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="[45.0, 145.0]">
         </property>
         <port name="C1_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C1.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="der_C1_T_" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="der(C1.T)"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C1_der_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C1.der_T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C1_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C1.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C1_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C1.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_dT" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.dT"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_port_a_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.port_a.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_port_a_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.port_a.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_port_b_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.port_b.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA1_port_b_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA1.port_b.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TOut1_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TOut1.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TOut1_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TOut1.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_1_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_1.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_1_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_1.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_1_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_1.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="GaiQ_flow_nom1_u" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="GaiQ_flow_nom1.u"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="GaiQ_flow_nom1_y" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="GaiQ_flow_nom1.y"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_dT" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.dT"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_port_a_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.port_a.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_port_a_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.port_a.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_port_b_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.port_b.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="UA2_port_b_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="UA2.port_b.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C2_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C2.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="der_C2_T_" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="der(C2.T)"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C2_der_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C2.der_T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C2_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C2.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="C2_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="C2.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TOut2_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TOut2.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TOut2_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TOut2.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_2_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_2.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_2_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_2.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="Q_flow_2_port_Q_flow" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="Q_flow_2.port.Q_flow"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="GaiQ_flow_nom2_u" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="GaiQ_flow_nom2.u"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="GaiQ_flow_nom2_y" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="GaiQ_flow_nom2.y"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TRoo1_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TRoo1.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TRoo1_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TRoo1.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
-            <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
-            </property>
-        </port>
-        <port name="TRoo1_port_Q_flow" class="ptolemy.actor.TypedIOPort">
-            <property name="output"/>
-            <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TRoo2_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TRoo2.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="TRoo2_port_T" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="TRoo2.port.T"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
-            <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
-            </property>
-        </port>
-        <port name="TRoo2_port_Q_flow" class="ptolemy.actor.TypedIOPort">
-            <property name="output"/>
-            <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="to_degC1_Kelvin" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="to_degC1.Kelvin"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="to_degC1_Celsius" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="to_degC1.Celsius"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="to_degC2_Kelvin" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="to_degC2.Kelvin"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
         </port>
         <port name="to_degC2_Celsius" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
+            <display name="to_degC2.Celsius"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
             <property name="_hide" class="ptolemy.data.expr.SingletonParameter" value="true">
             </property>
@@ -789,21 +1055,49 @@ This is for illustration purposes only and not needed by the above model.</text>
         <port name="u_1" class="ptolemy.actor.TypedIOPort">
             <property name="input"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
         </port>
         <port name="u_2" class="ptolemy.actor.TypedIOPort">
             <property name="input"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
         </port>
         <port name="TRoo_1" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="dependencies" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
         </port>
         <port name="TRoo_2" class="ptolemy.actor.TypedIOPort">
             <property name="output"/>
             <property name="_type" class="ptolemy.actor.TypeAttribute" value="double">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
+            </property>
+            <property name="dependencies" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+            <property name="_showName" class="ptolemy.data.expr.SingletonParameter" value="true">
+                <property name="style" class="ptolemy.actor.gui.style.HiddenStyle">
+                </property>
             </property>
         </port>
     </entity>
@@ -880,20 +1174,12 @@ This is for illustration purposes only and not needed by the above model.</text>
         </property>
     </relation>
     <relation name="relation12" class="ptolemy.actor.TypedIORelation">
-        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
-        </property>
     </relation>
     <relation name="relation13" class="ptolemy.actor.TypedIORelation">
-        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
-        </property>
     </relation>
     <relation name="relation14" class="ptolemy.actor.TypedIORelation">
-        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
-        </property>
     </relation>
     <relation name="relation15" class="ptolemy.actor.TypedIORelation">
-        <property name="color" class="ptolemy.actor.gui.ColorAttribute">
-        </property>
     </relation>
     <link port="Plotter.input" relation="relation6"/>
     <link port="Plotter.input" relation="relation7"/>
