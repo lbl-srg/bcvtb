@@ -1,6 +1,33 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
   <section>
+    <title>Version 1.6.0</title>
+    <para>
+      <itemizedlist spacing="compact">
+        <listitem>
+	  <para>
+	    Fixed a bug that was causing system environment variables to not be set correctly.
+          </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The example files have been updated for EnergyPlus 8.5.0. 
+        </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    The BCVTB support for Windows 32 bit has been discontinued.
+        </para>
+        </listitem>
+	<listitem>
+	  <para>
+	    This version has been compiled with Java (1.8.0_77). It has been tested on Linux (Ubuntu 14.04), Windows (7 and 8.1 64 bit), Mac OSX (10.10.5) with latest releases of EnergyPlus (8.5.0), MATLAB (R2016a), and Dymola (2016 FD01).
+        </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+  <section>
     <title>Version 1.5.0</title>
     <para>
       <itemizedlist spacing="compact">

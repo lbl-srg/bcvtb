@@ -260,6 +260,26 @@ Check box; if activated, a separate window will be opened that displays the cons
 	    </title>
    </figure>
   </para>
+    <para>
+      <note>
+     In EnergyPlus 8.3.0 and higher, a cross platform's command line interface called <code>energyplus</code> was added to EnergyPlus to run it from the command line. <xref linkend="confEPlusAllOS"></xref> shows how the Simulator actor uses this interface to call Energyplus. The actor calls the program <code>energyplus</code> with a list of parameters which are required to launch and execute EnergyPlus. Details about the interface can be found at <ulink url="https://github.com/NREL/EnergyPlus/blob/develop/doc/running-energyplus-from-command-line.md">https://github.com/NREL/EnergyPlus/blob/develop/doc/running-energyplus-from-command-line.md</ulink>.
+      </note>
+    </para>
+    <para>
+     <figure xml:id="confEPlusAllOS">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configuration-energyplus-all-os.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configuration-energyplus-all-os.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		Configuration of the <code>Simulator</code> actor that uses the command line interface to call EnergyPlus.
+		</title>
+     </figure>
+    </para>
   </section>
   <section>
   <title>Data Type Conversion</title>
@@ -960,6 +980,26 @@ Output:Variable,
     </para>
     <para>
      This completes the configuration.
+    </para>
+    <para>
+      <note>
+     In EnergyPlus 8.3.0 and higher, a cross platform's command line interface called <code>energyplus</code> was added to EnergyPlus to run it from the command line. <xref linkend="confEPlusAllOS"></xref> shows how the Simulator actor uses this interface to call Energyplus. The actor calls the program <code>energyplus</code> with a list of parameters which are required to launch and execute EnergyPlus. Details about the interface can be found at <ulink url="https://github.com/NREL/EnergyPlus/blob/develop/doc/running-energyplus-from-command-line.md">https://github.com/NREL/EnergyPlus/blob/develop/doc/running-energyplus-from-command-line.md</ulink>.
+      </note>
+    </para>
+    <para>
+     <figure xml:id="confEPlusAllOS">
+      <mediaobject>
+       <imageobject role="html">
+        <imagedata fileref="img/configuration-energyplus-all-os.png" format="PNG"></imagedata>
+       </imageobject>
+       <imageobject role="dblatex">
+        <imagedata fileref="img/configuration-energyplus-all-os.pdf" format="PDF" scalefit="1"></imagedata>
+       </imageobject>
+      </mediaobject>
+      <title>
+		Configuration of the <code>Simulator</code> actor that uses the command line interface to call EnergyPlus.
+		</title>
+     </figure>
     </para>
    </section>
   </section>
@@ -2110,6 +2150,11 @@ exit 0
     <listitem>
      <para>
      The TRNSYS interface and example has only been tested on Windows 32 bit.
+       </para>
+    </listitem>
+    <listitem>
+     <para>
+     The TRNSYS dlls types (Type6666.dll, Type6667.dll) need to be requested from your TRNSYS provider.
        </para>
     </listitem>
 
