@@ -30,7 +30,20 @@ Update Ptolemy files (to write version number into Ptolemy)
 Note: expat needs to be installed and libexpat.so or libexpat.so.1 should 
 be found when running configure in PTII otherwise lib/ptII/lbnl/lbnl.jar won't be copied.
 This will cause all the BCVTB examples to fail.
- ant updatePtolemyFiles
+If we use ant to compile the Ptolemy files then we need to call ant jars afterwards to jar the files.
+Before updating tthe Ptolemy files,
+cd ~/ptII-dev (ptII-dev is our local development version of Ptolemy II)
+export PTII=`pwd`
+rm -f config.*
+./configure
+run ant 
+run ant jars
+
+export BCVTB_PTIISrc=$PTII (in the BCVTB after setDevelopment.sh is called)
+
+(To add jars file to the list of BCVTB jars file go in your development version of PTII 
+and change to mk/jnlp.mk and edit the BCVTB_JNLP_JARS list.)
+ant updatePtolemyFiles
 
  - Commit changes
     svn commit -m "Updated version number"

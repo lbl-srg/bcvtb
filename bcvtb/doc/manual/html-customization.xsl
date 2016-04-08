@@ -8,7 +8,6 @@
   <!-- Add chapter number to section number -->
   <xsl:param name="section.label.includes.component.label" select="1"/>
   <xsl:param name="use.extensions" select="1"/>
-  <xsl:param name="tablecolumns.extension" select="1"/>
   <xsl:param name="callouts.extension" select="1"/>
   <xsl:param name="textinsert.extension" select="1"/>
   <xsl:param name="use.id.as.filename" select="'1'"/>
