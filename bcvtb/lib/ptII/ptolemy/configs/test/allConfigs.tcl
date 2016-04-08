@@ -2,7 +2,7 @@
 #
 # @Author: Steve Neuendorffer, Contributor: Christopher Hylands
 #
-# $Id: allConfigs.tcl 70971 2014-12-13 01:39:10Z cxh $
+# $Id: allConfigs.tcl 74235 2016-01-05 16:51:35Z cxh $
 #
 # @Copyright (c) 2000-2012 The Regents of the University of California.
 # All rights reserved.
@@ -202,14 +202,13 @@ foreach i $configs {
     #$inputFileNamesToSkip add "/x10/x10.xml"
     #$inputFileNamesToSkip add "utilityIDAttribute.xml"
 
-    set osName [java::call System getProperty {os.name}]
-
-    set osNameStartsWith [string range $osName 0 5]
-
-    if {$osNameStartsWith == "Mac OS"} {
-	puts "Skipping backtrack.xml because Backtracking has problems on the Mac"
-	$inputFileNamesToSkip add "/backtrack.xml"
-    }
+    # set osName [java::call System getProperty {os.name}]
+    # set osNameStartsWith [string range $osName 0 5]
+    #if {$osNameStartsWith == "Mac OS"} {
+    #   puts "Skipping backtrack.xml because Backtracking has problems on the Mac"
+    #   $inputFileNamesToSkip add "/backtrack.xml"
+    #}
+    
     # Tell the parser to skip inputting the above files
     java::field $parser inputFileNamesToSkip $inputFileNamesToSkip 
 

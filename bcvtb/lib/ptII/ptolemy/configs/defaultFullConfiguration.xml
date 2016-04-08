@@ -41,12 +41,12 @@
   <input source="ptolemy/vergil/basic/export/html/htmlExportConfiguration.xml"/>
  
   <!-- Add support for importing Accessors. -->
-  <!-- Add support for importing Field Mock-up Units (FMUs). -->
+  <!-- Add support for importing Functional Mock-up Units (FMUs). -->
   <!-- Add support for import an FSMActor using LTL synthesis (G4LTL). -->
   <!-- Used in BasicGraphFrame.java -->
   <property name="_importActionClassNames"
             class="ptolemy.data.expr.Parameter"
-            value="{&quot;ptolemy.vergil.basic.imprt.accessor.ImportAccessorAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAsJavaFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUForQSSAction&quot;, &quot;ptolemy.vergil.basic.imprt.g4ltl.ImportG4LTLAction&quot;}"/>
+            value="{&quot;ptolemy.vergil.basic.imprt.accessor.ImportAccessorAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUHybridAction&quot;, &quot;ptolemy.vergil.basic.imprt.fmu.ImportFMUForQSSAction&quot;, &quot;ptolemy.vergil.basic.imprt.g4ltl.ImportG4LTLAction&quot;}"/>
 
   <!-- Use the KIELER graph layout algorithms. -->
   <!--  Used in BasicGraphFrame.java-->
@@ -168,7 +168,6 @@
         <!-- Backtracking actors -->
             <input source="ptolemy/backtrack/backtrack.xml"/>
             <input source="ptolemy/cg/cg.xml"/>
-            <input source="ptolemy/domains/ca/lib/caentities.xml"/>
 	    <!-- Chic actors are not being shipped in 4.0 -->
             <!-- input source="ptolemy/chic/chic.xml"/ -->
 	    <!-- Javacomm serial actors depend on javacomm being present  -->
@@ -200,6 +199,7 @@
 	    <!-- Machine Learning library still under development  -->
 	    <input source="org/ptolemy/machineLearning/machineLearning.xml"/>
             <input source="ptolemy/actor/lib/mail/mail.xml"/>
+	    <input source="ptolemy/actor/lib/mbed/mbed.xml"/> 
             <input source="ptolemy/domains/metroII/metroII.xml"/>
 	    <!-- jxta is not shipping in 4.0 -->
             <!-- input source="ptolemy/actor/lib/jxta/jxta.xml"-->

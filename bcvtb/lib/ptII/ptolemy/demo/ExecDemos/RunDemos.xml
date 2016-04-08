@@ -4,6 +4,8 @@
 <entity name="RunDemos" class="ptolemy.actor.TypedCompositeActor">
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="9.0.devel">
     </property>
+    <property name="_noJNLPLink" class="ptolemy.data.expr.StringParameter" value="">
+    </property>
     <property name="_windowProperties" class="ptolemy.actor.gui.WindowPropertiesAttribute" value="{bounds={180, 214, 813, 510}, maximized=false}">
     </property>
     <property name="_vergilSize" class="ptolemy.actor.gui.SizeAttribute" value="[600, 400]">
@@ -43,7 +45,7 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="[170.0, 190.0]">
         </property>
     </property>
-    <property name="directoryOrURL" class="ptolemy.data.expr.FileParameter" value="$PTII/ptolemy/demo/ExecDemos/Demos">
+    <property name="directoryOrURL" class="ptolemy.data.expr.FileParameter" value="$CLASSPATH/ptolemy/demo/ExecDemos/Demos">
         <property name="_hideName" class="ptolemy.kernel.util.SingletonAttribute">
         </property>
         <property name="_icon" class="ptolemy.vergil.icon.ValueIcon">

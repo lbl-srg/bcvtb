@@ -1,6 +1,6 @@
 /* A validating parser.
 
- Copyright (c) 2010-2014 The Regents of the University of California.
+ Copyright (c) 2010-2015 The Regents of the University of California.
  All rights reserved.
  Permission is hereby granted, without written agreement and without
  license or royalty fees, to use, copy, modify, and distribute this
@@ -34,6 +34,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -49,7 +50,7 @@ import ptolemy.moml.MoMLParser;
  &lt;configure&gt; tag, so that tag should be removed.</p>
 
  @author Christopher Brooks
- @version $Id: ValidatingXMLParser.java 70402 2014-10-23 00:52:20Z cxh $
+ @version $Id: ValidatingXMLParser.java 72972 2015-08-05 23:34:57Z cxh $
  @since Ptolemy II 10.0
  @Pt.ProposedRating Red (cxh)
  @Pt.AcceptedRating Red (cxh)
@@ -96,6 +97,29 @@ public class ValidatingXMLParser extends DefaultHandler {
             //saxParser.parse(new File(fileName), handler);
 
             XMLReader xmlReader = saxParser.getXMLReader();
+            // Use error handlers so that if parsing fails, we throw
+            // an exception that can be caught by the test, which will
+            // show which .xml file is failing.  Validating the
+            // accessors required this.
+            xmlReader.setErrorHandler(new ErrorHandler() {
+                    @Override
+                    public void fatalError(SAXParseException exception) throws SAXException {
+                        System.err.println("fatalError: " + exception);
+                        throw exception;
+                    }
+
+                    @Override
+                    public void error(SAXParseException exception) throws SAXException {
+                        System.err.println("error: " + exception);
+                        throw exception;
+                    }
+
+                    @Override
+                    public void warning(SAXParseException exception) throws SAXException {
+                        System.err.println("warning: " + exception);
+                        throw exception;
+                    }
+                });
             MoMLEntityResolver resolver = new MoMLEntityResolver();
             xmlReader.setEntityResolver(resolver);
             xmlReader.setContentHandler(handler);

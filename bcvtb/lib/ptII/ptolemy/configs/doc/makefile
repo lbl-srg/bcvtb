@@ -2,7 +2,7 @@
 #
 # @Authors: Christopher Hylands, based on a file by Thomas M. Parks
 #
-# @Version: $Id: makefile 70459 2014-10-28 21:36:31Z cxh $
+# @Version: $Id: makefile 73017 2015-08-08 00:13:14Z cxh $
 #
 # @Copyright (c) 2000-2014 The Regents of the University of California.
 # All rights reserved.
@@ -150,10 +150,9 @@ docsPtinyKepler.htm: docsPtiny.htm
 
 
 # models.txt contains a list of model file names
-# Use AUXCLASSPATH so that we work under codecoverage with JavaScope
 models.txt: $(ROOT)/ptolemy/actor/gui/HTMLAbout.class completeDemos.htm
-	"$(JAVA)" "-Dptolemy.ptII.dir=$(PTII)" \
-		-classpath "$(CLASSPATH)$(CLASSPATHSEPARATOR)$(AUXCLASSPATH)" \
+	"$(JAVA)" -Xmx1500m "-Dptolemy.ptII.dir=$(PTII)" \
+		-classpath "$(CLASSPATH)$(CLASSPATHSEPARATOR)$(COMPLETE_CLASSPATH)" \
 		ptolemy.actor.gui.HTMLAbout 
 	# Include the models in the ExecDemos directory.
 	ls -1 $(PTII)/ptolemy/demo/ExecDemos/Demos/*.xml | sed "s@$(PTII)@\$$CLASSPATH@" >> models.txt
