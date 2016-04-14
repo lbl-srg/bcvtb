@@ -93,19 +93,19 @@
             <file src="../legal.html" targetdir="$INSTALL_PATH"/>
 
             <fileset dir="../doc/code" targetdir="$INSTALL_PATH/doc/code">
-                <exclude name="**/.svn"/>
+                <exclude name="**/.git"/>
             </fileset>
             <fileset dir="../doc/manual/www" targetdir="$INSTALL_PATH/doc/manual/html">
-                <exclude name="**/.svn"/>
+                <exclude name="**/.git"/>
                 <exclude name="bcvtb-manual.pdf"/>
             </fileset>  
             <file src="../doc/manual/www/bcvtb-manual.pdf" targetdir="$INSTALL_PATH/doc/manual"/>
 
             <fileset dir="../lib" targetdir="$INSTALL_PATH/lib">
-                <exclude name="**/.svn"/>
+                <exclude name="**/.git"/>
 	    </fileset>
             <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
-                <exclude name="**/.svn"/>
+                <exclude name="**/.git"/>
 	    </fileset>
 	    <!-- Unix only -->
          <!--   <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="unix"/> -->
@@ -122,7 +122,7 @@
             <file src="../build-common.xml" targetdir="$INSTALL_PATH"/>
 	    <!-- bin directory -->
 	    <fileset dir="../bin" targetdir="$INSTALL_PATH/bin">
-              <exclude name="**/.svn"/>
+              <exclude name="**/.git"/>
 	    </fileset>
 	    <!-- Make files executable -->
 	    <executable targetfile="$INSTALL_PATH/bin/setDevelopmentEnvironment.sh"    stage="never" os="unix"/> 
@@ -140,7 +140,7 @@
 
 	    <!-- Examples -->
 	    <fileset dir="../examples" targetdir="$INSTALL_PATH/examples">
-              <exclude name="**/.svn"/>
+              <exclude name="**/.git"/>
 	      <exclude name="**/eplusou*"/>
 	      <exclude name="**/.csv"/>
 	      <exclude name="**/readvars.audit"/>
