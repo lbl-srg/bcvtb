@@ -6,7 +6,7 @@
       <itemizedlist spacing="compact">
         <listitem>
 	  <para>
-	    Fixed a bug that was causing system environment variables to not be set correctly.
+	    Fixed a bug that was causing system environment variables to be ignored.
           </para>
         </listitem>
 	<listitem>
