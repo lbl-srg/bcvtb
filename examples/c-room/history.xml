@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="gcc -L../../lib/util -lbcvtb -lm">
+      <target file="cclient" lastModified="15415badb40">
+         <source file="../../lib/util/libbcvtb.so" lastModified="15415b9ecf8"/>
+         <source file="cclient.o" lastModified="15415badb40"/>
+      </target>
+   </processor>
+   <processor signature="gcc noversion nomachine -c -I../../lib/util -I../../lib">
+      <target file="cclient.o" lastModified="15415badb40">
+         <source file="cclient.c" lastModified="15411dc1a70"/>
+      </target>
+   </processor>
+</history>

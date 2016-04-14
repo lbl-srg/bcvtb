@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="gcc noversion nomachine -c -Wall -Os -DBACFILE=1 -DPRINT_ENABLED=1 -DBACAPP_ALL -DBACDL_BIP=1 -c -Iinclude -Iports/linux -Idemo/object -Idemo/handler">
+      <target file="rs485.o" lastModified="15415bacf88">
+         <source file="rs485.c" lastModified="15411dc12a0"/>
+      </target>
+      <target file="dlmstp.o" lastModified="15415bacf88">
+         <source file="dlmstp.c" lastModified="15411dc12a0"/>
+      </target>
+      <target file="bip-init.o" lastModified="15415bacf88">
+         <source file="bip-init.c" lastModified="15411dc12a0"/>
+      </target>
+      <target file="arcnet.o" lastModified="15415bacba0">
+         <source file="arcnet.c" lastModified="15411dc12a0"/>
+      </target>
+   </processor>
+</history>

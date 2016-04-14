@@ -1,0 +1,13 @@
+all
+checkConfig
+clean
+cleanPtolemyFiles
+cleandoc
+copyPtolemyDocumentation
+diagnostics
+dist
+dist-EnergyPlus
+dist-bcvtb
+doc
+unitTest
+updatePtolemyFiles

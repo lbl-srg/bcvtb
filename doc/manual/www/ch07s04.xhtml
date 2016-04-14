@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>7.4. Version control</title><link rel="stylesheet" type="text/css" href="bcvtb-manual.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/><link rel="home" href="index.xhtml" title="Building Controls Virtual Test Bed"/><link rel="up" href="development.xhtml" title="Chapter 7. Development"/><link rel="prev" href="tit-sofReqDev.xhtml" title="7.3. Software requirements"/><link rel="next" href="tit-updPto.xhtml" title="7.5. Updating Ptolemy II"/></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.4. Version control</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="tit-sofReqDev.xhtml"><img src="images/prev.gif" alt="Prev"/></a> </td><th width="60%" align="center">Chapter 7. Development</th><td width="20%" align="right"> <a accesskey="n" href="tit-updPto.xhtml"><img src="images/next.gif" alt="Next"/></a></td></tr></table></div><p ><div class="search"><form name="gs" action="http://google1.lbl.gov/search" method="get">
+	Search
+	<input maxlength="256" size="40" name="q"/><input type="hidden" name="btnG" class="submit"/><input type="hidden" name="site" value="BCVTB"/><input type="hidden" name="output" value="xml_no_dtd"/><input type="hidden" name="as_dt" value="i"/><input type="hidden" name="client" value="default_frontend"/><input type="hidden" name="oe" value="UTF-8"/><input type="hidden" name="proxystylesheet" value="default_frontend"/></form></div></p><div  class="breadcrumbs"><span class="breadcrumb-link"><a href="index.xhtml">Building Controls Virtual Test Bed</a></span> &gt; <span class="breadcrumb-link"><a href="development.xhtml">Development</a></span> &gt; <span class="breadcrumb-node">Version control</span></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2795"/>7.4. Version control</h2></div></div></div>
+   
+   <p>
+   The BCVTB source code can be accessed using the
+   <a class="ulink" href="http://subversion.apache.org/" target="_top">Subversion
+   </a>
+   version control system under
+   <a class="ulink" href="https://corbu.lbl.gov/svn/bcvtb/" target="_top">https://corbu.lbl.gov/svn/bcvtb/</a>
+   , and it is distributed with the installation program.
+  </p>
+  <p>
+   To obtain an account, email
+   <a class="ulink" href="mailto:MWetter@lbl.gov" target="_top">MWetter@lbl.gov</a>
+   .
+  </p>
+  <p>
+   Please always keep the trunk of the repository in a
+   working condition and work on your own branch for
+   development and testing. Prior to committing changes to
+   the trunk, make sure that all unit tests work without an
+   error. How to run unit tests is described in
+   <a class="xref" href="tit-buiManSys.xhtml" title="7.6. Compiling the BCVTB">Section 7.6, “Compiling the BCVTB”</a>
+   .
+  </p>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2804"/>7.4.1. Checking out a version</h3></div></div></div>
+   
+   <p>
+     To check out a release, type
+   </p>
+   <pre class="screen">svn checkout https://corbu.lbl.gov/svn/bcvtb/tags/releases/0.1.0/bcvtb</pre>
+   <p>
+     To check out the trunk, type
+   </p>
+   <pre class="screen">svn checkout https://corbu.lbl.gov/svn/bcvtb/trunk/bcvtb</pre>
+  </div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2810"/>7.4.2. Creating a branch</h3></div></div></div>
+    
+    <p>
+      For own development and testing, create a branch using
+    </p>
+    <pre class="screen">cd branches/[your_login]
+svn mkdir ../[your_login]/work
+svn copy https://corbu.lbl.gov/svn/bcvtb/trunk/bcvtb ../[your_login]/work
+svn co   ../[your_login] -m "Checked in working branch"</pre>
+   <p>
+    Prior to committing changes to the trunk, make sure that
+    all unit tests work without an error. How to run unit
+    tests is described in
+    <a class="xref" href="tit-buiManSys.xhtml" title="7.6. Compiling the BCVTB">Section 7.6, “Compiling the BCVTB”</a>
+    . If all unit tests work without an error, proceed as
+    follows:
+   </p>
+  </div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2816"/>7.4.3. Merging</h3></div></div></div>
+   
+   <p>
+    To merge changes from your working branch to the trunk,
+    proceed as follows:
+   </p>
+     <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+	 <p>
+	   Do a dry run to see what happens:
+	 </p>
+<pre class="screen">mwetter@localhost:trunk$ svn merge --dry-run https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/branches/[your_login]/work ../trunk
+D    bcvtb/bin/file1.txt
+A    bcvtb/bin/file2.txt</pre>
+   <p>
+    Here, <code class="code">file1.txt</code> will be deleted and
+    <code class="code">file2.txt</code> will be added.
+   </p>
+   </li><li class="listitem">
+   <p>
+    Merge the files:
+   </p>
+<pre class="screen">mwetter@localhost:trunk$ svn merge https://corbu.lbl.gov/svn/bcvtb/trunk https://corbu.lbl.gov/svn/bcvtb/branches/mwetter/work ../trunk
+D    bcvtb/bin/file1.txt
+A    bcvtb/bin/file2.txt</pre>
+   <p>
+    This updates the
+    <span class="emphasis"><em>local</em></span>
+    copy of the repository.
+   </p>
+   </li><li class="listitem">
+   <p>
+    Run the unit test by running from the
+    <code class="code">bcvtb/example</code> directory the command
+</p><pre class="screen">ant unitTest</pre><p>
+   </p>
+   </li><li class="listitem">
+   <p>
+    If successful, commit the changes in your local copy of
+    the trunk to the repository:
+</p><pre class="screen">mwetter@localhost:trunk$ svn commit -m "merged changes from mwetter/work branch to trunk"</pre><p>
+   </p>
+   </li><li class="listitem">
+   <p>
+    If there are problems and you need to revert to the
+    latest copy of your local repository, type
+   </p>
+<pre class="screen">svn revert -R ../trunk</pre>
+   </li></ol></div>
+  </div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2841"/>7.4.4. Resources</h3></div></div></div>
+   
+   <p>
+    For SVN instructions, see the online book
+    <span class="emphasis"><em>Version Control with Subversion</em></span>
+    :
+    <a class="ulink" href="http://svnbook.red-bean.com/nightly/en/index.xhtml" target="_top">http://svnbook.red-bean.com/nightly/en/index.xhtml</a>
+   </p>
+   <p>
+    For SVN clients, see
+    <a class="ulink" href="http://subversion.tigris.org/project_packages.html" target="_top">http://subversion.tigris.org/project_packages.html</a>
+   </p>
+  </div>
+ </div><div class="navfooter"><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="tit-sofReqDev.xhtml"><img src="images/prev.gif" alt="Prev"/></a> </td><td width="20%" align="center"><a accesskey="u" href="development.xhtml"><img src="images/up.gif" alt="Up"/></a></td><td width="40%" align="right"> <a accesskey="n" href="tit-updPto.xhtml"><img src="images/next.gif" alt="Next"/></a></td></tr><tr><td width="40%" align="left" valign="top">7.3. Software requirements </td><td width="20%" align="center"><a accesskey="h" href="index.xhtml"><img src="images/home.gif" alt="Home"/></a></td><td width="40%" align="right" valign="top"> 7.5. Updating Ptolemy II</td></tr></table></div></body></html>
