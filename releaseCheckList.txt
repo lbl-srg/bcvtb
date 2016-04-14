@@ -48,6 +48,8 @@ ant updatePtolemyFiles
  - Commit changes
     svn commit -m "Updated version number"
 
+Reset BCVTB_PTIISrc and PTII (This can be done by closing the terminal, reopening a new one,
+and recalling source bin/setDevelopment.sh to set environment variables.)
 
 Update version number of EnergyPlus to be displayed on start page in
  - lib/ptII
