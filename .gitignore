@@ -1,0 +1,4 @@
+# Ignore Java class files.
+##########################
+*.class
+
