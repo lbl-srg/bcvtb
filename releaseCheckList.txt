@@ -68,8 +68,8 @@ From Linux, run one of the commands:
   ant dist-bcvtb       [to make distribution for bcvtb only]
   
 Rename file bcvtb-install-x.y.z.jar to 
-   bcvtb-install-win32-x.y.z.jar
-   bcvtb-install-linux32-x.y.z.jar
+   bcvtb-install-win64-x.y.z.jar
+   bcvtb-install-linux64-x.y.z.jar
    bcvtb-install-mac64-x.y.z.jar
 
 Make new directory
