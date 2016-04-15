@@ -73,14 +73,14 @@ Rename file bcvtb-install-x.y.z.jar to
    bcvtb-install-mac64-x.y.z.jar
 
 Make new directory
-ssh mwetter@simulationresearch
+ssh thierry@simulationresearch
+cd /usr/local/www/simulationresearch/bcvtb/
+run
+sudo chmod -R g+w releases 
+to have write access on that folder
 cd /usr/local/www/simulationresearch/bcvtb/releases
 mkdir x.y.z
 exit
-
-run 
-cd install
-scp bcvtb-install-x.y.z.jar mwetter@simulationresearch.lbl.gov:/usr/local/www/simulationresearch/bcvtb/releases/x.y.z/
 
 To copy the documentation, run
 cd doc
@@ -95,9 +95,9 @@ To make tag,
 
 Run
 
-git tag + version number (git tag -a v1.6.0 -m"Version 1.6.0")
+git tag -a + version number (git tag -a vx.y.z -m"Version x.y.z")
 to create a tag for the current release version and
-git push origin v1.6.0 to push to the origin
+git push origin vx.y.z to push to the origin
 
 Lastly
 In github create a new release which will point to the tag.
