@@ -6,8 +6,8 @@
 	<input maxlength="256" size="40" name="q"/><input type="hidden" name="btnG" class="submit"/><input type="hidden" name="site" value="BCVTB"/><input type="hidden" name="output" value="xml_no_dtd"/><input type="hidden" name="as_dt" value="i"/><input type="hidden" name="client" value="default_frontend"/><input type="hidden" name="oe" value="UTF-8"/><input type="hidden" name="proxystylesheet" value="default_frontend"/></form></div></p><div  class="breadcrumbs"><span class="breadcrumb-link"><a href="index.xhtml">Building Controls Virtual Test Bed</a></span> &gt; <span class="breadcrumb-link"><a href="development.xhtml">Development</a></span> &gt; <span class="breadcrumb-node">Software requirements</span></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="tit-sofReqDev"/>7.3. Software requirements</h2></div></div></div>
   
   <p>
-   The BCVTB has been compiled on Linux Ubuntu 10.04, 
-   Mac OS X 10.5, Windows XP Professional, and Windows 7.
+   The current version of the BCVTB has been compiled on Linux Ubuntu, 
+   Mac OS X, and Windows.
   </p>
   <p>
    To install the tools required for developing and
@@ -58,11 +58,10 @@
     The Java Development Kit is required. This may be
     obtained from
     <a class="ulink" href="http://www.oracle.com" target="_top">http://www.oracle.com</a>
-    . Tested versions are version 5.0, update 14 and version
-    6, update 7. In the Windows Environment Variables
+    . In the Windows Environment Variables
     setting, you may want to set the <code class="code">Path</code>
-    variable to <code class="code">C:\Program
-    Files\Java\jdk1.6.0_06\bin;%Path%</code>
+    variable to <code class="code">%JAVA_JDK_PATH%\bin;%Path%</code> with <code class="code">%JAVA_JDK_PATH%</code> being the path
+    to the Java Development Kit.
    </p>
    <p>
     To generate source code documentation,
@@ -74,6 +73,8 @@
     <a class="ulink" href="http://www.microsoft.com/express/vc/" target="_top">Microsoft Visual C++ Express 2008</a> and higher
     is required on Windows 32 bit, whereas <a class="ulink" href="http://www.microsoft.com/visualstudio/en-gb/products/2010-editions/professional" target="_top">Microsoft Visual Studio Professional 2010</a> and higher is required on Windows 64 bit.
    </p>
+   <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"> Recent free release versions of Visual Studio Express such as Microsoft Visual Studio Express 2013 for Windows Desktop can be used on Windows 32 and Windows 64 bit.
+   </td></tr></table></div>
    <p>
     The Intel Fortran compiler can be used to compile and
     link Fortran programs to the BCVTB libraries.
