@@ -116,7 +116,7 @@
         <!--    <file src="makeShExecutable.sh" targetdir="$INSTALL_PATH" os="mac"/>
 	    <executable targetfile="$INSTALL_PATH/makeShExecutable.sh" 
                  stage="postinstall" os="mac"/>  -->
-
+        
 	    <!-- all OS -->
             <file src="../build.xml"        targetdir="$INSTALL_PATH"/>
             <file src="../build-common.xml" targetdir="$INSTALL_PATH"/>
@@ -146,8 +146,22 @@
 	      <exclude name="**/readvars.audit"/>
 	    </fileset>
 	    <!-- Make files executable -->
-	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/ant"                          stage="never" os="unix"/> 
-	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/antRun"                       stage="never" os="unix"/> 
+	    <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/ant"                          stage="never" os="unix"/>
+        <!-- Mac only -->
+        <!-- This needs to be done to address the issue caused by Mac OS X 10.11 which does not -->
+        <!-- allow to set DYLD_LIBRARY_PATH anymore. linkBCVTB.sh is a script which creates following -->
+        <!-- symbolic link: ln -s $INSTALL_PATH/lib/util/libbcvtb.dylib /usr/local/lib/libbcvtb.dylib -->
+        <!-- For older versions of the BCVTB, the user will have to set the symbolic link himself -->
+        <!-- using ln -s $BCVTB_PATH/lib/util/libbcvtb.dylib /usr/local/lib/libbcvtb.dylib-->
+        <!-- See issue#32 on https://github.com/lbl-srg/bcvtb/issues/32 for more information and updates.-->
+        <executable targetfile="$INSTALL_PATH/bin/linkBCVTB.sh"                                   stage="postinstall" condition="izpack.macinstall">
+            <args>
+                <arg value="$INSTALL_PATH"/>
+                <!--  <arg value="1.6.0"/> -->
+            </args>
+        </executable>
+	    
+        <executable targetfile="$INSTALL_PATH/lib/apache-ant/bin/antRun"                       stage="never" os="unix"/>
 	    <executable targetfile="$INSTALL_PATH/examples/c-room/cclient"                         stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/c-timeSync/cclient"                     stage="never" os="unix"/> 
 	    <executable targetfile="$INSTALL_PATH/examples/f90-room/f90client"                     stage="never" os="unix"/> 
