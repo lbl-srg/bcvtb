@@ -44,10 +44,11 @@
    <exec executable="izpack" failonerror="true">
       <arg line="install.xml -b . -o bcvtb-install-${VERSION}.jar"/>
    </exec>
+  </target>
    
    <target name="disable-training"
        description="Set the trainingMode of Test actor  to false">
-       <exec executable="./setTrainingFalse.sh" failonerror="false"/>
+    <exec executable="./setTrainingFalse.sh" failonerror="false"/>
    </target>
    
   </target>
