@@ -46,18 +46,15 @@
    </exec>
   </target>
    
-   <target name="disable-training"
+  <target name="disable-training"
        description="Set the trainingMode of Test actor  to false">
     <exec executable="./setTrainingFalse.sh" failonerror="false"/>
-   </target>
-   
   </target>
-
+   
   <!-- EnergyPlus distribution -->
   <target name="pack-EnergyPlus" 
           description="Generates the EnergyPlus distribution file">
    <exec executable="./zipEnergyPlus.sh" failonerror="true"/>
   </target>
-
 
 </project>
