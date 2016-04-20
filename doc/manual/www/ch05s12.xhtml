@@ -3,7 +3,7 @@
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><title>5.12. BACnet</title><link rel="stylesheet" type="text/css" href="bcvtb-manual.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/><link rel="home" href="index.xhtml" title="Building Controls Virtual Test Bed"/><link rel="up" href="configuration.xhtml" title="Chapter 5. Configuring programs for use with the BCVTB"/><link rel="prev" href="tit-RadianceCon.xhtml" title="5.11. Radiance"/><link rel="next" href="ch05s13.xhtml" title="5.13. Analog/Digital Interface"/></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.12. BACnet</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="tit-RadianceCon.xhtml"><img src="images/prev.gif" alt="Prev"/></a> </td><th width="60%" align="center">Chapter 5. Configuring programs for use with the BCVTB</th><td width="20%" align="right"> <a accesskey="n" href="ch05s13.xhtml"><img src="images/next.gif" alt="Next"/></a></td></tr></table></div><p ><div class="search"><form name="gs" action="http://google1.lbl.gov/search" method="get">
 	Search
-	<input maxlength="256" size="40" name="q"/><input type="hidden" name="btnG" class="submit"/><input type="hidden" name="site" value="BCVTB"/><input type="hidden" name="output" value="xml_no_dtd"/><input type="hidden" name="as_dt" value="i"/><input type="hidden" name="client" value="default_frontend"/><input type="hidden" name="oe" value="UTF-8"/><input type="hidden" name="proxystylesheet" value="default_frontend"/></form></div></p><div  class="breadcrumbs"><span class="breadcrumb-link"><a href="index.xhtml">Building Controls Virtual Test Bed</a></span> &gt; <span class="breadcrumb-link"><a href="configuration.xhtml">Configuring programs for use with the BCVTB</a></span> &gt; <span class="breadcrumb-node">BACnet</span></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1606"/>5.12. BACnet</h2></div></div></div>
+	<input maxlength="256" size="40" name="q"/><input type="hidden" name="btnG" class="submit"/><input type="hidden" name="site" value="BCVTB"/><input type="hidden" name="output" value="xml_no_dtd"/><input type="hidden" name="as_dt" value="i"/><input type="hidden" name="client" value="default_frontend"/><input type="hidden" name="oe" value="UTF-8"/><input type="hidden" name="proxystylesheet" value="default_frontend"/></form></div></p><div  class="breadcrumbs"><span class="breadcrumb-link"><a href="index.xhtml">Building Controls Virtual Test Bed</a></span> &gt; <span class="breadcrumb-link"><a href="configuration.xhtml">Configuring programs for use with the BCVTB</a></span> &gt; <span class="breadcrumb-node">BACnet</span></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1608"/>5.12. BACnet</h2></div></div></div>
   
   <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
    <p>
@@ -11,7 +11,7 @@
     Linux. It has not been ported to Mac OS X.
    </p>
   </td></tr></table></div>
-  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1610"/>5.12.1. Introduction</h3></div></div></div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1612"/>5.12.1. Introduction</h3></div></div></div>
    
    <p>
     The BCVTB contains an actor, called
@@ -49,7 +49,7 @@ BACnet protocol stack
   </div>
   <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="tit-BACnetConfDataRea"/>5.12.2. Reading from BACnet</h3></div></div></div>
    
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1624"/>5.12.2.1. Specification of data that will be read from BACnet</h4></div></div></div>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1626"/>5.12.2.1. Specification of data that will be read from BACnet</h4></div></div></div>
     
     <p>
      The <code class="code">BACnetReader</code> actor reads an xml
@@ -58,7 +58,7 @@ BACnet protocol stack
      specifies the BACnet
      <span class="emphasis"><em>object types</em></span>
      and their child elements,
-     <a href="#ftn.d5e1629" class="footnote" id="d5e1629"><sup class="footnote">[2]</sup></a>
+     <a href="#ftn.d5e1631" class="footnote" id="d5e1631"><sup class="footnote">[2]</sup></a>
      which can be other BACnet
      <span class="emphasis"><em>object types</em></span>
      or BACnet
@@ -89,7 +89,7 @@ BACnet protocol stack
      following values for the attribute <code class="code">Type</code>
      (the meaning of these types is explained in Chapter 12
      of the BACnet Standard
-     [<a class="citation" href="bibliography.xhtml#d5e3323"><span class="citation">ASHRAE 2004</span></a>]
+     [<a class="citation" href="bibliography.xhtml#d5e3325"><span class="citation">ASHRAE 2004</span></a>]
      ): <code class="code">Analog Input</code>, <code class="code">Analog
      Output</code>, <code class="code">Analog Value</code>, <code class="code">Binary
      Input</code>, <code class="code">Binary Output</code>, <code class="code">Binary
@@ -234,7 +234,7 @@ BACnet protocol stack
       </td></tr></table></div><p>
     </p>
    </div>
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1770"/>5.12.2.2. Interface to BACnet Stack</h4></div></div></div>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1772"/>5.12.2.2. Interface to BACnet Stack</h4></div></div></div>
     
     <p>
      To read data from BACnet devices, the
@@ -277,13 +277,13 @@ bacrp 637502 1 3 191
 
   <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="tit-BACnetConfDataWri"/>5.12.3. Writing to BACnet</h3></div></div></div>
    
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1782"/>5.12.3.1. Specification of data that will be written to BACnet</h4></div></div></div>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1784"/>5.12.3.1. Specification of data that will be written to BACnet</h4></div></div></div>
     
     <p>
      The BCVTB contains an actor called
      <code class="code">BACnetWriter</code> that can write to BACnet
      devices. The BACnet standard
-     [<a class="citation" href="bibliography.xhtml#d5e3323"><span class="citation">ASHRAE 2004</span></a>]
+     [<a class="citation" href="bibliography.xhtml#d5e3325"><span class="citation">ASHRAE 2004</span></a>]
      defines the conformance codes shown in
      <a class="xref" href="ch05s12.xhtml#tab-BACnetConCod" title="Table 5.5. BACnet Conformance Codes.">Table 5.5, “BACnet Conformance Codes.”</a>
      . The <code class="code">BACnetReader</code> can write to any BACnet
@@ -298,7 +298,7 @@ bacrp 637502 1 3 191
      <span class="emphasis"><em>WriteProperty Service</em></span>
      that is specified in Section 15.9 in the BACnet
      Standard
-     [<a class="citation" href="bibliography.xhtml#d5e3323"><span class="citation">ASHRAE 2004</span></a>]
+     [<a class="citation" href="bibliography.xhtml#d5e3325"><span class="citation">ASHRAE 2004</span></a>]
      . The configuration file that is used by the
      <code class="code">BACnetWriter</code> is identical to the one used
      for the <code class="code">BACnetReader</code> explained in
@@ -376,7 +376,7 @@ If the value is not specified, then it is set to 15.
      </div></div><p><br class="table-break"/>
     </p>
    </div>
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1865"/>5.12.3.2. Interface to BACnet Stack</h4></div></div></div>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1867"/>5.12.3.2. Interface to BACnet Stack</h4></div></div></div>
     
     <p>
      To write data to BACnet devices, the
@@ -429,7 +429,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     </p>
    </div>
   </div>
-  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1879"/>5.12.4. Creating a Ptolemy II model</h3></div></div></div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1881"/>5.12.4. Creating a Ptolemy II model</h3></div></div></div>
    
    <p>
     The <code class="code">BACnetReader</code> and the
@@ -449,7 +449,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     <a class="xref" href="ch05s12.xhtml#tit-BACnetConfDataWri" title="5.12.3. Writing to BACnet">Section 5.12.3, “Writing to BACnet”</a>
     .
    </p>
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1888"/>5.12.4.1. Configuring the <code class="code">BACnetReader</code>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1890"/>5.12.4.1. Configuring the <code class="code">BACnetReader</code>
     </h4></div></div></div>
     
     <p>
@@ -515,7 +515,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     </p>
    </div>
 
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1940"/>5.12.4.2. Configuring the <code class="code">BACnetWriter</code>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1942"/>5.12.4.2. Configuring the <code class="code">BACnetWriter</code>
     </h4></div></div></div>
     
     <p>
@@ -574,7 +574,7 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
     </p>
    </div>
 
-   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1990"/>5.12.4.3. Synchronization with real-time</h4></div></div></div>
+   <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1992"/>5.12.4.3. Synchronization with real-time</h4></div></div></div>
     
     <p>
      In most cases, the BCVTB should be synchronized to real
@@ -585,8 +585,8 @@ bacwp 637502 0 2 85 15 -1 4 "value[3]"
    </div>
 
   </div>
- <div class="footnotes"><br/><hr style="width:100; text-align:left;margin-left: 0"/><div id="ftn.d5e1629" class="footnote">
-      <p><a href="#d5e1629" class="para"><sup class="para">[2] </sup></a>
+ <div class="footnotes"><br/><hr style="width:100; text-align:left;margin-left: 0"/><div id="ftn.d5e1631" class="footnote">
+      <p><a href="#d5e1631" class="para"><sup class="para">[2] </sup></a>
        In xml, an element <code class="code">B</code> is called a child
        element of an element <code class="code">A</code> if
        <code class="code">B</code> is contained exactly one level below

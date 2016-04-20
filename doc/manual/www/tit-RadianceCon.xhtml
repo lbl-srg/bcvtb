@@ -19,13 +19,13 @@
       </p>
   </td></tr></table></div><p>
   </p>
-  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1509"/>5.11.1. Introduction</h3></div></div></div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1511"/>5.11.1. Introduction</h3></div></div></div>
     
     <p>
       Radiance is a collection of command line programs that are executed in various orders to perform simulations. Radiance commands with arguments are often stored in a script file for repetitive execution. The system command actor provides a means to perform Radiance simulations by executing this script and collecting the output. The BCVTB distribution includes two BCVTB Radiance examples.
     </p>
     </div>
-    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1512"/>5.11.2. Configuring Radiance</h3></div></div></div>
+    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1514"/>5.11.2. Configuring Radiance</h3></div></div></div>
       
       <p>
 	Radiance should be downloaded and installed on the computer as normal (the installation process varies based on the operating system).  Do not forget to set the environment variables <code class="code">PATH</code> and <code class="code">RAYPATH</code> as described in the <code class="code">README</code> file that is provided by the Radiance installation program. See also <a class="xref" href="settingEnvironmentVariables.xhtml" title="3.3. Setting system environment variables">Section 3.3, “Setting system environment variables”</a> for how to set environment variables for the BCVTB.
@@ -34,7 +34,7 @@
 The following example uses Radiance to calculate average illuminance at a point in a model.  This example generates a sky file based on weather file input, compiles an octree model and calculates illuminance at the point.
 </p>
     </div>
-    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1520"/>5.11.3. Create a Radiance script</h3></div></div></div>
+    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1522"/>5.11.3. Create a Radiance script</h3></div></div></div>
       
       <p>
 	We first create a Radiance script that computes the illuminance. The script takes as input arguments the month, day, and hour, the direct normal and diffuse horizontal irradiation, as well as the latitude, longitude and meridien.
@@ -94,7 +94,7 @@ endif
 </pre><p>
 	</p>
       </div>
-    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1524"/>5.11.4. Create a Ptolemy II model</h3></div></div></div>
+    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1526"/>5.11.4. Create a Ptolemy II model</h3></div></div></div>
       
       <p>
 	Next, we create a Ptolemy II model that prepares the input data for the Radiance script, parses the output of the Radiance script, and displays the illuminance in a plotter.

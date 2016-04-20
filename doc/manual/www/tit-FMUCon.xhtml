@@ -6,7 +6,7 @@
 	<input maxlength="256" size="40" name="q"/><input type="hidden" name="btnG" class="submit"/><input type="hidden" name="site" value="BCVTB"/><input type="hidden" name="output" value="xml_no_dtd"/><input type="hidden" name="as_dt" value="i"/><input type="hidden" name="client" value="default_frontend"/><input type="hidden" name="oe" value="UTF-8"/><input type="hidden" name="proxystylesheet" value="default_frontend"/></form></div></p><div  class="breadcrumbs"><span class="breadcrumb-link"><a href="index.xhtml">Building Controls Virtual Test Bed</a></span> &gt; <span class="breadcrumb-link"><a href="configuration.xhtml">Configuring programs for use with the BCVTB</a></span> &gt; <span class="breadcrumb-node">Functional Mock-up Unit for Co-Simulation Import</span></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="tit-FMUCon"/>5.9. Functional Mock-up Unit for Co-Simulation Import</h2></div></div></div>
 
   
-  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1322"/>5.9.1. Introduction</h3></div></div></div>
+  <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1324"/>5.9.1. Introduction</h3></div></div></div>
 
   
     <p>
@@ -27,7 +27,7 @@
       </p>
     </td></tr></table></div>
 
-    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1330"/>5.9.2. Import an FMU in the BCVTB</h3></div></div></div>
+    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1332"/>5.9.2. Import an FMU in the BCVTB</h3></div></div></div>
 
       
       <p>
@@ -37,7 +37,7 @@
       </p>
     </div>
 
-    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1336"/>5.9.3. Example: Modelica room model in an FMU</h3></div></div></div>
+    <div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1338"/>5.9.3. Example: Modelica room model in an FMU</h3></div></div></div>
       
         <p>
           This example is available in the directory <code class="code">examples/fmu-room</code>.
@@ -45,7 +45,7 @@
 	  that an FMU is used instead of Dymola to simulate the room model. 
           </p>
 
-	 <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1341"/>5.9.3.1.  Create and export the Modelica model as an FMU</h4></div></div></div>
+	 <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1343"/>5.9.3.1.  Create and export the Modelica model as an FMU</h4></div></div></div>
 	   
            <p>
             As a starting point for this example, we used the Modelica room model shown in <a class="xref" href="tit-DymolaCon.xhtml#configuration-dymola-room-schematic" title="Figure 5.13.  Graphical view of the Modelica model that computes the change in temperature for two simple room models.">Figure 5.13</a>. We added connectors for input and output signals. These signals  will be the inputs and outputs of the FMU which will be exposed in the Ptolemy II actor. <a class="xref" href="tit-FMUCon.xhtml#fig-configuration-fmu-modelica" title="Figure 5.31.  Graphical view of the Modelica model that is exported as an FMU for co-simulation.">Figure 5.31</a> shows the new configuration of the system model with the two inputs (<code class="code">u_1</code>, <code class="code">u_2</code>) and two outputs signals (<code class="code">TRoo_1</code>, <code class="code">TRoo_2</code>). Next, we exported the Modelica model as an FMU. This step is tool specific and is typically described in the user manual of the tool which is used to export the FMU for co-simulation.
@@ -68,7 +68,7 @@
     </td></tr></table></div><p>
    	</p>
  </div>
-	 <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1363"/>5.9.3.2.  Create a Ptolemy II system model</h4></div></div></div>
+	 <div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1365"/>5.9.3.2.  Create a Ptolemy II system model</h4></div></div></div>
 	   
            <p>
             To simulate the FMU, a Ptolemy II system model needs to be created. We used the model <code class="code">BCVTB/examples/dymola-room/system-windows.xml</code>, shown in
