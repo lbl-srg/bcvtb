@@ -6,6 +6,7 @@
   <target name="clean" description="Deletes generated files">
     <delete verbose="true">
       <fileset dir="." includes="*.mexglx,*.mexw32,*.mexmaci"/>
+      <fileset dir="." includes="*.mexw64,*.mexa64,*.mexa64"/>
       <fileset dir="." includes="*thunk_maci64.dylib,*.mexmaci64"/>
       <fileset dir="." includes="*.exp,*.dll,*.lib,*.obj"/>
       <fileset dir="." includes="establishBSDSocket.c"/>
