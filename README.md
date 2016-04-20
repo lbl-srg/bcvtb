@@ -13,7 +13,7 @@ The main project site is http://simulationresearch.lbl.gov/bcvtb.
 
 ## Current release
 
-Download [BCVTB v1.6.0 (2016-04-15)](https://github.com/lbl-srg/bcvtb/releases/tag/v1.6.0)
+Download [BCVTB v1.6.0 (2016-04-20)](https://github.com/lbl-srg/bcvtb/releases/tag/v1.6.0)
 
 ## License
 
