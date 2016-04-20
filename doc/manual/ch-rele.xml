@@ -1,5 +1,8 @@
 <chapter xml:id="releaseNotes">
   <title>Release Notes</title>
+  <para>
+      Apple has enabled a new default security oriented featured called System Integrity Protection, often called rootless, in OS X 10.11 onwards. This new feature prevents all versions of the BCVTB to run correctly. A workaround is available at <ulink url="https://github.com/lbl-srg/bcvtb/issues/32">https://github.com/lbl-srg/bcvtb/issues/32</ulink>
+  </para>
   <section>
     <title>Version 1.6.0</title>
     <para>
@@ -21,7 +24,7 @@
         </listitem>
 	<listitem>
 	  <para>
-	    This version has been compiled with Java (1.8.0_77 64-bit). It has been tested on Linux (Ubuntu 14.04 64-bit), Windows (7 and 8.1 64-bit), Mac OS X (10.11.4 64-bit) with latest releases of EnergyPlus (8.5.0), MATLAB (R2016a), and Dymola (2016 FD01).
+	    This version has been compiled with Java (1.8.0_77 64-bit). It has been tested on Linux (Ubuntu 14.04 64-bit), Windows (7 and 8.1 64-bit), Mac OS X (10.10 64-bit) with latest releases of EnergyPlus (8.5.0), MATLAB (R2016a), and Dymola (2016 FD01).
         </para>
         </listitem>
       </itemizedlist>
