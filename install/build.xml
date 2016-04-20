@@ -25,7 +25,7 @@
   <target name="dist" depends="dist-bcvtb,dist-EnergyPlus" 
   description="Generates the distribution file"/>
 
-  <target name="dist-bcvtb" depends="enable-training, clean-bcvtb, pack-bcvtb" 
+  <target name="dist-bcvtb" depends="enable-training, clean-bcvtb, pack-bcvtb, disable-training"
   description="Generates the distribution file"/>
 
   <target name="dist-EnergyPlus" depends="clean-EnergyPlus,pack-EnergyPlus" 
@@ -44,6 +44,12 @@
    <exec executable="izpack" failonerror="true">
       <arg line="install.xml -b . -o bcvtb-install-${VERSION}.jar"/>
    </exec>
+   
+   <target name="disable-training"
+       description="Set the trainingMode of Test actor  to false">
+       <exec executable="./setTrainingFalse.sh" failonerror="false"/>
+   </target>
+   
   </target>
 
   <!-- EnergyPlus distribution -->
