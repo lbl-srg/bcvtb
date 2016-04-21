@@ -21,13 +21,13 @@ rem Flag, set to true on 32 bit systems, or to false on 64 bit systems
 @set BCVTB_JAR=%~dp0\BCVTB.jar
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_32bit') do set BCVTB_32bit=%%i
 rem EnergyPlus installation directory
-for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable ENERGYPLUS_DIR') do set ENERGYPLUS_DIR="%%i"
+for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable ENERGYPLUS_BIN') do set ENERGYPLUS_BIN="%%i"
 rem Dymola executable
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_DYMOLA_BIN') do set BCVTB_DYMOLA_BIN="%%i"
 rem TRNSYS executable
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_TRNSYS_BIN') do set BCVTB_TRNSYS_BIN="%%i"
 rem Radiance directory
-for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_RADIANCE_DIR') do set BCVTB_RADIANCE_DIR="%%i"
+for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_RADIANCE_BIN') do set BCVTB_RADIANCE_BIN="%%i"
 rem Batch file that sets environment variables for Visual Studio C compiler
 for /F "delims=" %%i in ('java -jar "%BCVTB_JAR%" --getEnvironmentVariable BCVTB_VS_BAT') do set BCVTB_VS_BAT="%%i"
 rem Directory with libraries that are needed to compile the BACnet stack
@@ -203,14 +203,14 @@ IF %ERRORLEVEL%==0 (
 del setenv.temp
 
 rem --- Check for EnergyPlus
-if exist %ENERGYPLUS_DIR% (
+if exist %ENERGYPLUS_BIN% (
    echo haveEnergyPlus=true >> build.properties
 ) ELSE (
    echo **************************************************************
    echo *** Warning: Did not find EnergyPlus.
-   echo  ENERGYPLUS_DIR is set to 
-   echo  %ENERGYPLUS_DIR%.
-   echo  If EnergyPlus is installed, adjust ENERGYPLUS_DIR
+   echo  ENERGYPLUS_BIN is set to 
+   echo  %ENERGYPLUS_BIN%.
+   echo  If EnergyPlus is installed, adjust ENERGYPLUS_BIN
    echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
 )
 
@@ -239,14 +239,14 @@ if exist %BCVTB_TRNSYS_BIN% (
 )
 
 rem --- Check for Radiance
-if exist %BCVTB_RADIANCE_DIR% (
+if exist %BCVTB_RADIANCE_BIN% (
    echo haveRadiance=true >> build.properties
 ) ELSE (
    echo **************************************************************
    echo *** Warning: Did not find Radiance.
-   echo  BCVTB_RADIANCE_DIR is set to 
-   echo  %BCVTB_RADIANCE_DIR%.
-   echo  If Radiance is installed, adjust BCVTB_RADIANCE_DIR
+   echo  BCVTB_RADIANCE_BIN is set to 
+   echo  %BCVTB_RADIANCE_BIN%.
+   echo  If Radiance is installed, adjust BCVTB_RADIANCE_BIN
    echo  in %BCVTB_HOME%\bin\systemVariables-windows.properties
 )
 
