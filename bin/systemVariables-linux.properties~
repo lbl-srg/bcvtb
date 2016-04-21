@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <!--
- System properties for Mac OS X
+ System properties for Linux
 
  Entries in this file will be added to the set of
  environment variables when the BCVTB is started.
@@ -14,28 +14,32 @@
 
 <!-- EXECUTABLES PATH -->
 
-<entry key="ENERGYPLUS_BIN">/Applications/EnergyPlus-8-5-0</entry>
+<entry key="ENERGYPLUS_BIN">/usr/local/EnergyPlus-8-5-0</entry>
 
-<entry key="MATLAB_BIN">/Applications/MATLAB_R2016a.app/bin</entry>
+<entry key="MATLAB_BIN">/usr/local/MATLAB/R2016a/bin</entry>
 
 <!-- The entry below assumes that Radiance is installed in /usr/local/ray 
      Please also check RAYPATH below -->
 <entry key="BCVTB_RADIANCE_BIN">/usr/local/ray/bin</entry>
-
-<!-- RAYPATH sets the path to the Radiance libraries.
-     Note that a period is required to search for the current directory. -->
-<entry key="RAYPATH">/usr/local/lib/ray:.</entry>
 
 <!-- SYSTEM PATH -->
 
 <entry key="PATH">
 $BCVTB_HOME/bin:$ENERGYPLUS_BIN:$MATLAB_BIN:$BCVTB_RADIANCE_BIN:$PATH</entry>
 
+<!-- RAYPATH sets the path to the Radiance libraries.
+     Note that a period is required to search for the current directory. -->
+<entry key="RAYPATH">
+/usr/local/lib/ray:.</entry>
+
 <!-- LIBRARIES PATH -->
 
-<entry key="MATLABPATH">$BCVTB_HOME/lib/matlab</entry>
+<entry key="MATLABPATH">$BCVTB_HOME/lib/matlab:$MATLABPATH</entry>
 
-<entry key="DYLD_LIBRARY_PATH">$BCVTB_HOME/lib/util:$DYLD_LIBRARY_PATH</entry>
+<!-- Not all Linux ship libexpat.so. The next line will cause the BCVTB
+     to loads its own libexpat.so if the system does not provide one. -->
+<entry key="LD_LIBRARY_PATH">
+$BCVTB_HOME/lib/util:$LD_LIBRARY_PATH:$BCVTB_HOME/lib/linux</entry>
 
 <!-- CLASSPATH -->
 
@@ -57,6 +61,8 @@ ${HOME}/proj/bcvtb/code/ptII-dev</entry>
 <!-- Set the path to Ptolemy -->
 <entry key="PTII">$BCVTB_HOME/lib/ptII</entry>
 
-</properties>
+<!-- Flag to switch to 32 bit compilation -->
+<entry key="BCVTB_32bit">false</entry>
 
+</properties>
 

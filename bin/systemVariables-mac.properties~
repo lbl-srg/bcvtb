@@ -33,7 +33,7 @@ $BCVTB_HOME/bin:$ENERGYPLUS_BIN:$MATLAB_BIN:$BCVTB_RADIANCE_BIN:$PATH</entry>
 
 <!-- LIBRARIES PATH -->
 
-<entry key="MATLABPATH">$BCVTB_HOME/lib/matlab</entry>
+<entry key="MATLABPATH">$BCVTB_HOME/lib/matlab:$MATLABPATH</entry>
 
 <entry key="DYLD_LIBRARY_PATH">$BCVTB_HOME/lib/util:$DYLD_LIBRARY_PATH</entry>
 
